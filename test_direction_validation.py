@@ -128,6 +128,13 @@ class DirectionValidationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             study([session("2026-10-21"),second],**{**args,"freeze_id":True})
 
+    def test_normalized_symbol_aliases_keep_the_same_replay_and_outcomes(self):
+        canonical = session()
+        alias = copy.deepcopy(canonical)
+        alias["symbol"] = " US.SPY "
+        for row in alias["rows"]: row["symbol"] = " US.SPY "
+        self.assertEqual(replay_session(**canonical),replay_session(**alias))
+
     def test_greedy_entry_cooldown_does_not_depend_on_outcome_value(self):
         source = session(count=35)
         for row in source["rows"][21:]: row["volume"] = 1000
