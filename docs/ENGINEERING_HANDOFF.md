@@ -197,3 +197,10 @@ Use PR #19's single notice; acknowledge H-003 with exact revision read and claim
 | A-011 | 2026-10-27 13:03 | Human maintainer | Establish eligible independent reviewer and separate approvals | No reviewer designated; #13 review absent | BLOCKED; identity/qualifications/access + exact-head review required |
 
 Every update must include timestamp, owner, action ID, status, blocker (NONE if evidenced), exact revision, evidence locations, next action and explicit approval requested/received. Do not mark complete solely because a file was written. This H-003 update changes only documentation; no merges, providers, ingestion, DB changes or trading.
+
+## Durable knowledge preservation — K-20261027-001
+Added 2026-10-27T13:05:00Z. Both agents must read/write the [canonical knowledge index and update checklist](knowledge/README.md) alongside this handoff at session start, material decisions/failures and session end. Use [dated conversation/decision summaries](knowledge/conversations/2026-10-27-preservation.md), [hypothesis ledger](knowledge/hypotheses.md), and [engineering/experiment history](knowledge/engineering-history.md). Keep H-003 evidence in its defined location and cross-link rather than duplicate.
+
+Preserve original predictions and timestamps; append corrections/amendments/outcomes separately with original IDs and commit references. Record explicit shareable rationale, assumptions, alternatives and open questions; distinguish verified observations from attributed reports and interpretations. These summaries do not export private chain-of-thought. Record PR/head/base/tested SHA, CI run/job evidence, approvals and failures without transferring readiness between revisions.
+
+This is part of existing PR #19; no second work order or coordination thread is created. Recipient acknowledgement and ongoing curation owner remain pending. H-003 scope and approval gates remain in force.
