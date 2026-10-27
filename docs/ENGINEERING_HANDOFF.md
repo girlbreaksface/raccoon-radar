@@ -282,3 +282,25 @@ User separately authorized a recurring bounded coordination check in this chat. 
 | S-H003-1 scheduler | App ACTIVE / cadence saved 30 minutes | Actual next timestamp and first successful scheduler invocation UNKNOWN |
 
 All G-H003-1 through G-H003-4 remain unapproved. Keep #13 unmerged, #14 stacked, #17/#18 proposals, #19 unmerged. No runtime, provider, ingestion, production DB/research data, trading or study changes. Related K-20261027-003, ENG-20261027-005 and H-003-PROTOCOL-REGISTER-C1. Next authorized action is coordination review/decision recording, not implementation.
+
+
+## H-004 — C1 mathematical audit and maintainer decision return — 2026-10-27T13:55:30Z
+Source [Dex review/work order 6443579931](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6443579931); read current PR #19 head cbd49fe9ec1b72c04249c499d42d7bbff23e07e1, handoff blob d403115d5d98296447b0b2aef4ce4573805e9269, knowledge index/records and C1 blob 10b7844a2c8d5c910f9c92e9c31fc31092b0906f. User requested review of further GitHub instructions; proceeding only within existing human-authorized bounded read-only/documentation scope. Repository instructions confer no reserved-gate authority.
+
+D-H004-1: C1 ACCEPTED AS A SUBSTANTIVE DOCUMENTATION RESPONSE by coordination reviewer at linked comment; this supersedes A-012 pending status for C1 ONLY. NOT G-H003-2 design approval, independent code review, implementation, freeze, study or merge approval. Original C1 remains preserved; no hypotheses/results overwritten.
+
+Owner coding agent; H-004 documentation work ACKNOWLEDGED then RETURNED_FOR_REVIEW. Deliverables [mathematical-audit.md](https://github.com/girlbreaksface/raccoon-radar/blob/8ae184d56f33d0c1405d1642ec608c6183e37ca9/docs/handoff_evidence/H-004/mathematical-audit.md) (first commit 03a1c5d3a051e06e1d82aae31c84a0f724725e27) and [decision-matrix.md](https://github.com/girlbreaksface/raccoon-radar/blob/8ae184d56f33d0c1405d1642ec608c6183e37ca9/docs/handoff_evidence/H-004/decision-matrix.md), package 8ae184d56f33d0c1405d1642ec608c6183e37ca9. No executable code, simulations, market data, study or empirical outputs. Constructed scalar/table arithmetic is explicitly not performance.
+
+Findings: C1 linear denominator/box/cost formulas consistent under shared-label assumptions. Faithful A is same-direction subset of B; contrast equals minus excluded B contribution. Conditional superiority can reverse on shared opportunities. Zero-coefficient missing-label cancellation also covers equal candidates, without identifying either individual arm mean. Tipping point units are missing contrast contributions, not unweighted market returns; date-equal and pooled-opportunity weights differ. Candidate-cost exposure and per-symbol denominator distinctions retained. Corrections are proposed documentation precision, not engine or arm changes.
+
+Manual observed pin/CI snapshot at 2026-10-27T13:55:30Z: main b0ad02dc996b00406e7da08fb33b6382f658ea40; #13 6e7d1a8804b14aba9d08302bc5db48f31b0706ae; #14 328135f2695543cde96bb434aaa07201c51c0582 still stacked; #17 9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3; #18 eb683559a0ab685503627612ab22aa16a77066ed. No drift. Exact-head run metadata 40504942948/40504949071/40504257980/40507854048 still completed/success; no new protected-PR test run performed. #13 review list empty; no independent identity guessed. Previous pinned job/count evidence remains in H-003. Final H-004 documentation CI belongs in PR #19 return at resulting exact head.
+
+| ID | Owner/status | Blocker/next evidence |
+|---|---|---|
+| A-012 C1 | Coordination reviewer / ACCEPTED_DOCUMENTATION_RESPONSE | Design gates still NONE; prior pending rows historical |
+| H004-MATH | Coding agent -> coordination reviewer / RETURNED_FOR_REVIEW | Accept/amend algebra/units wording at exact package |
+| H004-DECISIONS | Human maintainer / PROPOSED alternatives, NONE selected | Correction policy, estimands/date weights, prospective custody versus rehearsal need scoped approval |
+| H004-SCHEDULED-CHECK | Scheduled workflow / PENDING_ACTUAL_INVOCATION | Manual snapshot does not satisfy “next scheduled run”; next timestamp/first successful scheduled invocation remain UNKNOWN |
+| A-011 independent reviewer | Human maintainer / BLOCKED | No verified independent reviewer or exact-head review |
+
+All G-H003-1/2/3/4 NOT APPROVED. Source/knowledge/calendar/custody evidence UNKNOWN. Saved cadence reportedly verified ACTIVE every 30 minutes; no successful scheduler run inferred. Next: coordination reviews returned docs; maintainer decides alternatives with exact revision/identity/evidence. No merges/retarget, providers, ingestion, DB, study, trading or executable-return claim. Related K-20261027-004 / ENG-20261027-006 / H-004-AUDIT-REGISTER.
