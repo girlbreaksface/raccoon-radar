@@ -23,3 +23,12 @@
 - Open questions; related hypothesis/change IDs:
 - Owner/action/status/blocker; next evidence; approval evidence or NONE:
 - Corrects/supersedes ID + original commit, if applicable (preserve original):
+
+
+## K-20261027-002 — H-003 coding-agent evidence return
+- Recorded-at: 2026-10-27T13:20:38Z; event interval this authorized session, starting observed 2026-10-27T13:13:39Z. Author: coding agent; source: explicit user request to begin H-003 and return documentation in PR #19. Read handoff branch f4930346019bfcb1ca2a633b8c09c5bcad8facbe, blob 0e6d3819a8c237caf535edc22849f670ba3a2e69 and knowledge records.
+- VERIFIED: exact package commit 403fb62d4e2a2563ec5ca9074b5460b0871502d2; [evidence root](../..//handoff_evidence/H-003/verification.md). All five files fetched back and matched; two JSON files parsed. Existing CI job logs independently show main 69, #13 97, combined #14 115, #17/#18 69 tests per Windows/Ubuntu job; exact merge checkouts in verification.md, not inferred from run head. No new code/study execution.
+- INTERPRETATION: CI closes the missing checkout-identity evidence gap for those historical jobs, not independent review/provider semantics. Historical revision availability and source scope remain UNKNOWN. Synthetic CSV invalid clock strings are recorded, unchanged.
+- PROPOSAL: reconcile #18 grid/delay/daily/pair design, cost sensitivity and undefined-date weighting clarification in replay-plan.md. These require approval and are not predictions or validated findings.
+- Rationale: preserve scope-bound evidence and explicit blockers; alternatives were inferring semantics or running final-series replay, both unsupported. A-006–A-009 RETURNED_FOR_REVIEW; A-010 coordination review pending; A-011 independent reviewer unassigned.
+- Decisions/approvals: documentation/read-only preparation authorized by user; all merge, provider/data acquisition, implementation and study approvals NONE. Owner next: coordination reviewer reconciles; human maintainer decides each gate. No protected PR changed.
