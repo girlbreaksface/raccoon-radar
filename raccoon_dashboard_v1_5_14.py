@@ -275,7 +275,7 @@ class Dashboard(tk.Tk):
             lines.append('No candles modified. 09:30 remains unverified until evidence supports it.')
             self.after(0,lambda: self._opening_feed_done('\n'.join(lines)))
         except Exception as exc:
-            self.after(0,lambda: self._opening_feed_done('Provider verification failed: '+type(exc).__name__+': '+str(exc)))
+            self.after(0,lambda message='Provider verification failed: '+type(exc).__name__+': '+str(exc): self._opening_feed_done(message))
         finally:
             if q is not None:
                 try:q.close()
