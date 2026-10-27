@@ -1,0 +1,78 @@
+{
+  "recorded_at_utc": "2026-10-27 19:41:25 UTC",
+  "source_commit": "6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+  "test_head": "b4f0d14b9b83500337d5dd6375bcbf279142c6ba",
+  "test_blob": "c5c8c5aa5d611396696ec7afa11394aa021723c3",
+  "status": "REPRODUCED_FAILURE_NOT_MERGE_READY",
+  "jobs": [
+    {
+      "run_id": 40570969484,
+      "job_id": 122424732818,
+      "name": "validate (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "failure",
+      "checkout": "89512d771479eb79869e3d8df69352174e46ce4b",
+      "python": "3.11.17",
+      "test_count": 101,
+      "failures": 2,
+      "source_sha256": {
+        "direction_engine.py": "572c8f290cca3c5a9139f16c0d08c0144e2bdd91c41f5709613c6f42188b418b",
+        "test_extreme_numeric_output.py": "aaff2c26ab897a4d0523af406a50c5c86fd21da9f52163a173de02d152eea60e"
+      },
+      "log_excerpts": [
+        "2026-10-27T19:38:49.4282631Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +89512d771479eb79869e3d8df69352174e46ce4b:refs/remotes/pull/20/merge",
+        "2026-10-27T19:38:49.8828772Z HEAD is now at 89512d7 Merge b4f0d14b9b83500337d5dd6375bcbf279142c6ba into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-27T19:38:50.1387810Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T19:38:52.0999569Z test_benign_control_is_finite_and_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_benign_control_is_finite_and_strict_json_serializable) ... ok",
+        "2026-10-27T19:38:52.1052149Z test_existing_invalid_and_incomplete_inputs_still_fail_closed (test_extreme_numeric_output.ExtremeNumericOutputTests.test_existing_invalid_and_incomplete_inputs_still_fail_closed) ... ok",
+        "2026-10-27T19:38:52.1079811Z test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers) ... FAIL",
+        "2026-10-27T19:38:52.1191847Z test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable) ... FAIL",
+        "2026-10-27T19:38:52.3255072Z FAIL: test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers)",
+        "2026-10-27T19:38:52.3267663Z   File \"/home/runner/work/raccoon-radar/raccoon-radar/test_extreme_numeric_output.py\", line 80, in test_extreme_valid_inputs_emit_only_finite_observation_numbers",
+        "2026-10-27T19:38:52.3270082Z AssertionError: Lists differ: ['$.observations.volume_ratio'] != []",
+        "2026-10-27T19:38:52.3277255Z FAIL: test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable)",
+        "2026-10-27T19:38:52.3280854Z   File \"/home/runner/work/raccoon-radar/raccoon-radar/test_extreme_numeric_output.py\", line 87, in test_extreme_valid_result_remains_strict_json_serializable",
+        "2026-10-27T19:38:52.3291263Z ValueError: Out of range float values are not JSON compliant",
+        "2026-10-27T19:38:52.3294673Z   File \"/home/runner/work/raccoon-radar/raccoon-radar/test_extreme_numeric_output.py\", line 89, in test_extreme_valid_result_remains_strict_json_serializable",
+        "2026-10-27T19:38:52.3297994Z AssertionError: Strict JSON rejected the valid-input result: Out of range float values are not JSON compliant; nonfinite paths=['$.observations.volume_ratio']",
+        "2026-10-27T19:38:52.3300251Z Ran 101 tests in 1.133s",
+        "2026-10-27T19:38:52.3300950Z FAILED (failures=2)"
+      ]
+    },
+    {
+      "run_id": 40570969484,
+      "job_id": 122424733054,
+      "name": "validate (windows-latest)",
+      "status": "completed",
+      "conclusion": "failure",
+      "checkout": "89512d771479eb79869e3d8df69352174e46ce4b",
+      "python": "3.11.9",
+      "test_count": 101,
+      "failures": 2,
+      "source_sha256": {
+        "direction_engine.py": "10d932eec0d4537b74343bf9ce8df4fa6357897ce417f2d975afa8ce505b095e",
+        "test_extreme_numeric_output.py": "5866db862edacd58993934a91f3b58dc38e35b9ea20bf7d6a091d2b1972ea676"
+      },
+      "log_excerpts": [
+        "2026-10-27T19:38:53.0079567Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +89512d771479eb79869e3d8df69352174e46ce4b:refs/remotes/pull/20/merge",
+        "2026-10-27T19:38:54.5072983Z HEAD is now at 89512d7 Merge b4f0d14b9b83500337d5dd6375bcbf279142c6ba into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-27T19:38:54.8579314Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T19:39:00.0758679Z test_benign_control_is_finite_and_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_benign_control_is_finite_and_strict_json_serializable) ... ok",
+        "2026-10-27T19:39:00.0820824Z test_existing_invalid_and_incomplete_inputs_still_fail_closed (test_extreme_numeric_output.ExtremeNumericOutputTests.test_existing_invalid_and_incomplete_inputs_still_fail_closed) ... ok",
+        "2026-10-27T19:39:00.0852335Z test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers) ... FAIL",
+        "2026-10-27T19:39:00.1119487Z test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable) ... FAIL",
+        "2026-10-27T19:39:00.9085027Z FAIL: test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers)",
+        "2026-10-27T19:39:00.9097661Z   File \"D:\\a\\raccoon-radar\\raccoon-radar\\test_extreme_numeric_output.py\", line 80, in test_extreme_valid_inputs_emit_only_finite_observation_numbers",
+        "2026-10-27T19:39:00.9099702Z AssertionError: Lists differ: ['$.observations.volume_ratio'] != []",
+        "2026-10-27T19:39:00.9106911Z FAIL: test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable)",
+        "2026-10-27T19:39:00.9110629Z   File \"D:\\a\\raccoon-radar\\raccoon-radar\\test_extreme_numeric_output.py\", line 87, in test_extreme_valid_result_remains_strict_json_serializable",
+        "2026-10-27T19:39:00.9119653Z ValueError: Out of range float values are not JSON compliant",
+        "2026-10-27T19:39:00.9122922Z   File \"D:\\a\\raccoon-radar\\raccoon-radar\\test_extreme_numeric_output.py\", line 89, in test_extreme_valid_result_remains_strict_json_serializable",
+        "2026-10-27T19:39:00.9125589Z AssertionError: Strict JSON rejected the valid-input result: Out of range float values are not JSON compliant; nonfinite paths=['$.observations.volume_ratio']",
+        "2026-10-27T19:39:00.9127659Z Ran 101 tests in 1.879s",
+        "2026-10-27T19:39:00.9128267Z FAILED (failures=2)"
+      ]
+    }
+  ],
+  "limitations": "Selected log excerpts, not full archive; synthetic numeric-output evidence only. Windows/LF byte hashes retained separately; exact Git blobs are repository identity."
+}
