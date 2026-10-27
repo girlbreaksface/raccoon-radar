@@ -5,6 +5,7 @@ folder. Reports table counts and aggregate quality checks, not account informati
 """
 import argparse, ast, csv, hashlib, importlib.util, io, json, os, sqlite3, sys, zipfile
 from collections import Counter
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -18,7 +19,7 @@ def inspect_database(path):
     # Explicit read-only URI: never initialize or migrate databases.
     uri=path.resolve().as_uri()+'?mode=ro'
     try:
-        with sqlite3.connect(uri,uri=True,timeout=2) as db:
+        with closing(sqlite3.connect(uri,uri=True,timeout=2)) as db:
             info['integrity_check']=db.execute('PRAGMA integrity_check').fetchone()[0]
             tables=[r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")]
             info['tables']={}
