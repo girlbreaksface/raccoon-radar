@@ -1,0 +1,168 @@
+{
+  "recorded_at_utc": "2026-10-27T19:38:41.929538+00:00",
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "source_commit": "6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+  "cases": {
+    "benign": {
+      "fixture_sha256": "bb97895227e3f46ce229bcb13d36698634b31f0bfe30700449b6d2b2c1203923",
+      "rows": 25,
+      "first": {
+        "symbol": "SPY",
+        "raw_timestamp": "2026-10-23 09:30:00",
+        "interval_start_et": "2026-10-23 09:30:00",
+        "interval_end_et": "2026-10-23 09:31:00",
+        "available_at_et": "2026-10-23 09:31:00",
+        "complete": true,
+        "open": 0.01,
+        "high": 0.010025000000000001,
+        "low": 0.009975,
+        "close": 0.01,
+        "volume": 100
+      },
+      "last": {
+        "symbol": "SPY",
+        "raw_timestamp": "2026-10-23 09:54:00",
+        "interval_start_et": "2026-10-23 09:54:00",
+        "interval_end_et": "2026-10-23 09:55:00",
+        "available_at_et": "2026-10-23 09:55:00",
+        "complete": true,
+        "open": 0.012400000000000001,
+        "high": 0.012425000000000002,
+        "low": 0.012375,
+        "close": 0.012400000000000001,
+        "volume": 200
+      },
+      "input_unchanged": true,
+      "signal": "BULLISH CANDIDATE",
+      "quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 200,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.011246153846153847,
+        "above_vwap_proxy": true,
+        "below_vwap_proxy": false,
+        "volume_baseline": 100,
+        "volume_ratio": 2,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "nonfinite_paths": [],
+      "strict_json": {
+        "success": true
+      }
+    },
+    "extreme": {
+      "fixture_sha256": "04586719bd8292cc9c857dd477569e9d5d46c6f6333f8fceb92132023f2c6a3d",
+      "rows": 25,
+      "first": {
+        "symbol": "SPY",
+        "raw_timestamp": "2026-10-23 09:30:00",
+        "interval_start_et": "2026-10-23 09:30:00",
+        "interval_end_et": "2026-10-23 09:31:00",
+        "available_at_et": "2026-10-23 09:31:00",
+        "complete": true,
+        "open": 0.01,
+        "high": 0.010025000000000001,
+        "low": 0.009975,
+        "close": 0.01,
+        "volume": 1e-200
+      },
+      "last": {
+        "symbol": "SPY",
+        "raw_timestamp": "2026-10-23 09:54:00",
+        "interval_start_et": "2026-10-23 09:54:00",
+        "interval_end_et": "2026-10-23 09:55:00",
+        "available_at_et": "2026-10-23 09:55:00",
+        "complete": true,
+        "open": 0.012400000000000001,
+        "high": 0.012425000000000002,
+        "low": 0.012375,
+        "close": 0.012400000000000001,
+        "volume": 1e+200
+      },
+      "input_unchanged": true,
+      "signal": "NO TRADE",
+      "quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1e+200,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 1e-200,
+        "volume_ratio": "inf",
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "nonfinite_paths": [
+        "$.observations.volume_ratio"
+      ],
+      "strict_json": {
+        "success": false,
+        "error": "Out of range float values are not JSON compliant: inf"
+      }
+    }
+  },
+  "hashes": {
+    "direction_engine.py": {
+      "sha256": "572c8f290cca3c5a9139f16c0d08c0144e2bdd91c41f5709613c6f42188b418b",
+      "git_blob": "09497b013d65aebaa9f77f47212079f35445b74b"
+    },
+    "test_extreme_numeric_output.py": {
+      "sha256": "aaff2c26ab897a4d0523af406a50c5c86fd21da9f52163a173de02d152eea60e",
+      "git_blob": "c5c8c5aa5d611396696ec7afa11394aa021723c3"
+    }
+  },
+  "archive_notes": "Nonfinite engine observation floats are rendered as repr strings ONLY in this evidence archive so allow_nan=False succeeds for the archive itself. nonfinite_paths and failing tests record the original float type; this is not an engine fix or input/data rewrite."
+}
