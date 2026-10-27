@@ -38,11 +38,15 @@ class OfflineGuard:
             if not raw:
                 raise PermissionError("Offline checks prohibit empty SQLite paths")
             if raw.lower().startswith("file:"):
-                parts = urlsplit(raw)
-                candidate = Path(url2pathname(parts.path)).resolve()
-                if (parts.query != "mode=ro" or parts.netloc or parts.fragment
-                        or raw != candidate.as_uri() + "?mode=ro"):
-                    raise PermissionError("Only canonical read-only temporary SQLite URIs are allowed")
+                try:
+                    parts = urlsplit(raw)
+                    if parts.query != "mode=ro" or parts.netloc or parts.fragment:
+                        raise ValueError("Unexpected URI options")
+                    candidate = Path(url2pathname(parts.path)).resolve()
+                    if raw != candidate.as_uri() + "?mode=ro":
+                        raise ValueError("Noncanonical URI")
+                except (ValueError, OSError) as exc:
+                    raise PermissionError("Only canonical read-only temporary SQLite URIs are allowed") from exc
             else:
                 candidate = Path(raw).resolve()
             if not candidate.is_relative_to(self.root):
