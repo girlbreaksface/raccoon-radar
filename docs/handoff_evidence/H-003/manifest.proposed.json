@@ -231,5 +231,29 @@
     "A documentation proposal, not a run manifest, data source or verified provider contract.",
     "No real history, provider connection, production DB access or study execution in H-003.",
     "UNKNOWN values are blockers, not defaults to infer."
+  ],
+  "coordination_amendments": [
+    {
+      "id": "H003-C1",
+      "recorded_at_utc": "2026-10-27 13:40:55 UTC",
+      "source_review": "https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6443196332",
+      "original_package_commit": "403fb62d4e2a2563ec5ca9074b5460b0871502d2",
+      "original_package_disposition": "ACCEPTED_AS_DOCUMENTATION_ONLY",
+      "clarification_commit": "f5dabc9a3bfb5bd88e45b10e09e08fdfe7ab59f4",
+      "clarification_path": "docs/handoff_evidence/H-003/coordination-clarifications.md",
+      "status": "PROPOSED_RETURNED_FOR_REVIEW",
+      "knowledge_rule": "Definitely known iff K_high<=cutoff; definitely later iff K_low>cutoff; straddling/unknown bounds block affected required frame. Multiple differing known revisions fail closed in conservative v1; no supersession resolver.",
+      "completion_rule": "Watermark closed-bar semantics and receipt knowledge must both be evidenced; no bar-end-only completion.",
+      "common_opportunity_estimand": "T_d=sum((z_A-z_B)*r)/(2*|E_d|), E paired intraday-eligible grid independent of daily context or labels; unresolved nonzero-coefficient labels make full statistic UNKNOWN.",
+      "common_observed_subset": "M_d in E_d with both direction-neutral labels known; shared across arms; attrition and complete-case bias reported.",
+      "missing_label_sensitivity": "Full denominator retained; unrestricted NOT_IDENTIFIED; hypothetical symmetric underlying-movement bounds with L in [.05,.10,.25,.50,1.00] percentage points plus tipping-point diagnostics; no imputed observed value.",
+      "daily_peer_rule": "Unknown daily context retained in E/M; invalid intraday peer removes only affected time from paired E; valid symbol retained separately; E empty unavailable, all-no-candidate valid E zero-exposure by definition.",
+      "custody_status": "UNKNOWN_UNTOUCHED_NOT_ESTABLISHED",
+      "custody_requirements": "Named custodian/reviewer, approved actual dates and independent timestamped freeze, restricted source/label store, full access/export audit, predeclared authorized unblinding, deviations evidence.",
+      "gross_vs_cost": "Gross movement and hypothetical proxy separate. Cost formula z*r-|z|*k/100 pp; all-in assumed k bps. No fills, performance or actual costs verified.",
+      "design_approval": "NONE",
+      "implementation_approval": "NONE",
+      "study_execution_approval": "NONE"
+    }
   ]
 }
