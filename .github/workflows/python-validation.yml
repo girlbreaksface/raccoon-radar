@@ -26,5 +26,5 @@ jobs:
           python-version: '3.11'
       - name: Compile Python source
         run: python -m compileall -q .
-      - name: Run existing unit tests
-        run: python -m unittest discover -v -p 'test_*.py'
+      - name: Run guarded offline release checks
+        run: python -B offline_checks.py
