@@ -212,3 +212,45 @@ This is part of existing PR #19; no second work order or coordination thread is 
 - Notice: [coding-agent acknowledgement](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6442789475). Existing coordination notice retained. No second coordination PR created.
 - A-006: extracting checkout SHA, parents and counts from existing Windows/Linux CI logs; no local test/study rerun in this work order. A-007: inventory bounded repository evidence only. A-008/A-009: draft plan, manifest, truth tables and acceptance cases; no implementation.
 - Blockers: independent maintainer UNIDENTIFIED; real-history revision knowledge, mapping and calendar evidence UNKNOWN. Next: return four required evidence files plus supporting machine-readable CI identity evidence here. No approvals received for merge, provider access, ingestion, database changes or study execution; all remain prohibited.
+
+
+## H-003 RETURN — coding agent — 2026-10-27 13:22:23 UTC
+Status RETURNED_FOR_REVIEW; preparation completed within authorized scope, recipient acceptance pending. This dated entry supersedes the earlier READY_FOR_ACK/pending claim statuses for A-006–A-009 only; original instructions and blocker history retained. No review/approval inferred.
+
+- Owner: coding agent for this return; recipient/next owner A-010 coordination reviewer. User authorized H-003 read-only verification and documentation package in this session. ACK [notice](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6442789475); ACK commit 38532d6c38b3d47f759b491969209b32b6c2d3a1.
+- Read revision: f4930346019bfcb1ca2a633b8c09c5bcad8facbe, handoff blob 0e6d3819a8c237caf535edc22849f670ba3a2e69. Re-fetched latest handoff blob before append; prior author entries retained.
+- Evidence package immutable commit: 403fb62d4e2a2563ec5ca9074b5460b0871502d2. All five files read back exactly; both JSON files parsed. No local code tests/study executed. Existing hosted job logs/checkout parent records inspected; main 69, #13 97, #14 combined 115, #17/#18 69 tests per platform observed. PR #19 final documentation CI must be reported against resulting head in the return notice; not inferred from prior heads.
+
+| Deliverable | Creation commit | Verified Git blob | Validation |
+|---|---|---|---|
+| [verification.md](https://github.com/girlbreaksface/raccoon-radar/blob/403fb62d4e2a2563ec5ca9074b5460b0871502d2/docs/handoff_evidence/H-003/verification.md) | 20ffcf38eece88ea14f46ce0ae38428fa847dc04 | 81c3906241a418b9e8121a7371e928cc8ba4677c | exact readback MATCH |
+| [availability-gaps.md](https://github.com/girlbreaksface/raccoon-radar/blob/403fb62d4e2a2563ec5ca9074b5460b0871502d2/docs/handoff_evidence/H-003/availability-gaps.md) | 089c3a3eca96ede864a6c65fa31423bbcaa510a9 | be5a64590564e1a8de41417aea736edabb330cb5 | exact readback MATCH |
+| [replay-plan.md](https://github.com/girlbreaksface/raccoon-radar/blob/403fb62d4e2a2563ec5ca9074b5460b0871502d2/docs/handoff_evidence/H-003/replay-plan.md) | 873aa3b04008a59d4eb33a4897d3f4b8f9bdae3e | 91bf4d3d80e423a6354570af9671c6f9a5f17c3d | exact readback MATCH |
+| [manifest.proposed.json](https://github.com/girlbreaksface/raccoon-radar/blob/403fb62d4e2a2563ec5ca9074b5460b0871502d2/docs/handoff_evidence/H-003/manifest.proposed.json) | 43bb8f09630558c1d79e9d6a389ff5b3bc6deb76 | aea6f4665e1761f841dd0420219cbd1d719ae59d | exact readback MATCH; JSON parse PASS |
+| [ci-observations.json](https://github.com/girlbreaksface/raccoon-radar/blob/403fb62d4e2a2563ec5ca9074b5460b0871502d2/docs/handoff_evidence/H-003/ci-observations.json) | 403fb62d4e2a2563ec5ca9074b5460b0871502d2 | 901e5c0457b18cff489ae861746edce1c2e7f108 | exact readback MATCH; JSON parse PASS |
+
+### Facts, findings and unresolved gaps
+- Main remains b0ad02dc996b00406e7da08fb33b6382f658ea40; protected PR heads unchanged. No retarget, merge or protected-PR mutation performed.
+- #14 API base metadata still reports old branch-point SHA 286eb9b1e7071ebbc83a125dc1062e4723efcad1, while BOTH job checkout logs and synthetic merge commit parents establish a9f01f8c0b43697f9102e1424809645315b4fc64 = latest pinned #13 + #14. This resolves the historical tested-view question, not a new merge approval.
+- Main source tree and named pinned proposal/test scope contain synthetic records, not supplied raw provider revision/capture evidence. Source/symbol/session/revision scopes and missing fields are explicitly bounded in availability-gaps.md. Historical exact-revision knowledge, timestamp authority, completion, calendars, daily-history availability and pagination remain UNKNOWN. Private archives were not inspected. No inferred/assumed history substituted.
+- Existing SAMPLE_SYNTHETIC_CANDLES.csv contains invalid 09:60+ clock strings and lacks canonical provenance; recorded as synthetic-only, left untouched. Documentation's old status/test paragraphs remain attributed historical text, not current main counts.
+- replay-plan.md retains #18 A/B/C/paired-ablation definitions, explicit validity guards, nine valid symbol pairs and blocked-peer separation; prior daily versus developing-session/intraday context, fixed grid/delayed labels and revision-aware frames remain proposals. Cost sensitivity appendix and undefined-date estimand weighting are proposed amendments requiring approval, not observed profitability or silent implementation.
+- Preserve immutable evidence, corrections and unknowns; companion records K-20261027-002, ENG-20261027-004 and H-003-PROTOCOL-REGISTER link this package. Study is DRAFT / NOT FROZEN / NOT EXECUTED. No provider, ingestion, GUI, calculation, DB, data rewrite or trading change.
+
+### Returned action register (supersedes prior status rows for these IDs)
+| ID | Updated UTC | Owner | Action / status | Blocker and next acceptance evidence |
+|---|---|---|---|---|
+| A-006 | 2026-10-27 13:22:23 UTC | Coding agent -> coordination reviewer | RETURNED_FOR_REVIEW; pin/diff/CI identities | NONE for documented historical job identity; independent acceptance pending |
+| A-007 | 2026-10-27 13:22:23 UTC | Coding agent -> research evidence owner UNKNOWN | RETURNED_FOR_REVIEW; scoped gap register | Real source knowledge/mapping/calendar evidence UNKNOWN; owner supplies approved existing evidence location |
+| A-008 | 2026-10-27 13:22:23 UTC | Coding agent -> coordination reviewer | RETURNED_FOR_REVIEW; DRAFT replay/cost/OOS plan and manifest | Contract/source/freeze/execution approval NONE; accept or return with reasons |
+| A-009 | 2026-10-27 13:22:23 UTC | Coding agent -> coordination reviewer | RETURNED_FOR_REVIEW; daily/intraday and nine-pair truth tables | Implementation/tests unauthorized; review proposed acceptance matrix |
+| A-010 | 2026-10-27 13:22:23 UTC | Coordination reviewer | WAITING_FOR_REVIEW of exact returned package | Must record ACCEPTED or RETURNED_FOR_REVISION with evidence; no acknowledgement presumed |
+| A-011 | 2026-10-27 13:22:23 UTC | Human maintainer | BLOCKED; independent reviewer/approval | No designated reviewer, review, qualifications/access or merge authorization |
+
+### Individual decisions requested — none received
+Record each in PR #19 with decision ID, exact revision/scope, approver UTC time and evidence link:
+- G-H003-1: establish willing independent #13 reviewer (Python numerics/tests and point-in-time market data; access + authorship independence). Alternative keep blocked; no invented identity or self-approval.
+- G-H003-2: accept/amend/defer #17/#18 interface/knowledge/revision/calendar policies and this package's cost/estimand clarifications. Rationale: current replay cannot implement proposed as-of study correctly without additional design. Do not promote UNKNOWN data to VERIFIED.
+- G-H003-3: separately authorize bounded pure offline implementation/tests after contract review; no provider/store permissions implied. Alternative documentation-only hold.
+- G-H003-4: establish source eligibility, actual freeze dates/access custody and separately authorize prospective capture/evaluation only after evidence. Alternative leave primary study unavailable; no assumed data substitution.
+Merge requests remain separate and later: independent review/material finding resolution/exact-head CI, explicit #13 approval, resulting-main CI, then authorized retarget/revalidation and separate #14 approval. #17/#18 stay unmerged. No approval granted by this return.
