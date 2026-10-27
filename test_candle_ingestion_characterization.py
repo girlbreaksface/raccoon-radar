@@ -243,6 +243,30 @@ class CandleIngestionCharacterizationTests(unittest.TestCase):
         namespace["threading"].Thread.return_value.start.assert_called_once_with()
         self.assertTrue(dashboard.candle_busy)
 
+    def test_full_end_stamp_hypothesis_loses_final_raw_bar_in_both_workers(self):
+        start = datetime(2026,10,23,9,31)
+        rows = [candle((start+timedelta(minutes=i)).strftime("%Y-%m-%d %H:%M:%S"))
+                for i in range(390)]
+        original = copy.deepcopy(rows)
+        for kind in ("single","range"):
+            with self.subTest(kind=kind):
+                event, _ = self.run_worker(kind,self.both(rows))
+                self.assertEqual(len(self.spy_times(event)),389)
+                self.assertEqual(self.spy_times(event)[0],"2026-10-23 09:31:00")
+                self.assertEqual(self.spy_times(event)[-1],"2026-10-23 15:59:00")
+        self.assertEqual(rows,original)
+
+    def test_completed_past_range_is_not_cut_off_by_today_clock(self):
+        rows = [candle("2026-10-23 09:30:00"),candle("2026-10-23 15:59:00")]
+        event, _ = self.run_worker("range",self.both(rows),now="2026-10-26 09:30:00")
+        self.assertEqual(self.spy_times(event),[r["time_key"] for r in rows])
+
+    def test_direct_future_range_worker_call_has_no_date_guard(self):
+        rows = [candle("2026-10-27 09:30:00")]
+        event, _ = self.run_worker("range",self.both(rows),now="2026-10-23 12:00:00",
+                                  start="2026-10-27",end="2026-10-27")
+        self.assertEqual(self.spy_times(event),["2026-10-27 09:30:00"])
+
     def test_request_exception_reports_error_and_closes_context(self):
         for kind in ("single", "range"):
             with self.subTest(kind=kind):
