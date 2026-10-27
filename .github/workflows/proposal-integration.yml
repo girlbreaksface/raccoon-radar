@@ -1,0 +1,89 @@
+name: Pinned proposal integration
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/proposal-integration.yml'
+      - 'docs/PROPOSAL_INTEGRATION.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  combined:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check out pinned baseline
+        uses: actions/checkout@v4
+        with:
+          ref: '0d9015cc3cba0977cafcb952cbb33a11870e2754'
+          path: 'sources/baseline'
+          persist-credentials: false
+      - name: Check out pinned opening
+        uses: actions/checkout@v4
+        with:
+          ref: '60bf76995fd9ab5bb319f38fca15f6f3b3a85514'
+          path: 'sources/opening'
+          persist-credentials: false
+      - name: Check out pinned quality
+        uses: actions/checkout@v4
+        with:
+          ref: 'c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf'
+          path: 'sources/quality'
+          persist-credentials: false
+      - name: Check out pinned dashboard
+        uses: actions/checkout@v4
+        with:
+          ref: '359619777ca120937f564adfa65be123c23c7cfb'
+          path: 'sources/dashboard'
+          persist-credentials: false
+      - name: Check out pinned offline
+        uses: actions/checkout@v4
+        with:
+          ref: '5874e1f266595b020ee1413b00f5e03d0d233e15'
+          path: 'sources/offline'
+          persist-credentials: false
+      - name: Check out pinned diagnostics
+        uses: actions/checkout@v4
+        with:
+          ref: '1cd4f7d32ac32973336f6ef7b6e296c462ab938a'
+          path: 'sources/diagnostics'
+          persist-credentials: false
+      - name: Check out pinned ingestion
+        uses: actions/checkout@v4
+        with:
+          ref: '106be9d2872adac16cd1c07cf18d4fb1eb04c75d'
+          path: 'sources/ingestion'
+          persist-credentials: false
+      - name: Assemble disposable source overlay and run guarded tests
+        shell: python
+        run: |
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import subprocess
+          import sys
+          import tempfile
+
+          sources = Path(os.environ["GITHUB_WORKSPACE"]) / "sources"
+          overlays = {"opening":["test_market_intelligence.py"],"quality":["candle_quality.py","test_candle_quality.py","candle_quality_report.py","test_candle_quality_report.py"],"dashboard":["raccoon_dashboard_v1_5_14.py","test_provider_verification_callback.py"],"offline":["offline_checks.py","test_offline_checks.py","test_sqlite_sql_guard.py"],"diagnostics":["raccoon_diagnostics.py","test_diagnostic_connections.py"],"ingestion":["test_candle_ingestion_characterization.py"]}
+          with tempfile.TemporaryDirectory(prefix="raccoon-integration-", dir=os.environ["RUNNER_TEMP"]) as folder:
+              target = Path(folder) / "project"
+              shutil.copytree(sources / "baseline", target,
+                              ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc"))
+              for name, files in overlays.items():
+                  for filename in files:
+                      shutil.copy2(sources / name / filename, target / filename)
+              assert not any(p.suffix in (".db", ".sqlite", ".sqlite3") for p in target.rglob("*"))
+              print("Pinned source revisions: " + json.dumps({"baseline":"0d9015cc3cba0977cafcb952cbb33a11870e2754","opening":"60bf76995fd9ab5bb319f38fca15f6f3b3a85514","quality":"c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf","dashboard":"359619777ca120937f564adfa65be123c23c7cfb","offline":"5874e1f266595b020ee1413b00f5e03d0d233e15","diagnostics":"1cd4f7d32ac32973336f6ef7b6e296c462ab938a","ingestion":"106be9d2872adac16cd1c07cf18d4fb1eb04c75d"}, sort_keys=True), flush=True)
+              subprocess.run([sys.executable, "-B", "offline_checks.py"], cwd=target, check=True)
