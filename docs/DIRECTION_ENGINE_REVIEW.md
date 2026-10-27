@@ -1,5 +1,5 @@
 # PR #13 — technical review preparation
-Review baseline: main b0ad02dc996b00406e7da08fb33b6382f658ea40; original engine head 286eb9b1e7071ebbc83a125dc1062e4723efcad1. This preparation adds tests/docs only. No engine formula, threshold, conjunction or production behavior changes. It is not an independent human sign-off or an empirical strategy validation.
+Review baseline: main b0ad02dc996b00406e7da08fb33b6382f658ea40; original engine head 286eb9b1e7071ebbc83a125dc1062e4723efcad1. This preparation adds review tests/docs and a narrow provenance guard: null/non-string/blank raw timestamps no longer become stringified candidate metadata. No formula, threshold, conjunction, ingestion or production behavior changes. It is not an independent human sign-off or an empirical strategy validation.
 
 ## Mathematical checks
 Eight new tests in test_direction_math_review.py use 50-digit Decimal arithmetic on irregular price/volume inputs, separate from the engine helper, to check:
@@ -9,6 +9,8 @@ Eight new tests in test_direction_math_review.py use 50-digit Decimal arithmetic
 - Opening range: first configured N intervals of a contiguous prefix from session open, i.e. [open, open+N minutes); the later event bar is excluded. Strict close > high or < low means a close equal to a range boundary is NOT a break.
 - Prior five-bar levels exclude the event bar; EMA rejection/support compares against previous completed EMA9, not a future/current extrapolation.
 The sources define indicator conventions; neither source validates this conjunction or its profitability.
+
+A ninth review test first reproduced candidates from null/non-string/blank raw stamps. A strict nonempty-string gate now yields INVALID_RAW_TIMESTAMP/NO TRADE without altering any valid source string.
 
 Other new checks demonstrate positive price-scale invariance and long/short reflection symmetry on synthetic fixtures; result mutation does not mutate inputs or later snapshots; frozen Config cannot be edited; output JSON stays finite. These are finite regression examples, not a proof over every floating-point input. Extreme finite inputs may fail closed on intermediate overflow rather than use arbitrary-precision math.
 
@@ -37,4 +39,4 @@ The engine does not mutate input rows and builds fresh result dictionaries. It d
 ## Review recommendation and tests
 Ready for independent technical review as a standalone RESEARCH proposal after green exact-head CI. Not approved for live data, GUI wiring, real performance claims or automatic trading. Reviewers should approve/reject the declared session seed, extra warmup bar, proxy basis, conjunctions and strict coverage policy explicitly; do not approve solely because tests pass.
 
-Main's cumulative 69 tests plus original 19 engine tests and eight review tests = 96 guarded tests locally on Windows/Python 3.12.14. Windows/Linux Python 3.11 CI results and final heads are recorded in the PR. No database/provider/ingestion connection or real-history study was run.
+Main's cumulative 69 tests plus original 19 engine tests and eight math review tests + one provenance regression = 97 guarded tests locally on Windows/Python 3.12.14. Windows/Linux Python 3.11 CI results and final heads are recorded in the PR. No database/provider/ingestion connection or real-history study was run.
