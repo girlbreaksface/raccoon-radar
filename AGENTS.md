@@ -39,7 +39,7 @@ Four local stores are normally named `raccoon_history.sqlite3`, `raccoon_discove
 ## Development and validation
 Use Python 3.11 as the existing CI baseline; verify Windows as well as Linux. Offline modules mostly use the standard library. GUI needs Tk; OpenD quote paths lazily import the `moomoo` SDK and use localhost:11111. `zoneinfo` needs system IANA data or `tzdata`, especially on Windows. No dependency lock or supported SDK version is currently established.
 
-Verified baseline: main `342c7389b735188ddf75867c1f62aca4f8176bb0` includes PR #4 (temporary SQLite fixture closure and Windows/Linux CI) and PR #5 (conditional timestamp-evidence wording). Main has ten offline tests. Draft PR #1 adds five complementary opening-range tests; it is not merged. PRs #6–#10 and ingestion characterization PR #11 remain separate proposals until approved.
+Verified baseline: main `0d9015cc3cba0977cafcb952cbb33a11870e2754` includes PR #4 (temporary SQLite fixture closure and Windows/Linux CI) PR #5 (conditional timestamp-evidence wording), PR #8 (deferred error capture), and PR #10 (diagnostic handle closure). Main has 17 offline tests. Draft PR #1 adds five complementary opening-range tests; it is not merged. PRs #6/#7/#9 and ingestion characterization PR #11 remain separate proposals until approved.
 
 Default offline checks:
 ```text
