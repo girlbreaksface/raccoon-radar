@@ -1,0 +1,45 @@
+{
+  "recorded_at_utc": "2026-10-27 19:41:25 UTC",
+  "kind": "selected_log_summaries_not_full_logs",
+  "logs": {
+    "h006-baseline.log": {
+      "original_log_sha256": "db634702826d9a789b021753bce69e9b090cdd5e7f4b38862c85f5c4a80f5b2f",
+      "selected_summary": [
+        "FileNotFoundError: raccoon_dashboard_v1_5_14.py absent from incomplete isolated snapshot",
+        "Ran 97 tests in 0.250s",
+        "FAILED (errors=28)"
+      ]
+    },
+    "h006-baseline-complete.log": {
+      "original_log_sha256": "75fda8f3b01cc122b7ccf500604a628906312c289e4a680b15cdafbdb31b08fe",
+      "selected_summary": [
+        "FileNotFoundError: raccoon_dashboard_v1_5_14.py absent from incomplete isolated snapshot",
+        "Ran 97 tests in 0.236s",
+        "FAILED (errors=28)"
+      ]
+    },
+    "h006-baseline-pinned.log": {
+      "original_log_sha256": "460087d9bba91ab15a8e0fd3aa41a64359a8118afe1d7f5eeb49916082ce9151",
+      "selected_summary": [
+        "Ran 97 tests in 0.685s",
+        "OK"
+      ]
+    },
+    "h006-reproducer.log": {
+      "original_log_sha256": "2532ae060d8014286e15cbb752fe7a5d8c61fabf519217c1dd5bc2c326b287bf",
+      "selected_summary": [
+        "AssertionError: Strict JSON rejected the valid-input result: Out of range float values are not JSON compliant: inf; nonfinite paths=['$.observations.volume_ratio']",
+        "Ran 101 tests in 0.651s",
+        "FAILED (failures=2)"
+      ]
+    },
+    "h006-targeted.log": {
+      "original_log_sha256": "6d161e73e40ebd16f053b3699e1e243537a6e3dba774de345ea48a9ea98b3ee2",
+      "selected_summary": [
+        "AssertionError: Strict JSON rejected the valid-input result: Out of range float values are not JSON compliant: inf; nonfinite paths=['$.observations.volume_ratio']",
+        "Ran 4 tests in 0.007s",
+        "FAILED (failures=2)"
+      ]
+    }
+  }
+}
