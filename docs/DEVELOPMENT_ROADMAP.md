@@ -1,26 +1,33 @@
 # Prioritized development roadmap
-Baseline: 2026-10-26 assessment. This is proposed work, not implemented fixes. Each stage should be a small separately reviewed PR; no merges without approval and no existing research DB modifications. Calculation changes require evidence and regression tests.
+Updated against main 342c7389b735188ddf75867c1f62aca4f8176bb0. Each implementation remains a separately reviewed PR; no merges, production migrations, timestamp rewrites or order APIs are authorized by this document.
 
-| Order | Deliverable | Exit criteria / tests | Dependencies |
-|---|---|---|---|
-| P0.1 | Establish trustworthy offline baseline | Fix Windows migration-test connection cleanup; all five existing tests pass on Windows and Linux. Add a no-network/default-database guard for tests. Add explicit supported Python/Tk/SDK/timezone setup documentation with verified versions, not guessed pins. | Documentation review |
-| P0.2 | Timestamp evidence and ingestion characterization | Add immutable synthetic 09:30–15:59 and 09:31–16:00 fixtures, partial sessions, early close, gaps and duplicates. Fake both fetch paths, pagination and current clock. Reproduce excluded 16:00 and unfinished range candles. Collect provider evidence separately with explicit read-only quote requests, complete responses and independent confirmation. | P0.1; provider access for empirical portion |
-| P0.3 | Correct misleading research output | Conditional timestamp evidence wording; per-symbol freshness; explicit coverage/missing-data status. Regression tests cover one-bar, full/partial, mixed-date and no-data cases. Keep candidates provisional regardless of fixture success. | P0.2 characterization |
-| P0.4 | Protect research provenance | Design explicit read-only repositories and raw/derived/revision separation without applying migrations to user stores. Inventory all writes and hidden initialization. Tests prove read-only calls cannot create/migrate files, preserve source bytes, and fail clearly on missing/unknown schemas. Approve future append-only revision plan separately. | P0.1–2 |
-| P1.1 | Reliable provider adapter | Shared explicit request policy, pagination/error reporting, calendar/session handling, completed-bar policy and reproducible metadata. Test repeated keys, page failures, empty/holiday sessions, early closes, DST, shutdown and resource closure. Change ingestion boundaries only after policy evidence. | P0.2 and P0.4 |
-| P1.2 | Calculation regression coverage | Golden outputs for Market Intelligence, candle labels, every setup and horizons. Test input order, symbol normalization, duplicate corrections, finite positive inputs, zero volume, session boundaries and missing-minute policy. Prefix-invariance tests prove event features do not depend on later candles; outcomes attach separately. Resolve rounded-price recomputation discrepancies. | P0 baseline; documented calculation contracts |
-| P1.3 | Reproducible evaluation | Validate split arguments and cooldown semantics. Save dataset/code hashes, parameters, exclusions and frozen session splits. Explicitly label previously inspected history. Report valid outcomes per horizon, unique sessions, correlation/overlap limitations and uncertainty; evaluate all setups. Test stable reruns and disjoint chronological folds. | P1.2 |
-| P1.4 | GUI and error resilience | Fix deferred exception callback; isolate workers from widget operations, coordinate cancellation/shutdown, and expose partial failures. Fake workers/queues plus Windows Tk smoke checklist for load, inspect, validate, export and close. No user-store writes during smoke checks. | P0 baseline; adapter contracts |
-| P2.1 | Package incrementally and reduce version drift | Establish one canonical launch command and release version while keeping legacy launchers compatible. Extract UI, provider and persistence services one boundary at a time, with golden output parity. Document scanner provenance and any missing bias formulas. | P1 characterization |
-| P2.2 | Provenance-complete export and recovery design | Exclusive collision-resistant reports with complete settings, hashes and schema versions. Verify archive inventories, manifest reproducibility and restore on disposable copies only. Review fundamentals inclusion and every research store. | P0.4 and P1.3 |
-| P2.3 | Broader CI and operational checks | Windows/Linux supported-Python matrix; offline regression suite, optional import/Tk checks, formatting/static checks and full active-module diagnostics. Network/provider checks remain opt-in and quote-only. Publish an evidence-based release checklist. | Incremental throughout P1–P2 |
+## Status and scope
+| Priority | Deliverable | Current state and next acceptance evidence |
+|---|---|---|
+| P0.1 | Trustworthy offline baseline | #4 merged: connection cleanup and Windows/Linux Python 3.11 CI. Main has ten passing tests after #5. #9 proposes guarded discovery and source/runtime manifests; review its native-code/filesystem limitations. |
+| P0.2 | Opening-range integration | Draft #1 adds five tests complementary to main's five wording tests and five volume tests. Combined set is 15, not ten. Refresh and pass both CI platforms before approval. No provider claim is promoted. |
+| P0.3 | Honest timestamp wording | #5 merged: full-session claim gated by existing evidence predicate. Raw ranges/candidates unchanged. Per-symbol freshness and other misleading-output risks remain. |
+| P0.4 | Ingestion characterization | #11 tests actual worker/handler ASTs with fake provider and fixed wall clock, including 16:00, public past-date guard, direct-worker cutoff asymmetry, gaps/duplicates, pagination and partial failures. This phase changes no ingestion behavior. |
+| P0.5 | Standalone quality reporting | #6 proposes a pure offline audit and standalone report path for missing/duplicate/invalid/partial data. Expected bounds are caller hypotheses, never confirmation of provider semantics. Prefer this before GUI integration. |
+| P0.6 | Persistence inventory/design | #7 audits hidden initialization, upserts, report collisions and archive omissions. Review separate opt-in append-only evidence/revisions and read-only repository contracts. No schema/data writes authorized. |
+| P1.1 | Define ingestion policy before repairs | Decide raw response retention, interval/session flags, pagination completeness and partial-data states. Obtain independent evidence before adopting interval-start/end rules. Public range UI already rejects today; defensive worker changes need separately justified tests. |
+| P1.2 | Isolated error/resource fixes | #8 proposes deferred error-message capture; #10 proposes explicit diagnostic read-only connection closure. Review their failing-first tests independently. No claim of real GUI/SDK validation. |
+| P1.3 | Calculation regression coverage | Cover finite/zero inputs, duplicate corrections, ordering, session isolation, detector labels/horizons, missing-minute outcome policy and rounding. Prefix-invariance tests must separate event-time features from later outcomes. No threshold changes without evidence. |
+| P1.4 | Reproducible evaluation | Validate split/cooldown arguments and keep immutable dataset/code/parameter/exclusion manifests. Freeze hypothesis and session splits before evaluation; report overlap/correlation, missing outcomes, sample counts and uncertainty. Previously viewed history is not untouched holdout. |
+| P1.5 | GUI resilience | Queue worker results, cancellation/shutdown coordination and visible partial errors. Fake-provider tests plus Windows Tk smoke tests on disposable fixtures; no user-store writes for testing. |
+| P2.1 | Packaging/version consistency | Establish canonical launch/release metadata while preserving old entry points. Extract one service boundary at a time after output parity tests. Obtain external scanner/bias source before accuracy claims. |
+| P2.2 | Complete archives/provenance exports | Include all four stores and active sources, exclusive destination creation and immutable manifest hashes. Restore rehearsals only on disposable copies; do not overwrite existing archives or research stores. |
+| P2.3 | Release readiness | Both CI platforms, known test inventory and branch differences, optional dependency checks and separate empirical provider/GUI evidence. No version bump substitutes for evidence. |
 
-## Suggested next PR
-Fix only the open connection in test_migration and add Windows CI coverage, then establish failing regression tests for timestamp evidence wording and fetch boundaries. This restores a credible baseline without changing any market calculation.
+## Recommended next decisions
+1. Review #1 and refreshed #2 against verified main; CI/tests establish synthetic compatibility, not Moomoo conventions. Require explicit approval before any merge.
+2. Review ingestion characterization and choose an evidence-backed raw/derived/completed-bar contract. The initial claim that the range UI accepts today was wrong; keep the handler's completed-past-date restriction documented.
+3. Review #6/#7/#9 as diagnostic/provenance/testing infrastructure and #8/#10 as isolated fixes. Unmerged proposals are not current-main behavior.
+4. Then write desired-behavior regression tests for a small ingestion repair, with immutable raw timestamps, pagination/coverage metadata and explicit exclusions. Independent provider evidence may block semantic changes; proceed with non-destructive diagnostics instead.
 
 ## Review gates
-- Every PR states observed problem, intended contract, evidence, validation and limitations.
-- No claim of verified timestamps until independent evidence is archived and reviewed.
-- No claim of trading edge or executable profitability from candle-close studies.
-- No production migration, data rewrite, order API, or major architecture replacement is authorized by this roadmap.
-- Record unresolved questions rather than filling gaps with assumed candle semantics or fabricated feeds.
+- State trigger, observed behavior, intended contract, evidence, exact tested commit/test count and limitations.
+- Keep pure synthetic diagnostics, observed provider responses, candidate interpretations and independently verified semantics separate.
+- Preserve all research data and raw timestamps. No source-store initializer in an inspection path; no migration or archive replacement without a separate approved plan.
+- No executable return, options P/L or trading-edge claims from candle-close research.
+- Do not merge to main without explicit approval.
