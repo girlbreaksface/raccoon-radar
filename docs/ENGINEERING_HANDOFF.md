@@ -304,3 +304,38 @@ Manual observed pin/CI snapshot at 2026-10-27T13:55:30Z: main b0ad02dc996b00406e
 | A-011 independent reviewer | Human maintainer / BLOCKED | No verified independent reviewer or exact-head review |
 
 All G-H003-1/2/3/4 NOT APPROVED. Source/knowledge/calendar/custody evidence UNKNOWN. Saved cadence reportedly verified ACTIVE every 30 minutes; no successful scheduler run inferred. Next: coordination reviews returned docs; maintainer decides alternatives with exact revision/identity/evidence. No merges/retarget, providers, ingestion, DB, study, trading or executable-return claim. Related K-20261027-004 / ENG-20261027-006 / H-004-AUDIT-REGISTER.
+
+
+## H-005 readiness/risk documentation return — 2026-10-27 16:36:08 UTC
+Owner coding agent -> coordination reviewer; STATUS RETURNED_FOR_REVIEW, not accepted/approved. [Work order 6447454582](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6447454582) read; direct human “Yes of course” in this coding chat authorized H-005 after an explicit scope question. The GitHub claim of owner approval alone was not treated as authorization. Boundaries: docs/read-only repository/CI only; no roadmap execution.
+
+Read start head f723f24be8353e7be1d77aaa0da4ab0b95ae65f5, handoff blob f99f68f93cfe99c7cec8a479d4bda1ea24cf8328, knowledge index 109e2c4434fbce15a3a4f8908f6e78fb755f9856 and linked records; exact blobs re-fetched before each write. H-004 [coordination acceptance 6444952998](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6444952998) supersedes its prior RETURNED_FOR_REVIEW status only as DOCUMENTATION-ONLY AUDIT/MATRIX. Preserve qualifications: box assumptions not confidence/empirical bounds; cancellation fails on label/entry/exit/revision mismatch; no options/fill/P&L inference; date-equal versus pooled weighting unselected; A-subset-B/same-direction is a contract assumption needing independent implementation verification, not a demonstrated production property. All G-H003 gates remain CLOSED.
+
+Immutable H-005 evidence package e1d6e52eb82b79d31ff7313737c83ef6e9f09733; six Markdown files fetched back with exact text match, no code imported/run. Five requested deliverables plus provenance index:
+| File | Creation commit | Verified Git blob |
+|---|---|---|
+| [README.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/README.md) | 45edfc4f4aaba321f156750f97fd0367d4a3f44b | f15fea6f462c168cd8ae32f999957a9f91e20b7a |
+| [dependency-blocker-map.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/dependency-blocker-map.md) | 913399ecab60efbb519dc5fa585298e6ae003a76 | fce6046b54dbada8a000a5e7e91f86e668e9b061 |
+| [pr13-reviewer-packet.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/pr13-reviewer-packet.md) | 5f76cba513cafef783d2f983180f7c38046a6a49 | 5419a1ac271b42431582bc18562200221f6d2fa8 |
+| [test-coverage-gaps.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/test-coverage-gaps.md) | 664623852bdd755ecdeacd5bda19f7718e543b0a | 73d1c3cace7a336d4b4ce905f40f47300830b946 |
+| [paper-readiness-design.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/paper-readiness-design.md) | 92c86391151c375ebc5e7588366a6e281d310587 | 8b7a15fff1e30772cae73582d9c6983dc68f467c |
+| [implementation-roadmap.md](https://github.com/girlbreaksface/raccoon-radar/blob/e1d6e52eb82b79d31ff7313737c83ef6e9f09733/docs/handoff_evidence/H-005/implementation-roadmap.md) | e1d6e52eb82b79d31ff7313737c83ef6e9f09733 | 0980b5910dd7c1b066fe0da71b027d86c06d8009 |
+
+### Findings and decision-ready alternatives
+- Protected heads and main unchanged at intake; #14 still stacked, #13 reviews empty. Re-read main/#13/#14/#17/#18/starting #19 existing CI job metadata and logs: all completed/success, actual checkout/count/Python identities recorded in package README. Counts 69/97/115/69/69/69 each platform respectively. Historical jobs re-inspected, not tests rerun by H-005. Final documentation-head CI must be separately pinned in PR #19 return notice.
+- Tested synthetic arithmetic/data/cutoff contracts distinguished from unimplemented calendar, clock uncertainty, revision resolution, daily context, peer classifier, fixed-grid study and paper/order-state requirements. Ingestion tests characterize current ignored pagination/16:00/partial-response behavior; no endorsement or fix.
+- Source-derived numeric risk: volume_ratio is calculated outside finite-intermediate tuple. This is NOT a reproduced bug. No code/test changes or empirical study performed. Reviewer packet asks independent verification.
+- Dependency map separates pure engine/replay integration, source/contract-qualified as-of data, read-only live alerts, research validation, optional paper architecture and any eventual live policy. Paper execution is not read-only and is not authorized by scanner milestones.
+- Paper-readiness checklist is design-only: permissions, chain/quotes/Greeks/freshness/depth/latency/costs/risk/state/unknown-exit/kill switch/audit/isolation evidence all unverified. No option contract selected, simulated trade/order or broker connection.
+- Roadmap NOT EXECUTED. Recommended next owner decision: Alternative A, a NEW isolated synthetic TEST-ONLY numeric-output characterization branch from pinned #13, no implementation fix, no reviewed-head change, no source/DB/IO/threshold changes. Could be separately approved independently of historical custody and reviewer-signoff evidence for the test artifact, but needs explicit bounded G-H003-3 authorization. Alternatives B malformed-canonical-input characterization (needs error-contract choice) or C continue docs/verification hold. No alternative selected by agent. A failing reproducer would be returned honestly, not hidden or merged as ready.
+
+| ID | Owner/status | Required next evidence |
+|---|---|---|
+| H005-1 blocker map | Coding agent -> coordinator / RETURNED_FOR_REVIEW | Accept scope/dependencies/owner roles, no invented assignees |
+| H005-2 reviewer packet | Coding agent -> human maintainer / RETURNED_FOR_REVIEW | Establish qualified willing independent reviewer, access and exact-head review; identity UNKNOWN |
+| H005-3 coverage audit | Coding agent -> coordinator / RETURNED_FOR_REVIEW | Review named tested/partial/proposed contracts; no test edits |
+| H005-4 paper checklist | Coding agent -> owner/risk / DESIGN_ONLY_RETURNED | All actual broker/feed/execution feasibility UNKNOWN; no operational approval |
+| H005-5 roadmap | Human owner / DECISION_REQUESTED, NOT EXECUTED | Explicit choice A/B/C with exact allowed files/base/tests/stop condition; G-H003-3 CLOSED until scoped approval |
+| H004 scheduled observation | Scheduled workflow / successful completion NOT VERIFIED | Prior scheduled messages/checks are not a completed returned-run proof; this H-005 session is manual |
+
+New decisions requested NONE beyond explicit alternative selection/review; no merge authority. Source revision availability/mapping/calendar/custody, independent reviewer and all G-H003-1/2/3/4 remain unresolved/CLOSED. Keep #13/#14/#17/#18/#19 unmerged; no retarget, provider connection, ingestion, DB work, market-data acquisition, simulated trade, study/replay, code/test edit or trading change. Related K-20261027-005 / ENG-20261027-007 / H005-READINESS-REGISTER. Return exact resulting head/CI in the single existing PR notice; coordination acceptance not presumed.
