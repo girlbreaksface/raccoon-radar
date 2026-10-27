@@ -108,9 +108,10 @@ def evaluate(rows, *, symbol, session_open_et, session_close_et, as_of_et,
             continue  # Future data, including its prices, must not affect this result.
         try:
             start, end = _stamp(row["interval_start_et"]), _stamp(row["interval_end_et"])
-            raw = str(row["raw_timestamp"])
-            if not raw:
-                raise ValueError("Missing raw stamp")
+            raw = row["raw_timestamp"]
+            if not isinstance(raw,str) or not raw.strip():
+                issues.append("INVALID_RAW_TIMESTAMP")
+                continue
             result["timestamp"], result["interval_end_et"] = raw, row["interval_end_et"]
             if _symbol(row["symbol"]) != symbol:
                 issues.append("WRONG_SYMBOL")
