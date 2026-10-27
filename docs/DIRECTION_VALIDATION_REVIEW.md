@@ -25,6 +25,7 @@ Existing tests cover event features versus later prices, publication delay, next
 - Config/engine version, code_revision/freeze_id, dataset hash and split dates make reruns identifiable, but code/freeze/inspection references are caller assertions. A string cannot authenticate a Git tree, prevent retuning or prove a holdout was unseen.
 - Dataset hash identifies full provided JSON representation, including excluded/late data. Feature hashes are only one part of result identity; archive full symbol/session/as-of/config/evidence/schema/code context.
 - Functions do not mutate caller inputs. They do not deep-freeze mutable caller-owned rows against concurrent writers. Use sealed snapshots from the proposed adapter.
+- Replay assumes structurally valid canonical rows; missing/malformed availability/session metadata can raise rather than yield a partial study. The full-input JSON hash rejects nonfinite JSON values even if unavailable for a decision. Raw/invalid evidence must stay in the audit layer; a validated immutable canonical frame is a prerequisite, not something replay authenticates.
 - Naive ET strings are a v1 interface limitation; timezone/fold/calendar and original timestamp meaning are not validated here.
 - Full validation remains synthetic. No real dataset, capture latency, cost model, execution semantics or statistical edge has been established.
 
