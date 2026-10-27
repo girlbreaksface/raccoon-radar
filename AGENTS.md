@@ -39,10 +39,11 @@ Four local stores are normally named `raccoon_history.sqlite3`, `raccoon_discove
 ## Development and validation
 Use Python 3.11 as the existing CI baseline; verify Windows as well as Linux. Offline modules mostly use the standard library. GUI needs Tk; OpenD quote paths lazily import the `moomoo` SDK and use localhost:11111. `zoneinfo` needs system IANA data or `tzdata`, especially on Windows. No dependency lock or supported SDK version is currently established.
 
-Verified baseline: main `0d9015cc3cba0977cafcb952cbb33a11870e2754` includes PR #4 (temporary SQLite fixture closure and Windows/Linux CI) PR #5 (conditional timestamp-evidence wording), PR #8 (deferred error capture), and PR #10 (diagnostic handle closure). Main has 17 offline tests. Draft PR #1 adds five complementary opening-range tests; it is not merged. PRs #6/#7/#9 and ingestion characterization PR #11 remain separate proposals until approved.
+Verified baseline: main `b0ad02dc996b00406e7da08fb33b6382f658ea40` includes merged PRs #1/#2/#4/#5/#6/#7/#8/#9/#10/#11. Its cumulative 69-test guarded suite passes Windows/Linux Python 3.11 CI. Standalone `candle_quality.py`, `candle_quality_report.py`, and `offline_checks.py` are available on this baseline. New direction-engine/validation proposals #13/#14 remain unmerged and must not be wired into the GUI before review.
 
 Default offline checks:
 ```text
+python -B offline_checks.py
 python -B -m unittest discover -v -p "test_*.py"
 python -m compileall -q .
 ```
@@ -54,6 +55,6 @@ Keep pure calculations outside GUI callbacks. Route worker results through queue
 
 The public `fetch_range` handler permits only completed past dates; the range worker itself lacks that defensive restriction. Do not describe normal UI requests as accepting today. Characterize callers and timestamp assumptions before changing either layer.
 
-The guarded runner in PR #9 and standalone candle-quality diagnostics in PR #6 are proposals, not tools available on current main. Once approved, use their documented contracts without treating synthetic coverage as provider verification.
+Use the merged guarded runner and standalone candle-quality diagnostics according to their documented contracts. The guard is not a filesystem sandbox; unguarded handles, deliberate policy replacement, native/UDF code and raw file APIs remain outside its guarantees. Synthetic coverage does not verify provider semantics. Raw provider stamps must not silently become canonical engine intervals.
 
 PRs should state problem, behavior impact, evidence, validation results and limitations, and any data/schema implications. Keep test counts scoped to a verified commit/branch; do not count unmerged tests as part of main. See `docs/PROJECT_ASSESSMENT.md` and `docs/DEVELOPMENT_ROADMAP.md`.
