@@ -1,0 +1,347 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-27 13:15:21 UTC",
+  "evidence_class": "VERIFIED_WITH_EVIDENCE",
+  "method": "Read existing GitHub Actions job logs and merge commit parents; no new code or study execution",
+  "pins": [
+    {
+      "pr": 13,
+      "head": "6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+      "reported_base_sha": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "base_ref": "main",
+      "merge_sha": "d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4"
+    },
+    {
+      "pr": 14,
+      "head": "328135f2695543cde96bb434aaa07201c51c0582",
+      "reported_base_sha": "286eb9b1e7071ebbc83a125dc1062e4723efcad1",
+      "base_ref": "research/deterministic-direction-engine",
+      "merge_sha": "a9f01f8c0b43697f9102e1424809645315b4fc64"
+    },
+    {
+      "pr": 17,
+      "head": "9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3",
+      "reported_base_sha": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "base_ref": "main",
+      "merge_sha": "f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30"
+    },
+    {
+      "pr": 18,
+      "head": "eb683559a0ab685503627612ab22aa16a77066ed",
+      "reported_base_sha": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "base_ref": "main",
+      "merge_sha": "0b4535418ef8f36e2398d0836e59f6b93bb1cc39"
+    }
+  ],
+  "jobs": [
+    {
+      "run": 40496261547,
+      "job": 122162355888,
+      "name": "validate (windows-latest)",
+      "checkout": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "python": "3.11.9",
+      "platform": "Windows",
+      "sqlite": "3.45.1",
+      "source_sha256": {
+        "offline_checks.py": "71220f55c56cc8eab014f9b9f8f6e7e7e701dcb918794b9159cb49648ff5f7ef",
+        "test_candle_ingestion_characterization.py": "64010b63d207fd13dcf963871a6cc26878443569794b0b050516c4113e6b196b"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40496261547/job/122162355888",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T11:27:28.1315488Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b0ad02dc996b00406e7da08fb33b6382f658ea40:refs/remotes/origin/main",
+        "2026-10-27T11:27:29.9544378Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" log -1 --format=%H",
+        "2026-10-27T11:27:29.9545129Z b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T11:27:30.2470489Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T11:27:36.4681464Z Ran 69 tests in 1.658s"
+      ]
+    },
+    {
+      "run": 40496261547,
+      "job": 122162356093,
+      "name": "validate (ubuntu-latest)",
+      "checkout": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "python": "3.11.17",
+      "platform": "Linux",
+      "sqlite": "3.46.1",
+      "source_sha256": {
+        "offline_checks.py": "4eaa86f0a9ed2cde996f6b663b6ddc2fd9c826811373781498c2e5362cc50b8f",
+        "test_candle_ingestion_characterization.py": "7c0bd5e5b22a5455a56b688cd62327b51a71a4b7d837f1ff7176ea5098b9f0c8"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40496261547/job/122162356093",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T11:27:23.6612546Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b0ad02dc996b00406e7da08fb33b6382f658ea40:refs/remotes/origin/main",
+        "2026-10-27T11:27:24.1024590Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-27T11:27:24.1056689Z b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T11:27:24.3193407Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T11:27:26.4604392Z Ran 69 tests in 1.149s"
+      ]
+    },
+    {
+      "run": 40504942948,
+      "job": 122191737325,
+      "name": "validate (ubuntu-latest)",
+      "checkout": "d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4",
+      "merge": "2026-10-27T12:35:24.1810072Z HEAD is now at d1be5dc Merge 6e7d1a8804b14aba9d08302bc5db48f31b0706ae into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "python": "3.11.17",
+      "platform": "Linux",
+      "sqlite": "3.46.1",
+      "source_sha256": {
+        "direction_engine.py": "572c8f290cca3c5a9139f16c0d08c0144e2bdd91c41f5709613c6f42188b418b",
+        "offline_checks.py": "4eaa86f0a9ed2cde996f6b663b6ddc2fd9c826811373781498c2e5362cc50b8f",
+        "test_candle_ingestion_characterization.py": "7c0bd5e5b22a5455a56b688cd62327b51a71a4b7d837f1ff7176ea5098b9f0c8",
+        "test_direction_engine.py": "875ca0e66fe28a92b5749501d08e0d14582b5c5f541914923435f4280ebc9845",
+        "test_direction_math_review.py": "17708d7920865683dd3177fbed2377274bef35a14533da49a17bf253bcefc4eb"
+      },
+      "count": "97",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504942948/job/122191737325",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:35:23.7030602Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4:refs/remotes/pull/13/merge",
+        "2026-10-27T12:35:24.1810072Z HEAD is now at d1be5dc Merge 6e7d1a8804b14aba9d08302bc5db48f31b0706ae into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:35:24.1814450Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-27T12:35:24.1815471Z d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4",
+        "2026-10-27T12:35:24.3326733Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T12:35:26.1858676Z Ran 97 tests in 0.890s"
+      ]
+    },
+    {
+      "run": 40504942948,
+      "job": 122191738058,
+      "name": "validate (windows-latest)",
+      "checkout": "d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4",
+      "merge": "2026-10-27T12:35:33.2190731Z HEAD is now at d1be5dc Merge 6e7d1a8804b14aba9d08302bc5db48f31b0706ae into b0ad02dc996b00406e7da08fb33b6382f658ea40\r",
+      "python": "3.11.9",
+      "platform": "Windows",
+      "sqlite": "3.45.1",
+      "source_sha256": {
+        "direction_engine.py": "10d932eec0d4537b74343bf9ce8df4fa6357897ce417f2d975afa8ce505b095e",
+        "offline_checks.py": "71220f55c56cc8eab014f9b9f8f6e7e7e701dcb918794b9159cb49648ff5f7ef",
+        "test_candle_ingestion_characterization.py": "64010b63d207fd13dcf963871a6cc26878443569794b0b050516c4113e6b196b",
+        "test_direction_engine.py": "9ac007bcb0f7dd2e343a30132c7d2005622e57d5a08220edf02a2e70abc0f2e8",
+        "test_direction_math_review.py": "1c2b39bc096ad05fd05006fd0ff39980c0ed304f704470ac81a5962d9ddd5c82"
+      },
+      "count": "97",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504942948/job/122191738058",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:35:30.6205822Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4:refs/remotes/pull/13/merge",
+        "2026-10-27T12:35:33.2190731Z HEAD is now at d1be5dc Merge 6e7d1a8804b14aba9d08302bc5db48f31b0706ae into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:35:33.2935115Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" log -1 --format=%H",
+        "2026-10-27T12:35:33.3313485Z d1be5dcf7193bfacaa4bb6a53b72c8a1a3b82fd4",
+        "2026-10-27T12:35:33.6156478Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T12:35:39.2145276Z Ran 97 tests in 1.670s"
+      ]
+    },
+    {
+      "run": 40504949071,
+      "job": 122191756215,
+      "name": "validate (windows-latest)",
+      "checkout": "a9f01f8c0b43697f9102e1424809645315b4fc64",
+      "merge": "2026-10-27T12:35:30.6407630Z HEAD is now at a9f01f8 Merge 328135f2695543cde96bb434aaa07201c51c0582 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae\r",
+      "python": "3.11.9",
+      "platform": "Windows",
+      "sqlite": "3.45.1",
+      "source_sha256": {
+        "direction_engine.py": "10d932eec0d4537b74343bf9ce8df4fa6357897ce417f2d975afa8ce505b095e",
+        "direction_validation.py": "cffd14d78f42cc650ed4c94cf7df9d51867febf1a986e84aeedb7f2924919c52",
+        "offline_checks.py": "71220f55c56cc8eab014f9b9f8f6e7e7e701dcb918794b9159cb49648ff5f7ef",
+        "test_candle_ingestion_characterization.py": "64010b63d207fd13dcf963871a6cc26878443569794b0b050516c4113e6b196b",
+        "test_direction_availability_review.py": "74e075b8a9b8958ef1ef8d6bfe7afbf974b801588c18b6defabc7ccd5e58fc91",
+        "test_direction_engine.py": "9ac007bcb0f7dd2e343a30132c7d2005622e57d5a08220edf02a2e70abc0f2e8",
+        "test_direction_math_review.py": "1c2b39bc096ad05fd05006fd0ff39980c0ed304f704470ac81a5962d9ddd5c82",
+        "test_direction_validation.py": "9b553b6c7183a6a3450d7f021a6d13a13119ff490ccfda83b7e975cdfce8a140"
+      },
+      "count": "115",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504949071/job/122191756215",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:35:29.2875358Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a9f01f8c0b43697f9102e1424809645315b4fc64:refs/remotes/pull/14/merge",
+        "2026-10-27T12:35:30.6407630Z HEAD is now at a9f01f8 Merge 328135f2695543cde96bb434aaa07201c51c0582 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-27T12:35:30.7051719Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" log -1 --format=%H",
+        "2026-10-27T12:35:30.7402254Z a9f01f8c0b43697f9102e1424809645315b4fc64",
+        "2026-10-27T12:35:31.0176230Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T12:35:37.4003008Z Ran 115 tests in 2.590s"
+      ]
+    },
+    {
+      "run": 40504949071,
+      "job": 122191756711,
+      "name": "validate (ubuntu-latest)",
+      "checkout": "a9f01f8c0b43697f9102e1424809645315b4fc64",
+      "merge": "2026-10-27T12:35:26.2956416Z HEAD is now at a9f01f8 Merge 328135f2695543cde96bb434aaa07201c51c0582 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+      "python": "3.11.17",
+      "platform": "Linux",
+      "sqlite": "3.46.1",
+      "source_sha256": {
+        "direction_engine.py": "572c8f290cca3c5a9139f16c0d08c0144e2bdd91c41f5709613c6f42188b418b",
+        "direction_validation.py": "a2ff81db6104b2f8d9192b0ba734fd873d0ecdef6c584b1e6a7b4be354146af1",
+        "offline_checks.py": "4eaa86f0a9ed2cde996f6b663b6ddc2fd9c826811373781498c2e5362cc50b8f",
+        "test_candle_ingestion_characterization.py": "7c0bd5e5b22a5455a56b688cd62327b51a71a4b7d837f1ff7176ea5098b9f0c8",
+        "test_direction_availability_review.py": "d479f75673215f8e4a25e32c88cfef60ece8ac55ef294ec22c77256b76f7cf3e",
+        "test_direction_engine.py": "875ca0e66fe28a92b5749501d08e0d14582b5c5f541914923435f4280ebc9845",
+        "test_direction_math_review.py": "17708d7920865683dd3177fbed2377274bef35a14533da49a17bf253bcefc4eb",
+        "test_direction_validation.py": "61d2322d00e044827d971b1b339866edf3382f381381084a6982c56ffdf31d54"
+      },
+      "count": "115",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504949071/job/122191756711",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:35:26.0012943Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a9f01f8c0b43697f9102e1424809645315b4fc64:refs/remotes/pull/14/merge",
+        "2026-10-27T12:35:26.2956416Z HEAD is now at a9f01f8 Merge 328135f2695543cde96bb434aaa07201c51c0582 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-27T12:35:26.3046021Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-27T12:35:26.3047984Z a9f01f8c0b43697f9102e1424809645315b4fc64",
+        "2026-10-27T12:35:26.5151662Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T12:35:30.5071825Z Ran 115 tests in 1.984s"
+      ]
+    },
+    {
+      "run": 40504257980,
+      "job": 122189410997,
+      "name": "validate (windows-latest)",
+      "checkout": "f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30",
+      "merge": "2026-10-27T12:30:28.9595674Z HEAD is now at f406e7c Merge 9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3 into b0ad02dc996b00406e7da08fb33b6382f658ea40\r",
+      "python": "3.11.9",
+      "platform": "Windows",
+      "sqlite": "3.45.1",
+      "source_sha256": {
+        "offline_checks.py": "71220f55c56cc8eab014f9b9f8f6e7e7e701dcb918794b9159cb49648ff5f7ef",
+        "test_candle_ingestion_characterization.py": "64010b63d207fd13dcf963871a6cc26878443569794b0b050516c4113e6b196b"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504257980/job/122189410997",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:30:26.3854540Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30:refs/remotes/pull/17/merge",
+        "2026-10-27T12:30:28.9595674Z HEAD is now at f406e7c Merge 9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3 into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:30:29.0153307Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" log -1 --format=%H",
+        "2026-10-27T12:30:29.0508825Z f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30",
+        "2026-10-27T12:30:29.3088087Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T12:30:35.1137232Z Ran 69 tests in 1.976s"
+      ]
+    },
+    {
+      "run": 40504257980,
+      "job": 122189411592,
+      "name": "validate (ubuntu-latest)",
+      "checkout": "f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30",
+      "merge": "2026-10-27T12:30:20.4435393Z HEAD is now at f406e7c Merge 9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3 into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "python": "3.11.17",
+      "platform": "Linux",
+      "sqlite": "3.46.1",
+      "source_sha256": {
+        "offline_checks.py": "4eaa86f0a9ed2cde996f6b663b6ddc2fd9c826811373781498c2e5362cc50b8f",
+        "test_candle_ingestion_characterization.py": "7c0bd5e5b22a5455a56b688cd62327b51a71a4b7d837f1ff7176ea5098b9f0c8"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40504257980/job/122189411592",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:30:19.8042925Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30:refs/remotes/pull/17/merge",
+        "2026-10-27T12:30:20.4435393Z HEAD is now at f406e7c Merge 9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3 into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:30:20.4457482Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-27T12:30:20.4480395Z f406e7c8b8ab0da80d1fb3f663ad4ae3b6377d30",
+        "2026-10-27T12:30:20.5926411Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T12:30:22.8544364Z Ran 69 tests in 0.683s"
+      ]
+    },
+    {
+      "run": 40507854048,
+      "job": 122201680355,
+      "name": "validate (windows-latest)",
+      "checkout": "0b4535418ef8f36e2398d0836e59f6b93bb1cc39",
+      "merge": "2026-10-27T12:57:14.9757004Z HEAD is now at 0b45354 Merge eb683559a0ab685503627612ab22aa16a77066ed into b0ad02dc996b00406e7da08fb33b6382f658ea40\r",
+      "python": "3.11.9",
+      "platform": "Windows",
+      "sqlite": "3.45.1",
+      "source_sha256": {
+        "offline_checks.py": "71220f55c56cc8eab014f9b9f8f6e7e7e701dcb918794b9159cb49648ff5f7ef",
+        "test_candle_ingestion_characterization.py": "64010b63d207fd13dcf963871a6cc26878443569794b0b050516c4113e6b196b"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40507854048/job/122201680355",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:57:13.6730161Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0b4535418ef8f36e2398d0836e59f6b93bb1cc39:refs/remotes/pull/18/merge",
+        "2026-10-27T12:57:14.9757004Z HEAD is now at 0b45354 Merge eb683559a0ab685503627612ab22aa16a77066ed into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:57:15.0293090Z [command]\"C:\\Program Files\\Git\\bin\\git.exe\" log -1 --format=%H",
+        "2026-10-27T12:57:15.0740838Z 0b4535418ef8f36e2398d0836e59f6b93bb1cc39",
+        "2026-10-27T12:57:15.3125111Z Successfully set up CPython (3.11.9)",
+        "2026-10-27T12:57:20.4623376Z Ran 69 tests in 1.568s"
+      ]
+    },
+    {
+      "run": 40507854048,
+      "job": 122201680855,
+      "name": "validate (ubuntu-latest)",
+      "checkout": "0b4535418ef8f36e2398d0836e59f6b93bb1cc39",
+      "merge": "2026-10-27T12:57:10.2026859Z HEAD is now at 0b45354 Merge eb683559a0ab685503627612ab22aa16a77066ed into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+      "python": "3.11.17",
+      "platform": "Linux",
+      "sqlite": "3.46.1",
+      "source_sha256": {
+        "offline_checks.py": "4eaa86f0a9ed2cde996f6b663b6ddc2fd9c826811373781498c2e5362cc50b8f",
+        "test_candle_ingestion_characterization.py": "7c0bd5e5b22a5455a56b688cd62327b51a71a4b7d837f1ff7176ea5098b9f0c8"
+      },
+      "count": "69",
+      "conclusion": "success",
+      "job_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/40507854048/job/122201680855",
+      "commands": [
+        "python -m compileall -q .",
+        "python -B offline_checks.py"
+      ],
+      "log_excerpts": [
+        "2026-10-27T12:57:09.7663673Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0b4535418ef8f36e2398d0836e59f6b93bb1cc39:refs/remotes/pull/18/merge",
+        "2026-10-27T12:57:10.2026859Z HEAD is now at 0b45354 Merge eb683559a0ab685503627612ab22aa16a77066ed into b0ad02dc996b00406e7da08fb33b6382f658ea40",
+        "2026-10-27T12:57:10.2054441Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-27T12:57:10.2076600Z 0b4535418ef8f36e2398d0836e59f6b93bb1cc39",
+        "2026-10-27T12:57:10.3460460Z Successfully set up CPython (3.11.17)",
+        "2026-10-27T12:57:11.5636120Z Ran 69 tests in 0.563s"
+      ]
+    }
+  ],
+  "limitations": [
+    "Run metadata head_sha is not actual checkout identity; checkout extracted from git fetch and git log lines.",
+    "Platform source-byte SHA256s differ; retain OS-specific values without declaring equivalence or a source change. Git blobs/trees identify repository contents.",
+    "Synthetic offline contracts only; no provider, GUI, source store or study validation."
+  ]
+}
