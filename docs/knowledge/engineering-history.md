@@ -33,3 +33,8 @@ A self-referential commit SHA cannot be embedded in its own content. Pin the res
 - PR #19 changed-file inspection showed only Markdown documentation: handoff and four knowledge records. No code/trading changes in this PR inspection.
 - CI for this revision: UNKNOWN/not audited. No tests executed. Human merge approval NONE; no merge performed. Recipient acknowledgement pending.
 - Outcome: documentation paths verified; ongoing record curation and human review remain open. This follow-up records verification separately from the original setup expectation.
+
+## ENG-20261027-003 — Timestamp correction
+- Recorded-at: 2026-10-27T13:07:23Z, verified UTC clock observation. Author: preservation agent.
+- Corrects ENG-20261027-002 at commit `953b3004d47fd7a1a7d4aba67f8565929e599cd7`: its approximate 13:08 timestamp was entered ahead of the observed clock. Actual exact verification time is UNKNOWN; verification completed before 13:07:23Z in this session.
+- Rationale: preserve the original while explicitly correcting an estimated timestamp; verification results remain unchanged. The original entry is retained.
