@@ -11,7 +11,7 @@ import types
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 def candle(stamp, **overrides):
@@ -204,6 +204,44 @@ class CandleIngestionCharacterizationTests(unittest.TestCase):
                 event, _ = self.run_worker(kind, self.both(rows),
                     now="2026-11-27 17:00:00", start="2026-11-27", end="2026-11-27")
                 self.assertEqual(self.spy_times(event), [r["time_key"] for r in rows])
+
+    def handler(self, start, end):
+        class Clock(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 10, 23, 12, 34, tzinfo=tz)
+
+        path, node = actual_worker("fetch_range")
+        namespace = {"datetime": Clock, "threading": Mock(), "messagebox": Mock()}
+        exec(compile(ast.Module(body=[node], type_ignores=[]), str(path), "exec"),
+             namespace)
+        dashboard = types.SimpleNamespace(candle_busy=False, note=Mock(),
+            range_start=Mock(get=Mock(return_value=start)),
+            range_end=Mock(get=Mock(return_value=end)), _fetch_range_worker=Mock())
+        zones = types.ModuleType("zoneinfo")
+        zones.ZoneInfo = lambda name: timezone.utc
+        with patch.dict("sys.modules", {"zoneinfo": zones}):
+            namespace["fetch_range"](dashboard)
+        return dashboard, namespace
+
+    def test_public_range_handler_rejects_today_and_future_before_worker(self):
+        for end in ("2026-10-23", "2026-10-26"):
+            with self.subTest(end=end):
+                dashboard, namespace = self.handler("2026-10-22", end)
+                namespace["threading"].Thread.assert_not_called()
+                self.assertFalse(dashboard.candle_busy)
+                self.assertIn("completed past dates",
+                    namespace["messagebox"].showerror.call_args.args[1])
+
+    def test_public_range_handler_dispatches_only_completed_dates(self):
+        dashboard, namespace = self.handler("2026-10-21", "2026-10-22")
+        namespace["messagebox"].showerror.assert_not_called()
+        namespace["threading"].Thread.assert_called_once_with(
+            target=dashboard._fetch_range_worker,
+            args=(datetime(2026, 10, 21).date(), datetime(2026, 10, 22).date()),
+            daemon=True)
+        namespace["threading"].Thread.return_value.start.assert_called_once_with()
+        self.assertTrue(dashboard.candle_busy)
 
     def test_request_exception_reports_error_and_closes_context(self):
         for kind in ("single", "range"):
