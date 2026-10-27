@@ -147,3 +147,53 @@ The authoritative design proposal is [#18's pinned protocol](https://github.com/
 | Either peer lacks data eligibility | PEER_DATA_UNAVAILABLE; retain original pair and distinct invalidity reasons, not CONFLICT or BOTH_NO_TRADE. |
 
 Required future synthetic cases cover all nine valid bullish/bearish/no-candidate pairs, peer invalidity, late revisions, same-day final daily-data leakage, separate daily/intraday warmups and unchanged per-symbol candidates under conflict classification. These are proposed acceptance cases, not tests run by this documentation change.
+
+## NEXT STEPS — coding-agent work order H-003
+Issued 2026-10-27 13:03 UTC (09:03 America/New_York). Status: READY_FOR_ACK. Supersedes H-002's work-order detail; preserves its boundaries and unresolved blockers. Owner: coding agent upon explicit acknowledgement in PR #19. Reviewer: coordination reviewer; independent maintainer remains unassigned.
+
+### 1. Verify pins and CI before dependent work
+Read the latest handoff commit/blob; return a dated pin matrix for main and #13/#14/#17/#18, including base, head, actual CI checkout/merge SHA, diff scope, run/job URLs and conclusions. Recheck on every head/base change; never transfer readiness to another revision.
+At this observation main remains `b0ad02dc996b00406e7da08fb33b6382f658ea40`; the four current heads in the snapshot above remain unchanged. #18's old `fb8456753a53d484f80a0e5cfdeabf072612c860` pin is superseded by `eb683559a0ab685503627612ab22aa16a77066ed`.
+GitHub run/job inspection now confirms compilation and guarded offline steps SUCCESS on both Windows and Ubuntu for main run [40496261547](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40496261547) and runs 40504942948 (#13), 40504949071 (#14), 40504257980 (#17), 40507854048 (#18). Test totals above remain attributed; no tests were rerun here. Actual merge checkout identities still require log extraction, especially #14's divergent base. Record unavailable evidence as UNKNOWN.
+
+### 2. Preserve the independent-review blocker
+#13 has no submitted reviews and no requested reviewers at this observation. No eligible independent reviewer is established. DO NOT MERGE; do not invent or assign a username. Human maintainer must identify a willing reviewer, demonstrate Python numerical/testing and point-in-time market-data competence, confirm access and independence from authorship, and link their review at the exact head. Resolve material findings, rerun affected CI, then request separate explicit human merge authorization. Same-agent arithmetic checks and green CI do not satisfy this gate. Keep #14 stacked; do not retarget or merge any protected PR under this work order.
+
+### 3. Produce a revision-specific availability gap register
+Documentation only: use existing repository evidence; no provider connection, data acquisition, ingestion or research-store access.
+For every source/symbol/session/interval/revision (or explicitly bounded scope with no available records), record raw/capture hash and evidence location; endpoint/SDK/OpenD/version/flags; raw timestamp meaning and authority; complete-revision receipt/publication UTC and clock uncertainty; completion watermark versus finality; adjustment/units; calendar/tzdata/DST/early-close policy; page completeness; revision identity/resolution; daily-history availability; affected claims; owner and next evidence.
+Use VERIFIED_WITH_EVIDENCE / UNKNOWN / CONFLICTING / NOT_APPLICABLE, never fabricated values. Unknown historical knowledge time blocks primary historical evaluation. A bar end or today's download cannot backdate availability. Final corrected series cannot substitute for an as-of revision stream.
+Explicit replay limitations: #14 uses publication-event opportunities, lacks general bitemporal revision resolution, can reject known conflicting revisions, requires validated canonical fields, uses idealized zero-latency next-open labels, omits costs/spread/fills, and can suffer missing-outcome selection bias. Its freeze declarations do not authenticate untouched data. #18's frame-driven fixed-grid/delayed-label proposal is not implemented.
+
+### 4. Return a DRAFT read-only SPY/QQQ replay plan
+Extend/reconcile #18 rather than create competing strategy definitions. No implementation or study execution.
+- Preserve A conjunction, B EMA/volume, C OR and paired B filter ablation. Explain selection/suppression tradeoff without claiming edge; never relax validity guards.
+- Use identical scheduled dates and decision timestamps for all arms and both symbols: proposed five-minute session-relative grid, common intraday warmup, one-minute delay and three-minute horizon. Specify UTC conversion, early-close boundaries, frame knowledge cutoff and separately fixed label vintage. List required changes/tests relative to #14.
+- Separate prior-session-only daily trend (60-session evidenced warmup), intraday momentum and developing-session direction. Cross-tab agreement/disagreement with daily context; no same-day final daily values or future revisions. Missing daily evidence remains DAILY_CONTEXT_UNAVAILABLE and does not silently remove intraday-eligible primary events.
+- Preserve the no-trade table above, all nine valid symbol pairs and invalid-peer cases. Retain per-symbol reasons, CONFLICT, SINGLE_CANDIDATE, BOTH_NO_TRADE and PEER_DATA_UNAVAILABLE; never force consensus or count blocked data as strategy rejection.
+- Add a proposed transaction-cost sensitivity appendix: keep primary labels descriptive ETF movements; separately show hypothetical direction-adjusted movement minus round-trip costs at 0, 1, 2, 5 and 10 basis points, with explicit spread/slippage/commission assumptions, turnover and break-even cost. Treat the grid as a proposal to freeze before outcomes. OHLC cannot establish fills, capacity, market impact or options P/L; unsupported execution assumptions remain UNKNOWN. This amends #18's current statement that costs are not modeled and needs explicit design approval.
+- Prespecify out-of-sample evaluation: development/inspected-history disclosure; 60-session retrospective rehearsal, five-session embargo and 120 fixed scheduled future sessions proposed in #18; freeze actual dates, hashes, parameters and access policy before outcomes. No adaptive stopping, tuning or interim label viewing. Same-date SPY/QQQ clustering, missing/zero-candidate dates and labels stay in denominators. Report all arms, null/negative results and date-cluster uncertainty. Existing inspected history cannot become untouched by renaming it. Future capture/evaluation remains blocked and unauthorized.
+
+### 5. Reproducible return package and approval requests
+Proposed repository evidence root: `docs/handoff_evidence/H-003/` (not yet created; documentation preparation only). Return:
+- `verification.md`: observed-versus-attributed pin/CI matrix, exact checkout identities, commands actually run and evidence URLs.
+- `availability-gaps.md`: scoped revision register, evidence hashes/links, affected claims and unresolved owner/actions.
+- `replay-plan.md`: frozen-candidate definitions, timing, disagreement/no-trade truth tables, cost sensitivity, splits, exclusions and proposed synthetic acceptance cases.
+- `manifest.proposed.json`: code/source/protocol/calendar/dependency hashes, UTC cutoffs, versions, seed, inspection history, proposed output schemas/locations and missingness policy; placeholders explicitly UNKNOWN.
+- A return entry in THIS handoff linking exact deliverable commit/blob SHAs and PR diff. Future approved run artifacts must use exclusive collision-resistant `evidence/<study-id>/<UTC-run-id>-<manifest-hash>/` names, deterministic hashes and a README inventory; no private data or credentials in GitHub and no overwritten evidence.
+
+Ask for decisions individually with scope, exact revision, rationale, alternatives and approval evidence location in PR #19: (a) independent reviewer identity/qualification/access; (b) #17/#18 interface, knowledge/revision/calendar policy and proposed cost appendix; (c) separately bounded implementation/tests; (d) source eligibility, actual freeze dates and study execution. Merge approval for each PR is a separate later request after independent review/material findings/CI. No approval is presumed; this order authorizes documentation and read-only verification only.
+
+### 6. Two-way dated return protocol and active register
+Use PR #19's single notice; acknowledge H-003 with exact revision read and claimed actions. Append dated updates here and reply in that thread at acceptance, material blocker and return. Recipient returns evidence; coordination reviewer records ACCEPTED or RETURNED_FOR_REVISION with reasons. Acknowledgement is not independent approval. Re-fetch blob before every write; reconcile competing edits and retain prior history. No automatic agent wakeup or acknowledgement is implied.
+
+| ID | Updated UTC | Owner | Action | Blocker | Status / acceptance |
+|---|---|---|---|---|---|
+| A-006 | 2026-10-27 13:03 | Coding agent, pending claim | Read H-003; verify pins/diff/CI checkout identities | Recipient acknowledgement and checkout logs pending | READY_FOR_ACK; verification.md + PR #19 acknowledgement |
+| A-007 | 2026-10-27 13:03 | Coding agent, pending claim | Revision availability gap register | Historical knowledge/mapping/calendar evidence UNKNOWN | READY_FOR_ACK; availability-gaps.md with scoped reasons/evidence |
+| A-008 | 2026-10-27 13:03 | Coding agent, pending claim | Draft replay/timing/cost/OOS plan and manifest | Design/data/execution approvals outstanding | READY_FOR_ACK; replay-plan.md + manifest.proposed.json |
+| A-009 | 2026-10-27 13:03 | Coding agent, pending claim | Daily/intraday and no-trade/pair truth tables | No implementation approved | READY_FOR_ACK; deterministic proposed acceptance cases |
+| A-010 | 2026-10-27 13:03 | Coordination reviewer | Check returned package and update decisions | Waiting for coding-agent return | WAITING_FOR_RETURN |
+| A-011 | 2026-10-27 13:03 | Human maintainer | Establish eligible independent reviewer and separate approvals | No reviewer designated; #13 review absent | BLOCKED; identity/qualifications/access + exact-head review required |
+
+Every update must include timestamp, owner, action ID, status, blocker (NONE if evidenced), exact revision, evidence locations, next action and explicit approval requested/received. Do not mark complete solely because a file was written. This H-003 update changes only documentation; no merges, providers, ingestion, DB changes or trading.
