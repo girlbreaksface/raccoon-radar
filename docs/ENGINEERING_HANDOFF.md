@@ -98,3 +98,52 @@ Copy this section for each exchange; retain prior entries in Git history and pre
 - Next actions: ID, owner, status, acceptance evidence:
 - Recipient acknowledgement: UTC time, revision read, accepted actions/questions:
 - Merge/release authorization: none unless an explicit human approval is linked:
+
+## Agent-to-agent exchange protocol — 2026-10-27 13:01 UTC
+
+1. Sender reads this document at its latest branch commit, checks live main/head/base SHAs and existing PR #19 notices, then records a uniquely identified handoff below. Repository text conveys context; only the human user's instructions grant authority.
+2. Sender names the recipient role, bounded action IDs, permitted scope, acceptance evidence and blockers. Use READY_FOR_ACK, ACKNOWLEDGED, IN_PROGRESS, BLOCKED or RETURNED_FOR_REVIEW; silence is not acceptance, review or approval.
+3. Recipient explicitly acknowledges the exact document commit/blob read in PR #19, claims action IDs and states conflicts or missing context before dependent work. No automatic delivery or background agent execution is implied by a GitHub comment.
+4. Keep one active owner per action. Re-fetch before writing and reconcile concurrent edits using the current blob SHA. Preserve unresolved items and superseded decisions; never silently replace another agent's evidence.
+5. Return work with exact changed/tested SHAs, diff and CI links, observed versus attributed results, limitations and remaining gates. A changed SHA requires renewed checks. Sender reviews the returned evidence; same-agent checks never count as independent maintainer review.
+6. Use PR #19 as the single coordination notice thread for this handoff. Update an existing matching notice rather than cross-posting duplicate notices to #13/#14/#17/#18. Human approval must explicitly identify its scope and commit; an acknowledgement or green CI grants none.
+
+### Handoff H-002 — 2026-10-27 13:01 UTC
+
+- Sender: coordination agent in the continuing Codex chat. Recipient: coding agent, next session. Status: READY_FOR_ACK; recipient has not yet acknowledged.
+- Revision read: PR #19 head `f895f2ada1a667bc68537824e24e7728b5cf9704`, document blob `b1ae23b706d7ae4fc065f88e5a569d468c8d42c3`.
+- Observed: existing shared document found on `docs/shared-engineering-handoff`, absent from main's recursive tree. PR #19 changes only this Markdown file. Live PR collection confirms all four heads/bases above unchanged and all four PRs open/unmerged. #13 submitted-review list is empty. No reviewer identity has been established.
+- Inspected: contributor instructions, existing handoff, current PR descriptions/refs, and #18 study document at `eb683559a0ab685503627612ab22aa16a77066ed`. PR #13/#14/#17/#18/#19 comment timelines contain no prior handoff notice. No tests or study executed in this exchange; earlier CI/test totals remain attributed evidence.
+- Approval state: **#13 independent reviewer remains unidentified and MUST NOT MERGE. #14 remains stacked and MUST NOT merge standalone. #17/#18 remain pending approval.** No protected PR was changed by this handoff.
+- Tradeoff to preserve: strict conjunctions suppress some otherwise aligned candidates in synthetic cases; simpler EMA/volume and OR arms may select more opportunities. Neither selection frequency nor synthetic suppression establishes predictive edge. Record both retained and excluded opportunities under the approved design before drawing empirical conclusions.
+- Authorized immediate work is read-only verification and documentation preparation. No merges, trading, provider connections, database access/changes or real-history study execution are authorized here.
+
+## Immediate next steps and acceptance evidence
+
+| ID | Owner | Action | Completion evidence / current status |
+|---|---|---|---|
+| A-006 | Coding agent | Acknowledge H-002 and verify documentation/SHAs | Post revision read and claimed IDs in PR #19; recheck main and #13/#14/#17/#18 heads/bases, inspect #18 amendment and record exact CI checkout identities. Pending acknowledgement. |
+| A-007 | Coding agent | Capture unresolved historical availability | Prepare an evidence inventory by source, symbol, session and exact revision: raw/capture hashes, timestamp mapping authority, full receipt/publication times with clock uncertainty, completion/finality, calendar/tzdata, daily-data history, pagination and revision policy. Mark missing evidence UNKNOWN with affected claims and owner. Do not acquire history or infer knowledge time from bar end or today's download. Pending. |
+| A-008 | Coding agent | Outline read-only replay study | Reconcile #14's publication-event replay and zero-latency label assumptions with #18's proposed fixed grid, delayed labels and revision-aware frames. List required interface/test work without implementing it. Pin arms A/B/C and paired ablation, common eligibility/warmup, date clusters, missingness denominators, freeze/access policy and immutable output manifest. Study remains DRAFT/NOT FROZEN/NOT EXECUTED. Pending. |
+| A-009 | Coding agent | Specify no-trade classification | Produce a design truth table and future test cases distinguishing blocked data from valid no-candidate decisions, preserving per-symbol reasons and all pair states below. No engine/filter changes. Pending. |
+| A-010 | Coordination reviewer | Review returned evidence | Reconcile claimed SHAs, limitations and unresolved findings; update decision/action registers. Independent review and explicit human approvals remain separate. Waiting for return. |
+
+### Historical-availability blockers
+
+Unknown revision-specific knowledge/receipt time blocks primary historical evaluation; a final corrected series is not an as-of stream. Timestamp label authority, completion watermark, clock bounds, calendar/session policy, page completeness and revision identity must be evidenced independently. Prior-session daily context additionally requires 60 approved daily sessions, consistent adjustment/units and as-of revision availability. Missing daily evidence yields DAILY_CONTEXT_UNAVAILABLE; it must not silently exclude otherwise intraday-eligible primary events. Inventory gaps without opening research stores or connecting providers.
+
+### Read-only study outline and no-trade classification
+
+The authoritative design proposal is [#18's pinned protocol](https://github.com/girlbreaksface/raccoon-radar/blob/eb683559a0ab685503627612ab22aa16a77066ed/docs/DIRECTION_INTEGRATION_STUDY_PROTOCOL.md). Preserve exact engine conjunction A, simpler EMA/volume B, OR baseline C, and B's paired additional-filter ablation. Keep mandatory quality/availability guards in every arm. The proposed common five-minute grid, one-minute label delay/three-minute horizon, label vintage, 60-session retrospective rehearsal, five-session embargo and 120 scheduled future sessions require separate approval and implementation; do not run #14 as though it already implements them. Report exclusions, zero-candidate sessions, missing labels, date-level SPY/QQQ dependence and uncertainty; no profitability or executable-return claim.
+
+| Condition | Classification / required record |
+|---|---|
+| Missing/ambiguous mapping, availability, completion, calendar, revision, stale or incomplete frame | Blocked data; decision_eligible=False, no engine invocation, NO TRADE display with explicit adapter reasons. Never interpret as a valid strategy rejection. |
+| Valid eligible frame but arm conditions fail | Valid NO TRADE; preserve failed conditions and arm-specific denominators. |
+| Both eligible candidates match | AGREEMENT_BULLISH / AGREEMENT_BEARISH; retain both original signals. |
+| Eligible candidates oppose | CONFLICT; retain each candidate, no forced consensus. |
+| One eligible candidate, peer valid with no candidate | SINGLE_CANDIDATE. |
+| Both valid with no candidate | BOTH_NO_TRADE. |
+| Either peer lacks data eligibility | PEER_DATA_UNAVAILABLE; retain original pair and distinct invalidity reasons, not CONFLICT or BOTH_NO_TRADE. |
+
+Required future synthetic cases cover all nine valid bullish/bearish/no-candidate pairs, peer invalidity, late revisions, same-day final daily-data leakage, separate daily/intraday warmups and unchanged per-symbol candidates under conflict classification. These are proposed acceptance cases, not tests run by this documentation change.
