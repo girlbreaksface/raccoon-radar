@@ -339,3 +339,34 @@ Immutable H-005 evidence package e1d6e52eb82b79d31ff7313737c83ef6e9f09733; six M
 | H004 scheduled observation | Scheduled workflow / successful completion NOT VERIFIED | Prior scheduled messages/checks are not a completed returned-run proof; this H-005 session is manual |
 
 New decisions requested NONE beyond explicit alternative selection/review; no merge authority. Source revision availability/mapping/calendar/custody, independent reviewer and all G-H003-1/2/3/4 remain unresolved/CLOSED. Keep #13/#14/#17/#18/#19 unmerged; no retarget, provider connection, ingestion, DB work, market-data acquisition, simulated trade, study/replay, code/test edit or trading change. Related K-20261027-005 / ENG-20261027-007 / H005-READINESS-REGISTER. Return exact resulting head/CI in the single existing PR notice; coordination acceptance not presumed.
+
+
+## H-006 — authorized test-only reproduction return — 2026-10-27 19:43:15 UTC
+Owner coding agent -> coordination reviewer; STATUS REPRODUCED_FAILURE / RETURNED_FOR_REVIEW. Direct human authorization in this chat now received (“acknowledge that authorization and return the isolated test results”), resolving the prior direct-confirmation blocker ONLY for the [bounded H-006 artifact](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6448303594). Not blanket G-H003-3/fix authority. Starting coordination head 3c70a446fec51b6642264893b4b26eb0ea2867e9; handoff blob 53a276313ec72003a8a4e763b1923dbfb02d1a26 and knowledge index 829690697309206edfd391cac932454f5edc5a2b re-read; latest blobs fetched before append.
+
+H-005 [coordination review 6448015492](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6448015492) accepted readiness documentation only. Prior H-005 pending-review status superseded as DOCUMENTATION only; no policy/fix/merge authority. User confirmation, not a repository report of another chat, enabled H-006 test work.
+
+New isolated branch test/h006-extreme-volume-ratio from pinned #13 6e7d1a8804b14aba9d08302bc5db48f31b0706ae. [Draft PR #20](https://github.com/girlbreaksface/raccoon-radar/pull/20), test head b4f0d14b9b83500337d5dd6375bcbf279142c6ba, adds ONLY test_extreme_numeric_output.py (blob c5c8c5aa5d611396696ec7afa11394aa021723c3). **NOT MERGE READY, failing evidence retained**. No engine/production/test-existing-file edits, expectedFailure/skip/threshold weakening.
+
+Results: 25 finite coherent SYNTHETIC intervals, first 24 volumes 1e-200, last 1e200; prices open=close=.01+i*.0001, high/low +/- .000025. Valid current numeric schema, not economically realistic/provider evidence. baseline=1e-200; volume_ratio=float positive infinity; sole nonfinite path $.observations.volume_ratio; strict json.dumps(...,allow_nan=False) raises ValueError. Extreme fixture signal NO TRADE, data quality READY (not INVALID); don't claim this fixture emitted a candidate. Benign volumes100/200 yield ratio2.0 and valid strict JSON. Inputs preserved; invalid/incomplete controls NO TRADE.
+
+Local Windows Python3.12.14: completed pinned baseline97 PASS; targeted4 tests/2 FAIL; full101/2 FAIL; compile PASS. A final exact-source/test-byte rerun again 101/2 FAIL; all44 original Python/AGENTS blobs and new test blob verified unchanged. Exact pinned full-suite local log SHA256 35debf8f731524553df1a8c3a82bc87a0dc8b1c03d3b6c86079a0c9f9da5df52 (101 in0.682s). Earlier snapshot assembly mistakes (missing dashboard AST source; two97/28-error attempts) separately preserved, corrected via exact-byte pinned fetch; not engine defect evidence.
+
+Cross-platform [CI40570969484](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40570969484): Ubuntu Python3.11.17 [job122424732818](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40570969484/job/122424732818) and Windows Python3.11.9 [job122424733054](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40570969484/job/122424733054) both compile PASS, guarded suite101 tests/2 FAIL; original97 plus2 controls pass. Actual checkout89512d771479eb79869e3d8df69352174e46ce4b merges exact test head into pinned #13. Failure is deliberately visible, not merge readiness.
+
+Immutable coordination evidence package a689fb61c8c0df8f85800a28b90de031a17b79d7; exact readback and three JSON parses PASS. Nonfinite observations are represented as string repr ONLY in the strict-JSON archive; original engine float type proven by test paths and failure. This archive conversion is not a fix/raw-source rewrite.
+| Evidence | Creation commit | Verified Git blob |
+|---|---|---|
+| [results.md](https://github.com/girlbreaksface/raccoon-radar/blob/a689fb61c8c0df8f85800a28b90de031a17b79d7/docs/handoff_evidence/H-006/results.md) | 87641e9893badeba672210792afbd4ceac9d06c6 | 5e64974aed389ba9974bd3d7f7c00deda408e01c |
+| [observations.synthetic.json](https://github.com/girlbreaksface/raccoon-radar/blob/a689fb61c8c0df8f85800a28b90de031a17b79d7/docs/handoff_evidence/H-006/observations.synthetic.json) | 0003a4354a5e1d789e6df3b16c4ad73334429bfb | 6efcf600164400f5b34b842816871a4c7bf605ee |
+| [ci-evidence.json](https://github.com/girlbreaksface/raccoon-radar/blob/a689fb61c8c0df8f85800a28b90de031a17b79d7/docs/handoff_evidence/H-006/ci-evidence.json) | d44f19e4c11dbea257262c9b48284a68749b9eee | 8ac9083ed4e8e933b81cd72566cc3e57a081fc88 |
+| [local-log-summaries.json](https://github.com/girlbreaksface/raccoon-radar/blob/a689fb61c8c0df8f85800a28b90de031a17b79d7/docs/handoff_evidence/H-006/local-log-summaries.json) | a689fb61c8c0df8f85800a28b90de031a17b79d7 | 7cdf671a22b56baeaef5e8d06fd8855bcfdb014d |
+
+| Action | Status / next owner | Gate |
+|---|---|---|
+| H006-TEST | REPRODUCED_FAILURE / RETURNED_FOR_REVIEW | Test-only exception used, not general implementation approval |
+| H006-EVIDENCE | Exact artifact/CI fixture provenance returned | Coordination acceptance pending; no fix inferred |
+| H006-FIX | NOT AUTHORIZED | Separate human scope required, preserve normal behavior and failing evidence |
+| A-011 independent reviewer | UNKNOWN / human maintainer | No code-review or merge gate closed by reproducer |
+
+Existing guarded-suite disposable synthetic DB fixtures only; new test uses no DB/network and no user store touched. No #14 historical replay/study, provider/market data acquisition, simulated trade/order, ingestion, GUI, thresholds/indicators/strategies, persistence, merge or retarget. Protected #13/#14/#17/#18 heads unchanged; coordination docs are updated only as required for return. Related K-20261027-006 / ENG-20261027-008 / H006-NUMERIC-OUTCOME. Next: coordinator accepts evidence; owner separately chooses whether/how to authorize a minimal repair. All other G-H003-1/2/4 and merge/source/custody permissions remain unresolved.
