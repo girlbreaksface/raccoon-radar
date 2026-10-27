@@ -1,32 +1,32 @@
 # Pinned proposal validation and sequential integration checklist
 
-Main baseline: 342c7389b735188ddf75867c1f62aca4f8176bb0 (PR #4 and PR #5 merged). This PR changes only CI configuration and documentation. It does not merge any proposal or run user-store migrations.
+Main baseline: 0d9015cc3cba0977cafcb952cbb33a11870e2754 (PRs #4/#5/#8/#10 merged by maintainers). This PR changes only CI configuration and documentation. It does not merge any proposal or run user-store migrations.
 
 ## Combined Windows/Linux evidence
 The additional path-filtered workflow checks out exact commits, assembles an allowlisted source overlay under RUNNER_TEMP and runs the guarded suite there. It never changes main or a real project database. No optional broker SDK or provider service is used. GitHub checkouts acquire source before the offline test guard starts.
 
 Pins:
-- baseline: 342c7389b735188ddf75867c1f62aca4f8176bb0
-- opening: 5aa151e3c61d8a25c1cd2865cbc3bf1fd2c74003
-- quality: a7eb6c3e766d8c16dcdb05bcef413ab03df0138c
+- baseline: 0d9015cc3cba0977cafcb952cbb33a11870e2754
+- opening: 60bf76995fd9ab5bb319f38fca15f6f3b3a85514
+- quality: c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf
 - dashboard: 359619777ca120937f564adfa65be123c23c7cfb
-- offline: 1dffeb45198050e04d609f2dae46e31386e5d338
+- offline: 5874e1f266595b020ee1413b00f5e03d0d233e15
 - diagnostics: 1cd4f7d32ac32973336f6ef7b6e296c462ab938a
-- ingestion: ad06befd55ad9b79fbcbf69a787dabd329672062
+- ingestion: 106be9d2872adac16cd1c07cf18d4fb1eb04c75d
 
-Expected combined inventory: 10 main + 5 opening-range + 10 quality-audit + 5 CSV-report + 4 callback + 8 initial offline-guard + 9 SQL-escape + 3 diagnostic-closure + 15 ingestion-characterization = **69 tests**. Local Windows/Python 3.12.14 passes all 69 through the guarded runner. Both Windows/Linux Python 3.11 results are recorded in the PR after CI completes. Ordinary CI on this validation branch still runs ten main tests; the separate pinned integration job runs 69.
+Expected combined inventory: 17 main (including callback/closure) + 5 opening-range + 10 quality-audit + 5 CSV-report + 8 initial offline-guard + 9 SQL-escape + 15 ingestion-characterization = **69 tests**. Local Windows/Python 3.12.14 passes all 69 through the guarded runner. Both Windows/Linux Python 3.11 results are recorded in the PR after CI completes. Ordinary CI on this validation branch still runs 17 main tests; the separate pinned integration job runs 69.
 
 This is a reproducible compatibility snapshot, not a general filesystem sandbox or authorization to merge. Pins deliberately do not float. Refresh them and rerun after a proposal changes; do not use old green runs to approve a new head. The workflow is path-filtered to its own config/document, plus manual dispatch, so it is not a claim that future main is continuously checked against new proposals.
 
 ## Sequential preparation requested by maintainers
-No explicit merge approval has been recorded in this session. These are review checkpoints, not completed merge steps.
+No merge was performed by this agent. Maintainers merged #8 and #10 during this session; their respective main push CI passed. The remaining sequence is #6 then #7, each requiring explicit approval and renewed exact-head checks.
 
 | Order | PR | Session-reviewed head | Expected focused diff |
 |---|---|---|---|
-| 1 | #8 | 359619777ca120937f564adfa65be123c23c7cfb | One callback-message capture line + fake-provider regression tests |
-| 2 | #10 | 1cd4f7d32ac32973336f6ef7b6e296c462ab938a | Explicit diagnostic connection closure + temporary-store regression tests |
-| 3 | #6 | a7eb6c3e766d8c16dcdb05bcef413ab03df0138c | Standalone quality audit/CSV report, tests and documentation; no GUI/ingestion integration |
-| 4 | #7 | c04a7fe07474b3dc2b99a135148aac4ea9022d7d | Persistence write inventory and proposed provenance strategy only |
+| 1 (maintainer merged; main CI green) | #8 | 359619777ca120937f564adfa65be123c23c7cfb | One callback-message capture line + fake-provider regression tests |
+| 2 (maintainer merged; main CI green) | #10 | 1cd4f7d32ac32973336f6ef7b6e296c462ab938a | Explicit diagnostic connection closure + temporary-store regression tests |
+| 3 | #6 | c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf | Standalone quality audit/CSV report, tests and documentation; no GUI/ingestion integration |
+| 4 | #7 | e627de927d9d0bf4ff171a6141c0a1f25d8e9841 | Persistence write inventory and proposed provenance strategy only |
 
 PR #6 expanded since the earlier audit-only review; its CSV CLI and no-overwrite behavior require approval at the newer head, not the earlier commit.
 
