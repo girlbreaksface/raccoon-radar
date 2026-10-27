@@ -47,15 +47,15 @@ def replay_session(rows, *, symbol, session_open_et, session_close_et, interval_
     symbol = str(symbol).strip().upper().removeprefix("US.")
     close = _stamp(session_close_et)
     cutoff = _stamp(outcome_as_of_et) if outcome_as_of_et else close
-    known_times = sorted({_stamp(row["available_at_et"]) for row in rows
-                          if _stamp(row["available_at_et"]) <= cutoff})
+    eligible_rows = [row for row in rows if _stamp(row["available_at_et"]) <= cutoff]
+    known_times = sorted({_stamp(row["available_at_et"]) for row in eligible_rows})
     by_start = defaultdict(list)
-    for row in rows:
+    for row in eligible_rows:
         by_start[_stamp(row["interval_start_et"])].append(row)
     snapshots, events = [], []
     next_entry_allowed = None
     for known in known_times:
-        snapshot = evaluate(rows,symbol=symbol,session_open_et=session_open_et,
+        snapshot = evaluate(eligible_rows,symbol=symbol,session_open_et=session_open_et,
             session_close_et=session_close_et,as_of_et=known.strftime("%Y-%m-%d %H:%M:%S"),
             interval_evidence=interval_evidence,config=config)
         snapshots.append(snapshot)
