@@ -1,0 +1,13 @@
+# Synthetic candle-quality diagnostics
+New API: `candle_quality.audit_candles(rows, expected_start="09:30", expected_end="15:59")`. Bounds are inclusive raw-stamp hypotheses, explicitly supplied by the caller. Use 09:31–16:00 only as a separately labeled candidate; use a verified early-close schedule when applicable. This module does not choose a timestamp convention or query an exchange calendar.
+
+The function is pure and accepts candle dictionaries in memory; no database/file/network API or automatic repair is used. It reports invalid row indexes/reasons, duplicate timestamp counts, out-of-order transitions, outside-bound rows, missing valid minutes, expected counts, valid unique counts and per-symbol/date coverage. Symbols are normalized only in diagnostic grouping, never written back. Zero volume is permitted; prices must be finite and positive, volume finite and nonnegative, and OHLC ordered. Unparseable symbol/timestamp records are global invalid rows and cannot be attributed to a session. Entirely absent symbol-days require a caller-supplied schedule outside this API.
+
+Coverage means each declared minute has at least one valid row. It does not establish uniqueness, absence of bad duplicates, trading-day identity, completed candles, correct provider interval semantics or predictive value. The separate quality_ok flag additionally requires no invalid OHLCV, duplicate, ordering or outside-bound issues in that session. Global invalid rows must always be reviewed. Raw timestamps and inputs remain unchanged.
+
+## Synthetic verification
+Ten new tests written before implementation cover full/partial coverage, an interior gap, conflicting duplicates replacing a minute, NaN/infinity/nonpositive prices/negative or malformed volume/invalid bounds, zero volume, malformed input, ordering, outside rows, symbols/dates, explicit early-close bounds, deterministic reports, input preservation and empty input. Initial run failed because the new API did not exist. After implementation all 15 branch tests and compilation pass on Windows/Python 3.12.14. CI results are recorded in the PR. This is new diagnostic behavior, not a change to market calculations or provider ingestion.
+
+Run: `python -B -m unittest discover -v -p "test_*.py"` and `python -m compileall -q .`. No production research data is needed. The existing five persistence tests use only disposable temporary fixtures. PR #1 and PR #5 remain separate review work; do not treat unmerged tests as part of this branch's CI.
+
+No real research store was opened, migrated, modified or deleted. No provider semantics, live feed, GUI or trading execution was tested.
