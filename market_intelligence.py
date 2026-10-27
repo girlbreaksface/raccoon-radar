@@ -54,7 +54,10 @@ def calculate(rows):
             actual={b[0]-timedelta(minutes=1) for b in candidate}
             result[f'candidate_or{mins}']=({'high':max(b[2] for b in candidate), 'low':min(b[3] for b in candidate)}
                 if actual==expected and len(candidate)==mins else None)
-        result['timestamp_convention']='Provider raw stamps retained. End-of-minute labeling is STRONGLY SUGGESTED by 390-bar session; not independently verified.' 
+        result['timestamp_convention']=(
+            'Provider raw stamps retained. End-of-minute labeling is STRONGLY SUGGESTED by 390-bar session; not independently verified.'
+            if full_end_labeled else
+            'Provider raw stamps retained. Timestamp convention is UNVERIFIED: selected session does not contain 390 unique consecutive 1-minute bars from 09:31 to 16:00.')
         result['first_five_timestamps']=[b[0].strftime('%H:%M:%S') for b in bars[:5]]
         result['last_five_timestamps']=[b[0].strftime('%H:%M:%S') for b in bars[-5:]]
         # Diagnostic only: shifted window is deliberately NOT presented as an opening range.
