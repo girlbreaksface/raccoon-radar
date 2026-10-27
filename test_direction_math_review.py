@@ -115,6 +115,15 @@ class DirectionMathReviewTests(unittest.TestCase):
         self.assertTrue(first["observations"]["above_opening_range"])
         self.assertTrue(second["observations"]["above_opening_range"])
 
+    def test_unknown_or_non_string_raw_stamp_cannot_become_a_candidate(self):
+        for raw in (None,0,[],""," "):
+            with self.subTest(raw=raw):
+                rows = candles()
+                rows[-1]["raw_timestamp"] = raw
+                result = run(rows)
+                self.assertEqual(result["signal"],"NO TRADE")
+                self.assertIn("INVALID_RAW_TIMESTAMP",result["reasons"])
+
     def test_result_mutation_does_not_mutate_inputs_or_later_snapshots(self):
         rows = candles()
         before = copy.deepcopy(rows)
