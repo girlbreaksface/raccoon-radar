@@ -1,12 +1,13 @@
 # Project assessment
-Updated against main 342c7389b735188ddf75867c1f62aca4f8176bb0. Original assessment: 2026-10-26 (America/New_York). Scope: source review and offline synthetic verification, not an audit of private research data.
+Updated against main 0d9015cc3cba0977cafcb952cbb33a11870e2754. Original assessment: 2026-10-26 (America/New_York). Scope: source review and offline synthetic verification, not an audit of private research data.
 
 ## Current verified baseline
 - PR #4 is merged: explicit migration-fixture connection closure; Python 3.11 CI on Windows and Ubuntu.
 - PR #5 is merged: timestamp-evidence wording depends on the existing full-session predicate; insufficient data says UNVERIFIED.
-- Main contains 29 top-level Python files and ten tests (five volume-discovery, five timestamp-wording). Local Windows/Python 3.12.14 passes all ten; main's merged fixes also passed Windows/Linux CI.
-- Draft PR #1 adds five opening-range tests. Combined with current main, all 15 pass locally; refreshed PR #1 runs the combined set on Windows/Linux CI. Results and readiness are recorded in that PR.
-- Draft PR #2 is documentation only. PRs #6–#10 and #11 remain proposals; they are not silently treated as merged functionality.
+- PRs #8 and #10 were merged by a maintainer during this sprint: deferred provider error capture and explicit read-only diagnostic handle closure. CI on main after each merge passed Windows/Linux.
+- Main contains 31 top-level Python files and 17 tests (five volume-discovery, five timestamp-wording, four provider-callback and three diagnostic-closure). These merged fixes pass Windows/Linux CI.
+- Draft PR #1 adds five opening-range tests. Combined with current main, all 22 pass locally; refreshed PR #1 runs the combined set on Windows/Linux CI. Results and readiness are recorded in that PR.
+- Draft PR #2 is documentation only. PRs #6/#7/#9 and #11 remain proposals; they are not silently treated as merged functionality.
 
 The initial report's four-pass/one-error migration result and unconditional wording observation were valid before PRs #4/#5. They are historical findings, not current failures. No user database, real provider response, GUI or trading execution has been validated by these fixes.
 
@@ -47,10 +48,10 @@ Provider inspection tools compare raw historical/recent endpoints, selected open
 | Ingestion validation | Float conversion permits invalid OHLC/NaN raw rows | Characterized in #11; diagnostic reporting before any calculation-policy change |
 | Persistence provenance | Candle upserts and case edits replace observations; reads may initialize/migrate | Source-only audit/design in #7; no migration authorized |
 | Archive completeness | Portable archive omits fundamentals and some active source modules | Unresolved; full manifest/recovery tests on disposable copies needed |
-| Provider error callback | Deferred lambda captures cleared exception variable | Tested one-line fix proposed in #8; not merged |
-| Diagnostic handle lifetime | mode=ro connection context does not explicitly close handle | Success/error/missing-file tests and fix proposed in #10; not merged |
+| Provider error callback | Deferred lambda captures cleared exception variable | Resolved on main by #8 with four fake-provider regression tests |
+| Diagnostic handle lifetime | mode=ro connection context does not explicitly close handle | Resolved on main by #10 with three temporary-store regression tests |
 | Quality visibility | Gaps, duplicates, invalid rows and partial coverage need explicit diagnostics | Pure standalone audit proposed in #6; caller bounds remain hypotheses |
-| Offline safety | Tests should not reach project stores, network or child processes | Guarded runner/release checklist in #9; accidental-side-effect detector, not hostile-code sandbox |
+| Offline safety | Tests should not reach project stores, network or child processes | Managed-connection/SQL-authorizer runner proposed in #9 after ATTACH/VACUUM escapes were reproduced; precise limits exclude pre-existing handles and malicious/native/file API behavior |
 | Detector outcomes | Endpoint outcomes can bridge missing interior minutes; rounded recomputation can differ | Decide documented outcome coverage/precision contracts, then regression tests |
 | Validation consistency | Finite/positive OHLCV checks, symbol normalization, ordering and session isolation vary by module | Characterize before changing calculation results |
 | Prior/freshness summaries | Prior duplicates/partial observed dates and global-symbol staleness can mislead | Add regression coverage and per-symbol evidence status |
