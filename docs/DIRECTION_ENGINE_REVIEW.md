@@ -18,6 +18,7 @@ Other new checks demonstrate positive price-scale invariance and long/short refl
 | Default rule | Verified effect / technical risk | Reviewer decision |
 |---|---|---|
 | Session-reset SMA-seeded EMA9/21 | Differs from charts carrying premarket/prior-session history; early-session values are seed-dependent | Approve session anchor before comparing with external charts |
+| Fast EMA slope check | Given EMA_t = alpha*C + (1-alpha)*EMA_prev with 0<alpha<1, C>EMA_t implies EMA_t>EMA_prev (and the inverse for bears), apart from floating-point ties. This is algebraically redundant, not independent confirmation | Do not count it as another piece of evidence; no formula simplification in this review |
 | 22-bar minimum | First default eligible snapshot is 09:52 for a 09:30 session. EMA21 itself is available at bar 21; current implementation deliberately requires an additional guard bar | Accept this delay or propose a separately tested 21-bar policy; no silent relaxation here |
 | Opening-range outside + EMA alignment + proxy alignment | Multiple correlated price-location filters. A synthetic aligned/up-volume five-bar breakout inside a wide opening range is suppressed | Decide continuation-only scope; do not describe filters as independent confirmations |
 | Volume >=1.2x previous 20 | Constant-volume trend is suppressed at 1.2x and admitted at a predeclared 1.0x synthetic comparison; no time-of-day adjustment | Pre-register sensitivity analysis; no useful-signal/performance claim from fixture counts |
