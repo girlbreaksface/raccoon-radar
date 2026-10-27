@@ -9,6 +9,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.parse import urlsplit
+from urllib.request import url2pathname
 
 
 class OfflineGuard:
@@ -16,7 +18,7 @@ class OfflineGuard:
 
     Audit hooks cannot be removed; exiting disables this instance's hook.
     SQLite is allowed only in the caller-owned temporary root or :memory:.
-    URI filenames are deliberately rejected rather than ambiguously decoded.
+    Only canonical mode=ro file URIs inside that root are permitted.
     """
     def __init__(self, temporary_root):
         self.root = Path(temporary_root).resolve()
@@ -33,8 +35,17 @@ class OfflineGuard:
             raw = os.fsdecode(os.fspath(args[0]))
             if raw == ":memory:":
                 return
-            if (not raw or raw.lower().startswith("file:")
-                    or not Path(raw).resolve().is_relative_to(self.root)):
+            if not raw:
+                raise PermissionError("Offline checks prohibit empty SQLite paths")
+            if raw.lower().startswith("file:"):
+                parts = urlsplit(raw)
+                candidate = Path(url2pathname(parts.path)).resolve()
+                if (parts.query != "mode=ro" or parts.netloc or parts.fragment
+                        or raw != candidate.as_uri() + "?mode=ro"):
+                    raise PermissionError("Only canonical read-only temporary SQLite URIs are allowed")
+            else:
+                candidate = Path(raw).resolve()
+            if not candidate.is_relative_to(self.root):
                 raise PermissionError("Offline checks prohibit SQLite outside the temporary root")
 
     def __enter__(self):
