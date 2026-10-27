@@ -108,7 +108,9 @@ class DirectionValidationTests(unittest.TestCase):
             test_end="2026-10-23",freeze_id="synthetic",code_revision="synthetic")
         event = next(e for e in result["train"]["events"] if e["known_at_et"].endswith("09:55:00"))
         self.assertIsNone(event["directional_etf_move_pct"])
-        self.assertEqual(event["outcome_missing_reason"],"INVALID_OR_UNAVAILABLE_OUTCOME_BAR")
+        # A post-cutoff record is absent from this historical information set;
+        # its existence must not leak through a different missing-label reason.
+        self.assertEqual(event["outcome_missing_reason"],"MISSING_OUTCOME_BAR")
 
     def test_replay_never_evaluates_information_after_its_cutoff(self):
         result = replay_session(**session(),outcome_as_of_et="2026-10-23 09:56:00")
