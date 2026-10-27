@@ -1,0 +1,25 @@
+# Conversation and decision summaries — 2026-10-27
+
+## K-20261027-001 — Preserve shared research and engineering knowledge
+- Recorded at: 2026-10-27T13:05:00Z. Event time: current request on 2026-10-27; exact source-message time UNKNOWN. Author: preservation agent, coordinating documentation role.
+- Source: user request in Codex session 01a17d76-5572-7910-ba6e-cc36db5c08c9, continuing ChatGPT conversation 6ae09c1f-15b0-83ea-90db-733bdcf63564, “Raccoon Radar Discovery Brief.”
+- VERIFIED: GitHub fetch found the shared handoff at `docs/ENGINEERING_HANDOFF.md` on `docs/shared-engineering-handoff`, blob `c8016b54b926b2d0c3d353b7bffd364ce5f05817`, including H-003. Contributor instructions were read. No research study or code tests were executed by this preservation task.
+- REPORTED: earlier Work sessions created PR #19 and updated H-002/H-003. Their dated PR/CI claims remain attributed historical snapshots, not newly audited code results. The cached ChatGPT preview contains inaccessible assistant reference markers; it is not a complete transcript or reasoning export.
+- Decision/proposal: extend the same PR with `docs/knowledge/` and link from the existing handoff; adoption/merge pending human review.
+- Rationale: durable versioned records let both agents resume with provenance while separating original expectations from later observations.
+- Assumptions: both agents can read the repository branch/PR when resuming; acknowledgement still required.
+- Alternatives: chat-only history risks loss of context; a second handoff risks conflicts; embedding every ledger in the work order makes it hard to maintain. Retain one handoff and linked specialized records.
+- Open questions: who owns ongoing curation; which independent reviewer qualifies; what evidence-access location is approved for restricted artifacts; which study hypotheses and thresholds will be authorized/frozen.
+- Owner/action/status: both agents follow the preservation templates on their next authorized work; READY_FOR_REVIEW. No recipient acknowledgement or empirical outcome is claimed.
+- Scope: documentation only; preserve existing H-003 gates. No merges, provider connections, database access or trading changes.
+
+## Template — append a new entry
+### <K-ID> — <topic>
+- Recorded-at UTC / event-time UTC (UNKNOWN if unavailable); author/role; source session/link; revision read:
+- VERIFIED facts + evidence/observation time:
+- REPORTED claims + attribution; INTERPRETATIONS:
+- Decision/status; explicit rationale; assumptions:
+- Alternatives and why selected/rejected:
+- Open questions; related hypothesis/change IDs:
+- Owner/action/status/blocker; next evidence; approval evidence or NONE:
+- Corrects/supersedes ID + original commit, if applicable (preserve original):
