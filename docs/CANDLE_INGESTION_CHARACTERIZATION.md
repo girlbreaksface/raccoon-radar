@@ -1,5 +1,5 @@
 # Candle ingestion characterization (no behavior change)
-Baseline: main 342c7389b735188ddf75867c1f62aca4f8176bb0. This PR adds tests and documentation only. The tests execute the actual _fetch_candles_worker and _fetch_range_worker ASTs with fake quote responses, a fixed ET wall clock, fake timezone dependency and a stub analyzer. They stop at the emitted queue event: the persistence consumer, Tk, SDK, databases and provider are never run.
+Characterization source baseline: main 342c7389b735188ddf75867c1f62aca4f8176bb0. Refreshed compatibility baseline: main 0d9015cc3cba0977cafcb952cbb33a11870e2754 (#8/#10 are merged; ingestion methods unchanged). This PR adds tests and documentation only. The tests execute the actual _fetch_candles_worker and _fetch_range_worker ASTs with fake quote responses, a fixed ET wall clock, fake timezone dependency and a stub analyzer. They stop at the emitted queue event: the persistence consumer, Tk, SDK, databases and provider are never run.
 
 ## Observed behavior, not approved ingestion policy
 | Scenario | Single-day worker | Range worker |
@@ -34,6 +34,6 @@ Provisional: 09:30–15:59 and 09:31–16:00 are candidate raw-stamp conventions
 Unresolved: Moomoo interval semantics, SDK/OpenD flags/versions, adjustment/session settings, pagination completeness in real responses, exchange calendars/holidays/early closes, DST conversion and valid live completion times. No provider connection or independent OHLCV comparison was performed. The fake zone preserves the controlled ET wall clock and deliberately does not test IANA timezone rules.
 
 ## Test results and next decision
-Local Windows/Python 3.12.14: 25 tests (10 main + 15 new) and compilation pass. Windows/Linux Python 3.11 CI runs the same branch suite; results are recorded in the PR. Opening-range integration is separately validated in PR #1; no duplicate tests are copied here.
+Local Windows/Python 3.12.14: 32 tests (17 main + 15 new) and compilation pass. Windows/Linux Python 3.11 CI runs the same branch suite; results are recorded in the PR. Opening-range integration is separately validated in PR #1; no duplicate tests are copied here.
 
 Recommended follow-up: define and review a raw-retention/derived-session policy and a convention-aware completed-bar contract; add desired-behavior failing tests before changing ingestion. Pagination and partial-response metadata need explicit completeness states. Never silently shift timestamps, fill missing candles or rewrite history. A standalone diagnostic should flag these findings rather than infer provider semantics or trading validity.
