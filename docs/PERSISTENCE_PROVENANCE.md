@@ -1,5 +1,5 @@
 # Persistence write-path audit and safe provenance proposal
-Source baseline: main 342c7389b735188ddf75867c1f62aca4f8176bb0 (PR #4 and PR #5 merged by maintainers). This is a source-only audit and design proposal. No application persistence path was executed against user data, and no schema or implementation changes are included.
+Source baseline: main 0d9015cc3cba0977cafcb952cbb33a11870e2754 (PRs #4/#5/#8/#10 merged by maintainers). This is a source-only audit and design proposal. No application persistence path was executed against user data, and no schema or implementation changes are included.
 
 ## Current write inventory
 | Store / output | Write entry points | UI triggers and hidden writes | Integrity risk |
@@ -18,9 +18,9 @@ Source baseline: main 342c7389b735188ddf75867c1f62aca4f8176bb0 (PR #4 and PR #5 
 | Diagnostic ZIP | raccoon_diagnostics.main, signal_validation_lab.main, setup_outcome_validation.main | Diagnostic UI subprocesses | ZIP uses write mode; microsecond names reduce collisions but do not guarantee exclusive creation |
 | Research ZIP / archive / swing CSV | export_research, export_archive, swing_watchlist.export_csv | Save dialogs | Existing destinations can be overwritten. Archive initializes source stores before backing up |
 
-strategy_validation.load_candles checks existence and SELECTs via an ordinary writable connection; unlike the read-only diagnostics, it does not enforce mode=ro. SQLite connection transaction contexts in this module and raccoon_diagnostics do not themselves close handles. No fixes to these APIs are included here.
+strategy_validation.load_candles checks existence and SELECTs via an ordinary writable connection; unlike the read-only diagnostics, it does not enforce mode=ro. SQLite connection transaction contexts in strategy_validation still do not themselves close handles. raccoon_diagnostics now explicitly closes its read-only handles after PR #10. No persistence API changes are included in this documentation PR.
 
-Existing explicitly read-only paths include Market Intelligence's mode=ro history query, signal_validation_lab.audit and setup_outcome_validation.validate. The last two close their connections explicitly. raccoon_diagnostics.inspect_database uses mode=ro but should also explicitly close its handle. Read-only reports still write output artifacts, and mode=ro is not a backup/immutability guarantee for a live WAL store.
+Existing explicitly read-only paths include Market Intelligence's mode=ro history query, signal_validation_lab.audit and setup_outcome_validation.validate. The last two close their connections explicitly. raccoon_diagnostics.inspect_database uses mode=ro and now explicitly closes its handle (PR #10); tests cover success, schema errors and missing files. Read-only reports still write output artifacts, and mode=ro is not a backup/immutability guarantee for a live WAL store.
 
 ## Archive limitations found in source
 export_archive backs up history, swing and discovery after calling their initializers. It omits raccoon_fundamentals.sqlite3, SEC notes/snapshots, market_intelligence.py and fundamental_intelligence.py from its explicit archive members/source list. Its completion message should not be used as evidence that every research artifact was preserved. No archive export or restore was attempted. Existing archives must remain untouched.
@@ -44,4 +44,4 @@ No production migration, schema write, source-history rewrite or legacy import i
 
 ## Verification and remaining risks
 Commands: python -B -m unittest discover -v -p "test_*.py"; python -m compileall -q .
-The verified main baseline passes all ten offline tests on local Windows/Python 3.12.14. This PR adds documentation only; existing Windows/Linux CI will also run the branch suite. Source inspection cannot prove actual database health, content retention, sidecar state or private archive completeness. Existing upserts, hidden initialization, archive omissions, report collisions and missing request provenance remain unresolved until separately tested fixes are reviewed.
+The verified main baseline passes all 17 offline tests on local Windows/Python 3.12.14. This PR adds documentation only; existing Windows/Linux CI will also run the branch suite. Source inspection cannot prove actual database health, content retention, sidecar state or private archive completeness. Existing upserts, hidden initialization, archive omissions, report collisions and missing request provenance remain unresolved until separately tested fixes are reviewed.
