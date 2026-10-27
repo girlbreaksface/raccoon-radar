@@ -39,6 +39,8 @@ Four local stores are normally named `raccoon_history.sqlite3`, `raccoon_discove
 ## Development and validation
 Use Python 3.11 as the existing CI baseline; verify Windows as well as Linux. Offline modules mostly use the standard library. GUI needs Tk; OpenD quote paths lazily import the `moomoo` SDK and use localhost:11111. `zoneinfo` needs system IANA data or `tzdata`, especially on Windows. No dependency lock or supported SDK version is currently established.
 
+Verified baseline: main `342c7389b735188ddf75867c1f62aca4f8176bb0` includes PR #4 (temporary SQLite fixture closure and Windows/Linux CI) and PR #5 (conditional timestamp-evidence wording). Main has ten offline tests. Draft PR #1 adds five complementary opening-range tests; it is not merged. PRs #6–#10 and ingestion characterization PR #11 remain separate proposals until approved.
+
 Default offline checks:
 ```text
 python -B -m unittest discover -v -p "test_*.py"
@@ -50,4 +52,8 @@ For fixes, add tests that reproduce observable failures before changing behavior
 
 Keep pure calculations outside GUI callbacks. Route worker results through queues; update Tk widgets from the main thread. Capture exception messages before deferred callbacks and handle shutdown/cancellation. Close SQLite connections explicitly; a SQLite connection context manager handles transactions but does not close the handle. Avoid broad swallowed exceptions; report partial failures and exclusions.
 
-PRs should state problem, behavior impact, evidence, validation results and limitations, and any data/schema implications. This initial documentation PR changes no runtime behavior. See `docs/PROJECT_ASSESSMENT.md` and `docs/DEVELOPMENT_ROADMAP.md`.
+The public `fetch_range` handler permits only completed past dates; the range worker itself lacks that defensive restriction. Do not describe normal UI requests as accepting today. Characterize callers and timestamp assumptions before changing either layer.
+
+The guarded runner in PR #9 and standalone candle-quality diagnostics in PR #6 are proposals, not tools available on current main. Once approved, use their documented contracts without treating synthetic coverage as provider verification.
+
+PRs should state problem, behavior impact, evidence, validation results and limitations, and any data/schema implications. Keep test counts scoped to a verified commit/branch; do not count unmerged tests as part of main. See `docs/PROJECT_ASSESSMENT.md` and `docs/DEVELOPMENT_ROADMAP.md`.
