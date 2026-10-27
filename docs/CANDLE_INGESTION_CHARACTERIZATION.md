@@ -22,18 +22,18 @@ Raw timestamps that survive filtering are copied unchanged. The tests also prese
 ## Why the boundaries differ
 The 16:00 exclusion is explicit in both predicates: single-day rejects hours outside 9..15; range accepts 09:30 onward in hour 9 or hours 10..15. No end-label rationale is encoded there.
 
-Only the single-day loop compares today's timestamp to now rounded down to a minute. The range loop separately repeats parsing/filtering and has no clock comparison. Source inspection shows this asymmetry across the supplied versioned dashboards; it is consistent with duplicated implementation paths, not a shared completed-candle policy.
+Only the single-day loop compares today's timestamp to now rounded down to a minute. The range loop separately repeats parsing/filtering and has no clock comparison. Importantly, its public fetch_range handler rejects end >= today ET before creating a worker. Normal UI range requests are therefore restricted to completed past dates; direct/internal worker callers lack that defensive constraint. Source inspection shows this asymmetry across the supplied versioned dashboards; it is consistent with duplicated implementation paths, not a shared completed-candle policy.
 
-GitHub file history on main contains the original upload (4840bd0fc7cf5330f1aa85a97c1584147f588a1e, "Add files via upload") rather than a design discussion. Author intent and any provider rationale therefore cannot be established from the available history. The hypothesis that range fetching was intended only for prior completed days does not excuse the omission: the date-selection handler allows today. No causal claim about the original author is made.
+GitHub file history on main contains the original upload (4840bd0fc7cf5330f1aa85a97c1584147f588a1e, "Add files via upload") rather than a design discussion. The public handler provides concrete evidence that the range UI is intended for completed past dates. The available history does not establish the original author's broader rationale or any provider timestamp convention. Earlier assessment language suggesting the UI allowed today was incorrect and is corrected in draft PR #2.
 
 ## Verified, provisional, unresolved
-Verified by 13 synthetic characterization tests: the table above, context cleanup, emitted event structure and accepted timestamp preservation. These tests intentionally record current undesirable behavior and must be updated with independently justified regression expectations when fixing that behavior. They are not endorsements or permanently frozen rules.
+Verified by 15 synthetic characterization tests: the table above, context cleanup, emitted event structure and accepted timestamp preservation. These tests intentionally record current undesirable behavior and must be updated with independently justified regression expectations when fixing that behavior. They are not endorsements or permanently frozen rules.
 
 Provisional: 09:30–15:59 and 09:31–16:00 are candidate raw-stamp conventions. A single-day timestamp cutoff alone does not prove its bars are completed: at a boundary, start/end labeling changes the interpretation.
 
 Unresolved: Moomoo interval semantics, SDK/OpenD flags/versions, adjustment/session settings, pagination completeness in real responses, exchange calendars/holidays/early closes, DST conversion and valid live completion times. No provider connection or independent OHLCV comparison was performed. The fake zone preserves the controlled ET wall clock and deliberately does not test IANA timezone rules.
 
 ## Test results and next decision
-Local Windows/Python 3.12.14: 23 tests (10 main + 13 new) and compilation pass. Windows/Linux Python 3.11 CI runs the same branch suite; results are recorded in the PR. Opening-range integration is separately validated in PR #1; no duplicate tests are copied here.
+Local Windows/Python 3.12.14: 25 tests (10 main + 15 new) and compilation pass. Windows/Linux Python 3.11 CI runs the same branch suite; results are recorded in the PR. Opening-range integration is separately validated in PR #1; no duplicate tests are copied here.
 
 Recommended follow-up: define and review a raw-retention/derived-session policy and a convention-aware completed-bar contract; add desired-behavior failing tests before changing ingestion. Pagination and partial-response metadata need explicit completeness states. Never silently shift timestamps, fill missing candles or rewrite history. A standalone diagnostic should flag these findings rather than infer provider semantics or trading validity.
