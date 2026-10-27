@@ -28,7 +28,7 @@ def _outcome_valid(row, symbol, start, cutoff):
         end, available = _stamp(row["interval_end_et"]), _stamp(row["available_at_et"])
         values = [float(row[k]) for k in ("open","high","low","close","volume")]
         o,h,low,c,volume = values
-        return (str(row["symbol"]).upper().removeprefix("US.") == symbol and
+        return (str(row["symbol"]).strip().upper().removeprefix("US.") == symbol and
                 row.get("complete") is True and _stamp(row["interval_start_et"]) == start and
                 end-start == timedelta(minutes=1) and available >= end and available <= cutoff and
                 all(math.isfinite(v) for v in values) and min(o,h,low,c)>0 and volume>=0 and
