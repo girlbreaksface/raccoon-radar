@@ -8,7 +8,8 @@ def candles(first_minute=30, count=30, symbol="SPY"):
     start = datetime(2026, 10, 23, 9, first_minute)
     return [
         dict(symbol=symbol, time=(start + timedelta(minutes=i)).strftime("%Y-%m-%d %H:%M:%S"),
-             open=100, high=101 + i, low=99 - i, close=100, volume=100)
+             # Cap synthetic excursions so a 390-minute fixture stays positive.
+             open=100, high=101 + min(i, 90), low=99 - min(i, 90), close=100, volume=100)
         for i in range(count)
     ]
 
@@ -30,7 +31,9 @@ class OpeningRangeTests(unittest.TestCase):
         self.assertFalse(r["end_labeled_full_session_evidence"])
 
     def test_full_390_end_labeled_session_is_evidence_not_confirmation(self):
-        r = calculate(candles(first_minute=31, count=390))["SPY"]
+        rows = candles(first_minute=31, count=390)
+        self.assertTrue(all(row["low"] > 0 for row in rows))
+        r = calculate(rows)["SPY"]
         self.assertTrue(r["end_labeled_full_session_evidence"])
         self.assertIsNone(r["or5"])
         self.assertIsNotNone(r["candidate_or30"])
