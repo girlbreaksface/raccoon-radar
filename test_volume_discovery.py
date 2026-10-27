@@ -1,4 +1,5 @@
 import unittest, tempfile, sqlite3
+from contextlib import closing
 from pathlib import Path
 from datetime import date,timedelta
 from volume_discovery import evaluate,save_results,list_results,list_snapshots
@@ -19,7 +20,8 @@ class VolumeTests(unittest.TestCase):
  def test_migration(self):
   with tempfile.TemporaryDirectory() as tmp:
    p=Path(tmp)/'test.sqlite3'
-   with sqlite3.connect(p) as db:
+   # Keep transaction commit/rollback, then explicitly close before temp cleanup.
+   with closing(sqlite3.connect(p)) as db, db:
     db.execute('CREATE TABLE discoveries (id INTEGER PRIMARY KEY, scan_utc TEXT NOT NULL, symbol TEXT NOT NULL, session TEXT NOT NULL, close REAL NOT NULL, volume REAL NOT NULL, baseline_volume REAL NOT NULL, rvol REAL NOT NULL, change_pct REAL, range_pct REAL, notes TEXT NOT NULL, UNIQUE(symbol,session))')
     db.execute("INSERT INTO discoveries(scan_utc,symbol,session,close,volume,baseline_volume,rvol,notes) VALUES('old','TEST','2026-01-01',10,100,100,1,'legacy')")
    save_results([evaluate('NEW',self.bars())],p)
