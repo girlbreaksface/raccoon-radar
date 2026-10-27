@@ -25,3 +25,11 @@ Append a new event for each material change, experiment, CI failure/rerun, revie
 - Follow-up/correction/superseded event ID + original commit; preserve prior result, including failed runs:
 
 A self-referential commit SHA cannot be embedded in its own content. Pin the resulting commit in a subsequent event or PR evidence; do not invent one. CI success, review, human authorization and merge/deployment are separate events.
+
+## ENG-20261027-002 — Saved-path verification
+- Recorded-at/event-time: 2026-10-27T13:08:00Z (approximate minute; verification occurred during this session). Author: preservation agent.
+- References: ENG-20261027-001, K-20261027-001.
+- VERIFIED at commit `fb545f12769a6d9b3af25878fe08ac388a0ea3f5`: fetched all four knowledge files and compared exact text to intended contents; all matched. Fetched handoff and confirmed relative knowledge-index link.
+- PR #19 changed-file inspection showed only Markdown documentation: handoff and four knowledge records. No code/trading changes in this PR inspection.
+- CI for this revision: UNKNOWN/not audited. No tests executed. Human merge approval NONE; no merge performed. Recipient acknowledgement pending.
+- Outcome: documentation paths verified; ongoing record curation and human review remain open. This follow-up records verification separately from the original setup expectation.
