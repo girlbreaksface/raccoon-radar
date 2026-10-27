@@ -1,0 +1,35 @@
+{
+  "contract_version": "CANONICAL_COMPLETED_CANDLE_DRAFT_V1",
+  "example_kind": "SYNTHETIC_DESIGN_ONLY",
+  "mode": "RAW_AUDIT",
+  "decision_eligible": false,
+  "reasons": [
+    "UNVERIFIED_INTERVAL_MAPPING",
+    "AVAILABILITY_UNKNOWN",
+    "SOURCE_EVIDENCE_INCOMPLETE"
+  ],
+  "source": {
+    "capture_level": "SDK_ROW_SNAPSHOT",
+    "payload_ref": "synthetic://example/16-00",
+    "payload_sha256": null,
+    "mapping_registry_id": null,
+    "calendar_registry_id": null
+  },
+  "raw_observations": [
+    {
+      "observation_id": "synthetic-observation-1",
+      "symbol": "US.SPY",
+      "raw_timestamp": "2026-10-23 16:00:00",
+      "open": "100",
+      "high": "101",
+      "low": "99",
+      "close": "100",
+      "volume": "10",
+      "request_id": "synthetic-request-1",
+      "page_id": "synthetic-page-1",
+      "known_at_utc": null
+    }
+  ],
+  "canonical_rows": [],
+  "interpretation": "Blocked design example. Neither start nor end labeling is assumed. No fields may be forwarded as verified engine input."
+}
