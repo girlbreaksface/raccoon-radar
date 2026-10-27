@@ -9,16 +9,38 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from contextvars import ContextVar
 from urllib.parse import urlsplit
 from urllib.request import url2pathname
 
 
-class OfflineGuard:
-    """Catch accidental Python network/process/SQLite access, not hostile code.
+_MANAGED_CONNECT = ContextVar("raccoon_managed_sqlite_connect", default=False)
 
-    Audit hooks cannot be removed; exiting disables this instance's hook.
-    SQLite is allowed only in the caller-owned temporary root or :memory:.
-    Only canonical mode=ro file URIs inside that root are permitted.
+
+def _sqlite_authorizer(action, first, second, database, trigger):
+    """Permanent conservative SQL policy for each managed connection."""
+    if action in (sqlite3.SQLITE_ATTACH, sqlite3.SQLITE_DETACH,
+                  sqlite3.SQLITE_CREATE_VTABLE, sqlite3.SQLITE_DROP_VTABLE):
+        return sqlite3.SQLITE_DENY
+    if action == sqlite3.SQLITE_PRAGMA:
+        name = (first or "").lower()
+        if name in ("temp_store_directory", "data_store_directory"):
+            return sqlite3.SQLITE_DENY
+        if name == "temp_store" and second is not None and str(second).lower() not in ("2", "memory"):
+            return sqlite3.SQLITE_DENY
+    if action == sqlite3.SQLITE_FUNCTION and (second or "").lower() in (
+            "load_extension", "readfile", "writefile"):
+        return sqlite3.SQLITE_DENY
+    return sqlite3.SQLITE_OK
+
+
+class OfflineGuard:
+    """Scoped Python-side checks, not a general filesystem sandbox.
+
+    New connections must pass through the managed wrapper. They keep a
+    conservative authorizer for their lifetime, including after context exit.
+    Existing foreign handles, malicious Python/native code and arbitrary file
+    writes are outside the guarantee. Enter before test discovery/connections.
     """
     def __init__(self, temporary_root):
         self.root = Path(temporary_root).resolve()
@@ -29,9 +51,12 @@ class OfflineGuard:
             return
         if ((event.startswith("socket.") and event != "socket.__new__")
                 or event in ("urllib.Request", "subprocess.Popen", "os.system",
-                             "os.posix_spawn", "os.spawn")):
-            raise PermissionError("Offline checks prohibit network and child processes")
+                             "os.posix_spawn", "os.spawn",
+                             "sqlite3.enable_load_extension", "sqlite3.load_extension")):
+            raise PermissionError("Offline checks prohibit network, child processes and extensions")
         if event == "sqlite3.connect":
+            if not _MANAGED_CONNECT.get():
+                raise PermissionError("SQLite connection aliases must use the managed connect wrapper")
             raw = os.fsdecode(os.fspath(args[0]))
             if raw == ":memory:":
                 return
@@ -53,14 +78,39 @@ class OfflineGuard:
                 raise PermissionError("Offline checks prohibit SQLite outside the temporary root")
 
     def __enter__(self):
-        # Do not stack the same instance's hook on accidental re-entry.
         if self.active:
             raise RuntimeError("OfflineGuard is already active")
+        previous = sqlite3.connect
+
+        def managed_connect(*args, **kwargs):
+            factory = kwargs.get("factory", args[5] if len(args) > 5 else sqlite3.Connection)
+            if factory is not sqlite3.Connection:
+                raise PermissionError("Custom SQLite factories can run before SQL policy installation")
+            token = _MANAGED_CONNECT.set(True)
+            try:
+                connection = previous(*args, **kwargs)
+            finally:
+                _MANAGED_CONNECT.reset(token)
+            try:
+                # The connect/handle audit event fires before Connection.__init__
+                # finishes, so authorizer setup must happen after connect returns.
+                sqlite3.Connection.execute(connection, "PRAGMA temp_store=MEMORY")
+                sqlite3.Connection.set_authorizer(connection, _sqlite_authorizer)
+            except BaseException:
+                connection.close()
+                raise
+            return connection
+
+        self._previous_connect = previous
+        self._wrapper = managed_connect
         sys.addaudithook(self._audit)
         self.active = True
+        sqlite3.connect = managed_connect
         return self
 
     def __exit__(self, *exc):
+        if sqlite3.connect is self._wrapper:
+            sqlite3.connect = self._previous_connect
         self.active = False
 
 
