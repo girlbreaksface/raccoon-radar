@@ -1,5 +1,5 @@
 # Opening-range integration review
-Reviewed against main 342c7389b735188ddf75867c1f62aca4f8176bb0, which includes PR #4 (migration fixture closure and Windows/Linux CI) and PR #5 (conditional timestamp wording). The five tests in this PR remain unchanged.
+Reviewed against main 342c7389b735188ddf75867c1f62aca4f8176bb0, which includes PR #4 (migration fixture closure and Windows/Linux CI) and PR #5 (conditional timestamp wording). The five test cases retain their range/evidence contracts. Review found the original 390-bar fixture eventually generated negative lows; a failing positivity assertion now guards a capped synthetic excursion. All first-30-minute expected extrema remain unchanged.
 
 Current main has ten tests: five volume-discovery tests and five timestamp-evidence wording tests. This PR adds five opening-range tests, for 15 combined tests. Local Windows/Python 3.12.14: all 15 pass; compileall passes. This branch now uses main's Windows/Linux Python 3.11 workflow so PR CI checks the actual merged source view on both platforms. Results are recorded in the PR.
 
