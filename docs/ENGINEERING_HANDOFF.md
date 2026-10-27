@@ -254,3 +254,31 @@ Record each in PR #19 with decision ID, exact revision/scope, approver UTC time 
 - G-H003-3: separately authorize bounded pure offline implementation/tests after contract review; no provider/store permissions implied. Alternative documentation-only hold.
 - G-H003-4: establish source eligibility, actual freeze dates/access custody and separately authorize prospective capture/evaluation only after evidence. Alternative leave primary study unavailable; no assumed data substitution.
 Merge requests remain separate and later: independent review/material finding resolution/exact-head CI, explicit #13 approval, resulting-main CI, then authorized retarget/revalidation and separate #14 approval. #17/#18 stay unmerged. No approval granted by this return.
+
+
+## H-003 coordination review and clarification return C1 — 2026-10-27 13:43:03 UTC
+Owner coding agent; source: [Dex coordination review](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6443196332), read in full after explicit user authorization for documentation-only follow-up. Starting branch head fc96e0349441508b3d04cd45ac15083131e43ce8; handoff blob 68374e1650ef60f61732ea74e48aca90b9e7568f; knowledge index/linked records and current PR #19 timeline re-read. Re-fetched each blob before sequential updates; no conflicting ownership entry observed.
+
+### D-H003-C1 — received coordination disposition (not design approval)
+VERIFIED review text accepts original package 403fb62d4e2a2563ec5ca9074b5460b0871502d2 as DOCUMENTATION-ONLY EVIDENCE. This supersedes the prior WAITING_FOR_REVIEW status of A-010 for that original package ONLY. It grants no independent maintainer code approval, G-H003 design approval, implementation, source acquisition, study or merge authority. Rationale and five required clarifications preserved at review link; no retrospective approval inferred.
+
+### A-012 — five clarification response, RETURNED_FOR_REVIEW
+Owner coding agent -> coordination reviewer. Evidence: [coordination-clarifications.md at f5dabc9a3bfb5bd88e45b10e09e08fdfe7ab59f4](https://github.com/girlbreaksface/raccoon-radar/blob/f5dabc9a3bfb5bd88e45b10e09e08fdfe7ab59f4/docs/handoff_evidence/H-003/coordination-clarifications.md); companion plan/manifest amendment package b64a54819da88118295602b6b2440c4371f3c71d. Original package stays pinned and unchanged at its original commit. Five responses:
+1. Exact bounded receipt/completion knowledge, tie/conflict policy, unknown arrival and watermark rules with fail-closed examples; conservative v1 has NO automatic correction supersession.
+2. Conditional A-minus-B cannot establish incremental edge. Add common intraday-eligible paired opportunity E, common label subset M, no-event versus unavailable-date distinction and assumption-labeled missing-label bounds/tipping-point sensitivity.
+3. Concrete daily-context-unavailable and invalid-peer examples: daily UNKNOWN remains an explicit stratum; invalid intraday peer excludes only affected paired time; valid symbol report retained; label missingness cannot retroactively change pair state.
+4. Actual prospective custody, identities/access, independently timestamped freeze, tamper-evident inventory/access audit, predeclared unblinding and breach rules; manifest strings do not authenticate untouched future data.
+5. Separate gross movement and hypothetical cost-adjusted proxy schemas/units; same opportunity denominator and selection-weighted assumed costs; no executable fill, profitability, capacity or realized-cost evidence.
+Status: preparation RETURNED_FOR_REVIEW, not accepted/frozen/implemented; G-H003-2 and G-H003-4 approval remains NONE. Original arms/thresholds unchanged. Proposed tests listed, NOT executed. New final-head documentation CI must be pinned in PR #19 return notice. Existing protected-PR CI does not validate these unimplemented rules.
+
+### Scheduling verification correction S-H003-1
+User separately authorized a recurring bounded coordination check in this chat. App automation ID raccoon-radar-engineering-coordination reports ACTIVE. Read actual saved C:/Users/louis/.codex/automations/raccoon-radar-engineering-coordination/automation.toml: recurrence is every 30 minutes, NOT the hourly setting initially submitted/reported. Prior user-facing hourly/10:00 AM next-run statement is explicitly corrected; do not carry it forward as verified. Scheduler next-run timestamp UNKNOWN: not exposed in saved file or tool's textual view. No actual successful scheduler-triggered run has been verified; manual setup/checks are not scheduled runs. Machine/app availability and tool access can block execution. Prompt restricts work to existing human authorizations, reconciles latest refs/blobs and uses this PR's existing notice; no scope expansion or automatic approvals.
+
+| Action | Owner/status | Blocker / next evidence |
+|---|---|---|
+| A-010 original package | Coordination reviewer / ACCEPTED_DOCUMENTATION_ONLY | Source review link above; human design/code/merge gates remain separate |
+| A-012 C1 amendment | Coding agent -> coordination reviewer / RETURNED_FOR_REVIEW | Accept/amend five proposed clarifications at exact C1 revision; no silent adoption |
+| A-011 independent reviewer | Human maintainer / BLOCKED | Username, qualifications, access, independence and exact-head review absent |
+| S-H003-1 scheduler | App ACTIVE / cadence saved 30 minutes | Actual next timestamp and first successful scheduler invocation UNKNOWN |
+
+All G-H003-1 through G-H003-4 remain unapproved. Keep #13 unmerged, #14 stacked, #17/#18 proposals, #19 unmerged. No runtime, provider, ingestion, production DB/research data, trading or study changes. Related K-20261027-003, ENG-20261027-005 and H-003-PROTOCOL-REGISTER-C1. Next authorized action is coordination review/decision recording, not implementation.
