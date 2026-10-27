@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raccoon Radar — directional panel proposal</title>
+<style>
+:root{color-scheme:dark;font:14px system-ui,sans-serif;background:#151724;color:#eee8fa}
+*{box-sizing:border-box}body{max-width:1120px;margin:40px auto;padding:0 22px}
+header{display:flex;justify-content:space-between;align-items:center;gap:18px}h1{font-size:23px;margin:0}
+small,.muted{color:#b8adc9}.tag{border:1px solid #665133;background:#30271e;color:#f1cd8a;padding:5px 9px;border-radius:6px;font-size:11px;letter-spacing:.08em}
+.intro{color:#c1b6d2;line-height:1.6}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+article{border:1px solid #493a5f;border-radius:12px;background:#211b2e;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.symbol{font-size:24px;font-weight:700}
+.label{font-weight:700;font-size:13px;padding:7px 9px;border-radius:6px}
+.bull{background:#203b36;color:#9be1c3}.none{background:#383142;color:#d1c8dc}
+.quality{font-size:12px;color:#e8c58c;margin:12px 0}.times{font:11px ui-monospace,monospace;line-height:1.8;color:#c9bdd9}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid #493a5f;border-bottom:1px solid #493a5f;padding:14px 0;margin:16px 0}
+.metric span{font-size:11px;color:#b8adc9;display:block;margin-bottom:5px}.metric strong{font-size:16px}
+p,li{line-height:1.6}ul{padding-left:18px}.note{border-left:3px solid #ab90df;padding-left:12px;color:#d4c8e7}
+summary{cursor:pointer;color:#cbb1ff;font-size:12px}details p{font-size:12px}.footer{font-size:12px;border-top:1px solid #493a5f;padding-top:17px;line-height:1.7;color:#b8adc9}
+@media(max-width:760px){.grid{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
+</style>
+<header><div><small>RACCOON RADAR / RESEARCH DESK</small><h1>Directional research</h1></div><span class="tag">STATIC PROPOSAL · SYNTHETIC</span></header>
+<p class="intro">Completed-candle observations. Candidates are unvalidated hypotheses, not orders or predicted probabilities.<br>This file is a standalone mockup; it reads no data and is not integrated into the dashboard.</p>
+<div class="grid">
+<article><div class="top"><span class="symbol">SPY</span><span class="label bull">BULLISH CANDIDATE</span></div>
+<div class="quality">DATA READY · SYNTHETIC INTERVAL EVIDENCE</div>
+<div class="times">Raw stamp 2026-10-23 09:54:00 ET<br>Interval end / available 09:55:00 ET · As of 09:55:00 ET</div>
+<div class="metrics"><div class="metric"><span>EMA9 / EMA21</span><strong>120 / 114</strong></div><div class="metric"><span>HLC3 candle proxy</span><strong>112.46</strong></div><div class="metric"><span>Volume / prior 20</span><strong>2.00×</strong></div></div>
+<p class="note">Close 124 is above the opening range and prior five-bar high; trend and volume hypotheses align.</p>
+<details><summary>Supporting observations and assumptions</summary><p>15m opening high: 114.25 · prior five-bar high: 123.25. EMA9 rising. Volume multiplier hypothesis: 1.2×. The candle-weighted proxy is NOT trade-level VWAP. These values are illustrative synthetic fixtures from the proposed engine tests; no provider convention has been confirmed.</p></details>
+</article>
+<article><div class="top"><span class="symbol">QQQ</span><span class="label none">NO TRADE</span></div>
+<div class="quality">DATA BLOCKED · INTERVAL MAPPING UNVERIFIED</div>
+<div class="times">Raw stamp / interval end: unavailable<br>As-of time must come from an approved snapshot</div>
+<div class="metrics"><div class="metric"><span>EMA9 / EMA21</span><strong>—</strong></div><div class="metric"><span>Candle proxy</span><strong>—</strong></div><div class="metric"><span>Volume confirmation</span><strong>—</strong></div></div>
+<p class="note">No candidate: canonical interval and availability evidence is missing. Indicators are not evaluated.</p>
+<details open><summary>Explicit NO TRADE reasons</summary><ul><li>UNVERIFIED_INTERVAL_MAPPING</li><li>NO_COMPLETED_DATA</li></ul><p>Never substitute a prior session's label, infer completion from a raw timestamp, or fill absent observations. This card is an illustrative blocked state, not a claim about real QQQ data.</p></details>
+</article>
+</div>
+<div class="footer">READ ONLY · NO ORDERS · NO OPTIONS CONTRACTS · NO CONFIDENCE SCORE<br>Before UI integration: approve engine hypotheses and tests, independent data contracts, and this panel's states. Raw timestamps, interval boundaries and availability remain separately visible.</div>
+</html>
