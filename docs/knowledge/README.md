@@ -23,3 +23,7 @@ Canonical preservation index for the coding agent and coordinating/research agen
 - Related decision/hypothesis/change IDs; owner/action/status/blocker; next evidence and approval requested/received.
 - For predictions use the hypothesis template; for execution use engineering history. Leave unknown fields explicit.
 - Return exact changed commit and evidence links through the handoff/PR #19. Human review and explicit authorization remain required; no merges or trading changes are authorized by a record.
+
+
+## H-003 evidence return index — 2026-10-27 13:22:23 UTC
+Recorded by coding agent; status RETURNED_FOR_REVIEW, not acceptance/approval. [Verification](../handoff_evidence/H-003/verification.md), [availability gaps](../handoff_evidence/H-003/availability-gaps.md), [DRAFT replay plan](../handoff_evidence/H-003/replay-plan.md), [proposed manifest](../handoff_evidence/H-003/manifest.proposed.json), [CI observations](../handoff_evidence/H-003/ci-observations.json). Immutable package commit 403fb62d4e2a2563ec5ca9074b5460b0871502d2; handoff return commit b59d8dff2cacfa95079ceea105c5f38b2b345f2a. Linked K-20261027-002 / ENG-20261027-004 / H-003-PROTOCOL-REGISTER. The earlier index's “directory not created” statement describes setup time and is superseded by this entry. Source availability and all human gates remain unresolved; no study executed. Coding agent curated this session's records; ongoing future curation ownership is not automatically assigned.
