@@ -25,19 +25,19 @@ jobs:
       - name: Check out pinned baseline
         uses: actions/checkout@v4
         with:
-          ref: '342c7389b735188ddf75867c1f62aca4f8176bb0'
+          ref: '0d9015cc3cba0977cafcb952cbb33a11870e2754'
           path: 'sources/baseline'
           persist-credentials: false
       - name: Check out pinned opening
         uses: actions/checkout@v4
         with:
-          ref: '5aa151e3c61d8a25c1cd2865cbc3bf1fd2c74003'
+          ref: '60bf76995fd9ab5bb319f38fca15f6f3b3a85514'
           path: 'sources/opening'
           persist-credentials: false
       - name: Check out pinned quality
         uses: actions/checkout@v4
         with:
-          ref: 'a7eb6c3e766d8c16dcdb05bcef413ab03df0138c'
+          ref: 'c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf'
           path: 'sources/quality'
           persist-credentials: false
       - name: Check out pinned dashboard
@@ -49,7 +49,7 @@ jobs:
       - name: Check out pinned offline
         uses: actions/checkout@v4
         with:
-          ref: '1dffeb45198050e04d609f2dae46e31386e5d338'
+          ref: '5874e1f266595b020ee1413b00f5e03d0d233e15'
           path: 'sources/offline'
           persist-credentials: false
       - name: Check out pinned diagnostics
@@ -61,7 +61,7 @@ jobs:
       - name: Check out pinned ingestion
         uses: actions/checkout@v4
         with:
-          ref: 'ad06befd55ad9b79fbcbf69a787dabd329672062'
+          ref: '106be9d2872adac16cd1c07cf18d4fb1eb04c75d'
           path: 'sources/ingestion'
           persist-credentials: false
       - name: Assemble disposable source overlay and run guarded tests
@@ -85,5 +85,5 @@ jobs:
                   for filename in files:
                       shutil.copy2(sources / name / filename, target / filename)
               assert not any(p.suffix in (".db", ".sqlite", ".sqlite3") for p in target.rglob("*"))
-              print("Pinned source revisions: " + json.dumps({"baseline":"342c7389b735188ddf75867c1f62aca4f8176bb0","opening":"5aa151e3c61d8a25c1cd2865cbc3bf1fd2c74003","quality":"a7eb6c3e766d8c16dcdb05bcef413ab03df0138c","dashboard":"359619777ca120937f564adfa65be123c23c7cfb","offline":"1dffeb45198050e04d609f2dae46e31386e5d338","diagnostics":"1cd4f7d32ac32973336f6ef7b6e296c462ab938a","ingestion":"ad06befd55ad9b79fbcbf69a787dabd329672062"}, sort_keys=True), flush=True)
+              print("Pinned source revisions: " + json.dumps({"baseline":"0d9015cc3cba0977cafcb952cbb33a11870e2754","opening":"60bf76995fd9ab5bb319f38fca15f6f3b3a85514","quality":"c8ce0df5e339d47b2ce4f9a48b8a8f6b4a908acf","dashboard":"359619777ca120937f564adfa65be123c23c7cfb","offline":"5874e1f266595b020ee1413b00f5e03d0d233e15","diagnostics":"1cd4f7d32ac32973336f6ef7b6e296c462ab938a","ingestion":"106be9d2872adac16cd1c07cf18d4fb1eb04c75d"}, sort_keys=True), flush=True)
               subprocess.run([sys.executable, "-B", "offline_checks.py"], cwd=target, check=True)
