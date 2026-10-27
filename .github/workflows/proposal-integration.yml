@@ -1,0 +1,89 @@
+name: Pinned proposal integration
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/proposal-integration.yml'
+      - 'docs/PROPOSAL_INTEGRATION.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  combined:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check out pinned baseline
+        uses: actions/checkout@v4
+        with:
+          ref: '342c7389b735188ddf75867c1f62aca4f8176bb0'
+          path: 'sources/baseline'
+          persist-credentials: false
+      - name: Check out pinned opening
+        uses: actions/checkout@v4
+        with:
+          ref: '69bfc17209bb9b2e87b570fc25199824949030f3'
+          path: 'sources/opening'
+          persist-credentials: false
+      - name: Check out pinned quality
+        uses: actions/checkout@v4
+        with:
+          ref: 'a7eb6c3e766d8c16dcdb05bcef413ab03df0138c'
+          path: 'sources/quality'
+          persist-credentials: false
+      - name: Check out pinned dashboard
+        uses: actions/checkout@v4
+        with:
+          ref: '359619777ca120937f564adfa65be123c23c7cfb'
+          path: 'sources/dashboard'
+          persist-credentials: false
+      - name: Check out pinned offline
+        uses: actions/checkout@v4
+        with:
+          ref: 'dd6a6583cb783638e9a5710ecbff217ce0181349'
+          path: 'sources/offline'
+          persist-credentials: false
+      - name: Check out pinned diagnostics
+        uses: actions/checkout@v4
+        with:
+          ref: '1cd4f7d32ac32973336f6ef7b6e296c462ab938a'
+          path: 'sources/diagnostics'
+          persist-credentials: false
+      - name: Check out pinned ingestion
+        uses: actions/checkout@v4
+        with:
+          ref: 'ad06befd55ad9b79fbcbf69a787dabd329672062'
+          path: 'sources/ingestion'
+          persist-credentials: false
+      - name: Assemble disposable source overlay and run guarded tests
+        shell: python
+        run: |
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import subprocess
+          import sys
+          import tempfile
+
+          sources = Path(os.environ["GITHUB_WORKSPACE"]) / "sources"
+          overlays = {"opening":["test_market_intelligence.py"],"quality":["candle_quality.py","test_candle_quality.py","candle_quality_report.py","test_candle_quality_report.py"],"dashboard":["raccoon_dashboard_v1_5_14.py","test_provider_verification_callback.py"],"offline":["offline_checks.py","test_offline_checks.py"],"diagnostics":["raccoon_diagnostics.py","test_diagnostic_connections.py"],"ingestion":["test_candle_ingestion_characterization.py"]}
+          with tempfile.TemporaryDirectory(prefix="raccoon-integration-", dir=os.environ["RUNNER_TEMP"]) as folder:
+              target = Path(folder) / "project"
+              shutil.copytree(sources / "baseline", target,
+                              ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc"))
+              for name, files in overlays.items():
+                  for filename in files:
+                      shutil.copy2(sources / name / filename, target / filename)
+              assert not any(p.suffix in (".db", ".sqlite", ".sqlite3") for p in target.rglob("*"))
+              print("Pinned source revisions: " + json.dumps({"baseline":"342c7389b735188ddf75867c1f62aca4f8176bb0","opening":"69bfc17209bb9b2e87b570fc25199824949030f3","quality":"a7eb6c3e766d8c16dcdb05bcef413ab03df0138c","dashboard":"359619777ca120937f564adfa65be123c23c7cfb","offline":"dd6a6583cb783638e9a5710ecbff217ce0181349","diagnostics":"1cd4f7d32ac32973336f6ef7b6e296c462ab938a","ingestion":"ad06befd55ad9b79fbcbf69a787dabd329672062"}, sort_keys=True), flush=True)
+              subprocess.run([sys.executable, "-B", "offline_checks.py"], cwd=target, check=True)
