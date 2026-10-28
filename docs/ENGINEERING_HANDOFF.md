@@ -370,3 +370,34 @@ Immutable coordination evidence package a689fb61c8c0df8f85800a28b90de031a17b79d7
 | A-011 independent reviewer | UNKNOWN / human maintainer | No code-review or merge gate closed by reproducer |
 
 Existing guarded-suite disposable synthetic DB fixtures only; new test uses no DB/network and no user store touched. No #14 historical replay/study, provider/market data acquisition, simulated trade/order, ingestion, GUI, thresholds/indicators/strategies, persistence, merge or retarget. Protected #13/#14/#17/#18 heads unchanged; coordination docs are updated only as required for return. Related K-20261027-006 / ENG-20261027-008 / H006-NUMERIC-OUTCOME. Next: coordinator accepts evidence; owner separately chooses whether/how to authorize a minimal repair. All other G-H003-1/2/4 and merge/source/custody permissions remain unresolved.
+
+
+## H-007 — authorized isolated repair return — 2026-10-28 01:14:42 UTC
+Owner coding agent -> independent maintainer/coordination reviewer; status IMPLEMENTED_AND_TESTED / RETURNED_FOR_REVIEW, no merge. Direct human instruction in this chat explicitly approved H-007 exact scope with no further confirmation required. This supersedes H006-FIX NOT AUTHORIZED only for the completed H-007 targeted repair; it does not grant general implementation/source/merge permission.
+
+Read source #13 6e7d1a8804b14aba9d08302bc5db48f31b0706ae, unchanged #20 test b4f0d14b9b83500337d5dd6375bcbf279142c6ba; starting coordination1594c38dd614ae724bef53cfdaa6cda5e90cedd0, handoff6bc7e7cbec9e8c96a22b886d676ba95e2812db13, indexee789ec3c0e0c3c67873e3c9499dad9412500972 and linked records. [H-007 work order](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6456118165) context read; direct chat confirmation, not external reported authority, enabled repair. Latest blobs re-fetched before append.
+
+NEW isolated branch fix/h007-volume-ratio-finiteness, [draft PR #21](https://github.com/girlbreaksface/raccoon-radar/pull/21), repair head **48e184c67168724b1449ac8c36d209d4a2d72892**. Source engine blob **8a4d091a24e2ea6f80e4d24b14dcebd400cf3586**; unchanged H-006 test blob **c5c8c5aa5d611396696ec7afa11394aa021723c3**; six new focused tests blob **861f13c791af644c53b3922d0ab2f2014146b6e8**. Engine diff6 additions/1 deletion; no EMA/OR/proxy/threshold/normal formula changes. #13/#20 branches and evidence untouched.
+
+Behavior: compute existing ratio once, detect nonfinite, emit volume_ratio=None and abstain NO TRADE with VOLUME_RATIO_OVERFLOW reason/issues. No cap/zero/fabricated finite number. Candle input quality stays READY/EVALUATED because inputs valid; this is not indicator availability or an action predicate. Matches unchanged H-006 valid-input preconditions, analogous to existing nullable zero-baseline metric. All other overflow guards unchanged.
+
+Local Windows3.12.14: test-first107/5FAIL before fix;107PASS afterward, compilePASS; exact-source/test-byte red/green repeats preserved with hashes. Full benign result equals saved pinned-before output, ratio2.0 unchanged. All seven archived cases strictJSONPASS/nonfinite_paths=[], inputs preserved. Max finite ratio retained1.7976931348623157e308, above-max and subnormal overflow explicitly unavailable, zero baseline/current behavior unchanged.
+
+[CI40613436015](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40613436015): [Ubuntu122570256886](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40613436015/job/122570256886) Python3.11.17 and [Windows122570257183](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40613436015/job/122570257183) Python3.11.9 both compilePASS + **107PASS**. Actual tested checkout **a9a961a6af5b5fc81a8fd2cbe29005af1e1bad8c** merges exact repair head into pinned #13. Original97 + unchanged H006four + six new boundaries. PR20 remains expected red101/2FAIL; green repair does not erase it.
+
+Immutable evidence 3428d73af2c55bd502e6b516c4de8a6fc0c30c18, all four files exact-readback MATCH, three strict JSON parses PASS:
+| Evidence | Creation commit | Git blob |
+|---|---|---|
+| [results.md](https://github.com/girlbreaksface/raccoon-radar/blob/3428d73af2c55bd502e6b516c4de8a6fc0c30c18/docs/handoff_evidence/H-007/results.md) | c894dc145cb1be12bf19966acd784f24add35844 | 95f77d9448ca5669a4769036ba019647bbacfc03 |
+| [observations.synthetic.json](https://github.com/girlbreaksface/raccoon-radar/blob/3428d73af2c55bd502e6b516c4de8a6fc0c30c18/docs/handoff_evidence/H-007/observations.synthetic.json) | 9b7eec89e527c6cf5d83ee8966fd3650688805ce | 130bf4c08a0e003ab0df68cc5e83d69a0d42a663 |
+| [ci-evidence.json](https://github.com/girlbreaksface/raccoon-radar/blob/3428d73af2c55bd502e6b516c4de8a6fc0c30c18/docs/handoff_evidence/H-007/ci-evidence.json) | 2bcaf9d49724fb1ef7b944d838ea5a3fa4721cdf | fa097ea24a63dc5cfdd9ee3f6fa45de2c39b76d0 |
+| [local-checks.json](https://github.com/girlbreaksface/raccoon-radar/blob/3428d73af2c55bd502e6b516c4de8a6fc0c30c18/docs/handoff_evidence/H-007/local-checks.json) | 3428d73af2c55bd502e6b516c4de8a6fc0c30c18 | e781b9380c76e14a211f90e295d10a7ae65bb344 |
+
+| Action | Status / next owner | Gate |
+|---|---|---|
+| H007-REPAIR | IMPLEMENTED_AND_TESTED / RETURNED_FOR_REVIEW | Narrow numeric exception fulfilled; no integration authority |
+| H007-CONTRACT | Input READY + ratio null/explicit reason/NO TRADE documented | Independent maintainer review exact source and nullable metric contract |
+| H007-INTEGRATION | NOT AUTHORIZED | No merge/retarget; separate exact-head approval required |
+| A-011 reviewer | UNKNOWN / human maintainer | Identify independent qualified willing reviewer/access; no self-signoff |
+
+No provider/data acquisition, productionDB/schema/ingestion/UI, raw stamp/research-data rewrite, replay/study, alerts, simulated trade/order or paper/live execution. Existing guarded-suite temporary synthetic DB fixtures only. No strategy redesign or unsupported performance/real-market claims. H-007 limited repair permission does not reopen G-H003-1/2/4 or authorize broader G-H003-3. Next: reviewer checks exact PR21 diff/CI/residual contract risk; owner decides integration separately. Manual session, not scheduler invocation. Related K-20261028-001 / ENG-20261028-001 / H007-NUMERIC-REPAIR-OUTCOME. Final coordination-head baseline CI will be pinned in PR19 notice, separately from repair CI.
