@@ -72,7 +72,7 @@ def calculate(*, premium, contracts, stop_percent="15", target_percent="20",
 
 def _dollars(value, *, signed=False):
     prefix = "-" if value < 0 else "+" if signed and value > 0 else ""
-    return prefix+"$"+format(abs(value), ",.2f")
+    return prefix+"$"+format(value.copy_abs(), ",.2f")
 
 
 def calculator_view(values):
