@@ -1,0 +1,44 @@
+{
+  "recorded_at_utc": "2026-10-28T18:52:04Z",
+  "baseline": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+  "code_revision": "889c966941efada4bdcb3c1f0d042a02f92d880d",
+  "test_first_revision": "d8397a79a34c6823f1ecec9dfeb7efb3488d988e",
+  "run": 40748984013,
+  "checkout": "360659d538b7e6f04b8fe589a9ee35bab55747ea",
+  "jobs": [
+    {
+      "id": 123030252211,
+      "platform": "Windows",
+      "python": "3.11.9",
+      "tests": 86,
+      "compilation": "PASS",
+      "conclusion": "success"
+    },
+    {
+      "id": 123030251725,
+      "platform": "Ubuntu",
+      "python": "3.11.17",
+      "tests": 86,
+      "compilation": "PASS",
+      "conclusion": "success"
+    }
+  ],
+  "local": {
+    "platform": "Windows11",
+    "python": "3.12.14",
+    "tests": 86,
+    "compilation": "PASS",
+    "withdrawn_tk_smoke": "PASS",
+    "visual_accessibility_review": "NOT_PERFORMED"
+  },
+  "features": {
+    "calculator": true,
+    "persistence": false,
+    "csv_export": false,
+    "realized_journal": false,
+    "session_summaries": false,
+    "providers": false,
+    "orders": false
+  },
+  "scope": "Calculator-first fallback; future evidence-only head CI in PR19 return. No existing application source/DB changed."
+}

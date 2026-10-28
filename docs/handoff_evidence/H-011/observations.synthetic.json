@@ -1,0 +1,105 @@
+{
+  "synthetic_only": true,
+  "cases": [
+    {
+      "inputs": {
+        "premium": "1.00",
+        "contracts": "2",
+        "stop_percent": "15",
+        "target_percent": "20",
+        "tick": "0.01",
+        "entry_fees": "0.00",
+        "exit_fees": "0.00"
+      },
+      "view": {
+        "valid": true,
+        "stop": "$0.85  ·  -15.00%  ·  est. P&L -$30.00",
+        "target": "$1.20  ·  +20.00%  ·  est. P&L +$40.00",
+        "entry_cost": "$200.00",
+        "error": "",
+        "notice": "REFERENCE LEVELS ONLY. Manual long-option estimate; no automatic stops, orders or alerts. Actual fills may differ. Standard 100 multiplier; adjusted contracts unsupported.",
+        "fee_basis": "P&L includes entered total entry + exit fees. No spread/slippage model."
+      }
+    },
+    {
+      "inputs": {
+        "premium": "1.00",
+        "contracts": "2",
+        "stop_percent": "15",
+        "target_percent": "20",
+        "tick": "0.01",
+        "entry_fees": "1.30",
+        "exit_fees": "1.30"
+      },
+      "view": {
+        "valid": true,
+        "stop": "$0.85  ·  -15.00%  ·  est. P&L -$32.60",
+        "target": "$1.20  ·  +20.00%  ·  est. P&L +$37.40",
+        "entry_cost": "$201.30",
+        "error": "",
+        "notice": "REFERENCE LEVELS ONLY. Manual long-option estimate; no automatic stops, orders or alerts. Actual fills may differ. Standard 100 multiplier; adjusted contracts unsupported.",
+        "fee_basis": "P&L includes entered total entry + exit fees. No spread/slippage model."
+      }
+    },
+    {
+      "inputs": {
+        "premium": "1.05",
+        "contracts": "2",
+        "stop_percent": "15",
+        "target_percent": "20",
+        "tick": "0.05",
+        "entry_fees": "0.00",
+        "exit_fees": "0.00"
+      },
+      "view": {
+        "valid": true,
+        "stop": "$0.90  ·  -14.29%  ·  est. P&L -$30.00",
+        "target": "$1.25  ·  +19.05%  ·  est. P&L +$40.00",
+        "entry_cost": "$210.00",
+        "error": "",
+        "notice": "REFERENCE LEVELS ONLY. Manual long-option estimate; no automatic stops, orders or alerts. Actual fills may differ. Standard 100 multiplier; adjusted contracts unsupported.",
+        "fee_basis": "P&L includes entered total entry + exit fees. No spread/slippage model."
+      }
+    },
+    {
+      "inputs": {
+        "premium": "1.00",
+        "contracts": "1.5",
+        "stop_percent": "15",
+        "target_percent": "20",
+        "tick": "0.01",
+        "entry_fees": "0.00",
+        "exit_fees": "0.00"
+      },
+      "view": {
+        "valid": false,
+        "stop": "—",
+        "target": "—",
+        "entry_cost": "—",
+        "error": "Contracts must be a whole number from 1 to 100000.",
+        "notice": "REFERENCE LEVELS ONLY. Manual long-option estimate; no automatic stops, orders or alerts. Actual fills may differ. Standard 100 multiplier; adjusted contracts unsupported.",
+        "fee_basis": "P&L includes entered total entry + exit fees. No spread/slippage model."
+      }
+    },
+    {
+      "inputs": {
+        "premium": "",
+        "contracts": "2",
+        "stop_percent": "15",
+        "target_percent": "20",
+        "tick": "0.01",
+        "entry_fees": "0.00",
+        "exit_fees": "0.00"
+      },
+      "view": {
+        "valid": false,
+        "stop": "—",
+        "target": "—",
+        "entry_cost": "—",
+        "error": "Premium must be a plain finite decimal (up to 8 decimal places).",
+        "notice": "REFERENCE LEVELS ONLY. Manual long-option estimate; no automatic stops, orders or alerts. Actual fills may differ. Standard 100 multiplier; adjusted contracts unsupported.",
+        "fee_basis": "P&L includes entered total entry + exit fees. No spread/slippage model."
+      }
+    }
+  ]
+}
