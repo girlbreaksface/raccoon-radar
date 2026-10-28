@@ -104,6 +104,9 @@ class LedgerCalculatorTests(unittest.TestCase):
             result = calculate(**inputs(premium="1.05", tick="0.05",
                                         entry_fees="1.30", exit_fees="1.30"))
             self.assertEqual(result.stop_pnl, Decimal("-32.60"))
+            view = calculator_view(inputs(premium="1.05", tick="0.05",
+                                          entry_fees="1.30", exit_fees="1.30"))
+            self.assertIn("-$32.60", view["stop"])
             self.assertEqual(context.prec, 2)
             self.assertTrue(context.traps[Inexact])
 
