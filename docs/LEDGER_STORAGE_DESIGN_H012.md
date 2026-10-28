@@ -1,6 +1,6 @@
 # H-012 — isolated manual Ledger storage contract
 
-**DESIGN ONLY · NOT APPROVED FOR IMPLEMENTATION · NOT A MIGRATION.** Recorded2026-10-28 19:08:56 UTC. Direct human yes in coding chat approved H012 review after [work order](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6477991148). No database opened/created and no SQL executed. All schema/API names below are proposals, not shipped functions.
+**DESIGN ONLY · NOT APPROVED FOR IMPLEMENTATION · NOT A MIGRATION.** Recorded2026-10-28 19:08:56 UTC. Direct human yes in coding chat approved H012 review after [work order](https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6477991148). No Ledger/research database opened/created and no proposed schema SQL executed; existing baseline CI uses disposable synthetic test fixtures only. All schema/API names below are proposals, not shipped functions.
 
 ## 1. Pins, architecture and separation
 Clean baseline main b0ad02dc996b00406e7da08fb33b6382f658ea40; independent docs branch docs/h012-ledger-storage-contract. Reviewed H011 PR24 head092d7addbbbc56f369c1c53226ed6b82fa3e6dc4: model blobf1f22c84ae721004f89c9d88d47d675522b052cc, plan3894c2433745b971fdb50ca0eb51adf59a578ecd. Research journal on main blob74e4df173a53102b41188f4af0d3761af4c614b3 imports strategy_validation.DB_PATH and initializes research tables. It is not a manual-fill ledger. Coordination head16bd05f5d694d7d2d472ff3d9ddf218ba32c0cad, handoff09e826b23f7fde82d16bab7c4a102ed91b2b4503 read. Prior review/merge gates remain unresolved.
