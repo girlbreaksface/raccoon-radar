@@ -1,0 +1,259 @@
+{
+  "schema_version": "H-003-proposed-v1",
+  "status": "DRAFT_NOT_FROZEN_NOT_EXECUTED",
+  "owner": "coding agent (documentation); study custodian UNKNOWN",
+  "recorded_at_utc": "2026-10-27 13:15:21 UTC",
+  "work_order": {
+    "id": "H-003",
+    "actions": [
+      "A-006",
+      "A-007",
+      "A-008",
+      "A-009"
+    ],
+    "branch": "docs/shared-engineering-handoff",
+    "pr": 19,
+    "read_commit": "f4930346019bfcb1ca2a633b8c09c5bcad8facbe",
+    "read_handoff_blob": "0e6d3819a8c237caf535edc22849f670ba3a2e69",
+    "ack_commit": "38532d6c38b3d47f759b491969209b32b6c2d3a1"
+  },
+  "reviewed_artifacts": {
+    "main": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+    "engine_pr13": "6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+    "engine_git_blob": "09497b013d65aebaa9f77f47212079f35445b74b",
+    "replay_pr14": "328135f2695543cde96bb434aaa07201c51c0582",
+    "replay_git_blob": "4eeaa8c1fdb595134096fa5ac13f52f8ecf82392",
+    "combined_tested_checkout": "a9f01f8c0b43697f9102e1424809645315b4fc64",
+    "combined_tree": "6043eaf49a9c7b0e22ace612f851ad0f25f5a8b4",
+    "adapter_pr17": "9224b7d7b0db02b56ce0f517c0ce5a4968c77fa3",
+    "adapter_design_blob": "876b29be4aecb6fba95e3fa2fa395aab8a35a4fb",
+    "protocol_pr18": "eb683559a0ab685503627612ab22aa16a77066ed",
+    "protocol_git_blob": "e4f381a8fa8d8ed968e01bd501b7a95b763df38a"
+  },
+  "planned_run": {
+    "execution_authorized": false,
+    "execution_time_utc": "UNKNOWN",
+    "study_id": "UNKNOWN",
+    "future_run_code_commit": "UNKNOWN",
+    "future_run_code_sha256": "UNKNOWN",
+    "adapter_version": "UNKNOWN_NOT_IMPLEMENTED",
+    "frame_replay_version": "UNKNOWN_NOT_IMPLEMENTED",
+    "freeze_commit": "UNKNOWN",
+    "protocol_sha256": "UNKNOWN_NOT_FROZEN",
+    "canonical_serialization": "PROPOSED UTF-8 sorted JSON, compact separators, finite numbers; timestamps UTC, exact precision retained; integer/decimal encoding policy requires approval",
+    "manifest_sha256": "UNKNOWN_COMPUTED_ONLY_AFTER_APPROVED_FREEZE",
+    "manifest_hash_rule": "Hash a canonical immutable run manifest excluding its own digest and mutable status fields; publish digest in separate immutable inventory; policy must be approved"
+  },
+  "source": {
+    "symbols": [
+      "SPY",
+      "QQQ"
+    ],
+    "source": "Moomoo proposed; exact endpoint UNKNOWN",
+    "source_capture_sha256": "UNKNOWN",
+    "source_location": "UNKNOWN",
+    "fidelity": "UNKNOWN",
+    "sdk_version": "UNKNOWN",
+    "opend_version": "UNKNOWN",
+    "entitlement": "UNKNOWN",
+    "interval": "PROPOSED one-minute regular-session",
+    "adjustment_flags": "UNKNOWN",
+    "volume_units": "UNKNOWN",
+    "currency": "UNKNOWN",
+    "revision_ids": "UNKNOWN",
+    "mapping_authority": "UNKNOWN",
+    "mapping_evidence_hashes": "UNKNOWN",
+    "knowledge_evidence_hashes": "UNKNOWN",
+    "receipt_publication_clock_bounds": "UNKNOWN",
+    "completion_evidence": "UNKNOWN",
+    "finality_evidence": "UNKNOWN",
+    "page_completeness": "UNKNOWN",
+    "daily_source_60_sessions": "UNKNOWN",
+    "eligibility": "BLOCKED"
+  },
+  "calendar": {
+    "id": "UNKNOWN",
+    "source_hash": "UNKNOWN",
+    "version": "UNKNOWN",
+    "timezone": "America/New_York (proposed)",
+    "tzdata_version": "UNKNOWN",
+    "per_session_utc_bounds": "UNKNOWN",
+    "early_close_holiday_halt_policy": "UNKNOWN"
+  },
+  "environment": {
+    "future_python_version": "UNKNOWN (existing CI 3.11 baseline)",
+    "dependency_lock_hash": "UNKNOWN_NO_APPROVED_LOCK",
+    "source_hashes_by_observed_ci_platform": "ci-observations.json (not planned study code)",
+    "os": "UNKNOWN",
+    "random_seed_proposed": 20261027,
+    "bootstrap_resamples_proposed": 10000
+  },
+  "hypotheses": {
+    "status": "PROPOSED_NO_EMPIRICAL_EFFECT_PREDICTED",
+    "definitions": "replay-plan.md; #18 exact pinned protocol",
+    "arms": [
+      "A exact conjunction",
+      "B EMA9/21 + prior20 RVOL>=1.2",
+      "C first15 OR location breakout",
+      "D paired B retained/excluded additional A gates"
+    ],
+    "parameters": {
+      "ema_fast": 9,
+      "ema_slow": 21,
+      "ema_seed": "SMA per session",
+      "volume_lookback": 20,
+      "volume_multiplier": 1.2,
+      "opening_minutes": 15,
+      "max_age_minutes": 2,
+      "common_intraday_warmup_bars": 22,
+      "daily_context_scheduled_sessions": 60
+    },
+    "quality_guards": "MANDATORY_ALL_ARMS",
+    "conflict_rule": "retain each symbol; no consensus filter",
+    "daily_missing_rule": "DAILY_CONTEXT_UNAVAILABLE stratum; retain eligible intraday primary events"
+  },
+  "timing": {
+    "decision_grid": "O+25 minutes +5*k; k>=0; t+4 minutes<=C",
+    "feature_cutoff": "t UTC, exact known revision only",
+    "entry_proxy": "OPEN at t+1 minute",
+    "exit_proxy": "CLOSE ending t+4 minutes",
+    "horizon_minutes": 3,
+    "label_vintage": "session close C +24 elapsed UTC hours",
+    "actual_feature_and_label_cutoffs_utc": "UNKNOWN",
+    "precision_policy": "#17 proposed conservative engine-v1 view; approval UNKNOWN",
+    "missingness": "no fills; explicit exclusions; missing labels never zero"
+  },
+  "split": {
+    "T0_utc": "UNKNOWN",
+    "development_dates": "UNKNOWN_INSPECTED_DISCLOSURE_REQUIRED",
+    "rehearsal_sessions": 60,
+    "rehearsal_actual_dates": "UNKNOWN",
+    "embargo_scheduled_sessions": 5,
+    "future_evaluation_scheduled_sessions": 120,
+    "future_actual_dates": "UNKNOWN",
+    "shared_spy_qqq_dates": true,
+    "adaptive_stopping": false,
+    "interim_outcome_viewing": false,
+    "access_policy_hash": "UNKNOWN",
+    "custodian": "UNKNOWN",
+    "prior_inspection": "Code/synthetic fixtures and proposed protocol inspected. Real historical dataset scope UNKNOWN. No H-003 study executed.",
+    "untouched_status": "NOT_ESTABLISHED"
+  },
+  "analysis": {
+    "paired_date_clusters": true,
+    "serial_dependence_sensitivity": "five consecutive session-date blocks",
+    "primary_estimand": "#18 A-minus-B conditional date-level movement; exact weighting/undefined-date clarification PROPOSED in replay-plan.md, requires approval",
+    "missing_dates_and_labels": "retained in counts; conditional estimands disclose exclusions",
+    "secondary_strata": [
+      "daily trend alignment",
+      "developing-session direction",
+      "session-relative time",
+      "long/short",
+      "SPY/QQQ pair classification"
+    ],
+    "cost_grid_roundtrip_bps_proposed": [
+      0,
+      1,
+      2,
+      5,
+      10
+    ],
+    "cost_formula": "gross movement percentage points - cost_bps/100",
+    "actual_spread_slippage_commissions_fills": "UNKNOWN",
+    "cost_interpretation": "hypothetical sensitivity only; no executable or observed profitability"
+  },
+  "proposed_outputs": {
+    "root": "evidence/<study-id>/<UTC-run-id>-<manifest-hash>/",
+    "creation": "exclusive, collision-resistant, no overwrite",
+    "inventory": "README with exact immutable artifact hashes and source refs; no private datasets/credentials in GitHub",
+    "schemas": {
+      "decisions": [
+        "symbol",
+        "session",
+        "decision_utc",
+        "arm",
+        "frame_hash",
+        "source_revision_refs",
+        "eligible",
+        "signal",
+        "reasons",
+        "daily_context",
+        "pair_state"
+      ],
+      "labels": [
+        "decision_id",
+        "entry_interval",
+        "exit_interval",
+        "label_cutoff",
+        "label_revision_refs",
+        "gross_directional_move",
+        "missing_reason"
+      ],
+      "summaries": [
+        "scheduled_sessions",
+        "grid_opportunities",
+        "quality_exclusions",
+        "valid_no_trade",
+        "candidates",
+        "valid_labels",
+        "missing_labels",
+        "conditional_results",
+        "cluster_uncertainty"
+      ],
+      "sensitivity": [
+        "cost_bps",
+        "adjusted_proxy",
+        "planned_turnover",
+        "missingness",
+        "limitations"
+      ]
+    }
+  },
+  "approvals": {
+    "independent_reviewer": "UNKNOWN_UNASSIGNED",
+    "independent_review": "NONE",
+    "merge_authority": "NONE",
+    "adapter_contract": "NONE",
+    "knowledge_revision_calendar_policy": "NONE",
+    "revised_replay_design": "NONE",
+    "cost_appendix_and_estimand_clarification": "NONE",
+    "implementation_and_tests": "NONE",
+    "source_access_capture": "NONE",
+    "freeze_and_study_execution": "NONE"
+  },
+  "evidence_files": [
+    "verification.md",
+    "availability-gaps.md",
+    "replay-plan.md",
+    "ci-observations.json"
+  ],
+  "limitations": [
+    "A documentation proposal, not a run manifest, data source or verified provider contract.",
+    "No real history, provider connection, production DB access or study execution in H-003.",
+    "UNKNOWN values are blockers, not defaults to infer."
+  ],
+  "coordination_amendments": [
+    {
+      "id": "H003-C1",
+      "recorded_at_utc": "2026-10-27 13:40:55 UTC",
+      "source_review": "https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6443196332",
+      "original_package_commit": "403fb62d4e2a2563ec5ca9074b5460b0871502d2",
+      "original_package_disposition": "ACCEPTED_AS_DOCUMENTATION_ONLY",
+      "clarification_commit": "f5dabc9a3bfb5bd88e45b10e09e08fdfe7ab59f4",
+      "clarification_path": "docs/handoff_evidence/H-003/coordination-clarifications.md",
+      "status": "PROPOSED_RETURNED_FOR_REVIEW",
+      "knowledge_rule": "Definitely known iff K_high<=cutoff; definitely later iff K_low>cutoff; straddling/unknown bounds block affected required frame. Multiple differing known revisions fail closed in conservative v1; no supersession resolver.",
+      "completion_rule": "Watermark closed-bar semantics and receipt knowledge must both be evidenced; no bar-end-only completion.",
+      "common_opportunity_estimand": "T_d=sum((z_A-z_B)*r)/(2*|E_d|), E paired intraday-eligible grid independent of daily context or labels; unresolved nonzero-coefficient labels make full statistic UNKNOWN.",
+      "common_observed_subset": "M_d in E_d with both direction-neutral labels known; shared across arms; attrition and complete-case bias reported.",
+      "missing_label_sensitivity": "Full denominator retained; unrestricted NOT_IDENTIFIED; hypothetical symmetric underlying-movement bounds with L in [.05,.10,.25,.50,1.00] percentage points plus tipping-point diagnostics; no imputed observed value.",
+      "daily_peer_rule": "Unknown daily context retained in E/M; invalid intraday peer removes only affected time from paired E; valid symbol retained separately; E empty unavailable, all-no-candidate valid E zero-exposure by definition.",
+      "custody_status": "UNKNOWN_UNTOUCHED_NOT_ESTABLISHED",
+      "custody_requirements": "Named custodian/reviewer, approved actual dates and independent timestamped freeze, restricted source/label store, full access/export audit, predeclared authorized unblinding, deviations evidence.",
+      "gross_vs_cost": "Gross movement and hypothetical proxy separate. Cost formula z*r-|z|*k/100 pp; all-in assumed k bps. No fills, performance or actual costs verified.",
+      "design_approval": "NONE",
+      "implementation_approval": "NONE",
+      "study_execution_approval": "NONE"
+    }
+  ]
+}

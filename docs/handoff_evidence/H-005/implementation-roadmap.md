@@ -1,0 +1,38 @@
+# H-005 — proposed implementation roadmap (DO NOT EXECUTE)
+Status decision proposal, not authorization. Baseline/read-only evidence in [README](README.md); coverage gaps, review packet and blocker map linked there. No dates/effort estimates invented; sequence follows evidence dependencies rather than version numbers.
+
+| Milestone | Proposed bounded work | Dependencies / owners | Acceptance evidence and explicit gate |
+|---|---|---|---|
+| M0 decision and integration readiness | Independent #13 review; owner chooses correction/knowledge/calendar and study estimand/custody policies; no auto-merge | Human maintainer, independent reviewer UNKNOWN; G-H003-1/2 | Reviewer exact SHA/qualifications/access/independence, material findings and scoped approvals. #13 merge only with explicit permission, then main CI; #14 reviewed retarget after separate authorization/cumulative CI |
+| M1 low-risk offline engineering | Small test-only numerical-output or malformed-canonical-input characterization in NEW isolated branch, not altered reviewed head | Owner explicitly authorizes bounded G-H003-3 work; no source/reviewer claim prerequisite for test artifact itself | Synthetic reproducer + benign control, exact result, no IO/DB/network/math/threshold change; Windows/Linux suite. Findings remain reviewable even if reproducer fails. Fix requires separate evidence/scope |
+| M2 pure canonical contract implementation | Only reviewed immutable envelope/schema/clock/interval/quality adapter pieces; no transport | Approved #17/C1 policies, mapping authority boundary and G-H003-3; data/contract reviewer | Synthetic boundary/tie/uncertainty/partial/revision/calendar tests, no input mutation, fail closed, exact run identity; no real-data semantics claim |
+| M3 source eligibility and bounded evidence work | Locate existing approved source artifacts; only after separate permission acquire needed evidence | Human evidence/custody owner + explicit source/provider access authorization G-H003-4 | Full capture/receipt/revision/page/flags/calendar/clock manifests and independent mapping authority. UNKNOWN availability remains blocked, not backdated |
+| M4 revised replay and study mechanics | Frame-driven fixed grid, shared labels/vintage, A/B/C/D, E/M denominators, daily/peer rules, missing/cost sensitivities | Approved #18/C1/H-004 choices + G-H003-3; pure offline branch first | Independent synthetic math/units/cancellation/subset and leakage tests, deterministic sealed inputs, no frozen-test leakage; real study NOT yet authorized |
+| M5 empirical rehearsal/confirmation | Separately approved exploratory historical rehearsal and/or truly prospective frozen evaluation | Evidence-qualified dataset, actual custody/freeze/dates/access and explicit study execution G-H003-4; research custodian/reviewer | All arms/exclusions/negative results, dates/session clusters, source/label revision evidence, uncertainty and deviations; no executable/edge claim beyond actual evidence |
+| M6 read-only alerting | Approved transport feeding canonical frames; bounded queues/reconnect, quality/lag/blocked states and compact UI proposal | M2+M3 and explicit provider/UI/alert scope; M5 needed for empirical claims, not merely reliability experiments | Quote-only/no orders, stale/partial/unknown fail-closed tests, operator evidence, no GUI IO surprises; staged read-only observation separately permitted |
+| M7 optional paper-execution DESIGN | Independent architecture/risk review of checklist; no orders from this milestone | Separate product priority and risk/security/broker feasibility owners; not a read-only extension by implication | Approved state machine, rejection/unknown-exit reconciliation, kill switch, paper/live isolation, assumptions/permissions; implementation and simulations still separate approvals |
+| M8 optional paper validation | Only after new bounded implementation and broker/simulation authorization | M7 full evidence and actual paper permissions; no live privileges | Adversarial/fault lifecycle evidence, cost/fill-model characterization and reconciled audit; hypothetical paper performance never automatically live-valid |
+| M9 possible future live policy | A new decision outside present scope, not scheduled inevitable development | All evidence/control review plus human product/risk/legal/security/broker decisions | No authorization, requirements or calendar presumed; no automatic migration from paper or research |
+
+## Recommended owner decision now: can anything proceed without historical custody or reviewer gates?
+YES as a SEPARATELY AUTHORIZED artifact, not as integration/production approval.
+
+**Alternative A — recommended narrow test-only numerical-output characterization**
+- Source evidence: engine finite-intermediate guard exists, but volume_ratio calculation is outside that tuple; current overflow test does not isolate all output fields. This is a documented source-derived RISK, NOT a reproduced defect.
+- Request scope: new branch from #13 pinned head 6e7d1a8804b14aba9d08302bc5db48f31b0706ae, synthetic coherent finite OHLCV and extreme but finite volume ranges; reproduce/characterize strict JSON-safe finite observations, retain benign control/input preservation and guard checks.
+- Exclusions: no engine implementation edits/fixes, threshold or indicator changes, raw/history access, providers, SQLite, new baseline study code, merges or pushes to reviewed #13 head.
+- Acceptance: exact fixture/reproducer/test output and error expectation, source/tested SHAs, Windows/Linux results, limits. If a failure is demonstrated, return evidence and request the smallest separately approved fix; do not weaken assertion or conceal failing CI. A test-only failure artifact is not merge-ready.
+- Why independent of custody/reviewer: purely synthetic software reliability evidence; does not infer timestamp semantics, authenticate history or grant #13 integration. It STILL needs explicit bounded G-H003-3 authorization, which remains CLOSED now. Independent #13 review must still happen.
+
+**Alternative B — narrow malformed-canonical-input characterization**
+- Source evidence: evaluate has explicit invalid-row handling; replay assumes validated availability/session fields and can raise. Need owner choice whether exceptions or quality reports are the public contract.
+- Request separate characterization-only tests/docs with stable valid controls and malformed field shapes; no adapter/ingestion/validation behavior fix.
+- Tradeoff: error-contract choice is more policy-dependent than A. Do not silently add permissive coercion or ignore unknown records to satisfy tests.
+
+**Alternative C — continue documentation/verification hold**
+- No implementation permission needed; maintain current evidence, identify reviewer through verified identity/access and resolve policies/source custody. Avoid duplicate notes or endlessly changing counts.
+- Tradeoff: lowest runtime risk but no new automated reliability evidence. No reviewer fabricated and no empirical source assumptions.
+
+## Decision request format
+Owner may approve ONE exact alternative/scope at the returned immutable revision; include allowed files, runtime changes (NONE for A/B), data scope SYNTHETIC ONLY, branch base, required checks, exclusions and expiry/stop condition. If G-H003-3 is reopened for this bounded exception, record it separately; it must not reopen G-H003-1/2/4 or permit merge/source/custody/study work.
+Do not choose an alternative on the owner's behalf. H-005 authorizes these documentation recommendations only. New bugs/requirements found during any approved future work return to the handoff with evidence and next gate. All original research, raw timestamps and stores preserved.

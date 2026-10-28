@@ -1,0 +1,1866 @@
+{
+  "synthetic_only": true,
+  "engine_head": "48e184c67168724b1449ac8c36d209d4a2d72892",
+  "repair_head": "fa3f3640ea473cb3421b6153f424040470fdff29",
+  "cases": [
+    {
+      "input_signal": "MISSING",
+      "signal_type": "object",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ],
+          "signal": "NO TRADE"
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ],
+          "signal": "NO TRADE"
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "None",
+      "signal_type": "NoneType",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "''",
+      "signal_type": "str",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "'UNKNOWN'",
+      "signal_type": "str",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "'BULLISH'",
+      "signal_type": "str",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "'BEARISH'",
+      "signal_type": "str",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "' bullish candidate '",
+      "signal_type": "str",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "0",
+      "signal_type": "int",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "True",
+      "signal_type": "bool",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "[]",
+      "signal_type": "list",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "{}",
+      "signal_type": "dict",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "inf",
+      "signal_type": "float",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "input_signal": "nan",
+      "signal_type": "float",
+      "snapshots": [
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        },
+        {
+          "schema_version": 1,
+          "engine_version": "direction-hypothesis-v1",
+          "symbol": "SPY",
+          "signal": "NO TRADE",
+          "timestamp": "2026-10-23 09:54:00",
+          "interval_end_et": "2026-10-23 09:55:00",
+          "as_of_et": "2026-10-23 09:55:00",
+          "interval_evidence": {
+            "status": "SYNTHETIC",
+            "reference": "H-006-explicit-intervals-only"
+          },
+          "config": {
+            "ema_fast": 9,
+            "ema_slow": 21,
+            "volume_lookback": 20,
+            "volume_multiplier": 1.2,
+            "opening_minutes": 15,
+            "max_age_minutes": 2
+          },
+          "data_hash": "b97bfe9e66d9ae9ac14647ebd1236fddd4a6ba2909e262d94285f43471394c19",
+          "data_quality": {
+            "status": "READY",
+            "eligible_bars": 25,
+            "issues": [],
+            "missing_interval_starts": [],
+            "evidence_status": "SYNTHETIC"
+          },
+          "observations": {
+            "indicator_status": "EVALUATED",
+            "bars": 25,
+            "last_close": 0.012400000000000001,
+            "last_volume": 200,
+            "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+            "ema9": 0.012000000000000004,
+            "ema21": 0.011399999999999999,
+            "ema_fast_period": 9,
+            "ema_slow_period": 21,
+            "prior_fast_ema": 0.011900000000000003,
+            "vwap_candle_proxy": 0.011246153846153847,
+            "above_vwap_proxy": true,
+            "below_vwap_proxy": false,
+            "volume_baseline": 100,
+            "volume_ratio": 2,
+            "volume_confirmed": true,
+            "opening_range_high": 0.011425000000000001,
+            "opening_range_low": 0.009975,
+            "above_opening_range": true,
+            "below_opening_range": false,
+            "prior_five_high": 0.012325000000000001,
+            "prior_five_low": 0.011875,
+            "five_bar_break_above": true,
+            "five_bar_break_below": false,
+            "ema9_rejection": false,
+            "ema9_support": false,
+            "bullish_trend": true,
+            "bearish_trend": false
+          },
+          "reasons": [
+            "SYNTHETIC_ORIGINAL_REASON",
+            "INVALID_SIGNAL"
+          ],
+          "limitations": [
+            "Hypothesis only; no validated trading edge or executable P/L.",
+            "HLC3 volume-weighted candle proxy is NOT trade-level VWAP.",
+            "Interval/session evidence is caller supplied; provider semantics are not inferred."
+          ]
+        }
+      ],
+      "events": []
+    }
+  ]
+}

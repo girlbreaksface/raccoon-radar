@@ -1,0 +1,54 @@
+{
+  "recorded_at_utc": "2026-10-28T16:30:31Z",
+  "repair_head": "fa3f3640ea473cb3421b6153f424040470fdff29",
+  "base_head": "ae3fda66055733bde371e1b0d7887f8157cf8c7f",
+  "test_first_commit": "6835841b2d5fadb7963b721d6db91ed612409359",
+  "run": 40726530880,
+  "checkout": "e37ea1461edea833ead63babd99d7626a5c0053c",
+  "jobs": [
+    {
+      "id": 122951207078,
+      "platform": "Windows",
+      "python": "3.11.9",
+      "compilation": "PASS",
+      "tests": 136,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "id": 122951207430,
+      "platform": "Ubuntu",
+      "python": "3.11.17",
+      "compilation": "PASS",
+      "tests": 136,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "local": {
+    "python": "3.12.14",
+    "platform": "Windows11",
+    "before": {
+      "tests": 136,
+      "failing_assertions_or_subtests": 48,
+      "errors": 6,
+      "log_sha256": "46ec69b9bcd76fcf83dd8bdbc42ee610a7fdce61cb1355ea7e308bd1d2ce61e6"
+    },
+    "after": {
+      "tests": 136,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "118f4c88f00195a9bd8b9b4589360c591283aa33225f8f26e17937d3accba13a",
+      "compilation": "PASS"
+    }
+  },
+  "protected_red_artifact": {
+    "pr": 22,
+    "head": "ae3fda66055733bde371e1b0d7887f8157cf8c7f",
+    "run": 40717552033,
+    "tests": 114,
+    "failures": 2,
+    "unchanged": true
+  },
+  "scope": "Synthetic unit tests only, no historical market study or independent-review approval"
+}

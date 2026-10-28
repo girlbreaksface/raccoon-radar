@@ -1,0 +1,61 @@
+{
+  "recorded_at_utc": "2026-10-28 01:13:09 UTC",
+  "repair_head": "48e184c67168724b1449ac8c36d209d4a2d72892",
+  "source_base": "6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+  "unchanged_h006_test_blob": "c5c8c5aa5d611396696ec7afa11394aa021723c3",
+  "jobs": [
+    {
+      "run_id": 40613436015,
+      "job_id": 122570256886,
+      "name": "validate (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "compile": "success",
+      "offline": "success",
+      "checkout": "a9a961a6af5b5fc81a8fd2cbe29005af1e1bad8c",
+      "python": "3.11.17",
+      "test_count": 107,
+      "log_excerpts": [
+        "2026-10-28T01:10:44.6667731Z HEAD is now at a9a961a Merge 48e184c67168724b1449ac8c36d209d4a2d72892 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-28T01:10:44.7888945Z Successfully set up CPython (3.11.17)",
+        "2026-10-28T01:10:46.1430547Z test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers) ... ok",
+        "2026-10-28T01:10:46.1442841Z test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable) ... ok",
+        "2026-10-28T01:10:46.2710140Z test_h006_overflow_is_unavailable_with_explicit_abstention (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_h006_overflow_is_unavailable_with_explicit_abstention) ... ok",
+        "2026-10-28T01:10:46.2746923Z test_largest_finite_ratio_is_not_clipped_or_rejected (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_largest_finite_ratio_is_not_clipped_or_rejected) ... ok",
+        "2026-10-28T01:10:46.2785244Z test_ratio_above_float_max_fails_closed_without_a_finite_cap (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_ratio_above_float_max_fails_closed_without_a_finite_cap) ... ok",
+        "2026-10-28T01:10:46.2821800Z test_smallest_positive_baseline_overflow_is_handled (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_smallest_positive_baseline_overflow_is_handled) ... ok",
+        "2026-10-28T01:10:46.2858253Z test_zero_baseline_preserves_existing_missing_ratio_reason (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_zero_baseline_preserves_existing_missing_ratio_reason) ... ok",
+        "2026-10-28T01:10:46.2894438Z test_zero_current_volume_preserves_finite_zero_ratio (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_zero_current_volume_preserves_finite_zero_ratio) ... ok",
+        "2026-10-28T01:10:46.2896110Z Ran 107 tests in 0.743s",
+        "2026-10-28T01:10:46.2896591Z OK"
+      ]
+    },
+    {
+      "run_id": 40613436015,
+      "job_id": 122570257183,
+      "name": "validate (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "compile": "success",
+      "offline": "success",
+      "checkout": "a9a961a6af5b5fc81a8fd2cbe29005af1e1bad8c",
+      "python": "3.11.9",
+      "test_count": 107,
+      "log_excerpts": [
+        "2026-10-28T01:10:49.5935956Z HEAD is now at a9a961a Merge 48e184c67168724b1449ac8c36d209d4a2d72892 into 6e7d1a8804b14aba9d08302bc5db48f31b0706ae",
+        "2026-10-28T01:10:49.9498450Z Successfully set up CPython (3.11.9)",
+        "2026-10-28T01:10:55.0075144Z test_extreme_valid_inputs_emit_only_finite_observation_numbers (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_inputs_emit_only_finite_observation_numbers) ... ok",
+        "2026-10-28T01:10:55.0100608Z test_extreme_valid_result_remains_strict_json_serializable (test_extreme_numeric_output.ExtremeNumericOutputTests.test_extreme_valid_result_remains_strict_json_serializable) ... ok",
+        "2026-10-28T01:10:55.8498234Z test_h006_overflow_is_unavailable_with_explicit_abstention (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_h006_overflow_is_unavailable_with_explicit_abstention) ... ok",
+        "2026-10-28T01:10:55.8577475Z test_largest_finite_ratio_is_not_clipped_or_rejected (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_largest_finite_ratio_is_not_clipped_or_rejected) ... ok",
+        "2026-10-28T01:10:55.8653431Z test_ratio_above_float_max_fails_closed_without_a_finite_cap (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_ratio_above_float_max_fails_closed_without_a_finite_cap) ... ok",
+        "2026-10-28T01:10:55.8732519Z test_smallest_positive_baseline_overflow_is_handled (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_smallest_positive_baseline_overflow_is_handled) ... ok",
+        "2026-10-28T01:10:55.8875367Z test_zero_baseline_preserves_existing_missing_ratio_reason (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_zero_baseline_preserves_existing_missing_ratio_reason) ... ok",
+        "2026-10-28T01:10:55.8953911Z test_zero_current_volume_preserves_finite_zero_ratio (test_volume_ratio_finiteness_repair.VolumeRatioFinitenessRepairTests.test_zero_current_volume_preserves_finite_zero_ratio) ... ok",
+        "2026-10-28T01:10:55.8958259Z Ran 107 tests in 1.904s",
+        "2026-10-28T01:10:55.8958950Z OK"
+      ]
+    }
+  ],
+  "limitations": "Selected excerpts, not full logs. Synthetic numerical safety only; no merge or provider evidence."
+}
