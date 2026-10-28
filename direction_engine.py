@@ -187,17 +187,22 @@ def evaluate(rows, *, symbol, session_open_et, session_close_et, as_of_et,
     breakout, breakdown = last["close"] > five_high, last["close"] < five_low
     rejection = last["high"] >= fast[-2] and last["open"] <= fast[-2] and last["close"] < fast[-2] and last["close"] < last["open"]
     support = last["low"] <= fast[-2] and last["open"] >= fast[-2] and last["close"] > fast[-2] and last["close"] > last["open"]
+    volume_ratio = last["volume"]/baseline if baseline else None
+    ratio_overflow = volume_ratio is not None and not math.isfinite(volume_ratio)
     obs.update(indicator_status="EVALUATED",ema9=fast[-1],ema21=slow[-1],ema_fast_period=config.ema_fast,
         ema_slow_period=config.ema_slow,prior_fast_ema=fast[-2],
         vwap_candle_proxy=proxy,above_vwap_proxy=proxy is not None and last["close"]>proxy,
         below_vwap_proxy=proxy is not None and last["close"]<proxy,volume_baseline=baseline,
-        volume_ratio=last["volume"]/baseline if baseline else None,
+        volume_ratio=None if ratio_overflow else volume_ratio,
         volume_confirmed=volume_confirmed,opening_range_high=or_high,opening_range_low=or_low,
         above_opening_range=above,below_opening_range=below,
         prior_five_high=five_high,prior_five_low=five_low,
         five_bar_break_above=breakout,five_bar_break_below=breakdown,
         ema9_rejection=rejection,ema9_support=support,
         bullish_trend=bull,bearish_trend=bear)
+    if ratio_overflow:
+        # Candles remain valid; this derived metric is unavailable, so abstain.
+        return stop(["VOLUME_RATIO_OVERFLOW"], "READY")
     reasons = []
     if not baseline:
         reasons.append("ZERO_VOLUME_BASELINE")
