@@ -15,7 +15,7 @@ REPLAY_BLOB = "4eeaa8c1fdb595134096fa5ac13f52f8ecf82392"
 ENGINE_BLOB = "8a4d091a24e2ea6f80e4d24b14dcebd400cf3586"
 ROOT = Path(__file__).resolve().parent
 FIXTURE = ROOT / "tests" / "fixtures" / "h009" / "direction_validation.py"
-SPEC = importlib.util.spec_from_file_location("h009_pinned_replay", FIXTURE)
+SPEC = importlib.util.spec_from_file_location("h009_pinned_replay", ROOT / "direction_validation.py")
 replay = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(replay)
 
