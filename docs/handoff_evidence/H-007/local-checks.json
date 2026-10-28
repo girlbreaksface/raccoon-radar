@@ -1,0 +1,53 @@
+{
+  "recorded_at_utc": "2026-10-28 01:13:09 UTC",
+  "python": "3.12.14",
+  "platform": "Windows",
+  "proof": {
+    "unchanged_original_blobs": 43,
+    "logs": {
+      "red_exact": {
+        "sha256": "28e6b1e75b2dde7e522b64536249c55d81828ee7e8a31d3875f9df2e33aad7e2",
+        "summary": [
+          "",
+          "----------------------------------------------------------------------",
+          "Ran 107 tests in 0.689s",
+          "",
+          "FAILED (failures=5)"
+        ]
+      },
+      "green_exact": {
+        "sha256": "06763a1ea299b7d822e848200cb97fcc08b90b7be7e35ad2bf0400d77d85022a",
+        "summary": [
+          "",
+          "----------------------------------------------------------------------",
+          "Ran 107 tests in 0.681s",
+          "",
+          "OK"
+        ]
+      },
+      "red_initial": {
+        "sha256": "3cad08bef814fdbed1251e641aadd529a77b2975c53d328f90af6d3ce66ad831",
+        "summary": [
+          "",
+          "----------------------------------------------------------------------",
+          "Ran 107 tests in 0.725s",
+          "",
+          "FAILED (failures=5)"
+        ]
+      },
+      "green_initial": {
+        "sha256": "f934d0a1de3b965db495b79c643db54e539c28e5b0d9b38d21358313d483cebe",
+        "summary": [
+          "",
+          "----------------------------------------------------------------------",
+          "Ran 107 tests in 0.690s",
+          "",
+          "OK"
+        ]
+      }
+    }
+  },
+  "unchanged_h006_test": true,
+  "fixture_notes": "Synthetic finite coherent numeric-schema inputs only, not economically realistic; no data collection.",
+  "limits": "No historical replay/study, provider, or production DB. Existing guarded suite owns disposable synthetic fixtures."
+}
