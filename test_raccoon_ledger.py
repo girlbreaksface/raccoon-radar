@@ -38,8 +38,8 @@ class LedgerCalculatorTests(unittest.TestCase):
                          (Decimal("0.90"), Decimal("1.25")))
         self.assertEqual((result.stop_pnl, result.target_pnl),
                          (Decimal("-30.00"), Decimal("40.00")))
-        self.assertEqual(result.stop_change_percent, Decimal("-100")/Decimal("7"))
-        self.assertEqual(result.target_change_percent, Decimal("400")/Decimal("21"))
+        self.assertEqual(result.stop_change_percent, Decimal("-14.29"))
+        self.assertEqual(result.target_change_percent, Decimal("19.05"))
 
     def test_ten_cent_tick_and_binary_float_sensitive_input(self):
         result = calculate(**inputs(premium="0.30", tick="0.01"))
@@ -95,6 +95,17 @@ class LedgerCalculatorTests(unittest.TestCase):
     def test_explicit_fee_estimate_can_make_target_net_pnl_negative(self):
         result = calculate(**inputs(entry_fees="30", exit_fees="30"))
         self.assertEqual(result.target_pnl, Decimal("-20.00"))
+
+    def test_caller_decimal_context_cannot_change_reference_calculations(self):
+        from decimal import Inexact, localcontext
+        with localcontext() as context:
+            context.prec = 2
+            context.traps[Inexact] = True
+            result = calculate(**inputs(premium="1.05", tick="0.05",
+                                        entry_fees="1.30", exit_fees="1.30"))
+            self.assertEqual(result.stop_pnl, Decimal("-32.60"))
+            self.assertEqual(context.prec, 2)
+            self.assertTrue(context.traps[Inexact])
 
     def test_input_preservation_and_determinism(self):
         values = inputs()
