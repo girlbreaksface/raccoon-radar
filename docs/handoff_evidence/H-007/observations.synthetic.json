@@ -1,0 +1,391 @@
+{
+  "recorded_at_utc": "2026-10-28T01:10:38.109189+00:00",
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cases": {
+    "benign": {
+      "prior_volume": 100,
+      "last_volume": 200,
+      "fixture_sha256": "bb97895227e3f46ce229bcb13d36698634b31f0bfe30700449b6d2b2c1203923",
+      "input_preserved": true,
+      "signal": "BULLISH CANDIDATE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 200,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.011246153846153847,
+        "above_vwap_proxy": true,
+        "below_vwap_proxy": false,
+        "volume_baseline": 100,
+        "volume_ratio": 2,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "h006_extreme": {
+      "prior_volume": 1e-200,
+      "last_volume": 1e+200,
+      "fixture_sha256": "04586719bd8292cc9c857dd477569e9d5d46c6f6333f8fceb92132023f2c6a3d",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [
+          "VOLUME_RATIO_OVERFLOW"
+        ],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1e+200,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 1e-200,
+        "volume_ratio": null,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "VOLUME_RATIO_OVERFLOW"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "max_finite": {
+      "prior_volume": 1,
+      "last_volume": 1.7976931348623157e+308,
+      "fixture_sha256": "c5036f28579c6f2ab1277dbf804d0fb6b2676585e2e93537bf88cf5b2f804ce7",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1.7976931348623157e+308,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 1,
+        "volume_ratio": 1.7976931348623157e+308,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "VWAP_PROXY_NOT_ALIGNED"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "above_max": {
+      "prior_volume": 0.5,
+      "last_volume": 1.7976931348623157e+308,
+      "fixture_sha256": "ec869b30b1f62dc24f384d307e240d5474ed37742ec8abc21889485abcea23e2",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [
+          "VOLUME_RATIO_OVERFLOW"
+        ],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1.7976931348623157e+308,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 0.5,
+        "volume_ratio": null,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "VOLUME_RATIO_OVERFLOW"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "subnormal": {
+      "prior_volume": 5e-324,
+      "last_volume": 1,
+      "fixture_sha256": "b626637d9da479d5d3773e2d6bd1373dd1ab8bd871b24f63c397ee0d2ec127c5",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [
+          "VOLUME_RATIO_OVERFLOW"
+        ],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 5e-324,
+        "volume_ratio": null,
+        "volume_confirmed": true,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "VOLUME_RATIO_OVERFLOW"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "zero_baseline": {
+      "prior_volume": 0,
+      "last_volume": 1,
+      "fixture_sha256": "763a769229c2ec774312c6f4633baa77939c6cf211a174916e53611615c7b41e",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 1,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.012400000000000001,
+        "above_vwap_proxy": false,
+        "below_vwap_proxy": false,
+        "volume_baseline": 0,
+        "volume_ratio": null,
+        "volume_confirmed": false,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "ZERO_VOLUME_BASELINE",
+        "VOLUME_NOT_CONFIRMED",
+        "VWAP_PROXY_NOT_ALIGNED"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    },
+    "zero_current": {
+      "prior_volume": 1,
+      "last_volume": 0,
+      "fixture_sha256": "7be73e32292c5f752b4581b5b0c2012037ced146070b8b041103814f6c03ae68",
+      "input_preserved": true,
+      "signal": "NO TRADE",
+      "data_quality": {
+        "status": "READY",
+        "eligible_bars": 25,
+        "issues": [],
+        "missing_interval_starts": [],
+        "evidence_status": "SYNTHETIC"
+      },
+      "observations": {
+        "indicator_status": "EVALUATED",
+        "bars": 25,
+        "last_close": 0.012400000000000001,
+        "last_volume": 0,
+        "vwap_basis": "HLC3_VOLUME_WEIGHTED_CANDLE_PROXY",
+        "ema9": 0.012000000000000004,
+        "ema21": 0.011399999999999999,
+        "ema_fast_period": 9,
+        "ema_slow_period": 21,
+        "prior_fast_ema": 0.011900000000000003,
+        "vwap_candle_proxy": 0.01115,
+        "above_vwap_proxy": true,
+        "below_vwap_proxy": false,
+        "volume_baseline": 1,
+        "volume_ratio": 0,
+        "volume_confirmed": false,
+        "opening_range_high": 0.011425000000000001,
+        "opening_range_low": 0.009975,
+        "above_opening_range": true,
+        "below_opening_range": false,
+        "prior_five_high": 0.012325000000000001,
+        "prior_five_low": 0.011875,
+        "five_bar_break_above": true,
+        "five_bar_break_below": false,
+        "ema9_rejection": false,
+        "ema9_support": false,
+        "bullish_trend": true,
+        "bearish_trend": false
+      },
+      "reasons": [
+        "VOLUME_NOT_CONFIRMED"
+      ],
+      "nonfinite_paths": [],
+      "strict_json": true
+    }
+  },
+  "benign_full_output_equal_to_pinned_before": true,
+  "files": {
+    "direction_engine.py": {
+      "git_blob": "8a4d091a24e2ea6f80e4d24b14dcebd400cf3586",
+      "sha256": "e1db14c064159c53689c1228fcf8a8efc3de92b38561b76726c31c965bde7124"
+    },
+    "test_extreme_numeric_output.py": {
+      "git_blob": "c5c8c5aa5d611396696ec7afa11394aa021723c3",
+      "sha256": "aaff2c26ab897a4d0523af406a50c5c86fd21da9f52163a173de02d152eea60e"
+    },
+    "test_volume_ratio_finiteness_repair.py": {
+      "git_blob": "861f13c791af644c53b3922d0ab2f2014146b6e8",
+      "sha256": "6ab3c36f17fba23327f139b3a9fad8efc07df0f928a645f60cd72c2e555e2d14"
+    }
+  },
+  "h007-before.log": {
+    "sha256": "3cad08bef814fdbed1251e641aadd529a77b2975c53d328f90af6d3ce66ad831",
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 107 tests in 0.725s",
+      "",
+      "FAILED (failures=5)"
+    ]
+  },
+  "h007-after.log": {
+    "sha256": "f934d0a1de3b965db495b79c643db54e539c28e5b0d9b38d21358313d483cebe",
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 107 tests in 0.690s",
+      "",
+      "OK"
+    ]
+  }
+}
