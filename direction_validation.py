@@ -58,6 +58,12 @@ def replay_session(rows, *, symbol, session_open_et, session_close_et, interval_
         snapshot = evaluate(eligible_rows,symbol=symbol,session_open_et=session_open_et,
             session_close_et=session_close_et,as_of_et=known.strftime("%Y-%m-%d %H:%M:%S"),
             interval_evidence=interval_evidence,config=config)
+        signal = snapshot.get("signal")
+        if type(signal) is not str or signal not in (
+                "NO TRADE", "BULLISH CANDIDATE", "BEARISH CANDIDATE"):
+            # Reject malformed decisions without mutating the producer's result.
+            snapshot = {**snapshot, "signal":"NO TRADE",
+                        "reasons":[*snapshot["reasons"], "INVALID_SIGNAL"]}
         snapshots.append(snapshot)
         if snapshot["signal"] == "NO TRADE":
             continue
