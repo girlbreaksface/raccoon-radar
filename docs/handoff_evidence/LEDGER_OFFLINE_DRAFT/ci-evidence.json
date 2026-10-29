@@ -1,0 +1,46 @@
+{
+  "recorded_at_utc": "2026-10-29T04:20:03Z",
+  "baseline": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+  "code_revision": "c41dd2d85faf6c3b9bbca62f644e05a7ef6f8c69",
+  "test_first_commit": "2f8f9a21988f78942e7161507cb1f3e0b25223c1",
+  "run": 40817057688,
+  "checkout": "2d080d39a64f563b5e2d43f5f537328c6197de9f",
+  "jobs": [
+    {
+      "id": 123260489647,
+      "os": "Ubuntu",
+      "python": "3.11.17",
+      "baseline_tests": 69,
+      "journal_tests": 39,
+      "result": "PASS",
+      "compilation": "PASS"
+    },
+    {
+      "id": 123260489842,
+      "os": "Windows",
+      "python": "3.11.9",
+      "baseline_tests": 69,
+      "journal_tests": 39,
+      "result": "PASS",
+      "compilation": "PASS"
+    }
+  ],
+  "timezone_dependency": "tzdata==2026.5",
+  "local": {
+    "os": "Windows11",
+    "python": "3.12.14",
+    "baseline_tests": 69,
+    "journal_tests": 39,
+    "result": "PASS",
+    "compilation": "PASS"
+  },
+  "scope": "Synthetic temporary fixtures only; no existing calculator/dashboard/research database changed; final evidence-only head CI in PR19 return",
+  "limits": [
+    "non-independent internal review",
+    "no real records or app integration",
+    "no OS-adversary filesystem sandbox",
+    "Windows ACLs not independently verified",
+    "recovery exclusive ownership is an operator assertion",
+    "process interruption is not hardware power-loss proof"
+  ]
+}

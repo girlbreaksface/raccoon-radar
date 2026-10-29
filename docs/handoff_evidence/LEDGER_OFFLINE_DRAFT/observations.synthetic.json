@@ -1,0 +1,952 @@
+{
+  "synthetic_only": true,
+  "original": {
+    "ledger_id": "bff56f4b-fc69-4533-9b68-84bb47a35414",
+    "schema_version": 1,
+    "synthetic_only": true,
+    "policy": "synthetic-fifo-v1",
+    "tzdata_version": "2026.5",
+    "reporting_timezone": "America/New_York",
+    "snapshot_sequence": 1,
+    "active_fills": [
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T14:00:00.000000Z",
+        "entered_time": "2026-10-23T10:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 100000000,
+        "quantity": 3,
+        "reason": "synthetic fixture",
+        "revision_id": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+        "side": "BUY_TO_OPEN",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 0,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z",
+        "entered_time": "2026-10-23T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 120000000,
+        "quantity": 1,
+        "reason": "synthetic fixture",
+        "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 1,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z",
+        "entered_time": "2026-10-24T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 90000000,
+        "quantity": 2,
+        "reason": "synthetic fixture",
+        "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 2,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      }
+    ],
+    "revisions": [
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T14:00:00.000000Z",
+        "entered_time": "2026-10-23T10:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 100000000,
+        "quantity": 3,
+        "reason": "synthetic fixture",
+        "revision_id": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+        "side": "BUY_TO_OPEN",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 0,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z",
+        "entered_time": "2026-10-23T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 120000000,
+        "quantity": 1,
+        "reason": "synthetic fixture",
+        "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 1,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z",
+        "entered_time": "2026-10-24T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 90000000,
+        "quantity": 2,
+        "reason": "synthetic fixture",
+        "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 2,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      }
+    ],
+    "positions": [
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "status": "CLOSED",
+        "remaining": 0,
+        "closed_quantity": 3,
+        "unrecognized_entry_fee_cents": 0,
+        "realized_usd": "-0.03000000"
+      }
+    ],
+    "allocations": [
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "entry_fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "exit_fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "quantity": 1,
+        "entry_fee_cents": 0,
+        "exit_fee_cents": 1,
+        "gross_usd": "20.00000000",
+        "net_usd": "19.99000000",
+        "net_display_usd": "19.99",
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z"
+      },
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "entry_fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "exit_fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "quantity": 2,
+        "entry_fee_cents": 1,
+        "exit_fee_cents": 1,
+        "gross_usd": "-20.00000000",
+        "net_usd": "-20.02000000",
+        "net_display_usd": "-20.02",
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z"
+      }
+    ],
+    "summaries": {
+      "daily": {
+        "2026-10-23": {
+          "net_usd": "19.99000000",
+          "net_display_usd": "19.99",
+          "gross_usd": "20.00000000",
+          "entry_fee_cents": 0,
+          "exit_fee_cents": 1,
+          "allocation_count": 1,
+          "exit_fill_count": 1,
+          "closed_contracts": 1,
+          "rounding_difference_cents": 0
+        },
+        "2026-10-24": {
+          "net_usd": "-20.02000000",
+          "net_display_usd": "-20.02",
+          "gross_usd": "-20.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 1,
+          "allocation_count": 1,
+          "exit_fill_count": 1,
+          "closed_contracts": 2,
+          "rounding_difference_cents": 0
+        }
+      },
+      "weekly": {
+        "2026-W43": {
+          "net_usd": "-0.03000000",
+          "net_display_usd": "-0.03",
+          "gross_usd": "0.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 2,
+          "allocation_count": 2,
+          "exit_fill_count": 2,
+          "closed_contracts": 3,
+          "rounding_difference_cents": 0
+        }
+      },
+      "monthly": {
+        "2026-10": {
+          "net_usd": "-0.03000000",
+          "net_display_usd": "-0.03",
+          "gross_usd": "0.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 2,
+          "allocation_count": 2,
+          "exit_fill_count": 2,
+          "closed_contracts": 3,
+          "rounding_difference_cents": 0
+        }
+      }
+    },
+    "limitations": [
+      "SYNTHETIC DRAFT ONLY. Plaintext local files. No real records, quotes or orders.",
+      "Manual assertions; not broker/tax/market evidence.",
+      "Summaries use exit-effective civil dates, not exchange sessions."
+    ],
+    "commands": [
+      {
+        "sequence": 1,
+        "command_id": "562db73d-e8ca-4d0c-9c5b-541495dc2c9e",
+        "request": {
+          "fills": [
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-23T10:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "1.00",
+              "quantity": 3,
+              "reason": "synthetic fixture",
+              "revision_id": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+              "side": "BUY_TO_OPEN",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            },
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-23T11:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "1.20",
+              "quantity": 1,
+              "reason": "synthetic fixture",
+              "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+              "side": "SELL_TO_CLOSE",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            },
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-24T11:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "0.90",
+              "quantity": 2,
+              "reason": "synthetic fixture",
+              "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+              "side": "SELL_TO_CLOSE",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            }
+          ],
+          "synthetic": true
+        },
+        "request_sha256": "4de3f1dbdf3c396683685ea61ee4cbf9c81a104d0124130e7b03957ed2cc76ea",
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      }
+    ]
+  },
+  "restated": {
+    "ledger_id": "bff56f4b-fc69-4533-9b68-84bb47a35414",
+    "schema_version": 1,
+    "synthetic_only": true,
+    "policy": "synthetic-fifo-v1",
+    "tzdata_version": "2026.5",
+    "reporting_timezone": "America/New_York",
+    "snapshot_sequence": 2,
+    "active_fills": [
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T14:00:00.000000Z",
+        "entered_time": "2026-10-23T10:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+        "premium_units": 105000000,
+        "quantity": 3,
+        "reason": "synthetic evidence correction",
+        "revision_id": "13fdea72-8402-41d1-935a-543ff6fda5a9",
+        "side": "BUY_TO_OPEN",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 2,
+        "ordinal": 0,
+        "recorded_at_utc": "2026-10-29T04:20:03.290762Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z",
+        "entered_time": "2026-10-23T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 120000000,
+        "quantity": 1,
+        "reason": "synthetic fixture",
+        "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 1,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z",
+        "entered_time": "2026-10-24T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 90000000,
+        "quantity": 2,
+        "reason": "synthetic fixture",
+        "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 2,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      }
+    ],
+    "revisions": [
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T14:00:00.000000Z",
+        "entered_time": "2026-10-23T10:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 100000000,
+        "quantity": 3,
+        "reason": "synthetic fixture",
+        "revision_id": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+        "side": "BUY_TO_OPEN",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 0,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z",
+        "entered_time": "2026-10-23T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 120000000,
+        "quantity": 1,
+        "reason": "synthetic fixture",
+        "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 1,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z",
+        "entered_time": "2026-10-24T11:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": null,
+        "premium_units": 90000000,
+        "quantity": 2,
+        "reason": "synthetic fixture",
+        "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+        "side": "SELL_TO_CLOSE",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 1,
+        "ordinal": 2,
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "effective_at_utc": "2026-10-23T14:00:00.000000Z",
+        "entered_time": "2026-10-23T10:00:00-04:00",
+        "fee_cents": 1,
+        "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "fold": 0,
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "predecessor": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+        "premium_units": 105000000,
+        "quantity": 3,
+        "reason": "synthetic evidence correction",
+        "revision_id": "13fdea72-8402-41d1-935a-543ff6fda5a9",
+        "side": "BUY_TO_OPEN",
+        "synthetic": true,
+        "tick_authority": "USER_ASSERTED",
+        "tick_units": 1000000,
+        "tie": 0,
+        "timezone": "America/New_York",
+        "voided": false,
+        "warnings": [
+          "UNVERIFIED_TICK_AUTHORITY"
+        ],
+        "recorded_sequence": 2,
+        "ordinal": 0,
+        "recorded_at_utc": "2026-10-29T04:20:03.290762Z"
+      }
+    ],
+    "positions": [
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "contract": {
+          "currency": "USD",
+          "deliverable": "STANDARD_100",
+          "expiration": "2026-12-18",
+          "multiplier": 100,
+          "right": "CALL",
+          "strike": 50000000000,
+          "symbol": "SYNTHETIC_SPY_CALL",
+          "underlying": "SPY"
+        },
+        "status": "CLOSED",
+        "remaining": 0,
+        "closed_quantity": 3,
+        "unrecognized_entry_fee_cents": 0,
+        "realized_usd": "-15.03000000"
+      }
+    ],
+    "allocations": [
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "entry_fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "exit_fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+        "quantity": 1,
+        "entry_fee_cents": 0,
+        "exit_fee_cents": 1,
+        "gross_usd": "15.00000000",
+        "net_usd": "14.99000000",
+        "net_display_usd": "14.99",
+        "effective_at_utc": "2026-10-23T15:00:00.000000Z"
+      },
+      {
+        "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+        "entry_fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+        "exit_fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+        "quantity": 2,
+        "entry_fee_cents": 1,
+        "exit_fee_cents": 1,
+        "gross_usd": "-30.00000000",
+        "net_usd": "-30.02000000",
+        "net_display_usd": "-30.02",
+        "effective_at_utc": "2026-10-24T15:00:00.000000Z"
+      }
+    ],
+    "summaries": {
+      "daily": {
+        "2026-10-23": {
+          "net_usd": "14.99000000",
+          "net_display_usd": "14.99",
+          "gross_usd": "15.00000000",
+          "entry_fee_cents": 0,
+          "exit_fee_cents": 1,
+          "allocation_count": 1,
+          "exit_fill_count": 1,
+          "closed_contracts": 1,
+          "rounding_difference_cents": 0
+        },
+        "2026-10-24": {
+          "net_usd": "-30.02000000",
+          "net_display_usd": "-30.02",
+          "gross_usd": "-30.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 1,
+          "allocation_count": 1,
+          "exit_fill_count": 1,
+          "closed_contracts": 2,
+          "rounding_difference_cents": 0
+        }
+      },
+      "weekly": {
+        "2026-W43": {
+          "net_usd": "-15.03000000",
+          "net_display_usd": "-15.03",
+          "gross_usd": "-15.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 2,
+          "allocation_count": 2,
+          "exit_fill_count": 2,
+          "closed_contracts": 3,
+          "rounding_difference_cents": 0
+        }
+      },
+      "monthly": {
+        "2026-10": {
+          "net_usd": "-15.03000000",
+          "net_display_usd": "-15.03",
+          "gross_usd": "-15.00000000",
+          "entry_fee_cents": 1,
+          "exit_fee_cents": 2,
+          "allocation_count": 2,
+          "exit_fill_count": 2,
+          "closed_contracts": 3,
+          "rounding_difference_cents": 0
+        }
+      }
+    },
+    "limitations": [
+      "SYNTHETIC DRAFT ONLY. Plaintext local files. No real records, quotes or orders.",
+      "Manual assertions; not broker/tax/market evidence.",
+      "Summaries use exit-effective civil dates, not exchange sessions."
+    ],
+    "commands": [
+      {
+        "sequence": 1,
+        "command_id": "562db73d-e8ca-4d0c-9c5b-541495dc2c9e",
+        "request": {
+          "fills": [
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-23T10:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "1.00",
+              "quantity": 3,
+              "reason": "synthetic fixture",
+              "revision_id": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+              "side": "BUY_TO_OPEN",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            },
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-23T11:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "14a9981b-dacf-4ccf-8d89-e885570ef916",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "1.20",
+              "quantity": 1,
+              "reason": "synthetic fixture",
+              "revision_id": "1cabfde4-7351-4a48-919c-23111cbf15fc",
+              "side": "SELL_TO_CLOSE",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            },
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-24T11:00:00-04:00",
+              "expected_revision": null,
+              "fees": "0.01",
+              "fill_id": "40712289-dca2-4b7a-8253-a1bb616d9d00",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "0.90",
+              "quantity": 2,
+              "reason": "synthetic fixture",
+              "revision_id": "2e6d7807-a749-444c-9bf2-3caa218f8ea2",
+              "side": "SELL_TO_CLOSE",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            }
+          ],
+          "synthetic": true
+        },
+        "request_sha256": "4de3f1dbdf3c396683685ea61ee4cbf9c81a104d0124130e7b03957ed2cc76ea",
+        "recorded_at_utc": "2026-10-29T04:20:03.283236Z"
+      },
+      {
+        "sequence": 2,
+        "command_id": "e391a35e-d56d-48c4-b0a1-615331face3d",
+        "request": {
+          "fills": [
+            {
+              "contract": {
+                "currency": "USD",
+                "deliverable": "STANDARD_100",
+                "expiration": "2026-12-18",
+                "multiplier": 100,
+                "right": "CALL",
+                "strike": "500",
+                "symbol": "SYNTHETIC_SPY_CALL",
+                "underlying": "SPY"
+              },
+              "effective_at": "2026-10-23T10:00:00-04:00",
+              "expected_revision": "905a8d80-c4bc-45fd-b8f1-cebe3cf614bc",
+              "fees": "0.01",
+              "fill_id": "33da19b7-4371-4a99-a392-79245f686d31",
+              "position_id": "0bafe703-c5e2-4cfb-8188-631df7d6a30f",
+              "premium": "1.05",
+              "quantity": 3,
+              "reason": "synthetic evidence correction",
+              "revision_id": "13fdea72-8402-41d1-935a-543ff6fda5a9",
+              "side": "BUY_TO_OPEN",
+              "synthetic": true,
+              "tick": "0.01",
+              "tick_authority": "USER_ASSERTED",
+              "tie": 0,
+              "timezone": "America/New_York"
+            }
+          ],
+          "synthetic": true
+        },
+        "request_sha256": "ef79c8c1570e6efbf317eb1138a8a65fdbcea93346865de871480c71b5a78d9b",
+        "recorded_at_utc": "2026-10-29T04:20:03.290762Z"
+      }
+    ]
+  },
+  "old_sequence_unchanged": true,
+  "backup_restore_matches": true,
+  "export_manifest": {
+    "code_sha256": "1d0cc10a7bac0bb23d5c04e6411b4bc1027e0ddd31ba34aee87b778c6bec25c9",
+    "complete": true,
+    "created_utc": "2026-10-29T04:20:03.307051Z",
+    "ledger_id": "bff56f4b-fc69-4533-9b68-84bb47a35414",
+    "plaintext_warning": "SYNTHETIC DRAFT ONLY. Plaintext local files. No real records, quotes or orders.",
+    "policy": "synthetic-fifo-v1",
+    "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "schema_version": 1,
+    "sha256": {
+      "allocations.csv": "4f43d1e2117a1201fdbe20838f8ddcd066bfdb5771e79c8e9a44ae788c96b366",
+      "periods.csv": "d8b3edc536d87209972e2248a7b720bab4ce91bdd9c9cef890f21e6e46100598",
+      "report.json": "1e35dcd196e8927a021619e688ae3436823fbf0edcba8f226bed19023d06a974",
+      "revisions.csv": "d7f8b7ec851aa4bb10b0eb11535492c29c4f4dc11f6b94d5e7fead66e671592c"
+    },
+    "snapshot_sequence": 1,
+    "sqlite_version": "3.53.1",
+    "synthetic_only": true,
+    "text_sanitizer": "apostrophe-leading-formula-v1",
+    "tzdata_version": "2026.5"
+  }
+}
