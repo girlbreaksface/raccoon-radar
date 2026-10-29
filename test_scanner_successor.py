@@ -186,7 +186,7 @@ class EvidenceTests(unittest.TestCase):
     def test_existing_lock_is_not_stolen_or_deleted(self):
         from raccoon_scanner_successor import create_store,record_observation
         with tempfile.TemporaryDirectory() as temp:
-            store=Path(temp)/"synthetic"; create_store(store,synthetic=True)
+            store=Path(temp).resolve()/"synthetic"; create_store(store,synthetic=True)
             lock=store/".writer-lock"; lock.write_bytes(b"SYNTHETIC OTHER OWNER")
             with self.assertRaises(FileExistsError): record_observation(store,dict(synthetic=True),raw_rows=[],recorded_at="2026-10-23T10:07:00Z")
             self.assertEqual(lock.read_bytes(),b"SYNTHETIC OTHER OWNER")
@@ -194,7 +194,7 @@ class EvidenceTests(unittest.TestCase):
     def test_mismatched_observation_raw_hash_is_not_recorded(self):
         from raccoon_scanner_successor import create_store,record_observation
         with tempfile.TemporaryDirectory() as temp:
-            store=Path(temp)/"synthetic"; create_store(store,synthetic=True)
+            store=Path(temp).resolve()/"synthetic"; create_store(store,synthetic=True)
             with self.assertRaises(ValueError): record_observation(store,dict(synthetic=True,raw_sha256="0"*64),
                 raw_rows=[],recorded_at="2026-10-23T10:07:00Z")
             self.assertEqual(len(list(store.iterdir())),1)
@@ -202,7 +202,7 @@ class EvidenceTests(unittest.TestCase):
     def test_forked_revision_does_not_overwrite_original_or_create_file(self):
         from raccoon_scanner_successor import create_store,record_observation
         with tempfile.TemporaryDirectory() as temp:
-            store=Path(temp)/"synthetic"; create_store(store,synthetic=True)
+            store=Path(temp).resolve()/"synthetic"; create_store(store,synthetic=True)
             observation=dict(symbol="SPY",synthetic=True)
             first=record_observation(store,observation,raw_rows=[],recorded_at="2026-10-23T10:07:00Z")
             record_observation(store,observation,raw_rows=[],recorded_at="2026-10-23T10:08:00Z",supersedes=first["record_id"])
@@ -213,7 +213,7 @@ class EvidenceTests(unittest.TestCase):
     def test_new_store_exclusive_records_and_revision_chain(self):
         from raccoon_scanner_successor import create_store,record_observation,read_records
         with tempfile.TemporaryDirectory() as temp:
-            store=Path(temp)/"synthetic"
+            store=Path(temp).resolve()/"synthetic"
             create_store(store,synthetic=True)
             rows,c=fixture()
             first=record_observation(store,dict(symbol="SPY",synthetic=True),raw_rows=rows,
@@ -231,7 +231,7 @@ class EvidenceTests(unittest.TestCase):
     def test_nonfinite_raw_evidence_strict_json_and_no_real_records(self):
         from raccoon_scanner_successor import create_store,record_observation,read_records
         with tempfile.TemporaryDirectory() as temp:
-            store=Path(temp)/"synthetic"; create_store(store,synthetic=True)
+            store=Path(temp).resolve()/"synthetic"; create_store(store,synthetic=True)
             record_observation(store,dict(symbol="SPY",synthetic=True),raw_rows=[dict(time="raw",close=float("inf"))],
                 recorded_at="2026-10-23T10:06:00Z")
             json.dumps(read_records(store),allow_nan=False)
@@ -240,7 +240,7 @@ class EvidenceTests(unittest.TestCase):
     def test_foreign_path_invalid_revision_and_tampering_rejected(self):
         from raccoon_scanner_successor import create_store,record_observation,read_records
         with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp); foreign=root/"foreign"; foreign.mkdir()
+            root=Path(temp).resolve(); foreign=root/"foreign"; foreign.mkdir()
             with self.assertRaises(ValueError): read_records(foreign)
             store=root/"synthetic"; create_store(store,synthetic=True)
             with self.assertRaises(ValueError): record_observation(store,dict(synthetic=True),raw_rows=[],recorded_at="2026-10-23T10:07:00Z",supersedes="missing")
