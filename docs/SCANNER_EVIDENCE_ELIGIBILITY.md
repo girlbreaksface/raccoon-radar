@@ -85,3 +85,9 @@ finality contract; reviewed freshness policy; pagination integration; underlying
 market-intelligence snapshot and revision persistence design; real GUI/user acceptance.
 No real records, scanner launch, provider connection, raw-data rewrite, trading/order APIs,
 historical study, merge or deployment. Existing Ledger/calculator branches untouched.
+
+Follow-up test-firstd6d78ccdf23b0dd44b6373c77def7021f8c294c0 reproduces one assertion
+failure when an exception's message is empty. The error sentinel now checks is not None,
+so every read failure invalidates the prior snapshot. Final local suite is **90PASS**
+(69unchanged+21new), compilationPASS. Earlier89PASS evidence above remains attributed
+to its earlier checkout. Final-head Windows/Linux results are reported on PR19.
