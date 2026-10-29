@@ -18,7 +18,7 @@ class LedgerWindow:
         self.work = WorkQueue()
         self.closing = False
         self.after_success = None
-        root.title("Raccoon Ledger | SYNTHETIC DRAFT")
+        root.title("Raccoon Ledger | Practice Mode | SYNTHETIC DRAFT")
         root.geometry("1280x1000")
         root.minsize(1100, 940)
         root.configure(bg="#132126")
@@ -30,7 +30,7 @@ class LedgerWindow:
         style.configure("Treeview", rowheight=26)
         outer = ttk.Frame(root, padding=16)
         outer.pack(fill="both", expand=True)
-        ttk.Label(outer, text="RACCOON LEDGER", font=("Segoe UI", 20, "bold")).pack(anchor="w")
+        ttk.Label(outer, text="RACCOON LEDGER · Practice Mode", font=("Segoe UI", 20, "bold")).pack(anchor="w")
         ttk.Label(outer, text=NOTICE, foreground="#ffd180", wraplength=1150).pack(anchor="w", pady=(3, 8))
         ttk.Label(outer, text="Fictional manual records only • Local plaintext • No quote, order or alert connections",
                   foreground="#a9c5bc").pack(anchor="w")
@@ -38,8 +38,8 @@ class LedgerWindow:
         toolbar.pack(fill="x", pady=10)
         self.buttons = {}
         for name, label, action in (
-            ("new", "New synthetic store", self.new_store),
-            ("open", "Open store", self.open_store),
+            ("new", "New Journal", self.new_store),
+            ("open", "Open Journal", self.open_store),
             ("reload", "Reload / reconcile", lambda: self.run(self.controller.reload)),
             ("export", "Export displayed snapshot", lambda: self.destination("export")),
             ("backup", "New backup", lambda: self.destination("backup")),
@@ -96,8 +96,8 @@ class LedgerWindow:
         history = ttk.Frame(notebook, padding=8)
         summaries = ttk.Frame(notebook, padding=8)
         notebook.add(positions, text="Positions")
-        notebook.add(history, text="Audit / corrections")
-        notebook.add(summaries, text="Eastern summaries")
+        notebook.add(history, text="Trade Corrections")
+        notebook.add(summaries, text="Daily, Weekly & Monthly Results")
         self.positions = self.tree(positions, ("Contract", "Status", "Remaining", "Realized USD (exact)"))
         self.button(positions, "select", "Use selected position for next fill", self.select_position).pack(fill="x", pady=6)
         self.history = self.tree(history, ("Sequence", "Side", "Qty", "Voided", "Reason"))
@@ -114,7 +114,7 @@ class LedgerWindow:
         self.button(pendingbar, "retry", "Retry SAME pending command", lambda: self.run(
             self.controller.retry_pending, self.clear_form)).pack(side="left")
         self.button(pendingbar, "abandon", "Resolve / abandon pending intent…", self.abandon).pack(side="left", padx=6)
-        self.status = tk.StringVar(value="Ready. Synthetic-only development preview.")
+        self.status = tk.StringVar(value="Practice Mode. Fictional records only; synthetic development preview.")
         ttk.Label(outer, textvariable=self.status, wraplength=1150, foreground="#ffd180").pack(anchor="w", before=body, pady=(0, 8))
         self.render()
         root.protocol("WM_DELETE_WINDOW", self.close)
@@ -253,13 +253,13 @@ class LedgerWindow:
         return Path(parent) / name
 
     def new_store(self):
-        path = self.new_destination("New synthetic plaintext store")
+        path = self.new_destination("New Journal — Practice Mode, plaintext")
         if path and messagebox.askyesno("Synthetic only", f"Create a fictional-only PLAINTEXT store at\n{path}?",
                                         parent=self.root):
             self.run(lambda: self.controller.create_store(path), self.clear_form)
 
     def open_store(self):
-        path = filedialog.askdirectory(parent=self.root, title="Open existing synthetic store")
+        path = filedialog.askdirectory(parent=self.root, title="Open Journal — existing synthetic journal only")
         if path:
             self.run(lambda: self.controller.open_store(path), self.clear_form)
 
