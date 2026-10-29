@@ -296,3 +296,14 @@ class ViewerTests(unittest.TestCase):
                 with contextlib.redirect_stderr(io.StringIO()) as stream:
                     self.assertEqual(viewer.main([]), 2)
                 self.assertIn("--text", stream.getvalue())
+
+    def test_precomputed_ui_scenario_change_never_runs_calculations(self):
+        replay, demo = api()
+        import raccoon_replay_viewer as viewer
+        conflict = replay.replay(demo("conflict"), synthetic=True)
+        provisional = replay.replay(demo("provisional"), synthetic=True)
+        cache = (("conflict", conflict), ("provisional", provisional))
+        with patch.object(viewer, "replay", side_effect=AssertionError("Calculation in UI callback")):
+            model = viewer.ViewerModel("conflict", 35, precomputed=cache)
+            model.select("provisional")
+            self.assertIn("FINALITY_UNVERIFIED", model.text())
