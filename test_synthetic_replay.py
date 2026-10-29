@@ -187,6 +187,43 @@ class ReplayTests(unittest.TestCase):
         self.assertFalse(any(isinstance(n, ast.ImportFrom) and (n.module or "").startswith("test_")
                              for n in ast.walk(tree)))
 
+    def test_real_fractional_receipt_boundary_is_never_rounded_early(self):
+        from datetime import datetime, timedelta
+        from canonical_candles import identity
+        replay, demo = api()
+        data = demo("conflict")
+        source = data.series[1]
+        rows = list(source.bundle.observations)
+        receipt = (datetime.fromisoformat(rows[34].available_at) + timedelta(microseconds=1)).isoformat()
+        rows[34] = replace(rows[34], available_at=receipt, received_at=receipt, completion_received_at=receipt)
+        rows = tuple(rows)
+        source = replace(source, bundle=replace(source.bundle, observations=rows,
+                         capture_hash=identity((rows, source.bundle.pages))))
+        steps = (data.steps[34], replace(data.steps[34], cutoff=receipt))
+        result = replay.replay(replace(data, series=(data.series[0], source), steps=steps), synthetic=True)
+        self.assertEqual(result.points[0].cells[1].state, "DATA_BLOCKED")
+        self.assertEqual(result.points[1].cells[1].state, "CANDIDATE")
+
+    def test_delayed_revision_cannot_rewrite_a_prior_point(self):
+        from canonical_candles import identity
+        replay, demo = api()
+        data = demo("conflict")
+        original = replay.replay(data, synthetic=True)
+        source = data.series[0]
+        late = replace(source.bundle.observations[0], observation_id="LATE", revision_id="REV-2",
+                       row_id="LATE", available_at=data.steps[39].cutoff,
+                       received_at=data.steps[39].cutoff, completion_received_at=data.steps[39].cutoff,
+                       values=(float("inf"), None, True, 0, 0), raw_stamp="BAD")
+        rows = source.bundle.observations + (late,)
+        pages = (replace(source.bundle.pages[0], observation_ids=tuple(row.observation_id for row in rows)),)
+        source = replace(source, bundle=replace(source.bundle, observations=rows, pages=pages,
+                         capture_hash=identity((rows, pages))))
+        changed = replay.replay(replace(data, series=(source, data.series[1])), synthetic=True)
+        for earlier, later in zip(original.points[:39], changed.points[:39]):
+            self.assertEqual(earlier.decision_hash, later.decision_hash)
+        self.assertNotEqual(original.run_hash, changed.run_hash)
+        self.assertEqual(changed.points[-1].cells[0].state, "DATA_BLOCKED")
+
 
 class ViewerTests(unittest.TestCase):
     def test_text_displays_selected_time_profile_quality_and_calculations(self):
@@ -246,3 +283,16 @@ class ViewerTests(unittest.TestCase):
         self.assertEqual(model.index, 0)
         model.seek(35)
         self.assertIn("FINALITY_UNVERIFIED", model.text())
+
+    def test_headless_gui_error_is_reported_without_a_traceback(self):
+        api()
+        import types
+        import raccoon_replay_viewer as viewer
+        class HeadlessError(Exception):
+            pass
+        fake_tk = types.SimpleNamespace(TclError=HeadlessError)
+        with patch.dict("sys.modules", {"tkinter": fake_tk}):
+            with patch.object(viewer, "create_window", side_effect=HeadlessError("No display")):
+                with contextlib.redirect_stderr(io.StringIO()) as stream:
+                    self.assertEqual(viewer.main([]), 2)
+                self.assertIn("--text", stream.getvalue())
