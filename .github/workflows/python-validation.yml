@@ -28,3 +28,7 @@ jobs:
         run: python -m compileall -q .
       - name: Run guarded offline release checks
         run: python -B offline_checks.py
+      - name: Install pinned scanner characterization dependencies
+        run: python -m pip install -r requirements-scanner-characterization.txt
+      - name: Run isolated pinned scanner characterization
+        run: python -B -m unittest discover -v -s tests/runtime -p "test_*.py"
