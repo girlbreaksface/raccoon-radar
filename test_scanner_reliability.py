@@ -61,6 +61,18 @@ class DashboardBiasRegressions(unittest.TestCase):
         for label in (dashboard.spy_label, dashboard.qqq_label):
             self.assertEqual(label.config.call_args.kwargs["text"], "UNAVAILABLE")
 
+    def test_unchanged_csv_is_rechecked_without_rereading(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp)/"synthetic.csv"
+            path.write_text("synthetic", encoding="utf-8")
+            dashboard = self.dashboard([])
+            dashboard.csv_path = str(path)
+            dashboard.last_mtimes[str(path)] = path.stat().st_mtime_ns
+            dashboard._refresh_signal_labels = Mock()
+            method("poll_files", dict(Path=Path))(dashboard)
+            dashboard._refresh_signal_labels.assert_called_once_with()
+            dashboard.read_csv.assert_not_called()
+
 
 class SignalEvidenceTests(unittest.TestCase):
     now = datetime(2026, 10, 23, 14, 0, tzinfo=timezone.utc)
@@ -117,10 +129,30 @@ class SignalEvidenceTests(unittest.TestCase):
         self.assertFalse(self.evaluate([self.row(), {**self.row(), "bias":None}])["SPY"]["eligible"])
 
     def test_policy_and_clock_must_be_finite_positive_and_aware(self):
-        for value in (float("nan"), float("inf"), -1, 0, True):
+        for value in (float("nan"), float("inf"), -1, 0, True, 10**1000):
             self.assertFalse(self.evaluate([self.row()], max_age_seconds=value)["SPY"]["eligible"])
         with self.assertRaises(ValueError):
             self.evaluate([], now=self.now.replace(tzinfo=None))
+
+    def test_no_trade_is_not_a_candidate_and_known_availability_not_inferred(self):
+        result = self.evaluate([{**self.row(), "bias":"NO TRADE"}])["SPY"]
+        self.assertFalse(result["eligible"])
+        self.assertEqual(result["display"], "NO TRADE")
+        self.assertIn("NO_TRADE", result["reasons"])
+        result = self.evaluate([{**self.row(), "available_at":None}])["SPY"]
+        self.assertFalse(result["eligible"])
+        self.assertIn("TIMESTAMP_UNVERIFIED", result["reasons"])
+
+    def test_generator_input_preserves_both_symbols_and_spy_qqq_conflict(self):
+        rows = [self.row(), {**self.row(), "symbol":"QQQ", "bias":"BEARISH"}]
+        result = self.evaluate(iter(rows))
+        self.assertEqual(result["SPY"]["bias"],"BULLISH")
+        self.assertEqual(result["QQQ"]["bias"],"BEARISH")
+
+    def test_availability_before_event_and_empty_authority_are_rejected(self):
+        self.assertFalse(self.evaluate([{**self.row(), "available_at":"2026-10-23T13:58:00Z"}])["SPY"]["eligible"])
+        self.assertFalse(self.evaluate([self.row()], evidence=dict(source_sha256="a"*64,
+            authority="", availability_verified=True))["SPY"]["eligible"])
 
 
 class CandleAndPaginationTests(unittest.TestCase):
