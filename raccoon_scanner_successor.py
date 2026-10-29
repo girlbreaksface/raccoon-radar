@@ -6,7 +6,7 @@ blocks eligibility. No default freshness policy, timestamp/calendar/finality ass
 from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timezone
-from decimal import Decimal, localcontext
+from decimal import Decimal, localcontext, Context, ROUND_HALF_EVEN
 import hashlib
 import json
 import math
@@ -136,8 +136,7 @@ def assess(symbol,rows,*,now,session,contract=None,policy=None,pagination_comple
         contract_evidence=_typed(contract),policy_evidence=_typed(policy))
     if reasons: return result
     bars.sort(key=lambda b:b[0][0])
-    with localcontext() as ctx:
-        ctx.prec=50
+    with localcontext(Context(prec=50,rounding=ROUND_HALF_EVEN,Emin=-999999,Emax=999999,capitals=1)):
         e9=e21=bars[0][4]
         for b in bars[1:]:
             e9=(Decimal(2)/10)*b[4]+(Decimal(8)/10)*e9
