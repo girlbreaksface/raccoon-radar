@@ -28,3 +28,7 @@ jobs:
         run: python -m compileall -q .
       - name: Run guarded offline release checks
         run: python -B offline_checks.py
+      - name: Install pinned adapter characterization dependencies
+        run: python -m pip install -r requirements-adapter-characterization.txt
+      - name: Run synthetic adapter specification characterization
+        run: python -B -m unittest discover -v -s tests/adapter -p "test_*.py"
