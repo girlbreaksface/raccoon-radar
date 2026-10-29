@@ -132,12 +132,35 @@ class SuccessorTests(unittest.TestCase):
         self.assertTrue(Decimal(result["observations"]["relative_volume"]).is_finite())
         json.dumps(result,allow_nan=False)
 
+    def test_result_keeps_complete_contract_and_policy_evidence(self):
+        result=self.evaluate()
+        self.assertIn("contract_evidence",result)
+        self.assertIn("policy_evidence",result)
+        self.assertIn("SYNTHETIC TEST AUTHORITY",json.dumps(result["contract_evidence"]))
+
+    def test_explicit_synthetic_1600_mapping_is_preserved_without_filter(self):
+        rows,c=fixture(); start=datetime(2026,10,23,15,26,tzinfo=timezone.utc)
+        for i,(row,item) in enumerate(zip(rows,c["intervals"])):
+            t=start+timedelta(minutes=i)
+            row["time"]=item["raw_stamp"]=t.strftime("%Y-%m-%d %H:%M:%S")
+            item.update(start=t.isoformat(),end=(t+timedelta(minutes=1)).isoformat(),
+                        available_at=(t+timedelta(minutes=1,seconds=1)).isoformat())
+        result=self.evaluate(rows,c,now=datetime(2026,10,23,16,2,tzinfo=timezone.utc))
+        self.assertTrue(result["eligible"])
+        self.assertEqual(rows[-1]["time"],"2026-10-23 16:00:00")
+        self.assertEqual(result["observations"]["interval_end"],"2026-10-23T16:01:00+00:00")
+
     def test_contract_duplicate_or_overlapping_interval_rejected(self):
         rows,c=fixture(); c["intervals"][-1]["start"]=c["intervals"][-2]["start"]
         self.assertFalse(self.evaluate(rows,c)["eligible"])
 
 
 class PaginationTests(unittest.TestCase):
+    def test_limits_and_first_page_are_explicit(self):
+        from raccoon_scanner_successor import collect_pages
+        for options in (dict(max_pages=0),dict(max_pages=True),dict(max_rows=-1)):
+            with self.assertRaises(ValueError): collect_pages(Mock(),"SPY",{},**options)
+        with self.assertRaises(ValueError): collect_pages(Mock(),"SPY",dict(page_req_key="late"))
     def test_complete_raw_pages_and_input_preservation(self):
         from raccoon_scanner_successor import collect_pages
         rows,_=fixture(); original=copy.deepcopy(rows)
