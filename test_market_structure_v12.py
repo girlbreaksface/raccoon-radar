@@ -292,3 +292,102 @@ class StructureTests(unittest.TestCase):
                                  "moomoo","futu","sqlite3","socket","pathlib","tkinter","subprocess","os"})
         self.assertFalse(any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=="open"
                              for n in ast.walk(tree)))
+
+    def test_zero_range_and_zero_volatility_report_unavailable_ratios(self):
+        module=api()
+        b,c,requests=scenario()
+        rows=tuple(replace(row,values=(10000,10000,10000,10000,100)) for row in b.observations)
+        result=module.assess(reseal(b,rows),c,requests[12],synthetic=True)
+        stats=dict(result.decision.measurements)
+        self.assertIsNone(stats["contraction_ratio"])
+        self.assertIsNone(stats["range_drift_fraction"])
+        self.assertNotIn("Infinity",repr(result.decision))
+        self.assertIn("ZERO_WIDTH_RANGE",result.decision.reasons)
+
+    def test_raw_audit_mode_has_explicit_block_reason(self):
+        module=api()
+        b,c,requests=scenario()
+        result=module.assess(b,c,replace(requests[-1],mode="RAW_AUDIT"),synthetic=True)
+        self.assertEqual(result.decision.data_status,"BLOCKED")
+        self.assertIn("ENGINE_READY_REQUEST_REQUIRED",result.decision.reasons)
+
+    def test_tracker_and_decision_bind_model_version(self):
+        module=api()
+        b,c,requests=scenario()
+        prior=module.assess(b,c,requests[12],synthetic=True)
+        self.assertEqual(prior.tracker.version,module.VERSION)
+        self.assertEqual(prior.decision.version,module.VERSION)
+        with self.assertRaises(ValueError):
+            module.assess(b,c,requests[13],previous=replace(prior.tracker,version="OLDER_MODEL"),synthetic=True)
+
+    def test_inclusive_trend_move_threshold_is_not_rounded(self):
+        module=api()
+        exact=replace(module.Config(),min_move="0.07",min_efficiency="1")
+        above=replace(module.Config(),min_move="0.070000000001")
+        for name in ("bullish_reversal","bearish_reversal"):
+            self.assertEqual(replay_case(name,exact)[12].decision.classification,"REVERSAL_WATCH")
+            self.assertIn("NO_ESTABLISHED_TREND",replay_case(name,above)[12].decision.reasons)
+
+    def test_retest_at_deadline_is_allowed(self):
+        module=api()
+        b,c,requests=scenario("retest_timeout")
+        rows=list(b.observations)
+        rows[17]=replace(rows[17],values=(9370,9410,9330,9390,100))
+        b=reseal(b,rows)
+        prior=None
+        for request in requests[:18]:
+            result=module.assess(b,c,request,previous=prior,synthetic=True)
+            prior=result.tracker
+        self.assertEqual(result.decision.classification,"CONFIRMED_STRUCTURAL_REVERSAL")
+
+    def test_confirmation_closes_must_be_consecutive(self):
+        module=api()
+        b,c,requests=scenario("bullish_invalidated")
+        rows=list(b.observations)
+        rows[14]=replace(rows[14],values=(9340,9350,9330,9344,100))
+        rows[15]=replace(rows[15],values=(9370,9410,9330,9390,100))
+        result=module.assess(reseal(b,rows),c,requests[-1],synthetic=True)
+        self.assertEqual(result.decision.classification,"REVERSAL_WATCH")
+        self.assertIsNone(result.decision.direction)
+
+    def test_invalidation_tolerance_equality_is_not_crossed(self):
+        module=api()
+        for name,price in (("bullish_invalidated",9324),("bearish_invalidated",10676)):
+            b,c,requests=scenario(name)
+            rows=list(b.observations)
+            rows[-1]=replace(rows[-1],values=(price,price+20,price-20,price,100))
+            result=module.assess(reseal(b,rows),c,requests[-1],synthetic=True)
+            self.assertEqual(result.decision.classification,"CONFIRMED_STRUCTURAL_REVERSAL")
+
+    def test_price_overlap_is_a_real_consolidation_requirement(self):
+        module=api()
+        b,c,requests=scenario()
+        rows=list(b.observations)
+        for i in range(5):
+            price=9300+i*12
+            rows[8+i]=replace(rows[8+i],values=(price,price+4,price-4,price,100))
+        result=module.assess(reseal(b,rows),c,requests[12],synthetic=True)
+        self.assertIn("PRICE_STRUCTURE_NOT_OVERLAPPING",result.decision.reasons)
+        self.assertEqual(result.decision.classification,"INSUFFICIENT_EVIDENCE")
+
+    def test_all_nine_direction_pairs_keep_independent_classifications(self):
+        module=api()
+        decisions={}
+        for symbol in ("SPY","QQQ"):
+            for direction,name in (("BULLISH","bullish_reversal"),("BEARISH","bearish_reversal"),
+                                   (None,"bullish_reversal")):
+                b,c,requests=scenario(name,symbol)
+                if direction is None:
+                    rows=list(b.observations)
+                    for index in (13,14):
+                        rows[index]=replace(rows[index],values=(9300,9340,9260,9300,100))
+                    b=reseal(b,rows)
+                decisions[symbol,direction]=module.assess(b,c,requests[-1],synthetic=True).decision
+        for left in ("BULLISH","BEARISH",None):
+            for right in ("BULLISH","BEARISH",None):
+                pair=module.compare(decisions["SPY",left],decisions["QQQ",right])
+                expected=("NO_CONFIRMED_DIRECTION" if left is None and right is None else
+                    "SINGLE_DIRECTION" if left is None or right is None else
+                    "AGREEMENT_"+left if left==right else "CONFLICT")
+                self.assertEqual(pair.state,expected)
+                self.assertEqual(pair.directions,(left,right))
