@@ -10,6 +10,7 @@ import types
 import unittest
 from unittest.mock import Mock
 from zoneinfo import ZoneInfo
+import pandas as pd
 
 from contract_oracle import characterize,instant,local_instant,supported_precision,knowledge_upper_bound
 
@@ -17,6 +18,15 @@ FIXTURES=Path(__file__).with_name("fixtures")
 HASHES={"pr29_scanner_reliability.py.txt":"bfedd03ac70a5291329a82fa98d9de52bfd8d23d62c0e74f395534c6fc359e7d",
         "pr31_successor.py.txt":"5e6e2b647ff6f763c356e34a1adde2b375470d2f00ff6811fc37e74d2b718a29",
         "v3_scanner.py.txt":"28bcd08df43b93f4f19818975d470cdc592c72a49d29fb71027d74e04d69eb0d"}
+
+
+def setUpModule():
+    def audit(event,args):
+        if event.startswith(("socket.","subprocess.","sqlite3.")):
+            raise PermissionError("Specification tests forbid network/process/SQLite operations")
+        if event=="import" and args[0].split(".")[0] in ("moomoo","futu"):
+            raise PermissionError("No provider SDK import authorized")
+    sys.addaudithook(audit)
 
 
 def pinned(name,function_only=None):
@@ -53,6 +63,10 @@ def bundle(count=1):
 
 
 class ContractExamples(unittest.TestCase):
+    def test_network_and_database_guards_block_before_access(self):
+        import socket,sqlite3
+        with self.assertRaises(PermissionError): socket.socket()
+        with self.assertRaises(PermissionError): sqlite3.connect(":memory:")
     def result(self,rows=None,context=None,cutoff=None):
         r,c,t=bundle()
         return characterize(r if rows is None else rows,c if context is None else context,
@@ -225,7 +239,6 @@ class PinnedCompatibility(unittest.TestCase):
         self.assertIn("STALE_EVENT",result["SPY"]["reasons"])
 
     def test_pr30_v3_still_ignores_pagination_and_retains_stale_bias(self):
-        import pandas as pd
         namespace=pinned("v3_scanner.py.txt",function_only="analyze")
         namespace.update(pd=pd,RET_OK=0)
         # clock_time is the datetime.time CLASS in the original module.
