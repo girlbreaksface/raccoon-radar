@@ -30,10 +30,16 @@ REVISION_FIELDS = ("fill_id", "revision_id", "predecessor", "position_id", "cont
                    "side", "quantity", "premium_units", "fee_cents", "effective_at_utc",
                    "entered_time", "timezone", "fold", "tie", "reason", "tick_units",
                    "tick_authority", "warnings", "synthetic", "voided",
-                   "recorded_sequence", "ordinal", "recorded_at_utc")
+                   "recorded_sequence", "ordinal", "recorded_at_utc", "option_symbol",
+                   "underlying", "expiration", "strike_usd", "right", "multiplier",
+                   "currency", "deliverable", "premium_usd", "fee_usd")
 ALLOCATION_FIELDS = ("position_id", "entry_fill_id", "exit_fill_id", "quantity",
                      "entry_fee_cents", "exit_fee_cents", "gross_usd", "net_usd",
                      "net_display_usd", "effective_at_utc")
+PERIOD_FIELDS = ("period_kind", "period", "net_usd", "net_display_usd", "gross_usd",
+                 "entry_fee_cents", "exit_fee_cents", "allocation_count",
+                 "exit_fill_count", "closed_contracts", "rounding_difference_cents")
+CSV_DECIMALS = ("gross_usd", "net_usd", "net_display_usd", "strike_usd", "premium_usd", "fee_usd")
 
 class LedgerError(ValueError):
     pass
@@ -271,7 +277,7 @@ def _project(records,positions,sequence,ledger_id):
                             allocation_count=len(rows),exit_fill_count=len({r["exit_fill_id"] for r in rows}),
                             closed_contracts=sum(r["quantity"] for r in rows),
                             rounding_difference_cents=_cents(net)-sum(_cents(_signed_units(r["net_usd"])) for r in rows))
-    return dict(ledger_id=ledger_id,synthetic_only=True,policy=POLICY,tzdata_version=TZ_VERSION,
+    return dict(ledger_id=ledger_id,schema_version=VERSION,synthetic_only=True,policy=POLICY,tzdata_version=TZ_VERSION,
                 reporting_timezone="America/New_York",snapshot_sequence=sequence,
                 active_fills=active,revisions=records,positions=statuses,
                 allocations=allocations,summaries=summaries,
@@ -525,20 +531,30 @@ class Ledger:
         report=self.report(sequence=sequence)
         target=_directory(directory,new=True)
         _write(target/"report.json",(_json(report)+"\n").encode())
-        for name,rows in (("revisions.csv",report["revisions"]),("allocations.csv",report["allocations"])):
-            fields = REVISION_FIELDS if name=="revisions.csv" else ALLOCATION_FIELDS
+        revisions=[]
+        for row in report["revisions"]:
+            terms=row["contract"]
+            revisions.append({**row, "option_symbol":terms["symbol"],
+                **{key:terms[key] for key in ("underlying","expiration","right","multiplier","currency","deliverable")},
+                "strike_usd":_usd(terms["strike"]),"premium_usd":_usd(row["premium_units"]),
+                "fee_usd":_usd(row["fee_cents"]*FEE_SCALE)})
+        periods=[dict(period_kind=kind,period=period,**values)
+                 for kind,groups in report["summaries"].items() for period,values in sorted(groups.items())]
+        for name,rows,fields in (("revisions.csv",revisions,REVISION_FIELDS),
+                                 ("allocations.csv",report["allocations"],ALLOCATION_FIELDS),
+                                 ("periods.csv",periods,PERIOD_FIELDS)):
             with (target/name).open("x",encoding="utf-8",newline="") as output:
                 writer=csv.DictWriter(output,fieldnames=fields)
                 writer.writeheader()
                 for row in rows:
-                    value={k:(v if k in ("gross_usd","net_usd","net_display_usd") else
+                    value={k:(v if k in CSV_DECIMALS else
                               _safe_csv(_json(v) if isinstance(v,(dict,list)) else v))
                            for k,v in row.items()}
                     writer.writerow(value)
                 output.flush(); os.fsync(output.fileno())
         if _fault: _fault("before_export_complete")
         hashes={p.name:_hash(p.read_bytes()) for p in target.iterdir() if p.is_file()}
-        manifest=dict(complete=True,synthetic_only=True,plaintext_warning=NOTICE,
+        manifest=dict(complete=True,schema_version=VERSION,synthetic_only=True,plaintext_warning=NOTICE,
                       snapshot_sequence=report["snapshot_sequence"],ledger_id=report["ledger_id"],
                       policy=POLICY,tzdata_version=TZ_VERSION,code_sha256=_hash(Path(__file__).read_bytes()),
                       python_version=__import__("sys").version,sqlite_version=sqlite3.sqlite_version,
