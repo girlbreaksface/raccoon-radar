@@ -139,6 +139,33 @@ class TimezoneBridgeTests(unittest.TestCase):
         with patch("canonical_candles.ZoneInfo",MemoryOnlyZone):
             self.assertFalse(self.evaluate(b,bad,r).eligible)
 
+    def test_unsupported_timezone_alias_is_not_silently_substituted(self):
+        b,c,r=ny_example("2026-10-23")
+        source=replace(c.source,scope=tuple((k,"US/Eastern" if k=="timezone" else v) for k,v in c.source.scope))
+        c=reapprove(replace(c,source=source,mapping=replace(c.mapping,scope_hash=identity(source)),
+            calendar=replace(c.calendar,timezone="US/Eastern"),time_rules=(replace(c.time_rules[0],name="US/Eastern"),)))
+        rows=tuple(replace(o,scope_hash=identity(source)) for o in b.observations)
+        report=canonicalize(reseal(b,rows),c,r)
+        self.assertTrue(report.eligible,report.reasons)
+        from pinned_timezone_bridge import evaluate
+        self.assertIn("UNSUPPORTED_CONSUMER_TIMEZONE",evaluate(report).reasons)
+
+    def test_offset_contradicting_pinned_dst_rules_blocks(self):
+        b,c,r=ny_example("2026-10-23"); rows=list(b.observations)
+        rows[0]=replace(rows[0],raw_stamp="2026-10-23T09:30:00-05:00")
+        self.assertFalse(self.evaluate(reseal(b,rows),c,r).eligible)
+
+    def test_nonfinite_or_contradictory_dependency_output_fails_closed(self):
+        b,c,r=ny_example("2026-10-23")
+        for output in (dict(synthetic=True,action="WAIT",eligible=True,bias="BULLISH",reasons=[],observations=dict(ema9=float("inf"))),
+                       dict(synthetic=True,action="WAIT",eligible=True,bias="BULLISH",reasons=["INVALID_SOURCE"]),
+                       dict(synthetic=True,action="WAIT",eligible=False,bias=None,reasons=[None,1,"bad"])):
+            with self.subTest(output=output):
+                with patch("_pr31_pinned_kernel.assess",return_value=output):
+                    result=self.evaluate(b,c,r)
+                self.assertFalse(result.eligible)
+                self.assertIn("INVALID_CONSUMER_OUTPUT",result.reasons)
+
     def test_report_forgery_is_revalidated_before_kernel(self):
         from pinned_timezone_bridge import evaluate
         report=canonicalize(*ny_example("2026-10-23"))
@@ -192,6 +219,11 @@ class ExactKernelConformance(unittest.TestCase):
                 original.args.kw_defaults.append(None)
                 original=Resolver().visit(original)
             self.assertEqual(ast.dump(original,include_attributes=False),ast.dump(changed,include_attributes=False),name)
+        for name in ("AUTHORITIES","NOTICE"):
+            def value(tree):
+                return ast.literal_eval(next(n.value for n in tree.body if isinstance(n,ast.Assign) and
+                    any(isinstance(t,ast.Name) and t.id==name for t in n.targets)))
+            self.assertEqual(value(old),value(new),name)
         self.assertNotIn("ZoneInfo",kernel.__dict__)
 
 
