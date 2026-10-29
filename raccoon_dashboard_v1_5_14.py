@@ -1084,7 +1084,7 @@ class Dashboard(tk.Tk):
         from scanner_reliability import evaluate_signals
         if rows is not None:
             self.signal_rows = list(rows)
-        if error:
+        if error is not None:
             self.signal_rows = []
         # No reviewed scanner-source/availability binding or freshness policy yet.
         # Keep raw rows in the table; do not promote their text into verified bias.
@@ -1295,4 +1295,3 @@ class Dashboard(tk.Tk):
 
 if __name__ == '__main__':
     Dashboard().mainloop()
-
