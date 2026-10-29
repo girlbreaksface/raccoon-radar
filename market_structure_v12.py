@@ -224,6 +224,15 @@ def _process(machine, candles, index, config, params, context_hash, cutoff):
     def terminal(kind, reason):
         result=replace(machine,classification=kind,stage="TERMINAL",reasons=(reason,),scan_floor=index+1)
         return result,event(kind,reason,machine.setup)
+    if machine.classification=="TREND_CONTINUATION" and machine.setup is not None:
+        # The recorded breakout remains in history, but its current direction cannot
+        # survive a close back beyond the broken boundary's wrong-side tolerance.
+        prior=machine.setup
+        lower,upper=Decimal(prior.support),Decimal(prior.resistance)
+        sign=1 if prior.prior_trend=="BULLISH" else -1
+        boundary=upper if sign==1 else lower
+        if sign*(Decimal(str(bar.values[3]))-boundary)<-params["retest_fraction"]*(upper-lower):
+            return terminal("INVALIDATED_SETUP","CONTINUATION_INVALIDATED")
     if machine.setup is None or machine.classification in TERMINAL:
         total=config.trend_bars+config.consolidation_bars
         if index+1-machine.scan_floor<total:
