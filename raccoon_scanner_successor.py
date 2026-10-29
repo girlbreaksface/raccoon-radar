@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import os
+import platform
 from pathlib import Path
 import re
 import struct
@@ -129,6 +130,7 @@ def assess(symbol,rows,*,now,session,contract=None,policy=None,pagination_comple
     result=dict(schema=1,synthetic=True,symbol=symbol,session=session,notice=NOTICE,
         evaluated_at=now.astimezone(timezone.utc).isoformat(),eligible=False,bias=None,
         bias_status="UNVERIFIED" if selected else "UNAVAILABLE",action="WAIT",
+        news_status="UNAVAILABLE",sentiment_status="UNAVAILABLE",
         reasons=sorted(set(reasons)),observations=None,raw_sha256=_hash(_typed(selected)),
         contract_sha256=_hash(_typed(contract)),policy_sha256=_hash(_typed(policy)),
         contract_evidence=_typed(contract),policy_evidence=_typed(policy))
@@ -267,6 +269,7 @@ def record_observation(path,observation,*,raw_rows,recorded_at,supersedes=None):
         payload=dict(record_id=str(uuid4()),sequence=len(records)+1,synthetic=True,schema=1,
             supersedes=supersedes,recorded_at_utc=stamp.isoformat(),recorded_at_input=recorded_at,
             observation=deepcopy(observation),raw_evidence=raw,raw_sha256=_hash(raw),
+            software=dict(python=platform.python_version(),system=platform.system(),decimal_precision=50),
             code_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
         with (path/(payload["record_id"]+".json")).open("xb") as f:
             f.write(_json(dict(payload=payload,sha256=_hash(payload))))
