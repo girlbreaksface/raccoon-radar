@@ -77,6 +77,11 @@ class CanonicalizerTests(unittest.TestCase):
         b,c,r=example()
         with self.assertRaises(TypeError): replace(b.observations[0],values=[1,2,3,4,5])
 
+    def test_wrong_nested_context_type_fails_closed(self):
+        b,c,r=example()
+        changed=reapprove(replace(c,time_rules=c.time_rules+("NOT_A_TIME_RULE",)))
+        self.assertFalse(self.run_case(b,changed,r).eligible)
+
     def test_real_bundle_or_provider_never_promoted_as_synthetic(self):
         b,c,r=example()
         self.assertIn("REAL_DATA_NOT_AUTHORIZED",self.run_case(replace(b,synthetic=False),c,r).reasons)
@@ -151,6 +156,23 @@ class CanonicalizerTests(unittest.TestCase):
         rows[-1]=replace(rows[-1],completion_received_at="2026-10-23T10:05:01.5Z")
         self.assertIn("INVALID_KNOWLEDGE_BOUND",self.run_case(reseal(b,rows),c,r).reasons)
 
+    def test_unknown_clock_bound_and_negative_or_nonfinite_policy_block(self):
+        b,c,r=example()
+        for changed in (replace(c,clock=replace(c.clock,uncertainty_seconds=None)),
+                        replace(c,policy=replace(c.policy,event_age=float("nan"))),
+                        replace(c,policy=replace(c.policy,delivery_lag=-1))):
+            self.assertFalse(self.run_case(b,reapprove(changed),r).eligible)
+
+    def test_independent_knowledge_and_delivery_budgets(self):
+        b,c,r=example(); changed=reapprove(replace(c,policy=replace(c.policy,knowledge_age=1)))
+        result=self.run_case(b,changed,r)
+        self.assertIn("STALE_KNOWLEDGE",result.reasons)
+        self.assertNotIn("STALE_EVENT",result.reasons)
+
+    def test_pit_basis_requires_separately_bound_policy(self):
+        b,c,r=example(); rows=tuple(replace(o,availability_basis="SYNTHETIC_PIT") for o in b.observations)
+        self.assertIn("AVAILABILITY_UNKNOWN",self.run_case(reseal(b,rows),c,r).reasons)
+
     def test_known_pit_is_synthetic_only_not_fetch_time_alias(self):
         b,c,r=example()
         c=reapprove(replace(c,policy=replace(c.policy,availability_model="SYNTHETIC_PIT")))
@@ -180,8 +202,44 @@ class CanonicalizerTests(unittest.TestCase):
         with patch("builtins.open",side_effect=AssertionError("I/O forbidden")):
             self.assertTrue(self.run_case(b,c,r).eligible)
 
+    def test_submicrosecond_precision_not_silently_truncated_to_earlier_time(self):
+        b,c,r=example()
+        for changes in (dict(raw_stamp="2026-10-23T09:30:00.0000001+00:00"),
+                        dict(available_at="2026-10-23T09:31:01.0000001+00:00")):
+            rows=list(b.observations); rows[0]=replace(rows[0],**changes)
+            self.assertFalse(self.run_case(reseal(b,rows),c,r).eligible)
+
+    def test_fractional_availability_is_not_visible_before_its_exact_cutoff(self):
+        b,c,r=example(); rows=list(b.observations)
+        rows[-1]=replace(rows[-1],available_at="2026-10-23T10:05:01.000001Z",
+                         received_at="2026-10-23T10:05:01.000001Z",completion_received_at="2026-10-23T10:05:01.000001Z")
+        changed=reseal(b,rows)
+        self.assertFalse(self.run_case(changed,c,replace(r,cutoff="2026-10-23T10:05:01Z")).eligible)
+        self.assertTrue(self.run_case(changed,c,replace(r,cutoff="2026-10-23T10:05:01.000001Z")).eligible)
+
 
 class PageAndCustodyTests(unittest.TestCase):
+    def test_non_string_page_references_return_blocked_not_type_error(self):
+        b,c,r=example()
+        page=replace(b.pages[0],observation_ids=(1,"O-1"))
+        self.assertFalse(CanonicalizerTests().run_case(reseal(b,pages=(page,)),c,r).eligible)
+
+    def test_valid_two_page_exhaustion_and_missing_terminal_page(self):
+        from canonical_candles import Page
+        b,c,r=example(); rows=b.observations[:20]+tuple(replace(o,page_id="P-2") for o in b.observations[20:])
+        first=replace(b.pages[0],next_cursor="next",terminal=False,observation_ids=tuple(o.observation_id for o in rows[:20]))
+        last=Page("P-2","SPY","Q-1","next",None,"OK",True,tuple(o.observation_id for o in rows[20:]))
+        self.assertTrue(CanonicalizerTests().run_case(reseal(b,rows,pages=(first,last)),c,r).eligible)
+        self.assertFalse(CanonicalizerTests().run_case(reseal(b,rows[:20],pages=(first,)),c,r).eligible)
+
+    def test_per_symbol_partial_error_does_not_certify_counterpart(self):
+        from canonical_candles import canonicalize,Page
+        b,c,r=example()
+        qqq=tuple(replace(o,observation_id="QQQ-"+o.observation_id,symbol="QQQ",page_id="P-Q") for o in b.observations)
+        qpage=Page("P-Q","QQQ","Q-Q",None,None,"ERROR",False,tuple(o.observation_id for o in qqq))
+        mixed=reseal(b,b.observations+qqq,pages=b.pages+(qpage,))
+        self.assertTrue(canonicalize(mixed,c,r).eligible)
+        self.assertFalse(canonicalize(mixed,c,replace(r,symbol="QQQ")).eligible)
     def test_failed_incomplete_manifest_cursor_loop_and_row_refs_block(self):
         from canonical_candles import identity
         b,c,r=example()
