@@ -391,3 +391,19 @@ class StructureTests(unittest.TestCase):
                     "AGREEMENT_"+left if left==right else "CONFLICT")
                 self.assertEqual(pair.state,expected)
                 self.assertEqual(pair.directions,(left,right))
+
+    def test_impossible_confirmation_deadline_is_rejected(self):
+        module=api()
+        with self.assertRaises(ValueError):
+            replay_case("bullish_reversal",replace(module.Config(),confirmation_closes=10,max_retest_bars=4))
+
+    def test_decimal_default_traps_cannot_change_research_behavior(self):
+        import decimal
+        expected=replay_case("bullish_reversal")[-1]
+        original=decimal.DefaultContext.traps[decimal.Inexact]
+        try:
+            decimal.DefaultContext.traps[decimal.Inexact]=True
+            actual=replay_case("bullish_reversal")[-1]
+        finally:
+            decimal.DefaultContext.traps[decimal.Inexact]=original
+        self.assertEqual(expected,actual)
