@@ -187,6 +187,7 @@ class ReplayTests(unittest.TestCase):
         self.assertFalse(any(isinstance(n, ast.ImportFrom) and (n.module or "").startswith("test_")
                              for n in ast.walk(tree)))
 
+
     def test_real_fractional_receipt_boundary_is_never_rounded_early(self):
         from datetime import datetime, timedelta
         from canonical_candles import identity
@@ -223,7 +224,6 @@ class ReplayTests(unittest.TestCase):
             self.assertEqual(earlier.decision_hash, later.decision_hash)
         self.assertNotEqual(original.run_hash, changed.run_hash)
         self.assertEqual(changed.points[-1].cells[0].state, "DATA_BLOCKED")
-
 
 class ViewerTests(unittest.TestCase):
     def test_text_displays_selected_time_profile_quality_and_calculations(self):
