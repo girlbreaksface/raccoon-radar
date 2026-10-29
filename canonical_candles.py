@@ -170,6 +170,7 @@ class Report(FrozenRecord):
     context_hash:str
     request_hash:str
     run_hash:str
+    bundle:Bundle
 
 
 def _encode(value):
@@ -279,7 +280,7 @@ def canonicalize(bundle,context,request):
             frame=Frame(ordered,context,request,identity((ordered,context_hash,request_hash)))
         status="SYNTHETIC_ENGINE_READY" if eligible else ("RAW_AUDIT" if request.mode=="RAW_AUDIT" else "BLOCKED")
         return Report(eligible,status,tuple(sorted(set(reasons))),tuple(exclusions),frame,
-            bundle_hash,context_hash,request_hash,identity(("synthetic-canonical-v1",bundle_hash,context_hash,request_hash)))
+            bundle_hash,context_hash,request_hash,identity(("synthetic-canonical-v1",bundle_hash,context_hash,request_hash)),bundle)
     if bundle.synthetic is not True: reasons.append("REAL_DATA_NOT_AUTHORIZED")
     if not _text(bundle.bundle_id): reasons.append("CAPTURE_IDENTITY_INVALID")
     if any(type(rule) is not TimeRules for rule in context.time_rules):
@@ -425,6 +426,9 @@ def to_pr31_arguments(report):
     if type(report) is not Report or not report.eligible or report.frame is None:
         raise ValueError("Only a sealed eligible synthetic frame may materialize")
     frame=report.frame; context=frame.context; request=frame.request
+    rechecked=canonicalize(report.bundle,context,request)
+    if not rechecked.eligible or identity(rechecked)!=identity(report):
+        raise ValueError("Report does not match recomputed canonical eligibility")
     if context.calendar.timezone!="UTC":
         raise ValueError("PR31 host-timezone bridge unreviewed; only synthetic UTC profile supported")
     if (report.context_hash!=identity(context) or report.request_hash!=identity(request) or
