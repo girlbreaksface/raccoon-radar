@@ -1,6 +1,7 @@
 """Pure synthetic v1.2 structure hypotheses; no EMA imports, I/O, orders or outcomes."""
 from dataclasses import dataclass, replace
-from decimal import Decimal, Context as DecimalContext, localcontext, ROUND_HALF_EVEN
+from decimal import (Decimal, Context as DecimalContext, localcontext, ROUND_HALF_EVEN,
+                     InvalidOperation, DivisionByZero, Overflow)
 import re
 
 from canonical_candles import (
@@ -87,6 +88,7 @@ class Decision(FrozenRecord):
     event_ids: tuple
     decision_hash: str
     action: str = "WAIT"
+    version: str = VERSION
 
 
 @dataclass(frozen=True, slots=True)
@@ -101,6 +103,7 @@ class Tracker(FrozenRecord):
     events: tuple
     history: tuple
     seal: str
+    version: str = VERSION
 
 
 @dataclass(frozen=True, slots=True)
@@ -131,6 +134,8 @@ def _validate_config(config):
         value=getattr(config,name)
         if type(value) is not int or not low<=value<=high:
             raise ValueError("Invalid integer parameter: "+name)
+    if config.confirmation_closes>config.max_retest_bars+1:
+        raise ValueError("Confirmation count cannot fit within the retest deadline")
     parsed={}
     positive=("min_move","max_contraction","max_width")
     for name in ("min_move","min_efficiency","min_directional","min_structure","max_contraction",
@@ -176,18 +181,18 @@ def _candidate(candles, index, config, params):
     lower=min(v[2] for v in region)
     upper=max(v[1] for v in region)
     width=upper-lower
-    contraction=range_tr/trend_tr if trend_tr else Decimal("Infinity")
+    contraction=range_tr/trend_tr if trend_tr else None
     width_ratio=width/((upper+lower)/2)
     overlap=Decimal(sum(max(a[2],b[2])<=min(a[1],b[1]) for a,b in zip(region,region[1:])))/(len(region)-1)
-    drift=abs(region[-1][3]-region[0][3])/width if width else Decimal("Infinity")
+    drift=abs(region[-1][3]-region[0][3])/width if width else None
     touch=params["touch_fraction"]*width
     support_touches=sum(v[2]<=lower+touch for v in region)
     resistance_touches=sum(v[1]>=upper-touch for v in region)
     stats=(("trend_move",str(move)),("trend_efficiency",str(efficiency)),
            ("directional_fraction",str(directional)),("structure_fraction",str(structure)),
            ("trend_mean_true_range",str(trend_tr)),("range_mean_true_range",str(range_tr)),
-           ("contraction_ratio",str(contraction)),("width_fraction",str(width_ratio)),
-           ("overlap_fraction",str(overlap)),("range_drift_fraction",str(drift)),
+           ("contraction_ratio",str(contraction) if contraction is not None else None),("width_fraction",str(width_ratio)),
+           ("overlap_fraction",str(overlap)),("range_drift_fraction",str(drift) if drift is not None else None),
            ("support_touches",str(support_touches)),("resistance_touches",str(resistance_touches)))
     reasons=[]
     strong=direction is not None and move>=params["min_move"] and efficiency>=params["min_efficiency"] and directional>=params["min_directional"] and structure>=params["min_structure"]
@@ -195,13 +200,15 @@ def _candidate(candles, index, config, params):
         reasons.append("NO_ESTABLISHED_TREND")
     if width<=0:
         reasons.append("ZERO_WIDTH_RANGE")
-    if contraction>params["max_contraction"]:
+    if contraction is None:
+        reasons.append("VOLATILITY_REFERENCE_UNAVAILABLE")
+    elif contraction>params["max_contraction"]:
         reasons.append("VOLATILITY_NOT_CONTRACTED")
     if width_ratio>params["max_width"]:
         reasons.append("RANGE_TOO_WIDE")
     if overlap<params["min_overlap"]:
         reasons.append("PRICE_STRUCTURE_NOT_OVERLAPPING")
-    if drift>params["max_drift"]:
+    if drift is not None and drift>params["max_drift"]:
         reasons.append("RANGE_DRIFT_EXCEEDED")
     if min(support_touches,resistance_touches)<config.min_touches:
         reasons.append("BOUNDARY_TOUCHES_INSUFFICIENT")
@@ -298,7 +305,7 @@ def assess(bundle, context, request, *, config=Config(), previous=None, syntheti
     context_hash,config_hash=identity(context),identity(config)
     cutoff=_time(request.cutoff)
     if previous is not None:
-        if (type(previous) is not Tracker or previous.seal!=_tracker_seal(previous) or
+        if (type(previous) is not Tracker or previous.version!=VERSION or previous.seal!=_tracker_seal(previous) or
             previous.context_hash!=context_hash or previous.config_hash!=config_hash or
             previous.symbol!=request.symbol or previous.session!=request.session_date):
             raise ValueError("Tracker seal/context/config/symbol/session mismatch; start a separate run")
@@ -310,7 +317,7 @@ def assess(bundle, context, request, *, config=Config(), previous=None, syntheti
     events=previous.events if previous is not None else ()
     history=previous.history if previous is not None else ()
     blocked=not report.eligible
-    reasons=report.reasons
+    reasons=report.reasons+(("ENGINE_READY_REQUEST_REQUIRED",) if request.mode!="ENGINE_READY" else ())
     if report.eligible:
         current=report.frame.candles
         if len(current)>1000:
@@ -320,7 +327,8 @@ def assess(bundle, context, request, *, config=Config(), previous=None, syntheti
             blocked=True
             reasons=("PREFIX_REVISION_CHANGED",)
         else:
-            with localcontext(DecimalContext(prec=50,rounding=ROUND_HALF_EVEN,Emin=-999999,Emax=999999,capitals=1)):
+            with localcontext(DecimalContext(prec=50,rounding=ROUND_HALF_EVEN,Emin=-999999,Emax=999999,
+                    capitals=1,clamp=0,flags=[],traps=[InvalidOperation,DivisionByZero,Overflow])):
                 for index in range(len(candles),len(current)):
                     machine,new_event=_process(machine,current,index,config,params,context_hash,request.cutoff)
                     if new_event is not None:
@@ -353,7 +361,8 @@ def assess(bundle, context, request, *, config=Config(), previous=None, syntheti
 
 
 def compare(spy, qqq):
-    if (type(spy) is not Decision or type(qqq) is not Decision or spy.symbol!="SPY" or qqq.symbol!="QQQ" or
+    if (type(spy) is not Decision or type(qqq) is not Decision or spy.version!=VERSION or qqq.version!=VERSION or
+        spy.symbol!="SPY" or qqq.symbol!="QQQ" or
         spy.at!=qqq.at or spy.config_hash!=qqq.config_hash or
         spy.decision_hash!=_decision_seal(spy) or qqq.decision_hash!=_decision_seal(qqq)):
         raise ValueError("Aligned sealed independent SPY/QQQ decisions required")
