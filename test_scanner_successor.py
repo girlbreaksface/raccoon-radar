@@ -1,7 +1,7 @@
 """Synthetic successor contracts; no SDK, real source, research store or orders."""
 import copy
 from datetime import datetime, timedelta, timezone
-from decimal import Decimal
+from decimal import Decimal, localcontext, ROUND_DOWN
 import json
 from pathlib import Path
 import tempfile
@@ -54,6 +54,14 @@ class SuccessorTests(unittest.TestCase):
         self.assertEqual(first["bias"],"BULLISH")
         self.assertEqual(first["action"],"WAIT")
         json.dumps(first,allow_nan=False)
+
+    def test_arithmetic_does_not_inherit_callers_decimal_rounding(self):
+        first=self.evaluate()
+        with localcontext() as caller:
+            caller.prec=6
+            caller.rounding=ROUND_DOWN
+            second=self.evaluate()
+        self.assertEqual(first,second)
 
     def test_ema_and_proxy_match_independent_reference_arithmetic(self):
         result=self.evaluate(); obs=result["observations"]
