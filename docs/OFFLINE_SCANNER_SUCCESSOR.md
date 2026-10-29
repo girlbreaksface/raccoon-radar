@@ -116,3 +116,12 @@ unchanged; source declaration, canonical adapter, policy/calendar/finality/avail
 independent review, real use, GUI integration, deployment and merge require separate gates.
 No provider connection, broker/paper/live orders, real records, market history/study,
 production database changes or automatic trading.
+
+Cross-platform follow-up: initial CI40886010946 at08414bf89d777606612d993dcdac363cbc3bda3f
+passed93 on Linux but Windows had6 evidence-fixture errors: Windows short-name temp-root
+aliases do not equal resolved canonical paths. Tests now explicitly resolve their OWN
+disposable roots before calling the API; production path restrictions/assertions unchanged.
+Callers must use explicit canonical resolved paths, not short aliases or symlink parents.
+Local93PASS after correction; exact final CI evidence returned separately on PR19.
+New evidence records also include actual Python/system versions and Decimal precision;
+news_status/sentiment_status explicitly UNAVAILABLE. No new feed functionality.
