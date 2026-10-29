@@ -9,13 +9,11 @@ import time
 import tkinter as tk
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from manual_ledger_ui import LedgerWindow
+from manual_ledger_ui import LedgerWindow, prepare_display
 
 
 def main():
-    if sys.platform == "win32":
-        import ctypes
-        ctypes.windll.user32.SetProcessDPIAware()
+    prepare_display()
     root = tk.Tk()
     app = LedgerWindow(root)
     with tempfile.TemporaryDirectory(prefix="synthetic-ledger-ui-") as temp:
