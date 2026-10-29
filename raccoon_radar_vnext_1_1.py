@@ -54,8 +54,18 @@ def create_window(scenario="conflict", minute=35):
     root = tk.Tk()
     root.title("Raccoon Radar vNext 1.1 · Synthetic Replay · No Orders")
     root.geometry("1180x880")
-    root.minsize(980, 760)
+    root.minsize(980, 600)
     root.configure(bg=BG)
+    # A scrollable page keeps diagnostics reachable on smaller Windows desktops.
+    viewport = tk.Canvas(root, bg=BG, highlightthickness=0)
+    scrollbar = ttk.Scrollbar(root, orient="vertical", command=viewport.yview)
+    scrollbar.pack(side="right", fill="y")
+    viewport.pack(side="left", fill="both", expand=True)
+    viewport.configure(yscrollcommand=scrollbar.set)
+    page = tk.Frame(viewport, bg=BG)
+    page_id = viewport.create_window((0, 0), window=page, anchor="nw")
+    page.bind("<Configure>", lambda _event: viewport.configure(scrollregion=viewport.bbox("all")))
+    viewport.bind("<Configure>", lambda event: viewport.itemconfigure(page_id, width=event.width))
     style = ttk.Style(root)
     style.theme_use("clam")
     style.configure("TButton", background="#302445", foreground=FG, padding=(14, 8))
@@ -67,24 +77,24 @@ def create_window(scenario="conflict", minute=35):
     def label(parent, text="", size=11, color=FG, bg=PANEL, **kwargs):
         return tk.Label(parent, text=text, bg=bg, fg=color, font=("Segoe UI", size), anchor="w", **kwargs)
 
-    header = tk.Frame(root, bg=BG)
+    header = tk.Frame(page, bg=BG)
     header.pack(fill="x", padx=24, pady=(20, 12))
     label(header, "RACCOON RADAR", 25, bg=BG).pack(side="left")
     label(header, "vNext 1.1  /  REPLAY WORKSTATION", 11, PURPLE, BG).pack(side="right")
-    label(root, "SYNTHETIC ONLY   ·   FINAL-only   ·   NO ORDERS   ·   All actions WAIT", 12,
+    label(page, "SYNTHETIC ONLY   ·   FINAL-only   ·   NO ORDERS   ·   All actions WAIT", 12,
           AMBER, "#30261b", padx=14, pady=10).pack(fill="x", padx=24)
-    label(root, "PR31 PROFILE  /  first-close EMA seed  /  35-bar first-close profile", 11,
+    label(page, "PR31 PROFILE  /  first-close EMA seed  /  35-bar first-close profile", 11,
           PURPLE, BG).pack(fill="x", padx=24, pady=(10, 3))
-    label(root, NOTICE, 10, MUTED, BG).pack(fill="x", padx=24)
+    label(page, NOTICE, 10, MUTED, BG).pack(fill="x", padx=24)
 
-    toolbar = tk.Frame(root, bg=BG)
+    toolbar = tk.Frame(page, bg=BG)
     toolbar.pack(fill="x", padx=24, pady=14)
     label(toolbar, "SYNTHETIC SCENARIO", 10, MUTED, BG).pack(side="left", padx=(0, 12))
     choice = ttk.Combobox(toolbar, values=[v for _, v in SCENARIOS], state="readonly", width=36)
     choice.set(dict(SCENARIOS)[scenario])
     choice.pack(side="left")
 
-    cards = tk.Frame(root, bg=BG)
+    cards = tk.Frame(page, bg=BG)
     cards.pack(fill="x", padx=24)
     cards.columnconfigure((0, 1), weight=1, uniform="cards")
     widgets = []
@@ -107,11 +117,11 @@ def create_window(scenario="conflict", minute=35):
             metrics.append((name, value))
         widgets.append((direction, state, metrics))
 
-    pair = label(root, size=15, color=AMBER, padx=16, pady=12)
+    pair = label(page, size=15, color=AMBER, padx=16, pady=12)
     pair.pack(fill="x", padx=24, pady=(14, 0))
-    pair_note = label(root, size=10, color=MUTED, bg=BG)
+    pair_note = label(page, size=10, color=MUTED, bg=BG)
     pair_note.pack(fill="x", padx=24, pady=(5, 12))
-    timeline = tk.Frame(root, bg=PANEL, padx=14, pady=12)
+    timeline = tk.Frame(page, bg=PANEL, padx=14, pady=12)
     timeline.pack(fill="x", padx=24)
     progress = label(timeline, size=12, color=PURPLE)
     progress.pack(fill="x", pady=(0, 8))
@@ -128,7 +138,7 @@ def create_window(scenario="conflict", minute=35):
     timestamp = label(timeline, size=9, color=MUTED)
     timestamp.pack(fill="x", pady=(8, 0))
 
-    details = tk.Frame(root, bg=BG)
+    details = tk.Frame(page, bg=BG)
     details.pack(fill="both", expand=True, padx=24, pady=(12, 18))
     toggles = tk.Frame(details, bg=BG)
     toggles.pack(fill="x")
@@ -203,7 +213,7 @@ def create_window(scenario="conflict", minute=35):
     root.protocol("WM_DELETE_WINDOW", root.destroy)
     # Explicit UI handles for reproducible widget smoke tests; no engine mutation.
     root.replay_ui = dict(model=model, choice=choice, previous=previous, next=following,
-                          slider=slider, seek=seek, select=select, pair=pair, cards=widgets,
+                          viewport=viewport, slider=slider, seek=seek, select=select, pair=pair, cards=widgets,
                           toggle=toggle, display=display, opened=opened, refresh=refresh)
     refresh()
     return root

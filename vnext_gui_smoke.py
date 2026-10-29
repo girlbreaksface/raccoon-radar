@@ -10,6 +10,9 @@ def main():
     try:
         root.update()
         ui = root.replay_ui
+        # Reproduce a smaller hosted Windows desktop before opening details.
+        root.geometry("980x600")
+        root.update()
         assert ui["pair"].cget("text") == "PAIR STATUS  /  CONFLICT"
         assert ui["cards"][0][0].cget("fg") == GREEN
         assert ui["cards"][1][0].cget("fg") == RED
@@ -17,6 +20,8 @@ def main():
         assert ui["opened"][0] is None
         for name in ("Technical details", "Diagnostics", "Evidence"):
             ui["toggle"](name)
+            root.update()
+            ui["viewport"].yview_moveto(1)
             root.update()
             assert ui["display"].winfo_ismapped()
             assert ui["display"].cget("state") == "disabled"

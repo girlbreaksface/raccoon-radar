@@ -28,6 +28,7 @@ The original `raccoon_replay_viewer.py` entry point remains available unchanged.
 - Technical details, Diagnostics, and Evidence each open on demand. Selecting the open
   section again collapses it. Evidence includes original full-precision visible consumer
   values and input/run/decision identities. Post-cutoff raw observations are not displayed.
+- Use the vertical page scrollbar when the desktop is too small to show every panel.
 - Cards round labels to two decimals for magnitudes >= 10 and four below 10. The
   immutable replay result and detailed evidence keep original precision. Unavailable
   values remain UNAVAILABLE; they are never rendered as zero.
