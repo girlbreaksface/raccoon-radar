@@ -14,6 +14,7 @@ SCENARIOS = (
     "bullish_invalidated", "bearish_invalidated", "prolonged", "retest_timeout", "wick_only",
     "two_sided", "weak_trend", "no_contraction", "gap", "provisional", "partial", "unknown",
     "duplicate", "incomplete", "invalid", "not_ready",
+    "bullish_continuation_invalidated", "bearish_continuation_invalidated",
 )
 
 
@@ -32,7 +33,9 @@ def scenario(name="bullish_reversal", symbol="SPY"):
     values = trend + [flat]*5
     breakout = (9370, 9400, 9360, 9380, 100)
     retest = (9370, 9410, 9330, 9390, 100)
-    if name.endswith("continuation"):
+    if "continuation_invalidated" in name:
+        values += [(9230,9240,9200,9220,100), flat]
+    elif name.endswith("continuation"):
         values += [(9230, 9240, 9200, 9220, 100)]
     elif name.endswith("false_breakout"):
         values += [breakout, (9300, 9320, 9280, 9300, 100)]
@@ -58,8 +61,8 @@ def scenario(name="bullish_reversal", symbol="SPY"):
     else:
         values += [breakout, retest]
     # Exact integer affine reflection mirrors highs/lows and all reversal mechanics.
-    mirror = name.startswith("bearish_") and not name.endswith("continuation")
-    mirror = mirror or name == "bullish_continuation"
+    mirror = (name.startswith("bearish_") and "continuation" not in name) or (
+        name.startswith("bullish_") and "continuation" in name)
     if mirror:
         values = [(20000-o, 20000-l, 20000-h, 20000-c, v) for o,h,l,c,v in values]
     opening = datetime(2026, 10, 23, 9, 30, tzinfo=timezone.utc)
