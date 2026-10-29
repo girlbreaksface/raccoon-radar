@@ -73,6 +73,13 @@ class DashboardBiasRegressions(unittest.TestCase):
             dashboard._refresh_signal_labels.assert_called_once_with()
             dashboard.read_csv.assert_not_called()
 
+    def test_even_empty_exception_message_clears_previous_snapshot(self):
+        dashboard = self.dashboard([dict(symbol="SPY", bias="BULLISH")])
+        dashboard.signal_rows = [dict(symbol="SPY", bias="BULLISH")]
+        dashboard._refresh_signal_labels(error="")
+        self.assertEqual(dashboard.signal_rows, [])
+        self.assertEqual(dashboard.spy_label.config.call_args.kwargs["text"], "UNAVAILABLE")
+
 
 class SignalEvidenceTests(unittest.TestCase):
     now = datetime(2026, 10, 23, 14, 0, tzinfo=timezone.utc)
