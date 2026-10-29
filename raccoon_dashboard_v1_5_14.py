@@ -32,6 +32,7 @@ class Dashboard(tk.Tk):
         self.csv_path = None
         self.trade_path = None
         self.last_mtimes = {}
+        self.signal_rows = []  # Raw CSV rows remain inspectable, never assumed verified.
         self.refresh_ms = 5000
         self.candle_queue = queue.Queue()
         self.candle_busy = False
@@ -67,8 +68,8 @@ class Dashboard(tk.Tk):
         strip = tk.Frame(self, bg='#151724'); strip.pack(fill='x', padx=20)
         self.status = self.tile(strip, 'MODE', 'OFFLINE / IDLE', 0)
         self.rows_label = self.tile(strip, 'ROWS LOADED', '0', 1)
-        self.spy_label = self.tile(strip, 'SPY LATEST BIAS', '—', 2)
-        self.qqq_label = self.tile(strip, 'QQQ LATEST BIAS', '—', 3)
+        self.spy_label = self.tile(strip, 'SPY VERIFIED BIAS', 'UNAVAILABLE', 2)
+        self.qqq_label = self.tile(strip, 'QQQ VERIFIED BIAS', 'UNAVAILABLE', 3)
         scanner_controls = tk.Frame(self, bg='#151724'); scanner_controls.pack(fill='x', padx=23, pady=(4,0))
         self.scanner_label = tk.Label(scanner_controls, text='SCANNER: STOPPED', bg='#151724', fg='#b8a3df', font=('Segoe UI', 10, 'bold'))
         self.scanner_label.pack(side='left', padx=(0,15))
@@ -1078,6 +1079,20 @@ class Dashboard(tk.Tk):
                 try:q.close()
                 except Exception:pass
 
+    def _refresh_signal_labels(self, rows=None, error=None):
+        from datetime import timezone
+        from scanner_reliability import evaluate_signals
+        if rows is not None:
+            self.signal_rows = list(rows)
+        if error is not None:
+            self.signal_rows = []
+        # No reviewed scanner-source/availability binding or freshness policy yet.
+        # Keep raw rows in the table; do not promote their text into verified bias.
+        self.signal_evidence = evaluate_signals(
+            getattr(self, 'signal_rows', []), now=datetime.now(timezone.utc))
+        for symbol, label in [('SPY', self.spy_label), ('QQQ', self.qqq_label)]:
+            label.config(text=self.signal_evidence[symbol]['display'])
+
     def load_csv(self):
         path = filedialog.askopenfilename(title='Choose raccoon_radar_log.csv', filetypes=[('CSV files','*.csv')])
         if not path: return
@@ -1089,12 +1104,11 @@ class Dashboard(tk.Tk):
             self.last_mtimes[path] = Path(path).stat().st_mtime_ns
             self.fill(self.signal_tree, rows)
             self.rows_label.config(text=str(len(rows)))
-            for sym, label in [('SPY',self.spy_label),('QQQ',self.qqq_label)]:
-                matches = [r for r in rows if sym in r.get('symbol','').upper()]
-                label.config(text=(matches[-1].get('bias') or '—') if matches else '—')
-            self.note.set(f'Loaded {len(rows)} recorded signal rows from {path}. This is a static snapshot, not a live feed.')
+            self._refresh_signal_labels(rows)
+            self.note.set(f'Loaded {len(rows)} recorded signal rows from {path}. Static snapshot; bias source/availability/freshness UNVERIFIED, not a live feed.')
             self.tabs.select(self.signals_frame)
         except Exception as exc:
+            self._refresh_signal_labels(error=str(exc))
             messagebox.showerror('Could not load signal CSV',str(exc))
 
     def load_trade_csv(self):
@@ -1140,6 +1154,8 @@ class Dashboard(tk.Tk):
             try:
                 mtime = Path(path).stat().st_mtime_ns
                 if not force and mtime == self.last_mtimes.get(path):
+                    if kind == 'signal':
+                        self._refresh_signal_labels()
                     continue
                 rows, headers = self.read_csv(path)
                 if kind == 'signal':
@@ -1147,16 +1163,17 @@ class Dashboard(tk.Tk):
                         raise ValueError('Signal CSV is missing symbol or bias')
                     self.fill(self.signal_tree, rows)
                     self.rows_label.config(text=str(len(rows)))
-                    for sym, label in [('SPY', self.spy_label), ('QQQ', self.qqq_label)]:
-                        matches = [r for r in rows if sym in r.get('symbol', '').upper()]
-                        label.config(text=(matches[-1].get('bias') or '—') if matches else '—')
+                    self._refresh_signal_labels(rows)
                 else:
                     if not {'contract', 'pnl'}.issubset(headers):
                         raise ValueError('Trade CSV is missing contract or pnl')
                     self.fill(self.trade_tree, rows)
                 self.last_mtimes[path] = mtime
-                self.note.set(f'Updated {kind} CSV: {len(rows)} rows. Source: {path}')
+                self.note.set(f'Updated {kind} CSV: {len(rows)} rows. Source: {path}' +
+                              (' | Bias evidence UNVERIFIED; raw snapshot only.' if kind == 'signal' else ''))
             except Exception as exc:
+                if kind == 'signal':
+                    self._refresh_signal_labels(error=str(exc))
                 self.status.config(text='CSV READ ERROR')
                 self.note.set(f'Could not refresh {kind} CSV: {exc}. Retrying; no data invented.')
 
@@ -1278,4 +1295,3 @@ class Dashboard(tk.Tk):
 
 if __name__ == '__main__':
     Dashboard().mainloop()
-
