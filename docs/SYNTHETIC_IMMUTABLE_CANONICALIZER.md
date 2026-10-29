@@ -176,3 +176,13 @@ No SDK/provider connection, credentials, real records/history/study, paper/live 
 production databases/CSV/ingestion edits, merge or deployment. Recommended next only after
 review: separately scoped offline consumer/timezone compatibility or expanded pure-contract
 validation. Capture/provider integration needs its own evidence/permission gate.
+
+Report-sealing follow-up: test-first148a2a55f0b192d83493e02770fde1259fb9a69b reproduces
+modified report bundle/run/reason metadata being accepted by the initial bridge.
+Report now retains the complete immutable Bundle; to_pr31_arguments recomputes canonical
+eligibility and exact report identity before materializing. No self-declared eligible flag
+or frame hash alone acts as a certificate. This is integrity revalidation under the same
+trusted synthetic input model, NOT cryptographic authentication of caller evidence.
+Frame hash still excludes later payloads; complete bundle/run identity remains separate.
+Final local **110PASS (69baseline+41new)**, compilationPASS. Prior109 results above refer
+to the earlier stage. No skipped/relaxed assertions; no existing app/data changed.
