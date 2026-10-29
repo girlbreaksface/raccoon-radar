@@ -291,6 +291,12 @@ class PageAndCustodyTests(unittest.TestCase):
 
 
 class ConsumerViewTests(unittest.TestCase):
+    def test_modified_report_identity_cannot_be_used_as_eligibility_certificate(self):
+        from canonical_candles import canonicalize,to_pr31_arguments
+        report=canonicalize(*example())
+        for forged in (replace(report,bundle_hash="0"*64),replace(report,run_hash="0"*64),
+                       replace(report,reasons=("FORGED_BLOCKED_REASON",))):
+            with self.assertRaises(ValueError): to_pr31_arguments(forged)
     def test_exact_pinned_pr31_consumer_accepts_canonical_utc_view(self):
         from canonical_candles import canonicalize,to_pr31_arguments
         path=Path(__file__).parent/"tests/canonicalizer_fixtures/pr31_successor.py.txt"
