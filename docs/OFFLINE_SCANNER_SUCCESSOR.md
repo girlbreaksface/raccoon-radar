@@ -125,3 +125,10 @@ Callers must use explicit canonical resolved paths, not short aliases or symlink
 Local93PASS after correction; exact final CI evidence returned separately on PR19.
 New evidence records also include actual Python/system versions and Decimal precision;
 news_status/sentiment_status explicitly UNAVAILABLE. No new feed functionality.
+
+Determinism follow-up: test-first0cbc5222ae577dd42954a233d868f0afff8fd7ff reproduces
+caller Decimal rounding leaking into indicators. Arithmetic now uses an isolated50-digit
+ROUND_HALF_EVEN context with explicit exponent bounds, instead of inheriting caller
+rounding. Same inputs/clock produce identical output under altered caller precision/
+rounding. Final local count **94PASS (69baseline+25successor)**, compilationPASS.
+Earlier93 results remain attributed to the earlier stage; no assertions skipped/weakened.
