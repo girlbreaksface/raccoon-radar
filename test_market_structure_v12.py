@@ -409,3 +409,12 @@ class StructureTests(unittest.TestCase):
         finally:
             decimal.DefaultContext.traps[decimal.Inexact]=original
         self.assertEqual(expected,actual)
+
+    def test_continuation_return_into_range_invalidates_current_direction(self):
+        for name in ("bullish_continuation_invalidated","bearish_continuation_invalidated"):
+            results=replay_case(name)
+            self.assertEqual(results[-2].decision.classification,"TREND_CONTINUATION")
+            self.assertEqual(results[-1].decision.classification,"INVALIDATED_SETUP")
+            self.assertIn("CONTINUATION_INVALIDATED",results[-1].decision.reasons)
+            self.assertIsNone(results[-1].decision.direction)
+            self.assertEqual(results[-1].tracker.history[-2],results[-2].decision)
