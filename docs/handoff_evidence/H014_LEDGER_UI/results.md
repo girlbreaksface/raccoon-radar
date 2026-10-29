@@ -62,3 +62,25 @@ coverage, CLI-only restore/dependent batch corrections remain.
 Recovery ownership is asserted, not proven; raw capture is not a verified backup.
 No real-use, existing-app integration, independent sign-off, deployment or merge approval.
 See [workflow and limitations](../../LEDGER_UI_H014.md).
+
+## Final code follow-up — 2026-10-29T04:47Z
+
+Windows visual inspection established a scaling mismatch between the initial launcher
+and DPI-aware smoke capture. Commits3a0a29f2d4abf1b70145817838c730ff9a684325 and
+bdbe7aee2e8a5e1b14ee85c2f4ee85ecd37cbaa7 make both call the same prepare_display
+before Tk construction; no accounting/storage changes. The earlier successful run
+remains original evidence, not silently relabeled as this revision.
+
+[CI40819628047](https://github.com/girlbreaksface/raccoon-radar/actions/runs/40819628047)
+tests code headbdbe7aee2e8a5e1b14ee85c2f4ee85ecd37cbaa7 at
+ddab940da4faa9847f0bea4327721a5d6f835534 against unchanged PR26 base.
+Windows job123268795870 and Ubuntu job123268796090 both completed SUCCESS:
+69baseline +56journal/controller PASS, compile PASS, actual Tk smoke PASS.
+Logs and statuses read. Local Windows same56 PASS, compile and Tk smoke PASS after
+this change; unchanged baseline previously69 PASS. No extra baseline rerun was needed
+for the isolated display-bootstrap change. Screenshot above retains its original
+hash and capture identity; new smoke uses equivalent display setup.
+
+Latest source blobs: manual_ledger_ui.py a19df33954631f133b9ef6ebd62de3cec2191793;
+tests/ledger_gui_smoke.py 44d164c617a578210076dec9e54222dc54b34da2.
+Final evidence-only commit is tested separately and returned in the PR19 completion comment.
