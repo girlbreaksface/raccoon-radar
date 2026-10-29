@@ -1,0 +1,1042 @@
+{
+  "config": {
+    "breakout_fraction": "0.10",
+    "confirmation_closes": 2,
+    "consolidation_bars": 5,
+    "max_contraction": "0.55",
+    "max_drift": "0.50",
+    "max_range_bars": 20,
+    "max_retest_bars": 4,
+    "max_width": "0.015",
+    "min_directional": "0.75",
+    "min_efficiency": "0.70",
+    "min_move": "0.015",
+    "min_overlap": "0.75",
+    "min_structure": "0.60",
+    "min_touches": 2,
+    "retest_fraction": "0.20",
+    "touch_fraction": "0.20",
+    "trend_bars": 8
+  },
+  "conflict_pair": {
+    "at": "2026-10-23T09:45:01+00:00",
+    "classifications": [
+      "CONFIRMED_STRUCTURAL_REVERSAL",
+      "CONFIRMED_STRUCTURAL_REVERSAL"
+    ],
+    "decision_hashes": [
+      "ecb5730e37bb92da17d0aaeeac0fd2f8919ec5eaf8484f31614494052ff78e6b",
+      "1547bb91d2c692cc8af8f73844d43e566deefba84e03d07ffb86bde104dd0027"
+    ],
+    "directions": [
+      "BULLISH",
+      "BEARISH"
+    ],
+    "pair_hash": "cb1af429ecec6bcb0b9d47be0348c9fd0daff12c4cb79d8d3c77f11c8ea28af8",
+    "state": "CONFLICT"
+  },
+  "limitations": [
+    "Invented UTC paths and declared synthetic source/availability/finality",
+    "No genuine point-in-time history, performance, provider or statistical validation",
+    "No EMA comparison, original application change, orders or P/L"
+  ],
+  "model_version": "synthetic-market-structure-v12-hypothesis-1",
+  "notice": "SYNTHETIC ONLY; classifications, not market truth or performance",
+  "observed_at_utc": "2026-10-29T21:38:26.858299+00:00",
+  "platform": "Windows",
+  "prior_development_artifacts": [
+    {
+      "filename": "structure-20261029T213514Z-a1441d427e40420f86ac3934dccb5762.json",
+      "sha256": "6c10743e68e0a95b0429850942b2b2aa4ba96b73bbf902ca4486546d1e924f9b"
+    }
+  ],
+  "python": "3.12.14",
+  "scenarios": [
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "ecb5730e37bb92da17d0aaeeac0fd2f8919ec5eaf8484f31614494052ff78e6b",
+      "direction": "BULLISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_AND_HOLD_CONFIRMED"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_reversal",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "31de37908aaea49afaf817b6c6b273a545280f3ff94d5d39224c1542375c57c7",
+      "direction": "BULLISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_AND_HOLD_CONFIRMED"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_reversal",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "decfc2d26ca6860a80c0ffbabb0578ae2741a423d17870cf1482fa2af0ea7141",
+      "direction": "BEARISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_AND_HOLD_CONFIRMED"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_reversal",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "1547bb91d2c692cc8af8f73844d43e566deefba84e03d07ffb86bde104dd0027",
+      "direction": "BEARISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_AND_HOLD_CONFIRMED"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_reversal",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "TREND_CONTINUATION",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "4451f150e344ce04126383caa64e9a717d898ae59e44b1768a8e982f2833b3b3",
+      "direction": "BULLISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "ESTABLISHED_TREND_CLOSE_BREAKOUT"
+      ],
+      "resistance": "10740",
+      "scenario": "bullish_continuation",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "TREND_CONTINUATION",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "b96dcfbb65a48e8254ec2cd8333f124fd47b326af364b0d998d86a1902944f5d",
+      "direction": "BULLISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "ESTABLISHED_TREND_CLOSE_BREAKOUT"
+      ],
+      "resistance": "10740",
+      "scenario": "bullish_continuation",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "TREND_CONTINUATION",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "8581438c654e2b4d16abbba84a90d336f7f0c06892a9b28190fa453bd1fee487",
+      "direction": "BEARISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "ESTABLISHED_TREND_CLOSE_BREAKOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "bearish_continuation",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "TREND_CONTINUATION",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "5b89fc54b7bbd3770dfcca8b5e9a0faa2921ae12d8f8e4d2499a7b3851e4bc5d",
+      "direction": "BEARISH",
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "ESTABLISHED_TREND_CLOSE_BREAKOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "bearish_continuation",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "abf61ce6c79f168c7cf90a8eb39352699c1930b69d943a2ed2ec7276a80bd07c",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "BREAKOUT_REENTERED_RANGE"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_false_breakout",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "f8b8b0e32a2ccad927a3f85513b5a16abdd14f9468ee15d727cb699b28643670",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "BREAKOUT_REENTERED_RANGE"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_false_breakout",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "ecbd72725ac1970384b8fc305fe59f3786d676b6d9e0909b5013ad5ec4fd97e4",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "BREAKOUT_REENTERED_RANGE"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_false_breakout",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "b51c37ea2ff8a6f7a0636f546c62190d3815e69fdb6eb835642e121e824b971b",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "BREAKOUT_REENTERED_RANGE"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_false_breakout",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "f88d26e1bfd19cf3960f126903f6dedbb1ce6090f4f298261777454e866a30f2",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FAILED_RETEST"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_failed_retest",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "aa2b584a8942ee551f5d275c1bf4cf8232c94064ba55e57713d26e1b2aaee7d1",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FAILED_RETEST"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_failed_retest",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "928fd8ded2e7b0e63c77a262b5372cc605fbf741eba6367a9c7dfb897c1ec87c",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FAILED_RETEST"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_failed_retest",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "a391babc89f86fe5b5b8f57a0b20a0429a1812c3671072c91067e17c9bb8d2b9",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FAILED_RETEST"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_failed_retest",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:46:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "8265faba3ac4ad0b2f2018281672dc3793326f517f2791177e9dcb96c607e4df",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONFIRMED_REVERSAL_INVALIDATED"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_invalidated",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:46:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "db2d2c81dff242ace4fdee3d8fb43b4e35bd6049878f9d626a66548b2dea69ea",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONFIRMED_REVERSAL_INVALIDATED"
+      ],
+      "resistance": "9340",
+      "scenario": "bullish_invalidated",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:46:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "49dc14cb753f7a23726d9082ab304513e8c78731e0fb10519ac9ac386aa386df",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONFIRMED_REVERSAL_INVALIDATED"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_invalidated",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:46:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "199c92cfbde03431714c91368441ce0763c6983ce7e3f3b98c20df243f9354c9",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "CONFIRMED_STRUCTURAL_REVERSAL",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONFIRMED_REVERSAL_INVALIDATED"
+      ],
+      "resistance": "10740",
+      "scenario": "bearish_invalidated",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:59:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "f009119f54a59c0509277fdaaeae2449d0a7e342320158448439d020af82a27e",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONSOLIDATION_EXPIRED"
+      ],
+      "resistance": "9340",
+      "scenario": "prolonged",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:59:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "35cba660c15bb32401a84db1c51a0ae6ed972b85b5b61d085c478f550a307edf",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONSOLIDATION_EXPIRED"
+      ],
+      "resistance": "9340",
+      "scenario": "prolonged",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:49:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "e504ce8af96b49c6ea9db4a2de541e46a2964468d1b9894ccfb7cfbd246da5ff",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_TIMEOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "retest_timeout",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:49:01+00:00",
+      "classification": "FAILED_REVERSAL",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "5ac1a2c4f50c9157e43d94b965a3981c60080859a7637db092d2a0b43f23df12",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH",
+        "FAILED_REVERSAL"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "RETEST_TIMEOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "retest_timeout",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "REVERSAL_WATCH",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "632d71579477a255c2d5a5a75820e6a8ae03646817f0340db712645e9d3a5f40",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": "BULLISH",
+      "reasons": [
+        "WICK_ONLY_NO_CLOSE_BREAKOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "wick_only",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "REVERSAL_WATCH",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "f980eb5560a177a0157e68e364edf0f432a7aac83d14eb4ebf0f5eab33a0b62b",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": "BULLISH",
+      "reasons": [
+        "WICK_ONLY_NO_CLOSE_BREAKOUT"
+      ],
+      "resistance": "9340",
+      "scenario": "wick_only",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "026c141158086250fc3f0c15ec971b0ea7e7e2a31a131b55492fd73aa8f4efc5",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "AMBIGUOUS_TWO_SIDED_EXCURSION"
+      ],
+      "resistance": "9340",
+      "scenario": "two_sided",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:44:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "9d7ecbef049305cf9052af96687d2b5a25b2d45487c15169a01c21137bee1659",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "AMBIGUOUS_TWO_SIDED_EXCURSION"
+      ],
+      "resistance": "9340",
+      "scenario": "two_sided",
+      "support": "9260",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:43:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "858f689cea2bd9233f11c4563355c3f5cf785b28c99c9a4a49229ccd35be5115",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "NO_ESTABLISHED_TREND"
+      ],
+      "resistance": null,
+      "scenario": "weak_trend",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:43:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "4ea877809a3bcf386eefe0291d284269223030ee0102300dbe86dc32dd2dfda9",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "NO_ESTABLISHED_TREND"
+      ],
+      "resistance": null,
+      "scenario": "weak_trend",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:43:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "fbdaffc511ca2ba4040902f4186dd9bb34462e15f2d345368d95c7a7f5418e14",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "VOLATILITY_NOT_CONTRACTED",
+        "RANGE_TOO_WIDE"
+      ],
+      "resistance": null,
+      "scenario": "no_contraction",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:43:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "c7c32086f94aff0f9792e41a9beafa7302e46c8fc62de2cbe0bc6d328fcb0634",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "VOLATILITY_NOT_CONTRACTED",
+        "RANGE_TOO_WIDE"
+      ],
+      "resistance": null,
+      "scenario": "no_contraction",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "9fbaf66d3c9b832af04ea66596c557a882319d2beb51d9e7b7b38ad7bbe8113c",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "EXPECTED_GRID_GAP"
+      ],
+      "resistance": null,
+      "scenario": "gap",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "190343d974747861242ca0b768ee840d79834ee8d32504324d6e5f2fbee5e01f",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "EXPECTED_GRID_GAP"
+      ],
+      "resistance": null,
+      "scenario": "gap",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "31dd408f52b2b42d470bcdcd0f050971b174bf6a1fd8c282e78b9053ec1bd300",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FINALITY_UNVERIFIED"
+      ],
+      "resistance": null,
+      "scenario": "provisional",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "1450dedd0cf6b1e68c151b9aac4884ff8a7384f7535ae08d7cf44346cb11b3a9",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "FINALITY_UNVERIFIED"
+      ],
+      "resistance": null,
+      "scenario": "provisional",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "da0732c3ec6527fc3568b5b5cd11e968a6ebb365ca2edf7f9c4c199076e5968e",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "PARTIAL_SOURCE"
+      ],
+      "resistance": null,
+      "scenario": "partial",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "8ad6c139f32309a48284366b8a802e7a173ed394fecf70a0574442d5c7ee9bc5",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "PARTIAL_SOURCE"
+      ],
+      "resistance": null,
+      "scenario": "partial",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "34c7f283ea423b9e3afccc20e9bf1247ec6df8268f655ad92411bbd3ebe24f28",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "AVAILABILITY_UNKNOWN",
+        "EXPECTED_GRID_GAP"
+      ],
+      "resistance": null,
+      "scenario": "unknown",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "01cd156c6eb88dce024715b28cbc919bae8069f120bdc9f1d36802ffe791f269",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "AVAILABILITY_UNKNOWN",
+        "EXPECTED_GRID_GAP"
+      ],
+      "resistance": null,
+      "scenario": "unknown",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "19c643923f83c8a08fbcbe17aa11ac23ecc35337aa5802056e1dd8c9f78ce456",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "DUPLICATE_OR_CONFLICTING_INTERVAL"
+      ],
+      "resistance": null,
+      "scenario": "duplicate",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "5097b40e906b40f31cf89a78a17b1d0c7e8e405ec27948d0b9731601891ab2d8",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "DUPLICATE_OR_CONFLICTING_INTERVAL"
+      ],
+      "resistance": null,
+      "scenario": "duplicate",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "eaa0514bcb335583db610ba300db12670f42426aef45a1d125625e4e48f9bcf2",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "COMPLETION_UNVERIFIED"
+      ],
+      "resistance": null,
+      "scenario": "incomplete",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "6866dfdeeb97362981c7cf7e272648f2241796e52f7e755eed4b3ec609f6aee8",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "COMPLETION_UNVERIFIED"
+      ],
+      "resistance": null,
+      "scenario": "incomplete",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "ed5fbfae811c20b43119450144d9b326adca35703b04e474c85c5ca0927e8f7d",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "INVALID_OHLCV"
+      ],
+      "resistance": null,
+      "scenario": "invalid",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "BLOCKED",
+      "decision_hash": "9da8e46b21243599d0147170712e9b3eb0cb5dbd9399a93def1493099e41bf94",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "REVERSAL_WATCH"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "INVALID_OHLCV"
+      ],
+      "resistance": null,
+      "scenario": "invalid",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:35:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "45e600595cd6281f1aa18a725b2494a13c9f807caca1048f6909a9065127277f",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "INSUFFICIENT_STRUCTURE_WARMUP"
+      ],
+      "resistance": null,
+      "scenario": "not_ready",
+      "support": null,
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:35:01+00:00",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "a34ffaee082f5f8ea60742320c33980f85a701a9b793c6c97874db559387b630",
+      "direction": null,
+      "event_kinds": [],
+      "potential_direction": null,
+      "reasons": [
+        "INSUFFICIENT_STRUCTURE_WARMUP"
+      ],
+      "resistance": null,
+      "scenario": "not_ready",
+      "support": null,
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "fb1920feb0fe8e8e9f44367e21e135f239cf80cf75c7f1ee532e63b995c7e1fc",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONTINUATION_INVALIDATED"
+      ],
+      "resistance": "10740",
+      "scenario": "bullish_continuation_invalidated",
+      "support": "10660",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "f0692c0ad208e0717c0c8013a2f7f20d44228700f26ef87a4b0d577a3d5bf25c",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONTINUATION_INVALIDATED"
+      ],
+      "resistance": "10740",
+      "scenario": "bullish_continuation_invalidated",
+      "support": "10660",
+      "symbol": "QQQ"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "a3c82dcfdc3a2d5b9fd9b4b83b0f3257ac80cc25ff1469ca2aa56fd09aa4bc09",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONTINUATION_INVALIDATED"
+      ],
+      "resistance": "9340",
+      "scenario": "bearish_continuation_invalidated",
+      "support": "9260",
+      "symbol": "SPY"
+    },
+    {
+      "at": "2026-10-23T09:45:01+00:00",
+      "classification": "INVALIDATED_SETUP",
+      "data_status": "SYNTHETIC_ENGINE_READY",
+      "decision_hash": "3e0ffdd616ee84ef5b6bef775c76e49253d9202a18a475f3ce5a51fb955b6550",
+      "direction": null,
+      "event_kinds": [
+        "REVERSAL_WATCH",
+        "TREND_CONTINUATION",
+        "INVALIDATED_SETUP"
+      ],
+      "potential_direction": null,
+      "reasons": [
+        "CONTINUATION_INVALIDATED"
+      ],
+      "resistance": "9340",
+      "scenario": "bearish_continuation_invalidated",
+      "support": "9260",
+      "symbol": "QQQ"
+    }
+  ],
+  "semantic_scenario_hash": "f4c9a9924713aad9e352b022f40deacdac754663b5533619f3f0d7eddda6f775",
+  "source_sha256": {
+    "market_structure_v12.py": "71567736bfd890ef87789750fcf2f87e18cfa4fe67a1edf7a3f4870dd0a64e30",
+    "market_structure_v12_scenarios.py": "3d70c301ecc6afc444bf12b963ee3fa996f084e266f26452b7161954f7d67bd0",
+    "test_market_structure_v12.py": "a3e183b0929d417d7582e81898d390c26eab7801931191860adea69f0e011a40"
+  }
+}
