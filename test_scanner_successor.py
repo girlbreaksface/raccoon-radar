@@ -112,7 +112,25 @@ class SuccessorTests(unittest.TestCase):
     def test_input_order_independent_and_per_symbol_isolation(self):
         rows,c=fixture(); other,_=fixture("QQQ")
         result=self.evaluate(list(reversed(rows))+other,c)
-        self.assertEqual(result,self.evaluate(rows,c))
+        original=self.evaluate(rows,c)
+        self.assertNotEqual(result.pop("raw_sha256"),original.pop("raw_sha256"))
+        self.assertEqual(result,original)  # Signals stable; raw evidence keeps original order.
+
+    def test_mixed_data_has_no_directional_candidate(self):
+        rows,c=fixture()
+        for row in rows: row.update(open=100,high=101,low=99,close=100)
+        result=self.evaluate(rows,c)
+        self.assertFalse(result["eligible"])
+        self.assertIn("NO_DIRECTIONAL_CONJUNCTION",result["reasons"])
+
+    def test_extreme_finite_volumes_do_not_produce_infinite_output(self):
+        rows,c=fixture()
+        for row in rows: row["volume"]=5e-324
+        rows[-1]["volume"]=1e308
+        result=self.evaluate(rows,c)
+        self.assertTrue(result["eligible"])
+        self.assertTrue(Decimal(result["observations"]["relative_volume"]).is_finite())
+        json.dumps(result,allow_nan=False)
 
     def test_contract_duplicate_or_overlapping_interval_rejected(self):
         rows,c=fixture(); c["intervals"][-1]["start"]=c["intervals"][-2]["start"]
