@@ -12,7 +12,33 @@ import sys
 import tempfile
 import unittest
 from uuid import uuid4
+from urllib.parse import urlsplit
+from urllib.request import url2pathname
 from manual_ledger import Ledger, LedgerError, RecoveryRequired
+
+_TEMPORARY_ROOTS=set()
+
+def _audit(event,args):
+    if ((event.startswith("socket.") and event!="socket.__new__") or
+            event in ("urllib.Request","os.system","sqlite3.load_extension",
+                      "sqlite3.enable_load_extension")):
+        raise PermissionError("Synthetic journal tests prohibit network and extensions")
+    if event=="sqlite3.connect":
+        raw=os.fsdecode(os.fspath(args[0]))
+        if raw.startswith("file:"):
+            parsed=urlsplit(raw)
+            if parsed.netloc or parsed.fragment or parsed.query not in ("mode=ro","mode=rw"):
+                raise PermissionError("Unexpected SQLite URI in synthetic tests")
+            candidate=Path(url2pathname(parsed.path)).resolve()
+        else:
+            candidate=Path(raw).resolve()
+        if not any(candidate.is_relative_to(root) for root in _TEMPORARY_ROOTS):
+            raise PermissionError("SQLite outside explicit temporary journal fixture")
+
+def setUpModule():
+    # Append-only Python audit hook, not a filesystem sandbox. Controlled crash
+    # child programs receive only paths created by these temporary fixtures.
+    sys.addaudithook(_audit)
 
 def uid():
     return str(uuid4())
@@ -39,6 +65,7 @@ class LedgerTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
+        _TEMPORARY_ROOTS.add(self.root.resolve())
         self.path = self.root/"journal"
         self.ledger = Ledger.create(self.path, synthetic=True)
     def tearDown(self):
@@ -437,6 +464,83 @@ module.Ledger.open(sys.argv[1]).apply(request["command"],request["fills"],
         reopened.apply(command,items)
         self.assertEqual(len(reopened.report()["active_fills"]),60)
         self.assertEqual(reopened.report()["snapshot_sequence"],1)
+
+    def test_cli_template_create_record_report_and_fail_closed(self):
+        import contextlib
+        import io
+        from manual_ledger_cli import main
+        request=self.root/"template.json"; new=self.root/"cli-ledger"
+        stdout=io.StringIO(); stderr=io.StringIO()
+        with contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr):
+            self.assertEqual(main(["template",str(request)]),0)
+            self.assertEqual(main(["create",str(new),"--synthetic"]),0)
+            self.assertEqual(main(["record",str(new),str(request)]),0)
+            self.assertEqual(main(["record",str(new),str(request)]),0)
+            self.assertEqual(main(["report",str(new)]),0)
+            self.assertEqual(main(["create",str(self.root/"real-not-allowed")]),2)
+            self.assertEqual(main(["template",str(request)]),2)
+            missing=self.root/"missing-cli"
+            self.assertEqual(main(["report",str(missing)]),2)
+        self.assertFalse(missing.exists())
+        self.assertFalse((self.root/"real-not-allowed").exists())
+        self.assertIn("SYNTHETIC",stderr.getvalue())
+        self.assertEqual(len(Ledger.open(new).report()["commands"]),1)
+
+    def test_cli_rejects_duplicate_json_keys_and_nonfinite_values(self):
+        import contextlib
+        import io
+        from manual_ledger_cli import main
+        bad=self.root/"bad.json"
+        for text in ('{"command_id":"a","command_id":"b","fills":[]}',
+                     '{"command_id":NaN,"fills":[]}'):
+            bad.write_text(text)
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(main(["record",str(self.path),str(bad)]),2)
+        self.assertEqual(self.ledger.report()["snapshot_sequence"],0)
+
+    def test_fixture_audit_blocks_network_and_sqlite_outside_registered_roots(self):
+        import socket
+        with tempfile.TemporaryDirectory() as external:
+            canary=Path(external)/"synthetic-canary.sqlite3"
+            canary.write_bytes(b"synthetic canary; must remain unchanged")
+            before=canary.read_bytes()
+            with self.assertRaises(PermissionError): sqlite3.connect(canary)
+            self.assertEqual(canary.read_bytes(),before)
+        with socket.socket() as connection:
+            with self.assertRaises(PermissionError): connection.connect(("127.0.0.1",9))
+
+    def test_private_connection_sql_file_opening_is_denied(self):
+        from manual_ledger import _connection
+        external=self.root/"external.sqlite3"
+        with closing(sqlite3.connect(external)) as db: db.execute("CREATE TABLE canary(value)")
+        old=external.read_bytes(); new=self.root/"vacuum.sqlite3"
+        with _connection(self.path,"rw") as db:
+            for sql,parameters in (
+                    ("ATTACH DATABASE ? AS external",(str(external),)),
+                    ("VACUUM INTO ?",(str(new),)),
+                    ("SELECT load_extension(?)",("synthetic-no-extension",))):
+                with self.subTest(sql=sql),self.assertRaises(sqlite3.DatabaseError):
+                    db.execute(sql,parameters)
+        self.assertEqual(external.read_bytes(),old)
+        self.assertFalse(new.exists())
+
+    def test_exports_include_readable_contract_terms_and_period_summaries(self):
+        self.three_fills()
+        out=self.root/"readable-export"
+        self.ledger.export(out)
+        report=self.ledger.report()
+        with (out/"revisions.csv").open(newline="") as source:
+            rows=list(csv.DictReader(source))
+        self.assertEqual(rows[0]["underlying"],"SPY")
+        self.assertEqual(rows[0]["multiplier"],"100")
+        self.assertEqual(rows[0]["premium_usd"],"1.00000000")
+        self.assertEqual(rows[0]["fee_usd"],"0.01000000")
+        with (out/"periods.csv").open(newline="") as source:
+            periods=list(csv.DictReader(source))
+        day=next(r for r in periods if r["period_kind"]=="daily" and r["period"]=="2026-10-24")
+        self.assertEqual(day["net_usd"],report["summaries"]["daily"]["2026-10-24"]["net_usd"])
+        manifest=json.loads((out/"manifest.json").read_text())
+        self.assertEqual(manifest["schema_version"],report["schema_version"])
 
     def test_process_interrupt_before_and_after_commit(self):
         # Controlled child only, temp synthetic store; no default path or providers.
