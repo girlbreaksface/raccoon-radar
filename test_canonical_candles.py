@@ -2,6 +2,9 @@
 from dataclasses import FrozenInstanceError,replace
 from datetime import datetime,timedelta,timezone
 import copy
+import base64
+import hashlib
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -55,6 +58,30 @@ def reapprove(context):
     from canonical_candles import subjects,identity
     return replace(context,authorities=tuple(replace(a,subject_hash=subjects(context)[a.role],
         scope_hash=identity(context.source)) for a in context.authorities))
+
+
+def ny_example(day,opening="09:30:00",count=35):
+    from canonical_candles import TimeRules,identity
+    from io import BytesIO
+    from zoneinfo import ZoneInfo
+    data=base64.b64decode((Path(__file__).parent/"tests/canonicalizer_fixtures/new_york_tzdata_2026_5.b64.txt").read_text())
+    assert hashlib.sha256(data).hexdigest()=="d7f2206b3a45989fc9ad63d558922532fa7352280d5f87176bf1db79cb1d1fa9"
+    zone=ZoneInfo.from_file(BytesIO(data),key="America/New_York")
+    start=datetime.fromisoformat(day+"T"+opening).replace(tzinfo=zone).astimezone(timezone.utc)
+    b,c,r=example(count)
+    scope=tuple((k,"America/New_York" if k=="timezone" else "2026.5" if k=="tzdata" else v) for k,v in c.source.scope)
+    source=replace(c.source,scope=scope); rule=TimeRules("America/New_York","2026.5",data)
+    intervals=tuple(((start+timedelta(minutes=i)).isoformat(),(start+timedelta(minutes=i+1)).isoformat()) for i in range(count))
+    calendar=replace(c.calendar,session_date=day,open_at=start.isoformat(),close_at=intervals[-1][1],
+                     intervals=intervals,timezone="America/New_York",known_at=day+"T00:00:00Z")
+    c=reapprove(replace(c,source=source,mapping=replace(c.mapping,scope_hash=identity(source)),
+                        calendar=calendar,time_rules=(rule,)))
+    rows=[]
+    for i,o in enumerate(b.observations):
+        t=start+timedelta(minutes=i); receipt=(t+timedelta(minutes=1,seconds=1)).isoformat()
+        rows.append(replace(o,raw_stamp=t.astimezone(zone).replace(tzinfo=None).isoformat(),available_at=receipt,
+                            received_at=receipt,completion_received_at=receipt,scope_hash=identity(source)))
+    return reseal(b,rows),c,replace(r,session_date=day,cutoff=(start+timedelta(minutes=count+1)).isoformat(),watermark=intervals[-1][1])
 
 
 class CanonicalizerTests(unittest.TestCase):
@@ -256,6 +283,27 @@ class PageAndCustodyTests(unittest.TestCase):
 
 
 class ConsumerViewTests(unittest.TestCase):
+    def test_exact_pinned_pr31_consumer_accepts_canonical_utc_view(self):
+        from canonical_candles import canonicalize,to_pr31_arguments
+        path=Path(__file__).parent/"tests/canonicalizer_fixtures/pr31_successor.py.txt"
+        data=path.read_bytes()
+        self.assertEqual(hashlib.sha256(data).hexdigest(),"5e6e2b647ff6f763c356e34a1adde2b375470d2f00ff6811fc37e74d2b718a29")
+        namespace={"__file__":str(path),"__name__":"pinned_synthetic_fixture"}
+        exec(compile(data,str(path),"exec"),namespace)
+        result=namespace["assess"](**to_pr31_arguments(canonicalize(*example())))
+        self.assertTrue(result["eligible"])
+        self.assertEqual(result["action"],"WAIT")
+        self.assertEqual(result["bias"],"BULLISH")
+
+    def test_legacy_csv_cannot_bypass_typed_input_contract(self):
+        from canonical_candles import canonicalize
+        b,c,r=example()
+        with self.assertRaises(TypeError): canonicalize([dict(symbol="SPY",bias="BULLISH")],c,r)
+    def test_non_utc_pr31_host_timezone_bridge_is_explicitly_unsupported(self):
+        from canonical_candles import canonicalize,to_pr31_arguments
+        report=canonicalize(*ny_example("2026-10-23"))
+        self.assertTrue(report.eligible)
+        with self.assertRaises(ValueError): to_pr31_arguments(report)
     def test_pr31_view_is_isolated_and_preserves_raw_timestamp(self):
         from canonical_candles import canonicalize,to_pr31_arguments
         b,c,r=example(); report=canonicalize(b,c,r)
@@ -270,6 +318,46 @@ class ConsumerViewTests(unittest.TestCase):
         from canonical_candles import canonicalize,to_pr31_arguments
         b,c,r=example(); report=canonicalize(b,replace(c,authorities=()),r)
         with self.assertRaises(ValueError): to_pr31_arguments(report)
+
+
+class InMemoryTimeRulesTests(unittest.TestCase):
+    def test_pinned_tzif_dst_offsets_without_host_timezone_data(self):
+        from canonical_candles import canonicalize
+        for day,hour in (("2026-03-06",14),("2026-03-09",13),("2026-10-30",13),("2026-11-02",14)):
+            b,c,r=ny_example(day)
+            with patch("builtins.open",side_effect=AssertionError("Host timezone lookup forbidden")):
+                report=canonicalize(b,c,r)
+            self.assertTrue(report.eligible,report.reasons)
+            self.assertEqual(datetime.fromisoformat(report.frame.candles[0].start).hour,hour)
+
+    def test_naive_ambiguous_and_nonexistent_timestamps_block(self):
+        from canonical_candles import canonicalize
+        for day,raw in (("2026-03-08","2026-03-08T02:30:00"),("2026-11-01","2026-11-01T01:30:00")):
+            b,c,r=ny_example(day); rows=list(b.observations); rows[0]=replace(rows[0],raw_stamp=raw)
+            report=canonicalize(reseal(b,rows),c,r)
+            self.assertIn("INVALID_RAW_TIMESTAMP_OR_VALUE",report.reasons)
+
+    def test_1600_and_early_close_end_mapping_preserve_original_stamp(self):
+        from canonical_candles import canonicalize
+        for opening in ("15:25:00","12:25:00"):
+            b,c,r=ny_example("2026-10-23",opening=opening)
+            rows=[]
+            for o in b.observations:
+                raw=(datetime.fromisoformat(o.raw_stamp)+timedelta(minutes=1)).isoformat()
+                rows.append(replace(o,raw_stamp=raw))
+            c=reapprove(replace(c,mapping=replace(c.mapping,label="END")))
+            report=canonicalize(reseal(b,rows),c,r)
+            self.assertTrue(report.eligible,report.reasons)
+            self.assertEqual(report.frame.candles[-1].raw_stamp,rows[-1].raw_stamp)
+            self.assertTrue(rows[-1].raw_stamp.endswith("16:00:00") or rows[-1].raw_stamp.endswith("13:00:00"))
+            start_context=reapprove(replace(c,mapping=replace(c.mapping,label="START")))
+            self.assertFalse(canonicalize(reseal(b,rows),start_context,r).eligible)
+
+    def test_unknown_tzif_does_not_fall_back_to_host(self):
+        from canonical_candles import canonicalize
+        b,c,r=ny_example("2026-10-23")
+        c=reapprove(replace(c,time_rules=(replace(c.time_rules[0],data=b""),)))
+        self.assertFalse(canonicalize(b,c,r).eligible)
 
 
 if __name__=="__main__": unittest.main()
