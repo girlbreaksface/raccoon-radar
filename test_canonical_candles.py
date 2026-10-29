@@ -183,6 +183,11 @@ class CanonicalizerTests(unittest.TestCase):
         rows[-1]=replace(rows[-1],completion_received_at="2026-10-23T10:05:01.5Z")
         self.assertIn("INVALID_KNOWLEDGE_BOUND",self.run_case(reseal(b,rows),c,r).reasons)
 
+    def test_submicrosecond_clock_uncertainty_rounds_conservatively_up(self):
+        b,c,r=example()
+        c=reapprove(replace(c,clock=replace(c.clock,uncertainty_seconds=0.0000001)))
+        self.assertIn("INVALID_KNOWLEDGE_BOUND",self.run_case(b,c,r).reasons)
+
     def test_unknown_clock_bound_and_negative_or_nonfinite_policy_block(self):
         b,c,r=example()
         for changed in (replace(c,clock=replace(c.clock,uncertainty_seconds=None)),
