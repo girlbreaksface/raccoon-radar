@@ -49,11 +49,19 @@ def render_text(result, index):
 
 class ViewerModel:
     """UI state only; replay inputs/results themselves are recursively immutable."""
-    def __init__(self, scenario="conflict", minute=35):
+    def __init__(self, scenario="conflict", minute=35, *, precomputed=()):
+        self._precomputed = dict(precomputed)
         self.scenario = scenario
-        self.result = replay(make_demo(scenario), synthetic=True)
+        self.result = self._result(scenario)
         self.index = 0
         self.seek(minute)
+
+    def _result(self, scenario):
+        if scenario not in {key for key, _ in SCENARIOS}:
+            raise ValueError("Choose a predefined synthetic scenario")
+        if scenario in self._precomputed:
+            return self._precomputed[scenario]
+        return replay(make_demo(scenario), synthetic=True)
 
     def seek(self, minute):
         if type(minute) is not int or not 1 <= minute <= len(self.result.points):
@@ -66,7 +74,7 @@ class ViewerModel:
         self.index = max(0, min(len(self.result.points)-1, self.index+offset))
 
     def select(self, scenario):
-        result = replay(make_demo(scenario), synthetic=True)
+        result = self._result(scenario)
         self.scenario, self.result = scenario, result
         self.index = min(self.index, len(result.points)-1)
 
@@ -80,7 +88,10 @@ def create_window(scenario="conflict", minute=35):
     from tkinter import ttk
     from tkinter.scrolledtext import ScrolledText
 
-    model = ViewerModel(scenario, minute)
+    # Complete all bounded calculations BEFORE creating Tk widgets. Callbacks only
+    # select immutable results and render text; there are no worker/UI thread races.
+    precomputed = tuple((key, replay(make_demo(key), synthetic=True)) for key, _ in SCENARIOS)
+    model = ViewerModel(scenario, minute, precomputed=precomputed)
     root = tk.Tk()
     root.title("Raccoon Radar vNext — Synthetic Replay")
     root.geometry("1120x820")
