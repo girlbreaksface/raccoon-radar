@@ -1,6 +1,7 @@
 """Standalone H-014 synthetic-only journal window. No Radar/dashboard imports."""
 import json
 from decimal import Decimal
+import sys
 from pathlib import Path
 from queue import Empty
 import tkinter as tk
@@ -333,7 +334,15 @@ class LedgerWindow:
         self.root.destroy()
 
 
+def prepare_display():
+    """Use physical Windows coordinates so the initial window fits the display."""
+    if sys.platform == "win32":
+        import ctypes
+        ctypes.windll.user32.SetProcessDPIAware()
+
+
 def main():
+    prepare_display()
     root = tk.Tk()
     LedgerWindow(root)
     root.mainloop()
