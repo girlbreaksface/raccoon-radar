@@ -132,7 +132,7 @@ class CanonicalizerTests(unittest.TestCase):
         b,c,r=example(); first=self.run_case(b,c,r)
         late=replace(b.observations[-1],observation_id="LATE-O",revision_id="LATE-R",raw_stamp="INVALID",
                      values=(float("inf"),None,"bad",True,0),available_at="2026-10-24T00:00:01Z",
-                     received_at="2026-10-24T00:00:01Z",completion_received_at="2026-10-24T00:00:01Z")
+                     received_at="2026-10-24T00:00:01Z",completion_received_at="2026-10-24T00:00:01Z",row_id="LATE-ROW")
         result=self.run_case(reseal(b,b.observations+(late,)),c,r)
         self.assertTrue(result.eligible)
         self.assertEqual(result.frame.frame_hash,first.frame.frame_hash)
@@ -141,13 +141,13 @@ class CanonicalizerTests(unittest.TestCase):
 
     def test_unknown_revision_time_blocks_instead_of_silent_drop(self):
         b,c,r=example()
-        unknown=replace(b.observations[-1],observation_id="UNKNOWN-O",available_at=None)
+        unknown=replace(b.observations[-1],observation_id="UNKNOWN-O",available_at=None,row_id="UNKNOWN-ROW")
         self.assertFalse(self.run_case(reseal(b,b.observations+(unknown,)),c,r).eligible)
 
     def test_visible_duplicate_and_conflicting_revisions_block(self):
         b,c,r=example()
         for value in (b.observations[-1].values,(100,102,99,101,100)):
-            duplicate=replace(b.observations[-1],observation_id="DUP-O",revision_id="DUP-R",values=value)
+            duplicate=replace(b.observations[-1],observation_id="DUP-O",revision_id="DUP-R",values=value,row_id="DUP-ROW")
             self.assertIn("DUPLICATE_OR_CONFLICTING_INTERVAL",self.run_case(reseal(b,b.observations+(duplicate,)),c,r).reasons)
 
     def test_missing_tail_interior_and_entire_symbol_explicit(self):
@@ -246,6 +246,9 @@ class CanonicalizerTests(unittest.TestCase):
 
 
 class PageAndCustodyTests(unittest.TestCase):
+    def test_same_page_row_identity_cannot_be_reused(self):
+        b,c,r=example(); rows=list(b.observations); rows[-1]=replace(rows[-1],row_id=rows[0].row_id)
+        self.assertIn("ROW_LINEAGE_INVALID",CanonicalizerTests().run_case(reseal(b,rows),c,r).reasons)
     def test_non_string_page_references_return_blocked_not_type_error(self):
         b,c,r=example()
         page=replace(b.pages[0],observation_ids=(1,"O-1"))
