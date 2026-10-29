@@ -1,5 +1,6 @@
 """Synthetic-only journal acceptance. All stores are explicit temporary directories."""
 import copy
+from contextlib import closing
 import csv
 import hashlib
 import json
@@ -224,7 +225,7 @@ class LedgerTests(unittest.TestCase):
         with self.assertRaises((LedgerError,FileExistsError)): Ledger.create(self.path,synthetic=True)
         self.assertEqual(files(self.path),before)
         foreign=self.root/"raccoon_history.sqlite3"
-        with sqlite3.connect(foreign) as db: db.execute("CREATE TABLE precious(value)")
+        with closing(sqlite3.connect(foreign)) as db: db.execute("CREATE TABLE precious(value)")
         old=foreign.read_bytes()
         with self.assertRaises(LedgerError): Ledger.open(foreign)
         self.assertEqual(foreign.read_bytes(),old)
@@ -255,7 +256,7 @@ class LedgerTests(unittest.TestCase):
 
     def test_immutable_sql_rows_and_corruption_are_not_reinitialized(self):
         self.write(fill())
-        with sqlite3.connect(self.path/"ledger.sqlite3") as db:
+        with closing(sqlite3.connect(self.path/"ledger.sqlite3")) as db:
             with self.assertRaises(sqlite3.DatabaseError):
                 db.execute("DELETE FROM commands")
         damaged=self.path/"ledger.sqlite3"
@@ -307,7 +308,7 @@ class LedgerTests(unittest.TestCase):
         with self.assertRaises(LedgerError): Ledger.restore(backup,self.root/"nope",synthetic=True)
 
     def test_unknown_schema_version_does_not_migrate(self):
-        with sqlite3.connect(self.path/"ledger.sqlite3") as db: db.execute("PRAGMA user_version=99")
+        with closing(sqlite3.connect(self.path/"ledger.sqlite3")) as db: db.execute("PRAGMA user_version=99")
         before=files(self.path)
         with self.assertRaises(LedgerError): Ledger.open(self.path)
         self.assertEqual(files(self.path),before)
@@ -320,6 +321,122 @@ class LedgerTests(unittest.TestCase):
         finally:
             db.rollback(); db.close()
         self.assertEqual(self.ledger.report()["snapshot_sequence"],0)
+
+    def test_export_numeric_columns_and_empty_headers_are_stable(self):
+        empty=self.root/"empty-export"
+        self.ledger.export(empty)
+        with (empty/"allocations.csv").open(newline="") as stream:
+            self.assertIn("net_usd",csv.DictReader(stream).fieldnames)
+        self.three_fills()
+        out=self.root/"numeric-export"
+        self.ledger.export(out)
+        with (out/"allocations.csv").open(newline="") as stream:
+            rows=list(csv.DictReader(stream))
+        self.assertEqual(rows[1]["net_usd"],"-20.02000000")
+
+    def test_malformed_batches_are_rejected_without_store_change(self):
+        before=self.ledger.report()
+        for items in ([None],[{"fill_id":[]}],[fill(),fill(quantity=False)]):
+            with self.subTest(items=items),self.assertRaises(LedgerError):
+                self.ledger.apply(uid(),items)
+            self.assertEqual(self.ledger.report(),before)
+
+    def test_failed_backup_never_has_valid_completion_identity(self):
+        from unittest.mock import patch
+        import manual_ledger as module
+        target=self.root/"failed-backup"
+        before=self.ledger.report()
+        with patch.object(module,"_marker",side_effect=OSError("synthetic manifest failure")):
+            with self.assertRaises(OSError): self.ledger.backup(target)
+        self.assertFalse((target/"ledger-identity.json").exists())
+        with self.assertRaises(LedgerError): Ledger.open(target,readonly=True)
+        self.assertEqual(self.ledger.report(),before)
+
+    def test_export_permission_error_preserves_source_and_prior_files(self):
+        from unittest.mock import patch
+        import manual_ledger as module
+        before=files(self.path)
+        with patch.object(module,"_write",side_effect=PermissionError("synthetic denied")):
+            with self.assertRaises(PermissionError): self.ledger.export(self.root/"denied")
+        self.assertEqual(files(self.path),before)
+
+    def test_correction_cycle_duplicate_revision_and_input_preservation(self):
+        item=fill(); before=copy.deepcopy(item); self.write(item)
+        self.assertEqual(item,before)
+        old=self.ledger.report()
+        for candidate in ({**item,"expected_revision":item["revision_id"]},
+                          {**item,"revision_id":uid(),"expected_revision":uid()}):
+            with self.assertRaises(LedgerError): self.write(candidate)
+            self.assertEqual(self.ledger.report(),old)
+
+    def test_rounding_residual_and_raw_audit_requests_are_preserved(self):
+        entry=fill(quantity=2,fees="0")
+        one=fill(entry["position_id"],side="SELL_TO_CLOSE",quantity=1,premium="1.00005",
+                 fees="0",effective_at="2026-10-23T11:00:00-04:00")
+        two={**one,"fill_id":uid(),"revision_id":uid(),"effective_at":"2026-10-23T12:00:00-04:00"}
+        self.write(entry,one,two)
+        report=self.ledger.report()
+        day=report["summaries"]["daily"]["2026-10-23"]
+        self.assertEqual(day["net_usd"],"0.01000000")
+        self.assertEqual(day["rounding_difference_cents"],-1)
+        self.assertEqual(report["commands"][0]["request"]["fills"][1]["premium"],"1.00005")
+
+    def test_concurrent_duplicate_command_never_creates_two_receipts(self):
+        from concurrent.futures import ThreadPoolExecutor
+        from threading import Barrier
+        barrier=Barrier(2); item=fill(); command=uid()
+        def worker():
+            barrier.wait(timeout=5)
+            try: return self.write(item,command=command)
+            except LedgerError: return None  # Visible busy/sidecar rejection is safe; retry same key.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            results=list(pool.map(lambda _:worker(),range(2)))
+        self.assertTrue(any(r is not None for r in results))
+        self.assertEqual(self.write(item,command=command)["sequence"],1)
+        self.assertEqual(len(self.ledger.report()["commands"]),1)
+
+    def test_real_hot_journal_spill_recovers_without_partial_batch(self):
+        path=self.root/"hot-spill"
+        original=Ledger.create(path,synthetic=True).report()
+        items=[fill(reason="synthetic spill "+"x"*3900) for _ in range(60)]
+        command=uid(); request=self.root/"hot.json"
+        request.write_text(json.dumps(dict(command=command,fills=items)))
+        program = """
+import json,os,sys
+from contextlib import contextmanager
+import manual_ledger as module
+original_connection=module._connection
+@contextmanager
+def small_cache(path,mode="ro"):
+    with original_connection(path,mode) as connection:
+        if mode=="rw":
+            connection.execute("PRAGMA cache_size=5")
+            connection.execute("PRAGMA cache_spill=ON")
+        yield connection
+module._connection=small_cache
+with open(sys.argv[2]) as source:
+    request=json.load(source)
+module.Ledger.open(sys.argv[1]).apply(request["command"],request["fills"],
+    _fault=lambda stage: os._exit(92) if stage=="before_commit" else None)
+"""
+        run=subprocess.run([sys.executable,"-B","-c",program,str(path),str(request)],
+                           cwd=Path(__file__).resolve().parents[2],capture_output=True,timeout=20,
+                           creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        self.assertEqual(run.returncode,92,run.stderr.decode())
+        journal=path/"ledger.sqlite3-journal"
+        self.assertTrue(journal.exists())
+        self.assertNotEqual(journal.read_bytes()[:8],b"\0"*8)
+        raw_before=files(path)
+        with self.assertRaises(RecoveryRequired): Ledger.open(path)
+        self.assertEqual(files(path),raw_before)
+        archive=Ledger.recover(path,confirm_exclusive=True)
+        self.assertEqual(hashlib.sha256((archive/"ledger.sqlite3-journal").read_bytes()).hexdigest(),
+                         raw_before["ledger.sqlite3-journal"])
+        reopened=Ledger.open(path)
+        self.assertEqual(reopened.report(),original)
+        reopened.apply(command,items)
+        self.assertEqual(len(reopened.report()["active_fills"]),60)
+        self.assertEqual(reopened.report()["snapshot_sequence"],1)
 
     def test_process_interrupt_before_and_after_commit(self):
         # Controlled child only, temp synthetic store; no default path or providers.
