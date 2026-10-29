@@ -1,0 +1,26 @@
+name: vNext presentation validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Guarded offline tests
+        run: python -B offline_checks.py
+      - name: Compile
+        run: python -m compileall -q .
+      - name: Windows Tk widget smoke
+        if: runner.os == 'Windows'
+        run: python -B vnext_gui_smoke.py
