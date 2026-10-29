@@ -16,6 +16,13 @@ def main():
     prepare_display()
     root = tk.Tk()
     app = LedgerWindow(root)
+    assert "Practice Mode" in root.title()
+    assert app.buttons["new"]["text"] == "New Journal"
+    assert app.buttons["open"]["text"] == "Open Journal"
+    tabs = root.nametowidget(app.positions.winfo_parent()).winfo_parent()
+    notebook = root.nametowidget(root.nametowidget(tabs).winfo_parent())
+    assert "Trade Corrections" in [notebook.tab(t, "text") for t in notebook.tabs()]
+    assert "Daily, Weekly & Monthly Results" in [notebook.tab(t, "text") for t in notebook.tabs()]
     with tempfile.TemporaryDirectory(prefix="synthetic-ledger-ui-") as temp:
         path = Path(temp)
         def wait():
