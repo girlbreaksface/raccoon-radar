@@ -1,0 +1,139 @@
+"""Raccoon Radar v3 — read-only market observations saved to CSV.
+Usage: py raccoon_radar_v3.py [--watch]
+Requires moomoo-api and pandas; OpenD at localhost:11111.
+No trading APIs or orders are used.
+"""
+import argparse
+import csv
+import time
+from pathlib import Path
+from datetime import datetime, time as clock_time
+from zoneinfo import ZoneInfo
+import pandas as pd
+from moomoo import OpenQuoteContext, RET_OK, KLType
+
+SYMBOLS = ('US.SPY', 'US.QQQ')
+ET = ZoneInfo('America/New_York')
+ENTRY_START, ENTRY_END = clock_time(9, 40), clock_time(11, 30)
+LOG_FILE = Path(__file__).resolve().parent / 'raccoon_radar_log.csv'
+FIELDS = ['scan_time_et', 'symbol', 'bar_time_et', 'close', 'ema9', 'ema21', 'vwap',
+          'volume', 'volume_ratio', 'bias', 'pattern', 'fresh', 'entry_window', 'action']
+
+
+def analyze(q, symbol, now):
+    day = now.strftime('%Y-%m-%d')
+    ret, data, _ = q.request_history_kline(symbol, start=day, end=day,
+                                           ktype=KLType.K_1M, max_count=1000)
+    if ret != RET_OK or not isinstance(data, pd.DataFrame):
+        raise ValueError(f'history unavailable: {str(data)[:120]}')
+    df = data.copy()
+    df['ts'] = pd.to_datetime(df['time_key'], errors='coerce')
+    df = df[(df['ts'].dt.time >= clock_time(9, 30)) &
+            (df['ts'].dt.time <= clock_time(15, 59))].sort_values('ts')
+    current_minute = now.replace(second=0, microsecond=0, tzinfo=None)
+    df = df[df['ts'] < current_minute].copy()
+    for col in ('open', 'high', 'low', 'close', 'volume'):
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+    df = df.dropna(subset=['open', 'high', 'low', 'close', 'volume'])
+    if len(df) < 35 or (df['volume'] <= 0).any():
+        raise ValueError('insufficient valid completed candles')
+    df['ema9'] = df['close'].ewm(span=9, adjust=False).mean()
+    df['ema21'] = df['close'].ewm(span=21, adjust=False).mean()
+    typical = (df['high'] + df['low'] + df['close']) / 3
+    df['vwap'] = (typical * df['volume']).cumsum() / df['volume'].cumsum()
+    last, prev = df.iloc[-1], df.iloc[-2]
+    prior_five = df.iloc[-6:-1]
+    avg_volume = df['volume'].iloc[-21:-1].mean()
+    vol_ratio = float(last['volume'] / avg_volume) if avg_volume > 0 else 0.0
+    bull = last['close'] > last['ema9'] > last['ema21'] and last['close'] > last['vwap']
+    bear = last['close'] < last['ema9'] < last['ema21'] and last['close'] < last['vwap']
+    patterns = []
+    if vol_ratio >= 1.3:
+        if bull:
+            if last['close'] > prior_five['high'].max() and last['close'] > last['open']:
+                patterns.append('CALL: 5-bar breakout')
+            if prev['close'] <= prev['ema9'] and last['close'] > last['ema9'] and last['close'] > last['open']:
+                patterns.append('CALL: EMA9 reclaim')
+        if bear:
+            if last['close'] < prior_five['low'].min() and last['close'] < last['open']:
+                patterns.append('PUT: 5-bar breakdown')
+            if prev['close'] >= prev['ema9'] and last['close'] < last['ema9'] and last['close'] < last['open']:
+                patterns.append('PUT: EMA9 rejection')
+    age = (now.replace(tzinfo=None) - last['ts']).total_seconds()
+    fresh = 0 <= age <= 180
+    if not fresh:
+        patterns = []
+    within = now.weekday() < 5 and ENTRY_START <= now.time() <= ENTRY_END
+    return {
+        'scan_time_et': now.isoformat(timespec='seconds'),
+        'symbol': symbol, 'bar_time_et': str(last['time_key']),
+        'close': round(float(last['close']), 4),
+        'ema9': round(float(last['ema9']), 4),
+        'ema21': round(float(last['ema21']), 4),
+        'vwap': round(float(last['vwap']), 4),
+        'volume': int(last['volume']), 'volume_ratio': round(vol_ratio, 3),
+        'bias': 'BULLISH' if bull else 'BEARISH' if bear else 'MIXED',
+        'pattern': '; '.join(patterns) if patterns else 'None',
+        'fresh': fresh, 'entry_window': within, 'action': 'WAIT'
+    }
+
+
+def append_new_rows(rows):
+    # Avoid duplicate symbol/bar observations when polling repeatedly.
+    existing = set()
+    if LOG_FILE.exists():
+        with LOG_FILE.open('r', newline='', encoding='utf-8') as f:
+            for row in csv.DictReader(f):
+                existing.add((row.get('symbol'), row.get('bar_time_et')))
+    new_rows = [r for r in rows if (r['symbol'], r['bar_time_et']) not in existing]
+    if new_rows:
+        needs_header = not LOG_FILE.exists() or LOG_FILE.stat().st_size == 0
+        with LOG_FILE.open('a', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=FIELDS)
+            if needs_header:
+                writer.writeheader()
+            writer.writerows(new_rows)
+    return len(new_rows)
+
+
+def scan():
+    now = datetime.now(ET)
+    print(f'\n=== RACCOON RADAR v3 | {now:%Y-%m-%d %H:%M:%S} ET | READ ONLY ===')
+    q = None
+    rows = []
+    try:
+        q = OpenQuoteContext(host='127.0.0.1', port=11111)
+        for symbol in SYMBOLS:
+            try:
+                row = analyze(q, symbol, now)
+                rows.append(row)
+                print(f"{symbol}: ${row['close']:.2f} | {row['bias']} | volume {row['volume_ratio']:.2f}x | pattern: {row['pattern']}")
+                print(f"  Bar {row['bar_time_et']} | fresh: {row['fresh']} | entry window: {row['entry_window']} | ACTION: WAIT")
+            except Exception as exc:
+                print(f'{symbol}: unavailable ({exc}) | WAIT')
+        try:
+            count = append_new_rows(rows)
+            print(f'Logged {count} new row(s) to {LOG_FILE}')
+        except OSError as exc:
+            print(f'LOGGING FAILED: {exc}')
+    except Exception as exc:
+        print(f'OpenD connection error: {exc} | WAIT')
+    finally:
+        if q is not None:
+            q.close()
+    print('NO ORDERS. Experimental patterns are NOT trade recommendations.\n')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--watch', action='store_true', help='repeat approximately every 60 seconds')
+    args = parser.parse_args()
+    if args.watch:
+        try:
+            while True:
+                scan()
+                time.sleep(60)
+        except KeyboardInterrupt:
+            print('Radar stopped.')
+    else:
+        scan()
