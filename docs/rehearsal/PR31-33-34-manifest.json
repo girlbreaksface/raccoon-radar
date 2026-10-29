@@ -1,0 +1,137 @@
+{
+  "scope": "SYNTHETIC_ONLY_CUMULATIVE_REHEARSAL_NOT_MERGE_APPROVAL",
+  "authorization": "https://github.com/girlbreaksface/raccoon-radar/pull/19#issuecomment-6501606290",
+  "main": "b0ad02dc996b00406e7da08fb33b6382f658ea40",
+  "combined_original_tree_commit": "2702396e3b84b335fdce36e61b28be529256e370",
+  "cross_layer_test_commit": "1f9751180898fbe37f7540f79dd1fb09bedc0ec4",
+  "source_files": [
+    {
+      "path": "_pr31_pinned_kernel.py",
+      "origin_commit": "ef749d88ae092aec4cd42dd34703539d84f053c9",
+      "origin_blob": "456ffb6d02089bcd6e34a7fe6b54ae6f05b02c2e",
+      "rehearsal_blob": "456ffb6d02089bcd6e34a7fe6b54ae6f05b02c2e",
+      "match": true
+    },
+    {
+      "path": "canonical_candles.py",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "4b4ca175f0835a5910940caecff2fe9da96246bf",
+      "rehearsal_blob": "4b4ca175f0835a5910940caecff2fe9da96246bf",
+      "match": true
+    },
+    {
+      "path": "docs/OFFLINE_SCANNER_SUCCESSOR.md",
+      "origin_commit": "24a5c5de529f99992ec331f6ea91c39c1f61fa6e",
+      "origin_blob": "d61aba88fe3eeb94df1719235edda2aecd9bbd67",
+      "rehearsal_blob": "d61aba88fe3eeb94df1719235edda2aecd9bbd67",
+      "match": true
+    },
+    {
+      "path": "docs/SYNTHETIC_IMMUTABLE_CANONICALIZER.md",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "0a642caac4478c32db8609bea5cc23a667adbc00",
+      "rehearsal_blob": "0a642caac4478c32db8609bea5cc23a667adbc00",
+      "match": true
+    },
+    {
+      "path": "docs/SYNTHETIC_PINNED_TIMEZONE_BRIDGE.md",
+      "origin_commit": "ef749d88ae092aec4cd42dd34703539d84f053c9",
+      "origin_blob": "78cf27ebd0e0f9f731034734d810761466640d00",
+      "rehearsal_blob": "78cf27ebd0e0f9f731034734d810761466640d00",
+      "match": true
+    },
+    {
+      "path": "pinned_timezone_bridge.py",
+      "origin_commit": "ef749d88ae092aec4cd42dd34703539d84f053c9",
+      "origin_blob": "262ddcf5ac83ad70519e181cd10c04d00b5dc789",
+      "rehearsal_blob": "262ddcf5ac83ad70519e181cd10c04d00b5dc789",
+      "match": true
+    },
+    {
+      "path": "raccoon_scanner_successor.py",
+      "origin_commit": "24a5c5de529f99992ec331f6ea91c39c1f61fa6e",
+      "origin_blob": "aa6b7c0f364acfcce2c294d9fd2dbbf10f049865",
+      "rehearsal_blob": "aa6b7c0f364acfcce2c294d9fd2dbbf10f049865",
+      "match": true
+    },
+    {
+      "path": "test_canonical_candles.py",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "2d5bf277a26936c4414655e4fc3d925e4131e5e4",
+      "rehearsal_blob": "2d5bf277a26936c4414655e4fc3d925e4131e5e4",
+      "match": true
+    },
+    {
+      "path": "test_pinned_timezone_bridge.py",
+      "origin_commit": "ef749d88ae092aec4cd42dd34703539d84f053c9",
+      "origin_blob": "440b695d7d3fc446bb381c92eaee6edc5a6d220a",
+      "rehearsal_blob": "440b695d7d3fc446bb381c92eaee6edc5a6d220a",
+      "match": true
+    },
+    {
+      "path": "test_scanner_successor.py",
+      "origin_commit": "24a5c5de529f99992ec331f6ea91c39c1f61fa6e",
+      "origin_blob": "f0b17e9a36fbfe1d53893e8d750abefb5e492662",
+      "rehearsal_blob": "f0b17e9a36fbfe1d53893e8d750abefb5e492662",
+      "match": true
+    },
+    {
+      "path": "tests/canonicalizer_fixtures/.gitattributes",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "ae35d5c2a88fc564d5318d6b90beae827451ff99",
+      "rehearsal_blob": "ae35d5c2a88fc564d5318d6b90beae827451ff99",
+      "match": true
+    },
+    {
+      "path": "tests/canonicalizer_fixtures/new_york_tzdata_2026_5.b64.txt",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "c4e652f14e1598f043626ae112de4a2c6e63d02c",
+      "rehearsal_blob": "c4e652f14e1598f043626ae112de4a2c6e63d02c",
+      "match": true
+    },
+    {
+      "path": "tests/canonicalizer_fixtures/pr31_successor.py.txt",
+      "origin_commit": "b7dd5e5100c2823701c8de639fc0e9048adde80e",
+      "origin_blob": "aa6b7c0f364acfcce2c294d9fd2dbbf10f049865",
+      "rehearsal_blob": "aa6b7c0f364acfcce2c294d9fd2dbbf10f049865",
+      "match": true
+    }
+  ],
+  "local": {
+    "python": "3.12.14",
+    "platform": "Windows",
+    "logs": {
+      "rehearsal-cross.log": "c03fb84d74a9eccdbe6f47af20165cdc9fd02be6a5f119d2fb2fc01f8a0762c5",
+      "rehearsal-existing.log": "9a7a196af6542dc99d1747be6430075dea8a8d220b8bc535ddd11b2519237a97",
+      "rehearsal-order.log": "77e1a2b5d56d80d782adac5f629d196baa43ca5592389eb970511ba22f81604c"
+    },
+    "inventory": {
+      "test_candle_ingestion_characterization.py": 15,
+      "test_candle_quality.py": 10,
+      "test_candle_quality_report.py": 5,
+      "test_canonical_candles.py": 41,
+      "test_cumulative_rehearsal.py": 4,
+      "test_diagnostic_connections.py": 3,
+      "test_market_intelligence.py": 5,
+      "test_offline_checks.py": 8,
+      "test_pinned_timezone_bridge.py": 20,
+      "test_provider_verification_callback.py": 4,
+      "test_scanner_successor.py": 25,
+      "test_sqlite_sql_guard.py": 9,
+      "test_timestamp_evidence_wording.py": 5,
+      "test_volume_discovery.py": 5
+    }
+  },
+  "local_checks": "155 original PASS;159 including four bounded tests PASS; reversed159 then normal159 same-process PASS;compilePASS",
+  "deviations": [
+    "Copied local base64 fixture had CRLF rather than pinned LF: paused, restored disposable local copy to verified remote bytes before any tests; GitHub blob unchanged.",
+    "Windows source working-tree CRLF vs Git LF distinguished explicitly: conformance test reads universal newlines without altering files; remote source Git blob hashes match originals.",
+    "Branch created at pinned main, fast-forwarded to pinned PR34 descendant, then exact PR31 three files copied; tree-union rehearsal, not execution of actual future merge/retarget sequence."
+  ],
+  "limitations": [
+    "No independent review or merge authority",
+    "No real provider/calendar/mapping/finality/availability verification",
+    "No production or market data access",
+    "CI evidence for final documentation head returned in PR19 comment; no future results claimed in this pre-CI manifest"
+  ]
+}
