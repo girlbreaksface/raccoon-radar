@@ -219,6 +219,13 @@ def _number(value,zero=False):
     except OverflowError: return False
 
 
+def _clock_delta(seconds):
+    # Ceiling the exact supplied native-number bound avoids timedelta's nearest rounding.
+    numerator,denominator=seconds.as_integer_ratio() if type(seconds) is float else (seconds,1)
+    micros=(numerator*1000000+denominator-1)//denominator
+    return timedelta(microseconds=micros)
+
+
 def _symbol(value):
     if type(value) is not str: return None
     value=value.strip().upper()
@@ -379,7 +386,7 @@ def canonicalize(bundle,context,request):
             if row.availability_basis!=policy.availability_model or row.availability_reference!=approvals["availability"].reference:
                 raise ValueError("Unreviewed availability")
             available=_time(row.available_at); receipt=_time(row.received_at); completion_receipt=_time(row.completion_received_at)
-            if policy.availability_model=="SYNTHETIC_CAPTURE" and available<max(receipt,completion_receipt)+timedelta(seconds=context.clock.uncertainty_seconds):
+            if policy.availability_model=="SYNTHETIC_CAPTURE" and available<max(receipt,completion_receipt)+_clock_delta(context.clock.uncertainty_seconds):
                 reasons.append("INVALID_KNOWLEDGE_BOUND"); continue
         except (ValueError,TypeError,OverflowError): reasons.append("AVAILABILITY_UNKNOWN"); continue
         if available>cutoff:
