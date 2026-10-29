@@ -317,8 +317,10 @@ class StructureTests(unittest.TestCase):
         prior=module.assess(b,c,requests[12],synthetic=True)
         self.assertEqual(prior.tracker.version,module.VERSION)
         self.assertEqual(prior.decision.version,module.VERSION)
+        older=replace(prior.tracker,version="OLDER_MODEL")
+        older=replace(older,seal=module._tracker_seal(older))
         with self.assertRaises(ValueError):
-            module.assess(b,c,requests[13],previous=replace(prior.tracker,version="OLDER_MODEL"),synthetic=True)
+            module.assess(b,c,requests[13],previous=older,synthetic=True)
 
     def test_inclusive_trend_move_threshold_is_not_rounded(self):
         module=api()
