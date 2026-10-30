@@ -111,7 +111,7 @@ returns IDs only, never a real engine-ready assertion. Synthetic UTC integer
 microseconds are used; fixtures compress a minute to 60 units for readability.
 Authority names/health events are fixture attestations, not provider verification.
 
-22 tests cover causal time AND sequence cutoffs, receipt equality, later commit
+24 tests cover causal time AND sequence cutoffs, receipt equality, later commit
 and authority visibility, uncommitted replacement blocking, provisional/no-final
 fallback, completion separate from finality, revision roots/branches/cycles/orphans,
 input reordering, conflicting identities, missing grid/tail/whole symbol, finite

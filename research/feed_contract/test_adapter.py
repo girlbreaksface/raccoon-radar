@@ -36,6 +36,14 @@ class ContractTests(unittest.TestCase):
         for label in ('UNKNOWN','PROVISIONAL'):
             self.assertIn('FINALITY', select((bar(finality=label),), context()).reasons)
 
+    def test_uncommitted_replacement_no_fallback(self):
+        b=bar(id='b',parent='a',received=70,receipt_seq=3,committed=None)
+        self.assertIn('VISIBILITY',select((bar(),b),context()).reasons)
+
+    def test_ambiguous_health_blocks(self):
+        history=(Health(80,10,'VALIDATED'),Health(80,10,'DISCONNECTED'))
+        self.assertIn('HEALTH',select((bar(),),context(health=history)).reasons)
+
     def test_completion_separate(self):
         self.assertIn('FINALITY',select((bar(complete=False),),context()).reasons)
 
@@ -110,4 +118,3 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(select((bar(),),c).status,'DATA_BLOCKED')
 
 if __name__=='__main__': unittest.main()
-
