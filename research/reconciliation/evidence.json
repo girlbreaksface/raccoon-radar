@@ -4954,14 +4954,14 @@
     }
   },
   "code_sha256": {
-    "compare.py": "75c36cbe005dc8294ecc80937e33cf46c180d7478211b9e6c4e4a7bdc11d8a5c",
+    "compare.py": "82438a335182c72f187714b21e85fac0a9626f61e17f194ad8d4b3391d70152d",
     "run_checks.py": "00dfba7ee90319d4a7dfd5f9868a189ae45efecaec82d1f593c0814f3b9da024",
     "s0_reference.py": "88be6789cd63d55063e623957bd281f1ed95fc68445aea2ab4d7a6a23722761d",
     "test_comparison.py": "12b321376fc6172e5d0f70826efbbfe1af2cd0d14e66e84c31803e038b1001a7",
-    "vendor\\canonical_candles.py": "e10d3d177c3e72022729b41317b25523bc0e781c3ebf7db7ae9e681c77de1d6a",
-    "vendor\\market_structure_v12.py": "71567736bfd890ef87789750fcf2f87e18cfa4fe67a1edf7a3f4870dd0a64e30",
-    "vendor\\market_structure_v12_scenarios.py": "3d70c301ecc6afc444bf12b963ee3fa996f084e266f26452b7161954f7d67bd0",
-    "vendor\\test_market_structure_v12.py": "a3e183b0929d417d7582e81898d390c26eab7801931191860adea69f0e011a40",
+    "vendor/canonical_candles.py": "e10d3d177c3e72022729b41317b25523bc0e781c3ebf7db7ae9e681c77de1d6a",
+    "vendor/market_structure_v12.py": "71567736bfd890ef87789750fcf2f87e18cfa4fe67a1edf7a3f4870dd0a64e30",
+    "vendor/market_structure_v12_scenarios.py": "3d70c301ecc6afc444bf12b963ee3fa996f084e266f26452b7161954f7d67bd0",
+    "vendor/test_market_structure_v12.py": "a3e183b0929d417d7582e81898d390c26eab7801931191860adea69f0e011a40",
     "verify_evidence.py": "1c78ec342688eb2b82bc790b1b6b96febd476d284303340c72864c244ad3745a"
   },
   "notice": "Invented paths; conformance only, no market accuracy or performance claims.",

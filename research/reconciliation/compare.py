@@ -86,7 +86,7 @@ def evidence():
                 cases[f'{name}/{direction}/{variant}']=evaluate(changed)
     return dict(notice='Invented paths; conformance only, no market accuracy or performance claims.',
         sources={'PR39':'8d45bb39b298a8c7d9e01b17b12bc7b324c45e19','PR40':'6f282a88c41d345e744089b6dd880e93dd53a4af'},
-        code_sha256={str(p.relative_to(HERE)):sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.rglob('*.py'))},cases=cases)
+        code_sha256={p.relative_to(HERE).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.rglob('*.py'))},cases=cases)
 
 
 if __name__ == '__main__':
