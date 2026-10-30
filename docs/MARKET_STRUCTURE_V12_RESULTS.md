@@ -77,3 +77,21 @@ Local log SHA256:
 - No comparison to EMA strategy performance was performed. PR31's EMA seed/warmup, formulas and thresholds remain untouched. PR13/18 historical hypotheses and PR37 remain separate.
 - No broker/API/feed/credentials, raw research rewrite, production DB/CSV, order/simulation/P&L, alerts, GUI integration, merge/retarget/deploy or monitor restart.
 - Next: review the exact structural definitions, state lifetime/invalidation, availability evidence and test matrix. Any genuine point-in-time validation needs separately approved source/custody, frozen protocol/splits/access policy and execution authority. Any UI integration or merge needs separate approval. No provider-semantic or profitability promotion follows from green synthetic CI.
+
+## Parallel-protocol reconciliation — review recorded 2026-10-30
+PR39 head8d45bb39b298a8c7d9e01b17b12bc7b324c45e19 introduces proposed MS12-S0 at docs/VNEXT_1_2_MARKET_STRUCTURE_RESEARCH.md, stacked on unchanged v1.1 PR38a984cc0b5e9f2f69b6ee99cca166221a632341fa. It was discovered during final coordination review; it is not implemented, superseded or modified here.
+This PR40 prototype implements synthetic-market-structure-v12-hypothesis-1, a DISTINCT hypothesis set. It must not be called an implementation/validation of MS12-S0.
+
+| Contract | PR40 prototype | PR39 MS12-S0 proposal |
+|---|---|---|
+| Trend/range window | 8/5; percentage move, efficiency, directional/high-low structure | 20/8; movement >=4 mean trendTR, efficiency, directional count |
+| Range | MeanTR contraction, percentage width, overlap/drift and touches | Width0.5..2.5 trendTR, interior closes and separated touches |
+| Confirmation | Initial opposite close + later retest +2 consecutive outside closes including breakout | 2 breakout closes, strictly later retest, strictly later confirmation close |
+| Pending label | REVERSAL_WATCH with phase | INSUFFICIENT_EVIDENCE with diagnostic phase |
+| Revision/state | Visible conflict/accepted-prefix mutation blocks; history immutable | Proposed explicit linear supersession/new corrected-run policy |
+| Direction lifetime | Monitored invalidation/source freshness; no3-bar event-age rule | Current pair confirmation age <=3 bars |
+| Outcomes | None | Proposed independent10-bar close-distance labels, not executed |
+
+Symmetry scope needs explicit review: the committed integer reflection around20000 passes paired up/down fixture tests, but percentage denominators are not invariant to arbitrary price translation/reflection. An additional read-only check reflected the same bullish-reversal fixture via O'=1000000-O, H'=1000000-L, L'=1000000-H, C'=1000000-C. Original result CONFIRMED_STRUCTURAL_REVERSAL/BULLISH; reflected result INSUFFICIENT_EVIDENCE (including NO_ESTABLISHED_TREND). Opening price level changes, so normalized movement/width change. This is a demonstrated limitation, not an assertion of universal mirrored equivalence or a measured market bias. PR39's stronger universal reflection/translation invariant is NOT satisfied by this model. No formula/threshold was silently changed to force agreement.
+
+Owner decision required before protocol freeze/integration: select/reconcile these definitions and required invariances, or keep the hypotheses as separately named research experiments. Green149 tests validate only this stated bounded contract. Neither proposal establishes provider truth or predictive performance. Do not merge/retarget or alter PR39/v1.1 as part of reconciliation.
