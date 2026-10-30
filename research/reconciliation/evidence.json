@@ -1,0 +1,4972 @@
+{
+  "cases": {
+    "box_expiry/downtrend/base": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "RANGE_FORMED_NO_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/downtrend/scale3": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "RANGE_FORMED_NO_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/uptrend/base": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "RANGE_FORMED_NO_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/uptrend/scale3": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "RANGE_FORMED_NO_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "box_expiry/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "continuation/downtrend/base": {
+      "p40": {
+        "classification": "TREND_CONTINUATION",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "TREND_CONTINUATION"
+          ]
+        ],
+        "reasons": [
+          "ESTABLISHED_TREND_CLOSE_BREAKOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/downtrend/scale3": {
+      "p40": {
+        "classification": "TREND_CONTINUATION",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "TREND_CONTINUATION"
+          ]
+        ],
+        "reasons": [
+          "ESTABLISHED_TREND_CLOSE_BREAKOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/uptrend/base": {
+      "p40": {
+        "classification": "TREND_CONTINUATION",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "TREND_CONTINUATION"
+          ]
+        ],
+        "reasons": [
+          "ESTABLISHED_TREND_CLOSE_BREAKOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/uptrend/scale3": {
+      "p40": {
+        "classification": "TREND_CONTINUATION",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "TREND_CONTINUATION"
+          ]
+        ],
+        "reasons": [
+          "ESTABLISHED_TREND_CLOSE_BREAKOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "continuation/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "CONTINUATION_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "exact_epsilon/downtrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/downtrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/uptrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/uptrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "exact_epsilon/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "EXPIRED"
+        ]
+      }
+    },
+    "failed_retest/downtrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/downtrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/uptrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/uptrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "failed_retest/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "FAILED"
+        ]
+      }
+    },
+    "flat/downtrend/base": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/downtrend/scale3": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/uptrend/base": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/uptrend/scale3": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "flat/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ]
+      }
+    },
+    "hold_timeout/downtrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "RANGE_DRIFT_EXCEEDED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/downtrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "RANGE_DRIFT_EXCEEDED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/uptrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "RANGE_DRIFT_EXCEEDED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/uptrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "hold_timeout/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "RANGE_DRIFT_EXCEEDED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "RETEST_PENDING",
+          "HOLD_TIMEOUT"
+        ]
+      }
+    },
+    "late_retest/downtrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/downtrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/uptrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/uptrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "late_retest/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            35,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "no_retest/downtrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/downtrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/uptrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/uptrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:04:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_TIMEOUT",
+          "AWAITING_NEW_STRUCTURE"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "no_retest/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "BREAKOUT_PENDING",
+          "RETEST_TIMEOUT",
+          "RETEST_TIMEOUT"
+        ]
+      }
+    },
+    "one_close/downtrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/downtrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/uptrend/base": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/uptrend/scale3": {
+      "p40": {
+        "classification": "FAILED_REVERSAL",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:00:00+00:00",
+            "FAILED_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "FAILED_RETEST"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "one_close/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "PRICE_STRUCTURE_NOT_OVERLAPPING",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "reversal/downtrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/downtrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BULLISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/uptrend/base": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/uptrend/scale3": {
+      "p40": {
+        "classification": "CONFIRMED_STRUCTURAL_REVERSAL",
+        "direction": "BEARISH",
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T09:59:00+00:00",
+            "REVERSAL_WATCH"
+          ],
+          [
+            "2026-10-23T10:01:00+00:00",
+            "CONFIRMED_STRUCTURAL_REVERSAL"
+          ]
+        ],
+        "reasons": [
+          "RETEST_AND_HOLD_CONFIRMED"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "reversal/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED",
+          "RANGE_DRIFT_EXCEEDED",
+          "BOUNDARY_TOUCHES_INSUFFICIENT"
+        ]
+      },
+      "s0": {
+        "events": [
+          [
+            31,
+            "POTENTIAL_REVERSAL_CONFIRMED",
+            -1
+          ]
+        ],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BREAKOUT_PENDING",
+          "RETEST_PENDING",
+          "CONFIRMED"
+        ]
+      }
+    },
+    "wick_only/downtrend/base": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "WICK_ONLY_NO_CLOSE_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/downtrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/downtrend/scale3": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "WICK_ONLY_NO_CLOSE_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/downtrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/uptrend/base": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "WICK_ONLY_NO_CLOSE_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/uptrend/reflect1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/uptrend/scale3": {
+      "p40": {
+        "classification": "REVERSAL_WATCH",
+        "direction": null,
+        "events": [
+          [
+            "2026-10-23T09:55:00+00:00",
+            "REVERSAL_WATCH"
+          ]
+        ],
+        "reasons": [
+          "WICK_ONLY_NO_CLOSE_BREAKOUT"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    },
+    "wick_only/uptrend/translate1m": {
+      "p40": {
+        "classification": "INSUFFICIENT_EVIDENCE",
+        "direction": null,
+        "events": [],
+        "reasons": [
+          "NO_ESTABLISHED_TREND",
+          "VOLATILITY_NOT_CONTRACTED"
+        ]
+      },
+      "s0": {
+        "events": [],
+        "trace": [
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX",
+          "BOX"
+        ]
+      }
+    }
+  },
+  "code_sha256": {
+    "compare.py": "82438a335182c72f187714b21e85fac0a9626f61e17f194ad8d4b3391d70152d",
+    "run_checks.py": "00dfba7ee90319d4a7dfd5f9868a189ae45efecaec82d1f593c0814f3b9da024",
+    "s0_reference.py": "88be6789cd63d55063e623957bd281f1ed95fc68445aea2ab4d7a6a23722761d",
+    "test_comparison.py": "12b321376fc6172e5d0f70826efbbfe1af2cd0d14e66e84c31803e038b1001a7",
+    "vendor/canonical_candles.py": "e10d3d177c3e72022729b41317b25523bc0e781c3ebf7db7ae9e681c77de1d6a",
+    "vendor/market_structure_v12.py": "71567736bfd890ef87789750fcf2f87e18cfa4fe67a1edf7a3f4870dd0a64e30",
+    "vendor/market_structure_v12_scenarios.py": "3d70c301ecc6afc444bf12b963ee3fa996f084e266f26452b7161954f7d67bd0",
+    "vendor/test_market_structure_v12.py": "a3e183b0929d417d7582e81898d390c26eab7801931191860adea69f0e011a40",
+    "verify_evidence.py": "1c78ec342688eb2b82bc790b1b6b96febd476d284303340c72864c244ad3745a"
+  },
+  "notice": "Invented paths; conformance only, no market accuracy or performance claims.",
+  "sources": {
+    "PR39": "8d45bb39b298a8c7d9e01b17b12bc7b324c45e19",
+    "PR40": "6f282a88c41d345e744089b6dd880e93dd53a4af"
+  }
+}
