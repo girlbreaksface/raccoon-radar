@@ -77,14 +77,14 @@ class ContractTests(unittest.TestCase):
         self.assertIn('REVISION_GRAPH',select((bar(parent='b'),bar(id='b',parent='a')),context()).reasons)
 
     def test_parent_same_symbol_interval_required(self):
-        self.assertIn('REVISION_GRAPH',select((bar(),bar(id='b',start=60,end=120,parent='a')),context(expected=(0,60))).reasons)
+        self.assertIn('REVISION_GRAPH',select((bar(),bar(id='b',start=60,end=120,parent='a')),context(expected=(0,60),cutoff=200)).reasons)
 
     def test_reordered_input_deterministic(self):
         a=bar(); b=bar(id='b',parent='a',received=70,receipt_seq=3,committed=71,commit_seq=4,authority_time=71,authority_seq=4)
         self.assertEqual(select((a,b),context()),select((b,a),context()))
 
     def test_gap_tail_whole_symbol(self):
-        for bars,c in (((bar(),),context(expected=(0,60))), ((),context()), ((bar(symbol='US.QQQ'),),context())):
+        for bars,c in (((bar(),),context(expected=(0,60),cutoff=200)), ((),context()), ((bar(symbol='US.QQQ'),),context())):
             self.assertIn('COVERAGE',select(bars,c).reasons)
 
     def test_numeric_quality(self):
@@ -110,3 +110,4 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(select((bar(),),c).status,'DATA_BLOCKED')
 
 if __name__=='__main__': unittest.main()
+

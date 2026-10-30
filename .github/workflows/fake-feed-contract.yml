@@ -1,0 +1,27 @@
+name: Isolated fake feed contract
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Mock feed eligibility checks
+        run: python -B research/feed_contract/run_checks.py
+      - name: Unchanged reconciliation checks
+        run: python -B research/reconciliation/run_checks.py
+      - name: Exact inherited evidence reproduction
+        run: python -B research/reconciliation/verify_evidence.py
+      - name: Compile isolated model
+        run: python -m compileall -q research/feed_contract
