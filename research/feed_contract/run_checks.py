@@ -8,6 +8,6 @@ from offline_checks import OfflineGuard
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 with tempfile.TemporaryDirectory(prefix='synthetic-feed-') as temp:
     with OfflineGuard(temp):
-        suite=unittest.defaultTestLoader.discover(str(Path(__file__).resolve().parent),pattern='test_adapter.py')
+        suite=unittest.defaultTestLoader.discover(str(Path(__file__).resolve().parent),pattern='test_*.py')
         result=unittest.TextTestRunner(verbosity=2).run(suite)
 raise SystemExit(not result.wasSuccessful())

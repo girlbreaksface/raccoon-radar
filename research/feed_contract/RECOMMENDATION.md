@@ -1,5 +1,11 @@
 # Recommended protocol and fake-only feed contract — 2026-10-30
 
+Update: the original milestone below describes head9122b23. The subsequently
+authorized raw-capture continuation is specified in CAPTURE_PLAN.md. It adds
+an opt-in bounded quote-only runner and local journal; it does not relax
+FINAL-only strategy eligibility. Original no-connection claims below are
+historical statements about that earlier head, not the continuation.
+
 Status: finalized engineering recommendation for review; no integration or live
 access approval. This additive milestone is based on PR41 exact head
 838851a3cfd248b19bd0a2a590a7bf55756eaed2. It follows PR42 specification head
