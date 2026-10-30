@@ -1,0 +1,25 @@
+name: Isolated v1.2 protocol reconciliation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Guarded synthetic comparison and pinned comparator regression
+        run: python -B research/reconciliation/run_checks.py
+      - name: Compile isolated additions
+        run: python -m compileall -q research/reconciliation
+      - name: Reproduce evidence exactly
+        run: python research/reconciliation/verify_evidence.py
