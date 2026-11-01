@@ -66,6 +66,16 @@ def worker(directory):
         fault.set()
 
     class Quotes(OpenQuoteContext):
+        def _wait_reconnect(self, wait_reconnect_interval=6):
+            # The pinned SDK also retries initial failures before on_connect.
+            # Permit its constructor's first scheduling call only.
+            if getattr(self, '_capture_connect_scheduled', False):
+                self._auto_reconnect = False
+                fail('INITIAL_CONNECT_FAILED')
+                return
+            self._capture_connect_scheduled = True
+            return super()._wait_reconnect(wait_reconnect_interval)
+
         def on_connect(self, conn_id, info):
             self._auto_reconnect = False  # pinned SDK implementation reviewed
             return super().on_connect(conn_id, info)
@@ -121,9 +131,11 @@ def worker(directory):
         context.set_sync_query_connect_timeout(5)
         context.set_handler(Candles())
         context.set_handler(Notifications())
+        if fault.is_set(): raise CaptureStopped(fault_reason[0])
         ret, _ = context.subscribe(list(SYMBOLS), [SubType.K_1M],
                                    is_first_push=False, subscribe_push=True,
                                    extended_time=False, session=Session.RTH)
+        if fault.is_set(): raise CaptureStopped(fault_reason[0])
         if ret != RET_OK: raise CaptureStopped('SUBSCRIPTION_REJECTED')
         subscription_accepted = True
         deadline = time.monotonic() + 120

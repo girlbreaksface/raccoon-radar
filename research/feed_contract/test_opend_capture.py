@@ -27,12 +27,17 @@ class FakePB:
 
 
 class LifecycleTests(unittest.TestCase):
-    def run_fake(self, accepted=True, overflow=False, disconnect=False):
+    def run_fake(self, accepted=True, overflow=False, disconnect=False, initial_failure=False):
         calls = []
         self.calls = calls
         class Context:
             def __init__(self, **kw):
                 calls.append(('connect', kw)); self.handlers = []
+                if initial_failure:
+                    self._auto_reconnect = True
+                    self._wait_reconnect(0)
+                    self._wait_reconnect(6)
+            def _wait_reconnect(self, delay=6): calls.append(('scheduled', delay))
             def on_connect(self, *a): pass
             def on_disconnect(self, *a): calls.append(('disconnect',))
             def set_sync_query_connect_timeout(self, n): calls.append(('timeout', n))
@@ -102,6 +107,14 @@ class LifecycleTests(unittest.TestCase):
              patch.object(live.socket, 'create_connection') as connect:
             with self.assertRaises(RuntimeError): live.worker(Path('unused'))
         connect.assert_not_called()
+
+    def test_initial_connection_failure_never_schedules_retry(self):
+        calls, summary, records = self.run_fake(initial_failure=True)
+        self.assertEqual([c for c in calls if c[0] == 'scheduled'], [('scheduled', 0)])
+        self.assertFalse(any(c[0] == 'subscribe' for c in calls))
+        self.assertEqual(summary['stop_reason'], 'INITIAL_CONNECT_FAILED')
+        self.assertEqual(records, ())
+        self.assertEqual(calls[-1], ('close',))
 
     def test_supervisor_kills_hung_worker(self):
         with tempfile.TemporaryDirectory() as temp:
