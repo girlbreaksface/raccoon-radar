@@ -1,0 +1,2635 @@
+diff --git a/.github/workflows/fake-feed-contract.yml b/.github/workflows/fake-feed-contract.yml
+new file mode 100644
+index 0000000..72f1981
+--- /dev/null
++++ b/.github/workflows/fake-feed-contract.yml
+@@ -0,0 +1,30 @@
++name: Isolated fake feed contract
++on:
++  pull_request:
++  workflow_dispatch:
++permissions:
++  contents: read
++jobs:
++  validate:
++    strategy:
++      fail-fast: false
++      matrix:
++        os: [ubuntu-latest, windows-latest]
++        python: ['3.11', '3.12']
++    runs-on: ${{ matrix.os }}
++    timeout-minutes: 10
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-python@v5
++        with:
++          python-version: ${{ matrix.python }}
++      - name: Timezone fallback for offline DST tests
++        run: python -m pip install tzdata
++      - name: Mock feed eligibility checks
++        run: python -B research/feed_contract/run_checks.py
++      - name: Unchanged reconciliation checks
++        run: python -B research/reconciliation/run_checks.py
++      - name: Exact inherited evidence reproduction
++        run: python -B research/reconciliation/verify_evidence.py
++      - name: Compile isolated model
++        run: python -m compileall -q research/feed_contract
+diff --git a/research/feed_contract/ASOF_REVISION_IMPACT.md b/research/feed_contract/ASOF_REVISION_IMPACT.md
+new file mode 100644
+index 0000000..cd2042a
+--- /dev/null
++++ b/research/feed_contract/ASOF_REVISION_IMPACT.md
+@@ -0,0 +1,35 @@
++# Offline as-of snapshot and revision impact
++
++This research layer compares two explicit inclusive receipt cutoffs using one fully verified and decoded replay. It does not interpret source labels as candle boundaries. It is separate from the dashboard, strategies and persistence.
++
++`revision_impact.analyze(capture, before={...}, after={...})` accepts `sequence` and/or `cutoff_ns` (receipt wall nanoseconds) in each nonempty cutoff dictionary. Both constraints intersect. Nonnegative integers only; booleans are rejected. The selected before observations must be a prefix of after. Equivalent selections are allowed even if their requested cutoffs differ. Wall-time ties include every tied receipt; row ties follow wire row order. Neither source timestamp order nor elapsed quiet time establishes finality.
++
++Each snapshot includes every selected observation, exact source labels, per-label history (including repeats), and a detached last-observed row. Every intervening observation has a transition against the previous observation for that exact symbol/label: FIRST_OBSERVATION, REVISION, or EXACT_REPEAT. REVISION compares all decoded fields, including presence changes; field lists are sorted for reproducibility. A return to an earlier value remains a revision. These are receipt-observation differences, not executable returns, certified provider corrections or predictive evidence. Raw receipts remain attached via the inherited replay representation.
++
++The entire capture is verified/decoded before either cutoff is selected. Corruption or decode failure after a cutoff still blocks output. Outputs retain PROVISIONAL / UNKNOWN / DATA_BLOCKED, boundary_semantics=UNKNOWN and completeness=NOT_ESTABLISHED. Provenance carries verifier/replay/analysis source hashes, schema identity, manifest digest and verified chain tail. Hash consistency is not provider authentication or protection against wholesale bundle replacement.
++
++CLI (new exclusive destination; no output on validation failure):
++
++```text
++python -B research/feed_contract/revision_impact.py PRIVATE_CAPTURE --before-sequence 386 --after-sequence 388 --output NEW_LOCAL_FILE.json
++```
++
++Full JSON contains private receipts. Keep it local; do not commit or attach it to a PR. Large captures are held in memory and histories are copied for isolation. This increment is deliberately scoped to research-sized sealed captures.
++
++## Reproducible private reference regression
++
++Use the existing local environment with pinned moomoo-api 10.11.7108 and protobuf. The schema reader parses descriptor literals without importing or executing moomoo. No SDK installation or live connection is part of these commands.
++
++```text
++python -B research/feed_contract/reference_impact_regression.py PRIVATE_CAPTURE
++python -B research/feed_contract/run_checks.py
++```
++
++The local regression pins all three original evidence byte hashes, checks 1,143 receipts/rows and six groups, preserves full observation history, compares repeated deterministic analyses and sequence/receipt-wall cutoffs, checks QQQ label 2026-11-02 10:52:00 open/low 696.88 at sequence 386 versus 696.9054 at 388, checks safety labels and SDK import isolation, and verifies unchanged evidence afterward. It emits only a pass summary. The private bundle is not included in this repository or CI.
++
++Synthetic tests cover repeats, revisions/reversions, first observations, detached data, label order, same-receipt rows, empty/equal/intersected cutoffs, malformed or reversed selections, optional field presence, late decode/integrity failure, exclusive CLI output and safety flags. The fixture subclass also reruns nine inherited replay cases. Existing CI discovers these tests on Linux/Windows with Python 3.11/3.12; it does not run the private reference regression.
++
++Provider boundaries, finality, completeness, clock accuracy and adjustment factors remain unresolved under issue #46. No production eligibility or trading behavior changes.
++
++For field trajectories that distinguish unchanged endpoints from intervening
++excursions back to an anchor, see [FIELD_PATH_AUDIT.md](FIELD_PATH_AUDIT.md).
+diff --git a/research/feed_contract/CANDLE_QUALITY.md b/research/feed_contract/CANDLE_QUALITY.md
+new file mode 100644
+index 0000000..8dbe080
+--- /dev/null
++++ b/research/feed_contract/CANDLE_QUALITY.md
+@@ -0,0 +1,53 @@
++# Offline candle observation report and replay review
++
++This milestone is stacked on draft PR #44 at `99ed196`, not on main.
++`receipt_quality.py` calls the replay verifier and decoder for the entire sealed
++journal before applying inclusive sequence/receipt-wall cutoffs. A later corrupt
++or undecodable receipt blocks even an empty selected view. It imports no strategy,
++dashboard, provider context or database code. Output is descriptive JSON only.
++
++Run with the existing reviewed SDK environment:
++
++```text
++python -B research/feed_contract/receipt_quality.py CAPTURE_DIRECTORY --output NEW_REPORT.json
++```
++
++Optional `--sequence` and `--cutoff-ns` intersect, inclusive, as in replay.
++Output uses exclusive creation. Failures return nonzero with DATA_BLOCKED and
++verification/decode failures create no report. Source evidence is never written.
++Provenance includes schema, replay, verifier, and report source hashes.
++
++For each exact symbol/source-label pair, observations count every decoded row;
++changed transitions compare field presence and values with the previous row;
++identical transitions count decoded repeats. Unknown protobuf fields remain
++authoritative in the original payload; these metrics do not compare wire identity.
++Changed fields include all decoded fields, including provider auxiliary fields.
++
++Per-symbol receipt counts, unique observed labels, first/last receipt wall stamps,
++monotonic observation spans, and every adjacent monotonic receipt gap describe
++only selected observations. A single receipt has a zero span and null maximum gap.
++No cadence threshold, missing-candle inference, session denominator, coverage
++percentage, interpolation, timestamp shift or candle aggregation is applied.
++All report/group/symbol statuses remain PROVISIONAL / UNKNOWN / DATA_BLOCKED.
++Sealing, later labels and quiet receipt periods establish neither finality nor
++completeness, accuracy, adjustment semantics or usable strategy inputs.
++
++Independent review found the cutoff selection, full decode before selection,
++row ordering, exact labels and repeat retention consistent with PR #44's contract.
++Found and fixed: capture verification accepted unsupported manifest safety/schema
++metadata and summary finality/completeness/schema metadata. These now fail closed,
++including for empty cutoffs. This checks consistency, not authenticity of a replaced
++bundle. Hashes cannot independently certify provider truth.
++
++Regressions cover tied receipt cutoffs, all rows per receipt, changed versus repeat
++counts, selected coverage, empty views, contradictory seal metadata, exclusive
++exports, blocked failures and production import isolation. Existing replay tests
++cover later corruption/decode failure, revision preservation and safety labels.
++The fake-feed CI matrix runs guarded synthetic checks on Ubuntu and Windows with
++Python 3.11 and 3.12. CI needs no SDK, credentials, private capture or provider.
++Timezone data is installed for existing DST checks; test execution is guarded.
++Real SDK decoding is a separate local check, not claimed by synthetic CI.
++
++See [stacked engineering and provider contract review](PROVIDER_CONTRACT_REVIEW.md)
++for the follow-up receipt chronology fix and the documented versus unresolved
++OpenD label, revision, finality and adjustment contract.
+diff --git a/research/feed_contract/CAPTURE_PLAN.md b/research/feed_contract/CAPTURE_PLAN.md
+new file mode 100644
+index 0000000..e9b703f
+--- /dev/null
++++ b/research/feed_contract/CAPTURE_PLAN.md
+@@ -0,0 +1,36 @@
++# Bounded raw SPY/QQQ capture validation
++
++User authorized continued read-only capture validation on 2026-10-30 and explicitly confirmed API access and permission for local retention. The user performs OpenD login locally. This permits raw evidence capture, not strategy integration, trading, paid activation or deployment.
++
++## Frozen bounds
++
++- Local OpenD only: 127.0.0.1:11111; installed SDK and executable version10.11.7108. Executable SHA256 `3c2c5065c8f18dece54dc2c208317721a0c16821cfcd8fa21e45255faa38d738` is checked before connection. Relevant installed SDK sources and capture/journal code hashes are recorded.
++- One TCP reachability probe, one quote context, one subscription request for US.SPY and US.QQQ K_1M, Session.RTH, extended_time=False, is_first_push=False. No history, recovery, fallback, account queries, trade context or order methods.
++- 120 seconds after subscription, within a hard300-second supervised process lifetime including SDK startup/cleanup. No autonomous retry or reconnect. SDK private reconnect flag is restricted to this pinned build; source behavior reviewed, fake lifecycle tests cover the wrapper. Real disconnect behavior remains unverified until observed.
++- At most5000 journal records,10MiB receipt journal,64KiB per serialized protobuf,128 queued callbacks,100 source stamps per receipt. Metadata/seal/log overhead is separate. No unbounded raw provider/account responses in reports.
++- Stop on either symbol silent for over30seconds, disconnect/system notification, queue overflow, schema/symbol/interval violation, budget exhaustion, wall-clock rollback or wall-versus-monotonic divergence over250ms, write/fsync failure, or regular-hours time-window end. Wall-clock comparison cannot prove UTC accuracy. Holidays, early closes and halts are not certified by a weekday/time check.
++- Exclusive new session directory under this chat's outputs/captures. No existing data, dashboard or databases opened for writes. Raw evidence stays local; only source code and sanitized validation results may be pushed.
++
++## Evidence and eligibility
++
++Capture records retain SDK protobuf serialization bytes, their SHA256 and source time_key strings without shifting or relabeling; these are not original network packet bytes. The protobuf retains original SDK field values including rehabType. Subscription offers no explicit adjustment argument: adjustment semantics remain unverified rather than being represented as unadjusted.
++
++Each record includes UTC wall/monotonic receipt and journal times, local journal sequence, payload hash and hash-chain linkage. fsync completes before acknowledgement. A separately created seal covers record count/bytes/final hash; missing seals, truncation and edits block verification. This detects accidental edits, not adversarial rewriting; fsync does not establish power-loss guarantees or provider truth. Supervisor status is separate and must also be inspected.
++
++Every record and summary says UNKNOWN finality and DATA_BLOCKED strategy status. As-of reads are receipt cutoffs plus journal sequence over a fully verified sealed journal, not source publication times or durable-commit-as-of snapshots. No decision engine consumes this output. Neither new bars, elapsed minutes nor repeated values establish FINAL. No historical data is represented as point-in-time.
++
++The runner's raw-only wall-time session restriction is not an authoritative market calendar, entitlement monitor, gap detector or provider-completeness claim. Missing bars, stale source timestamps and source-time gaps cannot become eligible under this profile. Full typed/scoped expiring authorities, independent calendar/UTC-clock verification, timestamp mapping, revision lineage, source coverage/delay and completion/finality proof remain required for any engine use. The user access/retention attestation and a successful subscription are evidence of permission/subscription at that moment, not a provider license audit.
++
++## Validation
++
++OfflineGuard is installed before discovery. Existing24 contract tests plus23 capture/lifecycle tests exercise scope, immutable raw bytes, as-of prefix, seals, tamper/truncation, record/byte/payload/time/silence/clock limits, fsync failure, queue overflow, rejected subscriptions, disabled reconnect, cleanup including seal failure, version guard and watchdog kill. Fakes do not certify SDK or provider behavior. Windows/Linux Python3.11 CI is required; only timezone data is installed, never the provider SDK. No live connection occurs in CI. The app callback queue is bounded; internal SDK buffering is not certified by these tests.
++
++Official reference: https://openapi.moomoo.com/moomoo-api-doc/en/quote/sub.html describes cached first pushes and RTH/session parameters; https://openapi.moomoo.com/moomoo-api-doc/en/quote/update-kl.html describes asynchronous callbacks and US Eastern time_key. Neither establishes the required FINAL contract.
++
++Run from an already authenticated local installation, using its Python interpreter: `python -B research/feed_contract/opend_capture.py --supervise ABSOLUTE_NEW_DIRECTORY`. Verify summary and supervisor JSON together; abnormal termination is incomplete evidence, never a successful market-data validation. Raw data is excluded from Git.
++
++## Local attempted capture outcome
++
++On2026-10-30, user logged into OpenD locally and a127.0.0.1:11111 listener was observed. One supervised attempt used the installed Windows Python3.15 environment and matching SDK/OpenD10.11.7108. It stopped during SDK import: Windows Application Control blocked the native Crypto.Util._cpuid_c dependency (WinError4551). The worker returned1 without timeout. One TCP reachability probe had succeeded, but no quote context/subscription was created, no market records were received and no capture journal was opened. Subsequent code moves dependency import before the reachability probe so this failure requires no socket at all.
++
++Attempted runner SHA256 `78731f7415f3f6f8e768e8c13b096e5b3d295af17b2f22101b15a0ad120928fe`; journal SHA256 `272945a0f40dd7a496aeb274ecae8f8e06937bb410e57b643ddf4dee59034427`. Supervisor result and dependency traceback remain local under outputs/captures, excluded from Git. No policy changes, installation workaround or alternate provider was attempted. This is blocked runtime evidence, not verified live capture. A working organization-approved SDK/native-dependency environment is the next prerequisite; then the same bounded raw-only run must be repeated. FINAL eligibility remains independently unresolved even if capture succeeds.
+diff --git a/research/feed_contract/FIELD_PATH_AUDIT.md b/research/feed_contract/FIELD_PATH_AUDIT.md
+new file mode 100644
+index 0000000..13c5511
+--- /dev/null
++++ b/research/feed_contract/FIELD_PATH_AUDIT.md
+@@ -0,0 +1,74 @@
++# Offline field-path audit
++
++PR #47 records all observation transitions. This layer answers a different audit
++question: does an endpoint comparison hide intervening field excursions? A sequence
++A -> B -> A has equal endpoints but two changes; an unchanged field has none.
++No price arithmetic, strategy calculation, candle timing inference, or eligibility
++change is introduced. Provider-contract issue #46 remains open.
++
++`field_path_audit.audit(capture, before={...}, after={...})` calls the existing
++revision-impact analyzer once. The entire sealed capture is verified and decoded
++before either cutoff is selected. Cutoff validation and inclusive sequence/wall
++intersection semantics are inherited unchanged. Invalid later evidence blocks even
++empty selections. All embedded observations, revisions, repeats, and source labels
++are preserved.
++
++For each exact symbol/source-label group visible at the after cutoff:
++
++- If visible at the before cutoff, the anchor is its last observation at that
++  cutoff. Earlier excursions are outside this comparison.
++- Otherwise `baseline_available=false`; the first later observation is the anchor.
++  Its initial fields are not counted as revisions. This group has no before value.
++- Each decoded field receives UNCHANGED (no changes), RETURNED_TO_ANCHOR (changes
++  but equal endpoints), or NET_CHANGED (different endpoints). Field presence is
++  separate from value, so absent, present-null and present-zero differ.
++- Every change records before/after states and exact sequence/row-index references
++  into `evidence.after.observations`, where raw receipts and hashes remain attached.
++  References to previous observations include intervening exact repeats. Same-receipt
++  rows follow wire order. Fields sort by name; groups follow first observation order.
++- `return_count` counts transitions back to the anchor, including intermediate
++  returns even when the endpoint is different. `change_count` excludes repeats.
++  Top-level counts count field paths, not independent candles, samples or events.
++
++The embedded PR #47 analysis remains intact. Detached summary states cannot mutate
++its source observations. Provenance retains verifier, replay and revision-analysis
++source hashes and adds the audit source hash. Reports retain PROVISIONAL / UNKNOWN /
++DATA_BLOCKED, boundary_semantics UNKNOWN and completeness NOT_ESTABLISHED.
++An unchanged path or a long repeat run provides no finality guarantee.
++
++## Reproduction
++
++Create a new exclusive output destination. Full reports contain private receipt
++payloads: keep them local, never attach them to CI or a PR.
++
++```text
++python -B research/feed_contract/field_path_audit.py PRIVATE_CAPTURE --before-sequence 386 --after-sequence 388 --output NEW_LOCAL_AUDIT.json
++python -B research/feed_contract/reference_field_path_regression.py PRIVATE_CAPTURE
++python -B research/feed_contract/run_checks.py
++```
++
++The reference regression uses the previously pinned local schema environment;
++it installs nothing and does not import the moomoo package. It first runs the
++inherited reference regression and pins all three original evidence hashes.
++It then checks deterministic QQQ field paths at 386/388, all 1,143 observations
++and six groups, resolves every field-change reference, and rechecks evidence hashes.
++Only pass summaries and aggregate field classifications are printed.
++
++On the November 2 reference capture, first-observation anchors through sequence
++1,143 yield 42 UNCHANGED fields, 36 NET_CHANGED fields, and zero
++RETURNED_TO_ANCHOR fields. These are descriptive decoded-field counts across six
++groups, not an independent statistical sample. Hidden endpoint excursions are
++demonstrated by synthetic fixtures, not claimed for this capture.
++
++Six new synthetic tests cover multiple excursions and repeats, net changes,
++newly visible groups, exact-label/symbol isolation, presence/null/removal,
++same-receipt row references, baseline isolation, detached evidence, equal/empty
++cutoffs, receipt-wall agreement, integrity/decode failure after cutoffs, provenance,
++safety labels, and exclusive CLI output. Existing feed CI discovers these tests
++on Linux/Windows with Python 3.11/3.12; private evidence never enters CI.
++
++Limits: all selected histories and the embedded evidence remain in memory. Value
++equality follows PR #47's decoded Python field comparison, not bytewise protobuf
++identity. Receipt clocks and provider authenticity remain unestablished; seal
++consistency does not prevent wholesale bundle replacement. No elapsed-time,
++completeness, correction-delay, predictive, or trading claims are supported.
+diff --git a/research/feed_contract/PROVIDER_CONTRACT_REVIEW.md b/research/feed_contract/PROVIDER_CONTRACT_REVIEW.md
+new file mode 100644
+index 0000000..be104c0
+--- /dev/null
++++ b/research/feed_contract/PROVIDER_CONTRACT_REVIEW.md
+@@ -0,0 +1,102 @@
++# OpenD candle contract review — November 2, 2026
++
++Status: PROVISIONAL / UNKNOWN / DATA_BLOCKED. Documentation review only;
++no provider requests, new capture, strategy integration or finality promotion.
++
++## Scope and dependency chain
++
++Reviewed draft #43 `fb38c328c57cb2d819adaaa706d6eaf8ceb082bb`, draft #44
++`99ed196ae60b5894816fefe8c414f0007bea6e43`, and draft #45
++`ed38c2812f39047e4b9ccc78c3344944634e167d`. Each child's base SHA equals
++its parent's head. #43 itself depends on the unmerged reconciliation branch
++`838851a3cfd248b19bd0a2a590a7bf55756eaed2`; this stack is not main.
++
++#44 retains exact labels, receipt/row order, repeats and revisions, verifies and
++decodes the full capture before selecting intersecting inclusive cutoffs, and
++never promotes later-label observations to FINAL. #45 adds descriptive receipt
++metrics and seal safety checks. Neither is a completed-candle adapter.
++
++## Provider-supported facts and unresolved behavior
++
++The official pages currently identify themselves as API documentation v10.12.
++The captured SDK/OpenD version is 10.11.7108; current documentation is useful
++contract evidence, not proof of identical behavior in that pinned build.
++
++| Subject | Supported by the inspected provider documentation | Still unresolved for this capture |
++| --- | --- | --- |
++| Label timezone | US stock `time_key` is US Eastern, formatted `yyyy-MM-dd HH:mm:ss`. | Exact interval start/end meaning, boundary inclusivity, DST edge behavior and auction assignment. Keep the source string untouched. |
++| Revisions | Callback example sends the same label twice with changed close, volume and turnover. | No inspected statement bounds late corrections, guarantees order, or prohibits open/low revisions. Example updates do not establish an after-boundary correction policy. |
++| Finality | Published UpdateKL and KLine structures expose no explicit final/closed flag. `isBlank` denotes empty content. | No inspected finality watermark, immutable-after rule, correction horizon or completeness guarantee. Blank, quiet, later-label and sealed do not imply final. |
++| Adjustment | `RehabType_Forward = 1`; `AuType.QFQ` means forward adjustment. The decoder accepts flag 1. | Flag identity does not certify the factors, anchor date, historical stability or adjustment correctness of SPY/QQQ observations. |
++| Factor mathematics | `get_rehab` documents forward price transformation as original price multiplied by factor A, plus factor B. | Actual factors and their effective/as-of versions were not fetched. Volume/turnover transformation and push/history consistency are not established by that price formula. |
++
++Sources inspected November 2, 2026:
++
++- [Real-time candle callback](https://openapi.moomoo.com/moomoo-api-doc/en/quote/update-kl.html): Python return fields, UpdateKL schema, Java example with repeated label.
++- [Quotation definitions](https://openapi.moomoo.com/moomoo-api-doc/en/quote/quote.html): Candlestick Adjustment Type / RehabType and Candlestick data / KLine.
++- [Adjustment factors](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-rehab.html): factor fields and price transformation.
++- [Current candles](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-kl.html) and [historical candles](https://openapi.moomoo.com/moomoo-api-doc/en/quote/request-history-kline.html): timestamps and adjustment parameters; historical request start/end dates do not define a candle label's boundary.
++
++These are bounded findings from the listed pages, not a claim that no provider
++statement exists anywhere. Do not substitute the newer REST/WebSocket API's
++semantics for OpenD. No undocumented timestamp shift, factor calculation or
++waiting period has been introduced.
++
++## Engineering finding and fix
++
++P2: `capture.verify` checked hash consistency but accepted impossible receipt
++chronology and boolean sequence values. A re-sealed synthetic journal could pass
++an empty cutoff despite these contradictions. Hashes do not establish schema
++validity. Replay rejected some receipt-order cases, but the shared verifier did
++not enforce the writer's receipt/journal timing invariants.
++
++The verifier now rejects invalid cutoff/origin types, noninteger or negative
++clock fields, noninteger sequence values, receipt/journal rollback, receipts
++after their journal time, and wall/monotonic divergence over 250 ms. Checks run
++before selection. Equal receipt times remain valid. Regression cases deliberately
++recompute hashes and seal sizes to exercise semantic validation rather than
++ordinary tamper detection. This remains consistency checking, not authentication,
++UTC accuracy, latency certification or provider truth.
++
++Validation of the fix on Windows/Python 3.12.10: 65 guarded feed tests, 158 broader
++project tests and 54 reconciliation tests passed; all 88 inherited synthetic evidence variants
++reproduced exactly. Full local capture replay and quality reporting ran under
++OfflineGuard without importing moomoo: 1,143 receipts, six groups, QQQ sequence
++386/388 open values 696.88/696.9054, and all three evidence file hashes unchanged.
++Feed source syntax and whitespace checks passed. Private evidence was not uploaded.
++
++At the reviewed original heads, GitHub reports all four workflows successful for
++each PR. For #45, [feed run 41479960367](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41479960367)
++has four successful Ubuntu/Windows Python 3.11/3.12 jobs; broader Python run
++41479960049, presentation run 41479960182 and reconciliation run 41479960407
++also succeeded. Those results precede this follow-up fix and must not be credited
++to a new head until its own checks finish.
++
++Residual limitations: the capture runner is an explicitly invoked prototype,
++not an expiring authorization system; SDK source hashes are recorded, not an
++allowlist for all installed dependencies. Journal seals are not signatures.
++Production-import isolation tests inspect direct root imports, not every possible
++dynamic dependency. CI's tzdata install is unpinned; passing CI does not certify
++exchange calendars. These do not justify enabling live use or strategy input.
++
++## Required provider clarification
++
++The SDK's [provider-maintained PyPI page](https://pypi.org/project/moomoo-api/)
++lists `openapi@moomoo.com`. No authenticated provider support conversation was
++available in the inspected sources; no message was sent. Suggested questions:
++
++1. For OpenD/SDK 10.11.7108, US.SPY/US.QQQ, K_1M, RTH, does label 10:52:00
++   denote the start or end? Specify inclusive/exclusive endpoints and opening,
++   closing auction, early-close and DST treatment.
++2. Can an older label be revised after a later label is pushed, including open,
++   high, low, close, volume and turnover? What ordering, replay and maximum
++   correction delay guarantees exist, if any?
++3. Is there an authoritative completion/finality flag, watermark or documented
++   immutable-after rule? If none, explicitly confirm that no finite quiet period
++   establishes permanent finality.
++4. For rehabType 1, which factor version/anchor and corporate actions apply?
++   How do factors compose, affect volume/turnover, and change historical values?
++   Are pushed and historical candles guaranteed to agree for the same as-of basis?
++
++Next step: obtain and retain a version/endpoint-scoped written provider answer.
++Until then retain UNKNOWN mapping/finality and DATA_BLOCKED strategy eligibility.
+diff --git a/research/feed_contract/PROVISIONAL_REPLAY.md b/research/feed_contract/PROVISIONAL_REPLAY.md
+new file mode 100644
+index 0000000..3ab365f
+--- /dev/null
++++ b/research/feed_contract/PROVISIONAL_REPLAY.md
+@@ -0,0 +1,56 @@
++# Offline provisional receipt replay
++
++`provisional_replay.py` is a standalone JSON replay view of sealed SPY/QQQ
++one-minute SDK candle updates. It uses `capture.verify` before decoding and
++validates the entire capture even for an early cutoff. Any integrity or decode
++failure blocks the whole view; no partial export is emitted.
++
++Run from the project root using the existing capture Python environment (installed
++moomoo-api 10.11.7108 and protobuf required; no download or provider request):
++
++```powershell
++C:\Users\louis\radar-moomoo-test\Scripts\python.exe -B research/feed_contract/provisional_replay.py C:\Users\louis\Documents\RaccoonRadarCaptures\spy-qqq-20261102-105014-e006bec7 --sequence 388 --output new-replay.json
++```
++
++Omit `--output` for stdout. Output files use exclusive creation; choose a new
++filename for each run. `--sequence` and `--cutoff-ns` (receipt wall nanoseconds)
++are inclusive and intersect when both are supplied. Zero yields an empty view.
++Cutoffs describe received evidence, not a market state or durable commit time.
++The module reads only descriptor literals from the installed SDK files, into a
++private protobuf pool. It never imports the moomoo package or opens a context.
++
++Groups use the exact `(symbol, source_label)` strings, ordered by first receipt.
++History preserves every row, including identical repeats; ordering is journal
++sequence followed by original row index. `last_observed` is the last row in that
++history, without OHLC aggregation or monotonic-field assumptions. Receipt
++records retain original payload bytes as base64, source stamps and hashes;
++decoded fields retain presence and values. Protobuf bytes remain authoritative
++for unknown fields and exact serialization. Views are detached, mutable JSON
++data, not a persistent canonical candle store.
++
++Every view, group and revision remains `PROVISIONAL`, finality `UNKNOWN`, and
++strategy status `DATA_BLOCKED`, including after later labels or capture sealing.
++Source labels and numeric source timestamps are untouched. There is no inferred
++minute start/end, -60 second shift, missing-minute fill, closed-candle promotion,
++adjustment-factor interpretation, strategy, dashboard or trading integration.
++No certification of completeness, provider accuracy, clock accuracy, entitlement,
++latency, adjustment semantics or authenticity is provided. Hash chaining detects
++local inconsistency, not malicious replacement of an entire evidence bundle.
++
++Validation on November 2, 2026, Windows/Python 3.12.10:
++
++- Guarded feed-contract suite: 57 tests, including nine new replay regressions.
++- Real capture read under `OfflineGuard`, with no moomoo package import: 1,143
++  receipts, 545 SPY and 598 QQQ; six exact-label groups, all revisions retained.
++- QQQ label `2026-11-02 10:52:00`: as-of sequence 386 open/low 696.88; as-of
++  sequence 388 open/low 696.9054. Inclusive receipt cutoff at 386 agrees.
++- All three original evidence file hashes unchanged after replay. Journal SHA256:
++  `42fa2dd2324b67a043f3ff26a75a5e52d43ccf7a842ee254db2e78c4c09fc19f`.
++- Syntax parsed across project Python files. No GUI/provider/market validation;
++  Linux and Python 3.11 not exercised locally. System Python lacks tzdata; the
++  existing capture environment passes the feed suite without installing anything.
++
++Run regressions using `python -B research/feed_contract/run_checks.py`; root
++checks remain `python -B offline_checks.py`. This proposal is based on the
++unmerged feed-contract branch `fb38c328c57cb2d819adaaa706d6eaf8ceb082bb`, and is
++reviewed against that dependency, not represented as already on main.
+diff --git a/research/feed_contract/RECOMMENDATION.md b/research/feed_contract/RECOMMENDATION.md
+new file mode 100644
+index 0000000..bc54c9a
+--- /dev/null
++++ b/research/feed_contract/RECOMMENDATION.md
+@@ -0,0 +1,163 @@
++# Recommended protocol and fake-only feed contract — 2026-10-30
++
++Update: the original milestone below describes head9122b23. The subsequently
++authorized raw-capture continuation is specified in CAPTURE_PLAN.md. It adds
++an opt-in bounded quote-only runner and local journal; it does not relax
++FINAL-only strategy eligibility. Original no-connection claims below are
++historical statements about that earlier head, not the continuation.
++
++Status: finalized engineering recommendation for review; no integration or live
++access approval. This additive milestone is based on PR41 exact head
++838851a3cfd248b19bd0a2a590a7bf55756eaed2. It follows PR42 specification head
++0b1ddd72ca21556d3c7ee1fa2bd6af88926e6354 without modifying either branch.
++
++## Unified research protocol recommendation
++
++Adopt PR39 MS12-S0 in full as the recommended normative research protocol,
++with PR41 MS12-R0's explicit interpretation and incomplete-implementation list.
++Normative source: docs/VNEXT_1_2_MARKET_STRUCTURE_RESEARCH.md at
++8d45bb39b298a8c7d9e01b17b12bc7b324c45e19; interpretation:
++research/reconciliation/RECONCILIATION_DRAFT.md at
++838851a3cfd248b19bd0a2a590a7bf55756eaed2. Both are preserved here unchanged.
++PR40 6f282a88c41d345e744089b6dd880e93dd53a4af remains a separately named,
++byte-exact percentage comparator; never mix its parameters or continuation rules
++into S0. This settles a recommendation, not market superiority or owner acceptance.
++
++Retain 20 trend / 8 box bars, 4S net movement, 0.60 efficiency, 12 strict
++steps, S as mean true range over the trend window; frozen width 0.5S..2.5S,
++interior closes and separated touches. Keep two strict breakout closes,
++strictly later close-based retest within five bars, then strictly later hold
++within three, for both continuation and reversal. Retain exact PR39 epsilon,
++tolerance, deadline inclusivity, failure precedence, 28-bar cooldown,
++three-bar event age, aligned pair/mixed states, causal revision handling and
++independent outcomes/censoring requirements by reference. No thresholds changed.
++
++Evidence supports coherent semantics and mathematical conformance only: the
++88 matched development variants distinguish S0 bar32 confirmation from PR40
++bar31 reversal/bar29 continuation. Percentage translation/reflection differences
++are consequences of denominator changes, not evidence of poor prediction.
++Local Windows rerun reproduces PR41's exact evidence. PR41's three published
++CI runs remain successful at its pinned head. No holdout or real market study.
++Full multi-episode audit, pair freshness/mixed logic, censoring/outcomes and
++full S0 revision integration remain unfinished. This milestone implements none
++of those detector features and does not connect this model to the detector.
++
++## OpenD feasibility: verified documentation versus unresolved facts
++
++Public official documentation reviewed 2026-10-30; no local SDK/OpenD queried.
++The docs describe v10.12, not a verified installed or supported build.
++
++- [Quote Q&A](https://openapi.moomoo.com/moomoo-api-doc/en/qa/quote.html):
++  API quote rights can differ from app rights; quotas/terminal conflicts can
++  prevent subscriptions. Described US sources include Nasdaq and Arca feeds.
++  Do not infer consolidated SIP coverage, a lasting free entitlement, or this
++  account's rights from a public promotion. Account permission, feed/delay,
++  SPY/QQQ coverage, retention/non-display/derived-data rights remain UNKNOWN.
++- [Candlestick callback](https://openapi.moomoo.com/moomoo-api-doc/en/quote/update-kl.html):
++  asynchronous subscription updates; Python table describes US Eastern time_key.
++  That table does not expose explicit completion, finality or revision lineage.
++  Neither start/end label nor first-publication availability is established by
++  the timestamp wording. Missing fields in one table are not proof that no
++  other provider mechanism can establish them.
++- [Historical candles](https://openapi.moomoo.com/moomoo-api-doc/en/quote/request-history-kline.html):
++  cursor pagination and explicit adjustment/session options. Later retrieval
++  is not evidence of what was available at a prior decision time. Tag all
++  recovery with actual receipt/commit visibility; no point-in-time history claim.
++- [Global state](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-global-state.html):
++  quote-login status and server version are exposed. Login success is neither
++  symbol entitlement nor continuity, finality, accurate clock or complete coverage.
++  Do not query trade login/account fields for this research; redact broad responses.
++
++Decision: OpenD remains a candidate for raw observation only. Current FINAL-only
++consumer is not demonstrated feasible on this feed. Unknown evidence blocks;
++never promote FINAL because a minute elapsed, another candle arrived or repeated
++values matched. A weaker completed-provisional profile needs separate approval.
++
++## Future source contract, required before any connection
++
++Use a separately approved quote-only plan: US.SPY/US.QQQ, K_1M, regular session,
++explicit adjustment/session options (proposed unadjusted), exact SDK/OpenD build
++and hashes; no alternate endpoint/provider fallback. Provider-enforced quote-only
++rights must be distinguished from quote-only application code on a shared OpenD.
++The owner authenticates locally only after authorization; no secrets in chat.
++
++Bind permission/feed/delay/license authority to symbol, endpoint, versions,
++session, units and validity period. Pin authoritative exchange calendar and tzdata,
++including DST, early close, holiday/halt/no-trade policies. Preserve raw timestamps
++and values; derive start/end in a separate reversible version. Unknown/ambiguous
++mapping blocks. Independently verify opening AND closing OHLCV or obtain explicit
++provider confirmation; a 390-row grid is insufficient. No missing-bar fabrication.
++
++Record full receipt UTC/monotonic sequence, source/publication time when supplied,
++clock uncertainty, epoch/request/page IDs, completion/finality evidence, exact
++payload hash, durable visibility, revision identity and supersession. Availability
++is no earlier than interval end, full receipt, required authority and durable
++commit, with conservative clock bounds. Source timestamps are not publication
++or receipt times. No original-as-known rewrite by late history or corrections.
++Newer provisional evidence blocks older FINAL. Original and corrected views stay
++separate. Unknown/branching/cyclic lineage blocks, not last-arrival-wins.
++
++Disconnect, feed login loss, entitlement revocation, queue overflow, stale tail,
++missing interior/tail/symbol, write failure or schema change invalidates affected
++frames. Reconnect enters RECOVERING, not READY: recheck scope/rights, subscriptions,
++clock, complete expected grid and source quality first. A new socket alone is
++insufficient. Confirm automatic reconnect/resubscription and continuity behavior
++for the actual SDK/OpenD build empirically; this review establishes no such guarantee.
++No retry/backoff/heartbeat defaults authorized here: numerical budgets must be
++reviewed before capture. Recovery paging must detect repeated cursors, errors,
++truncation and cross-page revisions; a terminal cursor alone is not a snapshot.
++SPY cannot certify QQQ or pair readiness. Distinguish closure from transport silence.
++
++## Implemented offline subset
++
++adapter.py is a pure, fake-only eligibility model accepting trusted frozen typed
++SYNTHETIC envelopes. It has no SDK, transport, credential, file/database writer,
++engine call, detector integration, CLI live mode or connection option. MOCK_READY
++returns IDs only, never a real engine-ready assertion. Synthetic UTC integer
++microseconds are used; fixtures compress a minute to 60 units for readability.
++Authority names/health events are fixture attestations, not provider verification.
++
++24 tests cover causal time AND sequence cutoffs, receipt equality, later commit
++and authority visibility, uncommitted replacement blocking, provisional/no-final
++fallback, completion separate from finality, revision roots/branches/cycles/orphans,
++input reordering, conflicting identities, missing grid/tail/whole symbol, finite
++positive OHLC and nonnegative volume, disconnect/degraded/recovering dispositions,
++late recovery, immutable earlier results and rejection of LIVE context.
++The grid is independently supplied; model does not discover source completeness.
++VALIDATED is explicitly supplied after recovery, not calculated or inferred here.
++Identical fixture receipts are semantically deduplicated; durable raw receipt
++retention is not implemented. All known symbol graph faults conservatively block.
++
++Not implemented/tested here: real wire/schema parsing; scope-bound authority
++validation/expiration/revocation; timestamp mapping/DST/calendar; staleness/clock
++uncertainty derivation; pair status; paging/queues/backoff; durable capture, hashes,
++crash/disk-full recovery or power-loss guarantees. Frozen dataclasses rely on the
++typed tuple/bytes contract and are not an adversarial input boundary. No claim to
++complete PR42's matrix. These are follow-up offline work before a provider adapter.
++
++Run python -B research/feed_contract/run_checks.py. Its inherited OfflineGuard
++is active before test discovery, prohibiting network/process activity and existing
++DB access. Isolated Windows/Linux Python3.11 CI runs this subset plus the unchanged
++54 reconciliation checks and exact88-case evidence reproduction. Existing guarded
++158-test workflow and presentation smoke remain unchanged. Counts are separate
++suites, not a cumulative union of all draft PRs.
++
++Test-first commit 1259b89 records missing-module failure before implementation.
++First implementation found two test fixtures whose expected tail exceeded the
++cutoff; corrected cutoff to 200 without weakening the model or coverage assertion.
++
++## Remaining approvals and gates
++
++Before any live connection: explicit bounded provider-evidence authorization;
++verified account-specific API and storage license, source/build/config identity;
++reviewed timestamp/calendar/clock/completion/finality contract or approved raw-only
++scope; capture directory, duration/request/storage/retry limits, stop conditions,
++local authentication flow and redacted evidence plan. Credential requests, paid
++activation and provider correspondence are not authorized by this milestone.
++
++Before detector integration: accept/revise recommended S0 definitions; complete
++and review remaining protocol/adapter matrix; freeze numerical operational limits,
++source/finality policy, labels/horizons and independent evaluation design. Owner
++approval of a recommendation is not evidence that a feed meets it. No paper or
++live orders, trading, deployment, merge/retarget or protected dashboard changes.
++Rollback: close the new draft; no existing entry point imports these additions.
+diff --git a/research/feed_contract/adapter.py b/research/feed_contract/adapter.py
+new file mode 100644
+index 0000000..5284fdf
+--- /dev/null
++++ b/research/feed_contract/adapter.py
+@@ -0,0 +1,128 @@
++"""Fake-only eligibility model. No transport, SDK, persistence or detector integration.
++
++Typed, trusted SYNTHETIC envelopes only. Authority flags model evidence; they
++never verify actual provider claims. UTC times use synthetic integer microseconds.
++"""
++from dataclasses import dataclass
++from decimal import Decimal, InvalidOperation
++
++
++@dataclass(frozen=True)
++class Revision:
++    id: str
++    symbol: str
++    start: int
++    end: int
++    raw: bytes
++    values: tuple[str, str, str, str, str]  # O H L C V
++    received: int
++    receipt_seq: int
++    committed: int | None
++    commit_seq: int
++    authority_time: int
++    authority_seq: int
++    finality: str
++    complete: bool
++    parent: str | None
++
++
++@dataclass(frozen=True)
++class Health:
++    at: int
++    sequence: int
++    state: str
++
++
++@dataclass(frozen=True)
++class Context:
++    symbol: str
++    expected: tuple[int, ...]  # externally evidenced complete grid, including tail
++    duration: int
++    cutoff: int
++    sequence: int
++    authorities: tuple[tuple[str, int, int], ...]
++    health: tuple[Health, ...]
++    mode: str
++
++
++@dataclass(frozen=True)
++class Frame:
++    status: str
++    ids: tuple[str, ...]
++    reasons: tuple[str, ...]
++
++
++def select(receipts: tuple[Revision, ...], c: Context) -> Frame:
++    """Select a unique supersession leaf per expected interval as known at cutoff.
++
++    Receipt visibility precedes eligibility: an uncommitted or provisional visible
++    replacement blocks instead of resurrecting an older FINAL. Input order is not
++    revision order. Caller supplies immutable typed fixture evidence, not wire rows.
++    """
++    reasons=set()
++    if (c.mode != 'SYNTHETIC' or c.symbol not in ('US.SPY','US.QQQ')
++            or not c.expected or c.duration <= 0
++            or tuple(sorted(set(c.expected))) != c.expected
++            or any(b-a != c.duration for a,b in zip(c.expected,c.expected[1:]))
++            or c.expected[-1]+c.duration > c.cutoff):
++        return Frame('DATA_BLOCKED',(),('CONTEXT',))
++    visible=lambda t,s: t <= c.cutoff and s <= c.sequence
++    needed={'permission','mapping','calendar','finality','clock','source'}
++    if {name for name,t,s in c.authorities if visible(t,s)} != needed:
++        reasons.add('AUTHORITY')
++    states=[h for h in c.health if visible(h.at,h.sequence)]
++    # Health sequence is authoritative; ties with different evidence are ambiguous.
++    if not states:
++        reasons.add('HEALTH')
++    else:
++        last=max(h.sequence for h in states)
++        latest={h for h in states if h.sequence==last}
++        if len(latest)!=1 or next(iter(latest)).state!='VALIDATED': reasons.add('HEALTH')
++    known={}
++    for r in receipts:
++        if r.symbol != c.symbol or not visible(r.received,r.receipt_seq): continue
++        if r.id in known and known[r.id]!=r: reasons.add('IDENTITY_CONFLICT')
++        known[r.id]=r
++    # Validate the whole visible symbol graph, including off-grid links. No sorting
++    # by arrival and no fallback behind a missing/ambiguous successor.
++    roots={}
++    for r in known.values():
++        seen=set(); node=r
++        while True:
++            if node.id in seen:
++                reasons.add('REVISION_GRAPH'); break
++            seen.add(node.id)
++            if node.parent is None:
++                roots[r.id]=node.id; break
++            parent=known.get(node.parent)
++            if parent is None or (parent.start,parent.end)!=(r.start,r.end):
++                reasons.add('REVISION_GRAPH'); break
++            if parent.receipt_seq > node.receipt_seq or parent.received > node.received:
++                reasons.add('REVISION_GRAPH'); break
++            node=parent
++    selected=[]
++    for start in c.expected:
++        versions=[r for r in known.values() if r.start==start]
++        if not versions:
++            reasons.add('COVERAGE'); continue
++        parents={r.parent for r in versions}
++        leaves=[r for r in versions if r.id not in parents]
++        if len(leaves)!=1 or len({roots.get(r.id) for r in versions})!=1:
++            reasons.add('REVISION_GRAPH'); continue
++        r=leaves[0]
++        if r.end!=start+c.duration: reasons.add('INTERVAL')
++        if (r.committed is None or not visible(r.committed,r.commit_seq)
++                or not visible(r.authority_time,r.authority_seq)
++                or r.committed < r.received or r.commit_seq < r.receipt_seq):
++            reasons.add('VISIBILITY')
++        if r.finality!='FINAL' or not r.complete: reasons.add('FINALITY')
++        try:
++            o,h,l,close,v=map(Decimal,r.values)
++            if (not all(x.is_finite() for x in (o,h,l,close,v))
++                    or min(o,h,l,close)<=0 or v<0
++                    or not l<=min(o,close)<=max(o,close)<=h):
++                reasons.add('OHLCV')
++        except (InvalidOperation,ValueError,TypeError): reasons.add('OHLCV')
++        selected.append(r.id)
++    return Frame('DATA_BLOCKED' if reasons else 'MOCK_READY',
++                 () if reasons else tuple(selected),tuple(sorted(reasons)))
+diff --git a/research/feed_contract/capture.py b/research/feed_contract/capture.py
+new file mode 100644
+index 0000000..61d4146
+--- /dev/null
++++ b/research/feed_contract/capture.py
+@@ -0,0 +1,194 @@
++"""Bounded raw evidence journal, deliberately unable to produce eligible bars.
++
++Payloads are SDK protobuf serializations, not original network packet bytes.
++No SDK, network, trading, database or detector imports. One owner thread required.
++"""
++import base64
++import hashlib
++import json
++import os
++from pathlib import Path
++import time
++
++SYMBOLS = ('US.SPY', 'US.QQQ')
++
++
++def encode(value):
++    return json.dumps(value, sort_keys=True, separators=(',', ':'),
++                      ensure_ascii=True, allow_nan=False).encode('ascii')
++
++
++def digest(value):
++    return hashlib.sha256(encode(value)).hexdigest()
++
++
++class CaptureStopped(RuntimeError):
++    pass
++
++
++class Journal:
++    """Exclusive session, bounded bytes/records/time, fsync before acknowledgement.
++
++    Local wall-versus-monotonic checks detect divergence, not UTC accuracy.
++    A clean seal verifies local integrity, never source truth or market completeness.
++    """
++    def __init__(self, directory, metadata, clock=None):
++        self.clock = clock or (lambda: (time.time_ns(), time.monotonic_ns()))
++        self.start_wall, self.start_mono = self.clock()
++        self.previous_wall, self.previous_mono = self.start_wall, self.start_mono
++        self.last_receipt_wall, self.last_receipt_mono = self.start_wall, self.start_mono
++        self.last = {s: self.start_mono for s in SYMBOLS}
++        self.count = self.size = 0
++        self.max_records, self.max_bytes = 5000, 10 * 1024 * 1024
++        self.closed = False
++        self.stopped = None
++        self.directory = Path(directory)
++        self.directory.mkdir(parents=False, exist_ok=False)
++        self.manifest = dict(schema=1, mode='RAW_ONLY', strategy_status='DATA_BLOCKED',
++                             symbols=SYMBOLS, duration_ns=300_000_000_000,
++                             silence_ns=30_000_000_000, max_records=self.max_records,
++                             max_bytes=self.max_bytes, max_payload_bytes=65536,
++                             start_wall_ns=self.start_wall, start_mono_ns=self.start_mono,
++                             metadata=metadata)
++        self.chain = digest(self.manifest)
++        self._save('manifest.json', self.manifest)
++        self.file = (self.directory / 'receipts.jsonl').open('xb')
++
++    def _save(self, name, value):
++        with (self.directory / name).open('xb') as handle:
++            handle.write(encode(value) + b'\n')
++            handle.flush()
++            os.fsync(handle.fileno())
++
++    def stop(self, reason):
++        self.stopped = self.stopped or reason
++        raise CaptureStopped(self.stopped)
++
++    def check(self):
++        if self.closed: raise CaptureStopped('CLOSED')
++        if self.stopped: raise CaptureStopped(self.stopped)
++        wall, mono = self.clock()
++        if (mono < self.previous_mono or wall < self.previous_wall
++                or abs((wall-self.start_wall)-(mono-self.start_mono)) > 250_000_000):
++            self.stop('CLOCK_DIVERGENCE')
++        self.previous_wall, self.previous_mono = wall, mono
++        if mono-self.start_mono >= self.manifest['duration_ns']: self.stop('TIME_LIMIT')
++        if any(mono-last > self.manifest['silence_ns'] for last in self.last.values()):
++            self.stop('SYMBOL_SILENCE')
++        return wall, mono
++
++    def append(self, symbol, source_stamps, payload, *, received=None):
++        wall, mono = self.check()
++        if received is None: received = (wall, mono)
++        rw, rm = received
++        if (rm < self.last_receipt_mono or rw < self.last_receipt_wall or rm > mono or rw > wall
++                or abs((rw-self.start_wall)-(rm-self.start_mono)) > 250_000_000):
++            self.stop('RECEIPT_CLOCK')
++        if symbol not in SYMBOLS: self.stop('SYMBOL_SCOPE')
++        if not isinstance(payload, bytes) or not payload or len(payload) > 65536:
++            self.stop('PAYLOAD_LIMIT')
++        if (not isinstance(source_stamps, tuple) or not source_stamps
++                or len(source_stamps) > 100
++                or any(not isinstance(s, str) or len(s) > 128 for s in source_stamps)):
++            self.stop('SCHEMA')
++        if self.count >= self.max_records: self.stop('RECORD_LIMIT')
++        record = dict(sequence=self.count+1, symbol=symbol, source_stamps=source_stamps,
++                      received_wall_ns=rw, received_mono_ns=rm,
++                      journal_wall_ns=wall, journal_mono_ns=mono,
++                      finality='UNKNOWN', strategy_status='DATA_BLOCKED',
++                      payload_kind='SDK_PROTOBUF_SERIALIZATION',
++                      payload_b64=base64.b64encode(payload).decode('ascii'),
++                      payload_sha256=hashlib.sha256(payload).hexdigest(), previous=self.chain)
++        hashed = digest(record)
++        line = encode(dict(record, hash=hashed)) + b'\n'
++        if self.size+len(line) > self.max_bytes: self.stop('BYTE_LIMIT')
++        try:
++            if self.file.write(line) != len(line): raise OSError('short write')
++            self.file.flush()
++            os.fsync(self.file.fileno())
++        except OSError:
++            self.stop('WRITE_FAILURE')
++        self.count += 1
++        self.size += len(line)
++        self.chain = hashed
++        self.last[symbol] = rm
++        self.last_receipt_wall, self.last_receipt_mono = rw, rm
++        return self.count
++
++    def finish(self, reason):
++        summary = dict(schema=1, manifest_sha256=digest(self.manifest),
++                       records=self.count, bytes=self.size, last_hash=self.chain,
++                       stop_reason=self.stopped or reason,
++                       strategy_status='DATA_BLOCKED', finality='UNKNOWN',
++                       completeness='NOT_ESTABLISHED')
++        self.close()
++        self._save('summary.json', summary)
++        return summary
++
++    def close(self):
++        if not self.closed:
++            self.closed = True
++            if hasattr(self, 'file'): self.file.close()
++
++
++def verify(directory, *, cutoff_ns=None, sequence=None):
++    """Validate entire sealed capture before returning a receipt-as-of prefix.
++
++    This is a receipt view, not a point-in-time market state or durable-commit view.
++    Hash chain detects accidental edits; no signature or adversarial authenticity.
++    """
++    directory = Path(directory)
++    manifest = json.loads((directory / 'manifest.json').read_bytes())
++    summary = json.loads((directory / 'summary.json').read_bytes())
++    if (type(manifest.get('schema')) is not int or manifest['schema'] != 1
++            or manifest.get('mode') != 'RAW_ONLY'
++            or manifest.get('strategy_status') != 'DATA_BLOCKED'
++            or manifest.get('symbols') != list(SYMBOLS)
++            or type(summary.get('schema')) is not int or summary['schema'] != 1
++            or summary.get('finality') != 'UNKNOWN'
++            or summary.get('completeness') != 'NOT_ESTABLISHED'):
++        raise ValueError('Unsupported seal safety metadata')
++    for name, value in (('sequence', sequence), ('cutoff_ns', cutoff_ns)):
++        if value is not None and (type(value) is not int or value < 0):
++            raise ValueError(f'{name} must be a nonnegative integer')
++    start = (manifest.get('start_wall_ns'), manifest.get('start_mono_ns'))
++    if any(type(v) is not int or v < 0 for v in start):
++        raise ValueError('Invalid capture clock origin')
++    previous_receipt = previous_journal = start
++    chain = digest(manifest)
++    records = []
++    size = 0
++    with (directory / 'receipts.jsonl').open('rb') as handle:
++        for line in handle:
++            size += len(line)
++            if size > 10*1024*1024 or len(records) >= 5000 or not line.endswith(b'\n'):
++                raise ValueError('Capture bounds or framing')
++            r = json.loads(line)
++            receipt = (r.get('received_wall_ns'), r.get('received_mono_ns'))
++            journal = (r.get('journal_wall_ns'), r.get('journal_mono_ns'))
++            if (type(r.get('sequence')) is not int
++                    or any(type(v) is not int or v < 0 for v in receipt + journal)
++                    or any(v < old for v, old in zip(receipt, previous_receipt))
++                    or any(v < old for v, old in zip(journal, previous_journal))
++                    or any(v > saved for v, saved in zip(receipt, journal))
++                    or any(abs((pair[0]-start[0])-(pair[1]-start[1])) > 250_000_000
++                           for pair in (receipt, journal))):
++                raise ValueError('Invalid capture receipt chronology')
++            previous_receipt, previous_journal = receipt, journal
++            hashed = r.pop('hash')
++            payload = base64.b64decode(r['payload_b64'], validate=True)
++            if (r['previous'] != chain or digest(r) != hashed
++                    or r['sequence'] != len(records)+1 or r['symbol'] not in SYMBOLS
++                    or r['finality'] != 'UNKNOWN' or r['strategy_status'] != 'DATA_BLOCKED'
++                    or not 0 < len(payload) <= 65536
++                    or hashlib.sha256(payload).hexdigest() != r['payload_sha256']):
++                raise ValueError('Capture integrity')
++            chain = hashed
++            records.append(dict(r, hash=hashed))
++    if (summary['manifest_sha256'] != digest(manifest)
++            or summary['records'] != len(records) or summary['bytes'] != size
++            or summary['last_hash'] != chain or summary['strategy_status'] != 'DATA_BLOCKED'):
++        raise ValueError('Seal mismatch')
++    return tuple(r for r in records
++                 if (cutoff_ns is None or r['received_wall_ns'] <= cutoff_ns)
++                 and (sequence is None or r['sequence'] <= sequence))
+diff --git a/research/feed_contract/field_path_audit.py b/research/feed_contract/field_path_audit.py
+new file mode 100644
+index 0000000..d2d1254
+--- /dev/null
++++ b/research/feed_contract/field_path_audit.py
+@@ -0,0 +1,94 @@
++"""Offline field trajectories: expose excursions hidden by endpoint equality."""
++import argparse
++import copy
++import hashlib
++import json
++from pathlib import Path
++import sys
++
++from revision_impact import analyze
++
++
++def _state(row, field):
++    return dict(present=field in row['source'], value=copy.deepcopy(row['source'].get(field)))
++
++
++def _ref(row):
++    return {k: row[k] for k in ('sequence', 'row_index')}
++
++
++def audit(directory, *, before, after, decoder=None):
++    """Audit a fixed baseline against every later observation, including reversions.
++
++    First-seen-after-baseline groups have no baseline; their initial values are
++    not revisions. References resolve into the embedded, sealed impact evidence.
++    All comparisons use the inherited decoded-field presence/value semantics.
++    """
++    evidence = analyze(directory, before=before, after=after, decoder=decoder)
++    baseline = {(g['symbol'], g['source_label']): g['last_observed']
++                for g in evidence['before']['groups']}
++    paths = []
++    for group in evidence['after']['groups']:
++        key = group['symbol'], group['source_label']
++        initial = baseline.get(key)
++        history = group['history']
++        # Sequence/row position, rather than label time or value equality.
++        later = [r for r in history if initial is None or
++                 (r['sequence'], r['row_index']) > (initial['sequence'], initial['row_index'])]
++        anchor = initial if initial is not None else history[0]
++        rows = [anchor] + (later if initial is not None else later[1:])
++        fields = sorted(set().union(*(r['source'] for r in rows)))
++        field_paths = []
++        for field in fields:
++            start = _state(anchor, field)
++            previous = anchor
++            changes = []
++            for row in rows[1:]:
++                old, new = _state(previous, field), _state(row, field)
++                if old != new:
++                    changes.append(dict(previous=_ref(previous), observation=_ref(row),
++                                        before=old, after=new, returns_to_anchor=new == start))
++                previous = row
++            end = _state(rows[-1], field)
++            classification = ('UNCHANGED' if not changes else
++                              'RETURNED_TO_ANCHOR' if end == start else 'NET_CHANGED')
++            field_paths.append(dict(field=field, anchor=start, last_observed=end,
++                                    classification=classification, change_count=len(changes),
++                                    return_count=sum(c['returns_to_anchor'] for c in changes),
++                                    changes=changes))
++        paths.append(dict(symbol=key[0], source_label=key[1],
++                          baseline_available=initial is not None, anchor=_ref(anchor),
++                          last_observed=_ref(rows[-1]), observations_after_baseline=len(later),
++                          fields=field_paths, status='PROVISIONAL', finality='UNKNOWN',
++                          strategy_status='DATA_BLOCKED'))
++    result = {k: copy.deepcopy(evidence[k]) for k in
++              ('status', 'finality', 'strategy_status', 'boundary_semantics',
++               'completeness', 'provider_accuracy', 'adjustment_factors', 'provenance')}
++    result['provenance']['field_path_source_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
++    result.update(schema=1, mode='OFFLINE_FIELD_PATH_AUDIT', paths=paths, evidence=evidence,
++                  counts={name: sum(f['classification'] == name for p in paths for f in p['fields'])
++                          for name in ('UNCHANGED', 'RETURNED_TO_ANCHOR', 'NET_CHANGED')})
++    return result
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    parser.add_argument('--before-sequence', type=int, required=True)
++    parser.add_argument('--after-sequence', type=int, required=True)
++    parser.add_argument('--output', type=Path, required=True)
++    args = parser.parse_args(argv)
++    try:
++        result = audit(args.capture, before={'sequence': args.before_sequence},
++                       after={'sequence': args.after_sequence})
++        encoded = json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + '\n'
++        with args.output.open('x', encoding='utf-8') as handle:
++            handle.write(encoded)
++    except Exception as exc:
++        print(f'DATA_BLOCKED: field path audit failed: {exc}', file=sys.stderr)
++        return 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/research/feed_contract/opend_capture.py b/research/feed_contract/opend_capture.py
+new file mode 100644
+index 0000000..9180ea7
+--- /dev/null
++++ b/research/feed_contract/opend_capture.py
+@@ -0,0 +1,202 @@
++"""Opt-in raw-only quote capture for pinned Moomoo 10.11.7108.
++
++One localhost connection and one subscription; no history, account queries,
++trade context, credentials, detector or dashboard imports. No automatic retries.
++Run under --supervise for a hard process lifetime bound, including SDK calls.
++"""
++import argparse
++from datetime import datetime, time as daytime
++import hashlib
++from importlib.metadata import distribution, version
++import json
++import os
++from pathlib import Path
++import queue
++import socket
++import subprocess
++import sys
++import threading
++import time
++from zoneinfo import ZoneInfo
++
++from capture import Journal, CaptureStopped, SYMBOLS, verify
++
++
++def local_identity():
++    """Pin this reviewed Windows installation without reading login/config data."""
++    binary = Path(os.environ['APPDATA']) / 'moomoo_OpenD' / 'moomoo_OpenD.exe'
++    binary_hash = hashlib.sha256(binary.read_bytes()).hexdigest()
++    if binary_hash != '3c2c5065c8f18dece54dc2c208317721a0c16821cfcd8fa21e45255faa38d738':
++        raise RuntimeError('Unreviewed OpenD binary; connection blocked')
++    package = distribution('moomoo-api')
++    sources = ('moomoo/common/open_context_base.py',
++               'moomoo/quote/open_quote_context.py',
++               'moomoo/quote/quote_response_handler.py')
++    return dict(opend_binary_sha256=binary_hash,
++                sdk_source_sha256={p: hashlib.sha256(Path(package.locate_file(p)).read_bytes()).hexdigest()
++                                   for p in sources})
++
++
++def regular_hours(now):
++    eastern = now.astimezone(ZoneInfo('America/New_York'))
++    # Time-of-day restriction only. Exchange holiday/halt authority remains UNKNOWN.
++    return eastern.weekday() < 5 and daytime(9, 30) <= eastern.time() < daytime(16)
++
++
++def worker(directory):
++    if version('moomoo-api') != '10.11.7108':
++        raise RuntimeError('Unreviewed SDK version; connection blocked')
++    if not regular_hours(datetime.now().astimezone()):
++        raise RuntimeError('Outside regular-hours time window; connection blocked')
++    identity = local_identity()
++    # Load native SDK dependencies before opening even the reachability socket.
++    from moomoo.quote.open_quote_context import OpenQuoteContext
++    from moomoo.quote.quote_response_handler import CurKlineHandlerBase, SysNotifyHandlerBase
++    from moomoo.common.constant import RET_OK, RET_ERROR, SubType, Session
++    # No provider request: a single TCP reachability probe before SDK construction.
++    with socket.create_connection(('127.0.0.1', 11111), timeout=2):
++        pass
++
++    pending = queue.Queue(maxsize=128)
++    fault = threading.Event()
++    fault_reason = ['PROVIDER_EVENT']
++
++    def fail(reason):
++        fault_reason[0] = reason
++        fault.set()
++
++    class Quotes(OpenQuoteContext):
++        def _wait_reconnect(self, wait_reconnect_interval=6):
++            # The pinned SDK also retries initial failures before on_connect.
++            # Permit its constructor's first scheduling call only.
++            if getattr(self, '_capture_connect_scheduled', False):
++                self._auto_reconnect = False
++                fail('INITIAL_CONNECT_FAILED')
++                return
++            self._capture_connect_scheduled = True
++            return super()._wait_reconnect(wait_reconnect_interval)
++
++        def on_connect(self, conn_id, info):
++            self._auto_reconnect = False  # pinned SDK implementation reviewed
++            return super().on_connect(conn_id, info)
++
++        def on_disconnect(self, conn_id, reason, msg):
++            self._auto_reconnect = False
++            fail('DISCONNECTED')
++            return super().on_disconnect(conn_id, reason, msg)
++
++    class Candles(CurKlineHandlerBase):
++        def on_recv_rsp(self, pb):
++            received = (time.time_ns(), time.monotonic_ns())
++            if fault.is_set(): return RET_ERROR, 'capture stopped'
++            try:
++                if pb.ByteSize() > 65536: raise ValueError('payload limit')
++                raw = pb.SerializeToString()
++                ret, table = super().on_recv_rsp(pb)
++                if ret != RET_OK or table.empty: raise ValueError('response/schema')
++                symbols = tuple(table['code'].unique())
++                if len(symbols) != 1 or symbols[0] not in SYMBOLS:
++                    raise ValueError('symbol scope')
++                if set(table['k_type']) != {SubType.K_1M}: raise ValueError('interval')
++                pending.put_nowait((symbols[0], tuple(table['time_key']), raw, received))
++                return RET_OK, None
++            except queue.Full:
++                fail('QUEUE_OVERFLOW')
++            except Exception:
++                fail('CALLBACK_SCHEMA_OR_SCOPE')
++            return RET_ERROR, 'capture stopped'
++
++    class Notifications(SysNotifyHandlerBase):
++        def on_recv_rsp(self, pb):
++            # Fail on all system notifications; do not retain broad account fields.
++            fail('SYSTEM_NOTIFICATION')
++            return RET_OK, None
++
++    journal = Journal(directory, dict(
++        mode='LIVE_RAW', provider='moomoo', sdk_version='10.11.7108',
++        endpoint='127.0.0.1:11111', interval='K_1M', session='RTH',
++        user_attestation='API_ACCESS_AND_LOCAL_RETENTION_PERMITTED',
++        subscription='ONE_REQUEST_NO_CACHED_FIRST_PUSH',
++        source_time_mapping='UNKNOWN', calendar_authority='UNKNOWN',
++        utc_clock_accuracy='UNKNOWN', entitlement_independently_verified=False,
++        adjustment='OBSERVE_PROTOBUF_REHABTYPE_ONLY_NOT_CERTIFIED',
++        identity=identity,
++        code_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
++        journal_code_sha256=hashlib.sha256(Path(__file__).with_name('capture.py').read_bytes()).hexdigest()))
++    context = None
++    reason = 'RUN_LIMIT'
++    subscription_accepted = False
++    try:
++        context = Quotes(host='127.0.0.1', port=11111, is_async_connect=True)
++        context.set_sync_query_connect_timeout(5)
++        context.set_handler(Candles())
++        context.set_handler(Notifications())
++        if fault.is_set(): raise CaptureStopped(fault_reason[0])
++        ret, _ = context.subscribe(list(SYMBOLS), [SubType.K_1M],
++                                   is_first_push=False, subscribe_push=True,
++                                   extended_time=False, session=Session.RTH)
++        if fault.is_set(): raise CaptureStopped(fault_reason[0])
++        if ret != RET_OK: raise CaptureStopped('SUBSCRIPTION_REJECTED')
++        subscription_accepted = True
++        deadline = time.monotonic() + 120
++        while time.monotonic() < deadline:
++            if fault.is_set(): raise CaptureStopped(fault_reason[0])
++            if not regular_hours(datetime.now().astimezone()):
++                raise CaptureStopped('SESSION_TIME_END')
++            journal.check()
++            try: symbol, stamps, raw, received = pending.get(timeout=0.1)
++            except queue.Empty: continue
++            journal.append(symbol, stamps, raw, received=received)
++    except CaptureStopped as exc:
++        reason = str(exc)
++    except Exception:
++        reason = 'SDK_OR_CAPTURE_FAILURE'  # no broad provider/account payload in report
++    finally:
++        fault.set()
++        # Seal evidence before potentially blocking SDK cleanup. The supervisor
++        # marks timeout separately; a journal seal alone never means clean teardown.
++        try:
++            summary = journal.finish(reason)
++        finally:
++            journal.close()
++            if context is not None: context.close()
++    verify(directory)
++    return dict(summary, subscription_accepted=subscription_accepted)
++
++
++def supervise(directory):
++    """Hard 300-second worker limit. Raw files stay local and are never uploaded."""
++    directory = Path(directory).resolve()
++    if directory.exists(): raise FileExistsError(directory)
++    if not directory.parent.is_dir(): raise FileNotFoundError(directory.parent)
++    log = directory.parent / (directory.name + '.worker.log')
++    result = directory.parent / (directory.name + '.supervisor.json')
++    # Reserve both evidence names before starting any child/network operation.
++    with result.open('x', encoding='utf-8') as report, log.open('xb') as output:
++        process = subprocess.Popen([sys.executable, '-B', str(Path(__file__).resolve()),
++                                    '--worker', str(directory)],
++                                   stdout=output, stderr=subprocess.STDOUT)
++        timed_out = False
++        try: code = process.wait(timeout=300)
++        except subprocess.TimeoutExpired:
++            timed_out = True
++            process.kill()
++            code = process.wait(timeout=10)
++        report.write(json.dumps(dict(returncode=code, timed_out=timed_out,
++                                     strategy_status='DATA_BLOCKED',
++                                     capture_directory=str(directory)), sort_keys=True))
++        report.flush()
++        os.fsync(report.fileno())
++    return 1 if timed_out or code else 0
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    mode = parser.add_mutually_exclusive_group(required=True)
++    mode.add_argument('--supervise', type=Path)
++    mode.add_argument('--worker', type=Path, help=argparse.SUPPRESS)
++    args = parser.parse_args()
++    if args.supervise: raise SystemExit(supervise(args.supervise))
++    outcome = worker(args.worker)
++    print(json.dumps(outcome, sort_keys=True))
++    raise SystemExit(0 if outcome['stop_reason'] == 'RUN_LIMIT' else 2)
+diff --git a/research/feed_contract/provisional_replay.py b/research/feed_contract/provisional_replay.py
+new file mode 100644
+index 0000000..0ac3db8
+--- /dev/null
++++ b/research/feed_contract/provisional_replay.py
+@@ -0,0 +1,168 @@
++"""Offline receipt replay. No market-time interpretation or eligible candle output."""
++import argparse
++import ast
++import base64
++import copy
++import hashlib
++from importlib.metadata import distribution, version
++import json
++import math
++from pathlib import Path
++import sys
++
++from capture import verify
++
++
++def protobuf_decoder():
++    """Read descriptor literals only; never import/execute the moomoo package.
++
++    The installed, reviewed SDK supplies schemas, not a quote context. Private
++    descriptor pool avoids global SDK registrations. No installation/download.
++    """
++    from google.protobuf import descriptor_pool, message_factory
++    if version('moomoo-api') != '10.11.7108':
++        raise ValueError('Unreviewed schema version')
++    package = distribution('moomoo-api')
++    pool = descriptor_pool.DescriptorPool()
++    hashes = {}
++    for name in ('Common', 'Qot_Common', 'Qot_UpdateKL'):
++        path = Path(package.locate_file(f'moomoo/common/pb/{name}_pb2.py'))
++        raw = path.read_bytes()
++        tree = ast.parse(raw)
++        literals = [node.value.args[0] for node in tree.body
++                    if isinstance(node, ast.Assign)
++                    and any(isinstance(t, ast.Name) and t.id == 'DESCRIPTOR'
++                            for t in node.targets)
++                    and isinstance(node.value, ast.Call)]
++        if len(literals) != 1:
++            raise ValueError('Unexpected protobuf schema layout')
++        pool.AddSerializedFile(ast.literal_eval(literals[0]))
++        hashes[name] = hashlib.sha256(raw).hexdigest()
++    response = message_factory.GetMessageClass(
++        pool.FindMessageTypeByName('Qot_UpdateKL.Response'))
++
++    def decode(payload):
++        message = response()
++        message.ParseFromString(payload)
++        if not message.IsInitialized() or message.retType != 0 or not message.HasField('s2c'):
++            raise ValueError('Invalid Qot_UpdateKL response')
++        s = message.s2c
++        if s.security.market != 11 or s.klType != 1 or s.rehabType != 1:
++            raise ValueError('Unsupported market/interval/adjustment flag')
++        rows = []
++        for k in s.klList:
++            # ListFields retains field presence, names and exact decoded values.
++            row = {field.name: value for field, value in k.ListFields()}
++            required = ('time', 'openPrice', 'highPrice', 'lowPrice',
++                        'closePrice', 'volume', 'turnover')
++            if any(key not in row for key in required):
++                raise ValueError('Missing candle fields')
++            prices = [row[key] for key in required[1:5]]
++            if (not all(math.isfinite(v) and v > 0 for v in prices)
++                    or not math.isfinite(k.turnover) or k.turnover < 0
++                    or k.volume < 0 or k.isBlank
++                    or not k.lowPrice <= min(k.openPrice, k.closePrice)
++                    <= max(k.openPrice, k.closePrice) <= k.highPrice):
++                raise ValueError('Invalid candle values')
++            rows.append(row)
++        if not 0 < len(rows) <= 100:
++            raise ValueError('Unexpected row count')
++        return 'US.' + s.security.code, rows
++
++    return decode, dict(sdk='10.11.7108', schema_source_sha256=hashes)
++
++
++def replay(directory, *, sequence=None, cutoff_ns=None, decoder=None):
++    """Verify the entire seal, decode all receipts, then select inclusive cutoffs.
++
++    Last means receipt sequence/row position, never greatest source timestamp.
++    Both cutoffs intersect. History includes repeats and all rows in wire order.
++    Raw journal records remain attached, including payloads and integrity hashes.
++    Returns detached data so a caller cannot alter another replay's history.
++    """
++    for name, value in (('sequence', sequence), ('cutoff_ns', cutoff_ns)):
++        if value is not None and (type(value) is not int or value < 0):
++            raise ValueError(f'{name} must be a nonnegative integer')
++    records = verify(directory)
++    identity = {'decoder': 'injected'}
++    if decoder is None:
++        decoder, identity = protobuf_decoder()
++    revisions = []
++    previous_wall = previous_mono = -1
++    for record in records:
++        wall, mono = record['received_wall_ns'], record['received_mono_ns']
++        if (type(wall) is not int or type(mono) is not int
++                or wall < previous_wall or mono < previous_mono):
++            raise ValueError('Invalid receipt ordering')
++        previous_wall, previous_mono = wall, mono
++        if record['payload_kind'] != 'SDK_PROTOBUF_SERIALIZATION':
++            raise ValueError('Unsupported payload kind')
++        symbol, rows = decoder(base64.b64decode(record['payload_b64'], validate=True))
++        if (symbol != record['symbol'] or not rows
++                or [row['time'] for row in rows] != record['source_stamps']):
++            raise ValueError('Decoded symbol/source label mismatch')
++        for index, row in enumerate(rows):
++            if not isinstance(row['time'], str) or not row['time']:
++                raise ValueError('Invalid source label')
++            revisions.append(dict(symbol=symbol, source_label=row['time'],
++                                  sequence=record['sequence'], row_index=index,
++                                  received_wall_ns=wall, received_mono_ns=mono,
++                                  source=copy.deepcopy(row), receipt=copy.deepcopy(record),
++                                  status='PROVISIONAL', finality='UNKNOWN',
++                                  strategy_status='DATA_BLOCKED'))
++    selected = [r for r in revisions
++                if (sequence is None or r['sequence'] <= sequence)
++                and (cutoff_ns is None or r['received_wall_ns'] <= cutoff_ns)]
++    groups = {}
++    for revision in selected:
++        key = revision['symbol'], revision['source_label']
++        groups.setdefault(key, []).append(revision)
++    return dict(schema=1, mode='OFFLINE_RECEIPT_REPLAY', status='PROVISIONAL',
++                finality='UNKNOWN', strategy_status='DATA_BLOCKED',
++                boundary_semantics='UNKNOWN', completeness='NOT_ESTABLISHED',
++                provider_accuracy='NOT_ESTABLISHED', adjustment_factors='UNKNOWN',
++                as_of=dict(sequence=sequence, received_wall_ns=cutoff_ns),
++                provenance=dict(decoder=identity, verified_receipts=len(records),
++                                replay_source_sha256=hashlib.sha256(
++                                    Path(__file__).read_bytes()).hexdigest(),
++                                verifier_source_sha256=hashlib.sha256(
++                                    Path(__file__).with_name('capture.py').read_bytes()).hexdigest(),
++                                verified_last_hash=records[-1]['hash'] if records else None,
++                                manifest_sha256=hashlib.sha256(
++                                    (Path(directory) / 'manifest.json').read_bytes()).hexdigest()),
++                receipts=[copy.deepcopy(r) for r in records
++                          if (sequence is None or r['sequence'] <= sequence)
++                          and (cutoff_ns is None or r['received_wall_ns'] <= cutoff_ns)],
++                revisions=selected,
++                groups=[dict(symbol=s, source_label=label, history=history,
++                             last_observed=copy.deepcopy(history[-1]),
++                             status='PROVISIONAL', finality='UNKNOWN',
++                             strategy_status='DATA_BLOCKED')
++                        for (s, label), history in groups.items()])
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    parser.add_argument('--sequence', type=int)
++    parser.add_argument('--cutoff-ns', type=int, help='Inclusive receipt wall nanoseconds')
++    parser.add_argument('--output', type=Path, help='New exclusive JSON file; otherwise stdout')
++    args = parser.parse_args(argv)
++    try:
++        result = replay(args.capture, sequence=args.sequence, cutoff_ns=args.cutoff_ns)
++        encoded = json.dumps(result, indent=2, allow_nan=False) + '\n'
++        if args.output:
++            with args.output.open('x', encoding='utf-8') as handle:
++                handle.write(encoded)
++        else:
++            print(encoded, end='')
++    except Exception as exc:
++        # CLI boundary: protobuf/dependency failures must also report blocked,
++        # without emitting a partial view. Interrupts still propagate.
++        print(f'DATA_BLOCKED: replay failed: {exc}', file=sys.stderr)
++        return 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/research/feed_contract/receipt_quality.py b/research/feed_contract/receipt_quality.py
+new file mode 100644
+index 0000000..d2cd030
+--- /dev/null
++++ b/research/feed_contract/receipt_quality.py
+@@ -0,0 +1,85 @@
++"""Strictly offline observations of provisional candle receipt evidence."""
++import argparse
++from collections import Counter
++import hashlib
++import json
++from pathlib import Path
++import sys
++
++from provisional_replay import replay
++
++
++def report(directory, *, sequence=None, cutoff_ns=None, decoder=None):
++    """Verify/decode entire sealed journal before summarizing selected evidence.
++
++    Receipt gaps are monotonic-clock deltas, never inferred missing candles.
++    Repeated observations include all rows; changes compare decoded field presence
++    and values, not protobuf byte identity. Raw evidence stays in the journal.
++    """
++    view = replay(directory, sequence=sequence, cutoff_ns=cutoff_ns, decoder=decoder)
++    safety = dict(status='PROVISIONAL', finality='UNKNOWN', strategy_status='DATA_BLOCKED')
++    groups = []
++    for g in view['groups']:
++        history = g['history']
++        fields = Counter()
++        changed = 0
++        for previous, current in zip(history, history[1:]):
++            a, b = previous['source'], current['source']
++            keys = [k for k in sorted(a.keys() | b.keys())
++                    if (k in a) != (k in b) or a.get(k) != b.get(k)]
++            fields.update(keys)
++            changed += bool(keys)
++        groups.append(dict(symbol=g['symbol'], source_label=g['source_label'],
++                           observations=len(history), changed_transitions=changed,
++                           identical_transitions=len(history)-1-changed,
++                           changed_fields=dict(fields),
++                           first_sequence=history[0]['sequence'],
++                           last_sequence=history[-1]['sequence'], **safety))
++    symbols = []
++    for symbol in dict.fromkeys(r['symbol'] for r in view['receipts']):
++        receipts = [r for r in view['receipts'] if r['symbol'] == symbol]
++        gaps = [dict(from_sequence=a['sequence'], to_sequence=b['sequence'],
++                     elapsed_mono_ns=b['received_mono_ns']-a['received_mono_ns'])
++                for a, b in zip(receipts, receipts[1:])]
++        symbols.append(dict(symbol=symbol, receipts=len(receipts),
++                            unique_observed_labels=sum(g['symbol'] == symbol for g in groups),
++                            first_received_wall_ns=receipts[0]['received_wall_ns'],
++                            last_received_wall_ns=receipts[-1]['received_wall_ns'],
++                            observation_span_mono_ns=receipts[-1]['received_mono_ns']-receipts[0]['received_mono_ns'],
++                            interreceipt_gaps=gaps,
++                            max_interreceipt_mono_ns=max((g['elapsed_mono_ns'] for g in gaps), default=None),
++                            **safety))
++    return dict(schema=1, mode='OFFLINE_CANDLE_QUALITY', **safety,
++                completeness='NOT_ESTABLISHED', boundary_semantics='UNKNOWN',
++                provider_accuracy='NOT_ESTABLISHED', adjustment_factors='UNKNOWN',
++                as_of=view['as_of'], provenance=dict(view['provenance'],
++                    quality_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()),
++                selected_receipts=len(view['receipts']), selected_rows=len(view['revisions']),
++                groups=groups, symbols=symbols,
++                limitations='Observed receipts only. No expected cadence, missing-minute inference, '
++                'session coverage ratio, finality, completeness or strategy eligibility established.')
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    parser.add_argument('--sequence', type=int)
++    parser.add_argument('--cutoff-ns', type=int)
++    parser.add_argument('--output', type=Path)
++    args = parser.parse_args(argv)
++    try:
++        result = report(args.capture, sequence=args.sequence, cutoff_ns=args.cutoff_ns)
++        encoded = json.dumps(result, indent=2, allow_nan=False) + '\n'
++        if args.output:
++            with args.output.open('x', encoding='utf-8') as handle:
++                handle.write(encoded)
++        else:
++            print(encoded, end='')
++    except Exception as exc:
++        print(f'DATA_BLOCKED: quality report failed: {exc}', file=sys.stderr)
++        return 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/research/feed_contract/reference_field_path_regression.py b/research/feed_contract/reference_field_path_regression.py
+new file mode 100644
+index 0000000..3c2e4d6
+--- /dev/null
++++ b/research/feed_contract/reference_field_path_regression.py
+@@ -0,0 +1,55 @@
++"""Local-only pinned reference audit; emits counts, never raw receipts."""
++import argparse
++import hashlib
++from pathlib import Path
++import sys
++import tempfile
++
++from reference_impact_regression import EXPECTED, check
++from offline_checks import OfflineGuard
++from field_path_audit import audit
++
++
++def check_paths(capture):
++    check(capture)
++    with tempfile.TemporaryDirectory(prefix='reference-path-') as temp, OfflineGuard(temp):
++        kwargs = dict(before={'sequence': 386}, after={'sequence': 388})
++        result = audit(capture, **kwargs)
++        if result != audit(capture, **kwargs):
++            raise ValueError('Nondeterministic field audit')
++        group = next(p for p in result['paths'] if p['symbol'] == 'US.QQQ'
++                     and p['source_label'] == '2026-11-02 10:52:00')
++        for field in ('openPrice', 'lowPrice'):
++            path = next(f for f in group['fields'] if f['field'] == field)
++            if (path['classification'] != 'NET_CHANGED' or path['change_count'] != 1
++                    or path['anchor'] != dict(present=True, value=696.88)
++                    or path['last_observed'] != dict(present=True, value=696.9054)
++                    or path['changes'][0]['observation'] != dict(sequence=388, row_index=0)):
++                raise ValueError('Reference field path differs')
++        full = audit(capture, before={'sequence': 0}, after={'sequence': 1143})
++        if len(full['paths']) != 6 or len(full['evidence']['after']['observations']) != 1143:
++            raise ValueError('Reference history loss')
++        rows = {(r['sequence'], r['row_index']): r for r in full['evidence']['after']['observations']}
++        for group in full['paths']:
++            for field in group['fields']:
++                for change in field['changes']:
++                    for ref, state in (('previous', 'before'), ('observation', 'after')):
++                        row = rows[tuple(change[ref][k] for k in ('sequence', 'row_index'))]
++                        source = row['source']
++                        if change[state] != dict(present=field['field'] in source,
++                                                 value=source.get(field['field'])):
++                            raise ValueError('Unresolvable field evidence')
++        if full['completeness'] != 'NOT_ESTABLISHED' or full['strategy_status'] != 'DATA_BLOCKED':
++            raise ValueError('Safety promotion')
++        if any(n == 'moomoo' or n.startswith('moomoo.') for n in sys.modules):
++            raise ValueError('SDK imported')
++    if {n: hashlib.sha256((capture / n).read_bytes()).hexdigest() for n in EXPECTED} != EXPECTED:
++        raise ValueError('Evidence changed')
++    print('PASS: field path reference, deterministic 386/388 comparison, 1143 observations, six groups, all change references resolved, unchanged evidence')
++    print('Full-capture field classifications (first observation anchors):', full['counts'])
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    check_paths(parser.parse_args().capture)
+diff --git a/research/feed_contract/reference_impact_regression.py b/research/feed_contract/reference_impact_regression.py
+new file mode 100644
+index 0000000..6b9668a
+--- /dev/null
++++ b/research/feed_contract/reference_impact_regression.py
+@@ -0,0 +1,67 @@
++"""Local-only reference regression. Takes private capture path; never uploads it."""
++import argparse
++import hashlib
++from pathlib import Path
++import sys
++import tempfile
++
++ROOT = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(ROOT))
++from offline_checks import OfflineGuard
++from provisional_replay import replay
++from revision_impact import analyze
++
++EXPECTED = {
++    'manifest.json': '931377b114bca98c372fa848a1175f6a51dce85befc50d8be0823f2f986c5d2f',
++    'receipts.jsonl': '42fa2dd2324b67a043f3ff26a75a5e52d43ccf7a842ee254db2e78c4c09fc19f',
++    'summary.json': '667ddd5e0ff6c0fc0521803c709ce9b3d314856c3dc4b9dde06858943471404f',
++}
++
++
++def check(capture):
++    def hashes():
++        return {n: hashlib.sha256((capture / n).read_bytes()).hexdigest() for n in EXPECTED}
++    if hashes() != EXPECTED:
++        raise ValueError('Not the verified reference capture')
++    with tempfile.TemporaryDirectory(prefix='reference-impact-') as temp, OfflineGuard(temp):
++        full = replay(capture)
++        result = analyze(capture, before={'sequence': 386}, after={'sequence': 388})
++        if result != analyze(capture, before={'sequence': 386}, after={'sequence': 388}):
++            raise ValueError('Nondeterministic result')
++        if len(full['receipts']) != 1143 or len(full['groups']) != 6 or len(full['revisions']) != 1143:
++            raise ValueError('Reference counts differ')
++        def q(snapshot):
++            return next(g['last_observed']['source'] for g in snapshot['groups']
++                        if g['symbol'] == 'US.QQQ' and g['source_label'] == '2026-11-02 10:52:00')
++        for snapshot, price in ((result['before'], 696.88), (result['after'], 696.9054)):
++            if q(snapshot)['openPrice'] != price or q(snapshot)['lowPrice'] != price:
++                raise ValueError('QQQ revision differs')
++        revision = next(i for i in result['impacts'] if i['symbol'] == 'US.QQQ'
++                        and i['observation']['sequence'] == 388)
++        changes = {c['field']: c for c in revision['changes']}
++        if revision['kind'] != 'REVISION' or any(
++                changes[f]['before'] != 696.88 or changes[f]['after'] != 696.9054
++                for f in ('openPrice', 'lowPrice')):
++            raise ValueError('QQQ impact differs')
++        wall = next(r['received_wall_ns'] for r in full['receipts'] if r['sequence'] == 386)
++        timed = analyze(capture, before={'cutoff_ns': wall}, after={'sequence': 388})
++        if timed['before']['observations'] != result['before']['observations']:
++            raise ValueError('Receipt cutoff differs')
++        all_rows = analyze(capture, before={'sequence': 0}, after={'sequence': 1143})
++        if all_rows['after']['observations'] != full['revisions']:
++            raise ValueError('History loss')
++        for item in [result, result['before'], result['after']] + result['impacts'] + full['revisions']:
++            if (item['status'], item['finality'], item['strategy_status']) != ('PROVISIONAL', 'UNKNOWN', 'DATA_BLOCKED'):
++                raise ValueError('Safety status differs')
++        if any(n == 'moomoo' or n.startswith('moomoo.') for n in sys.modules):
++            raise ValueError('SDK package executed')
++    if hashes() != EXPECTED:
++        raise ValueError('Evidence changed')
++    print('PASS: 1143 receipts/rows, six groups; 386/388 QQQ open/low revision; receipt cutoff; deterministic history; unchanged hashes; SDK not imported')
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    args = parser.parse_args()
++    check(args.capture)
+diff --git a/research/feed_contract/revision_impact.py b/research/feed_contract/revision_impact.py
+new file mode 100644
+index 0000000..5750a75
+--- /dev/null
++++ b/research/feed_contract/revision_impact.py
+@@ -0,0 +1,94 @@
++"""Deterministic offline as-of snapshots and observation revision impact."""
++import argparse
++import copy
++import hashlib
++import json
++from pathlib import Path
++import sys
++
++from provisional_replay import replay
++
++
++def _select(full, cutoff):
++    if not isinstance(cutoff, dict) or not cutoff or set(cutoff) - {'sequence', 'cutoff_ns'}:
++        raise ValueError('Explicit sequence/cutoff_ns required')
++    for value in cutoff.values():
++        if type(value) is not int or value < 0:
++            raise ValueError('Cutoffs must be nonnegative integers')
++    return [r for r in full['revisions']
++            if r['sequence'] <= cutoff.get('sequence', float('inf'))
++            and r['received_wall_ns'] <= cutoff.get('cutoff_ns', float('inf'))]
++
++
++def _snapshot(rows, cutoff):
++    groups = {}
++    for row in rows:
++        groups.setdefault((row['symbol'], row['source_label']), []).append(row)
++    return dict(as_of=copy.deepcopy(cutoff), observations=copy.deepcopy(rows),
++                status='PROVISIONAL', finality='UNKNOWN', strategy_status='DATA_BLOCKED',
++                groups=[dict(symbol=s, source_label=l, status='PROVISIONAL',
++                             finality='UNKNOWN', strategy_status='DATA_BLOCKED', history=copy.deepcopy(h),
++                             last_observed=copy.deepcopy(h[-1]))
++                        for (s, l), h in groups.items()])
++
++
++def analyze(directory, *, before, after, decoder=None):
++    """Verify/decode once in full, then compare nested inclusive receipt prefixes.
++
++    Field changes include presence changes; repeats compare all decoded fields.
++    Deltas are observation differences, never returns or provider corrections.
++    """
++    full = replay(directory, decoder=decoder)
++    left, right = _select(full, before), _select(full, after)
++    if len(left) > len(right) or left != right[:len(left)]:
++        raise ValueError('Before must select a prefix of after')
++    latest = {(r['symbol'], r['source_label']): r for r in left}
++    impacts = []
++    for row in right[len(left):]:
++        key = row['symbol'], row['source_label']
++        previous = latest.get(key)
++        changes = []
++        if previous is not None:
++            old, new = previous['source'], row['source']
++            for field in sorted(set(old) | set(new)):
++                if (field in old) != (field in new) or old.get(field) != new.get(field):
++                    changes.append(dict(field=field, before_present=field in old,
++                                        after_present=field in new,
++                                        before=copy.deepcopy(old.get(field)),
++                                        after=copy.deepcopy(new.get(field))))
++        impacts.append(dict(symbol=key[0], source_label=key[1],
++                            previous=copy.deepcopy(previous), observation=copy.deepcopy(row),
++                            kind='FIRST_OBSERVATION' if previous is None else
++                            ('REVISION' if changes else 'EXACT_REPEAT'), changes=changes,
++                            status='PROVISIONAL', finality='UNKNOWN', strategy_status='DATA_BLOCKED'))
++        latest[key] = row
++    result = {k: copy.deepcopy(full[k]) for k in
++              ('status', 'finality', 'strategy_status', 'boundary_semantics',
++               'completeness', 'provider_accuracy', 'adjustment_factors', 'provenance')}
++    result.update(schema=1, mode='OFFLINE_ASOF_REVISION_IMPACT',
++                  before=_snapshot(left, before), after=_snapshot(right, after), impacts=impacts)
++    result['provenance']['analysis_source_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
++    return result
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('capture', type=Path)
++    parser.add_argument('--before-sequence', type=int, required=True)
++    parser.add_argument('--after-sequence', type=int, required=True)
++    parser.add_argument('--output', type=Path, required=True)
++    args = parser.parse_args(argv)
++    try:
++        result = analyze(args.capture, before={'sequence': args.before_sequence},
++                         after={'sequence': args.after_sequence})
++        encoded = json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + '\n'
++        with args.output.open('x', encoding='utf-8') as handle:
++            handle.write(encoded)
++    except Exception as exc:
++        print(f'DATA_BLOCKED: analysis failed: {exc}', file=sys.stderr)
++        return 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/research/feed_contract/run_checks.py b/research/feed_contract/run_checks.py
+new file mode 100644
+index 0000000..83c1bdb
+--- /dev/null
++++ b/research/feed_contract/run_checks.py
+@@ -0,0 +1,13 @@
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++ROOT=Path(__file__).resolve().parents[2]
++sys.path.insert(0,str(ROOT))
++from offline_checks import OfflineGuard
++sys.path.insert(0,str(Path(__file__).resolve().parent))
++with tempfile.TemporaryDirectory(prefix='synthetic-feed-') as temp:
++    with OfflineGuard(temp):
++        suite=unittest.defaultTestLoader.discover(str(Path(__file__).resolve().parent),pattern='test_*.py')
++        result=unittest.TextTestRunner(verbosity=2).run(suite)
++raise SystemExit(not result.wasSuccessful())
+diff --git a/research/feed_contract/test_adapter.py b/research/feed_contract/test_adapter.py
+new file mode 100644
+index 0000000..7e50aa2
+--- /dev/null
++++ b/research/feed_contract/test_adapter.py
+@@ -0,0 +1,120 @@
++"""Offline contract tests; all times are synthetic UTC integer microseconds."""
++from dataclasses import replace
++import unittest
++from adapter import Revision, Context, Health, select
++
++
++def bar(**kw):
++    return replace(Revision('a', 'US.SPY', 0, 60, b'SYNTHETIC',
++                            ('100', '102', '99', '101', '10'),
++                            61, 1, 62, 2, 62, 2, 'FINAL', True, None), **kw)
++
++
++def context(**kw):
++    return replace(Context('US.SPY', (0,), 60, 100, 20,
++                           (('permission', 1, 1), ('mapping', 1, 1),
++                            ('calendar', 1, 1), ('finality', 1, 1),
++                            ('clock', 1, 1), ('source', 1, 1)),
++                           (Health(1, 1, 'VALIDATED'),), 'SYNTHETIC'), **kw)
++
++
++class ContractTests(unittest.TestCase):
++    def test_valid_immutable_frame(self):
++        r=bar(); result=select((r,), context())
++        self.assertEqual(result.ids, ('a',)); self.assertEqual(result.status, 'MOCK_READY')
++        self.assertEqual(r.raw, b'SYNTHETIC')
++        with self.assertRaises(AttributeError): result.ids=()
++
++    def test_missing_each_authority(self):
++        for i in range(6):
++            c=context(); self.assertEqual(select((bar(),), replace(c, authorities=c.authorities[:i]+c.authorities[i+1:])).status, 'DATA_BLOCKED')
++
++    def test_future_authority(self):
++        self.assertIn('AUTHORITY', select((bar(),), context(authorities=(('permission',101,1),))).reasons)
++
++    def test_unknown_finality_never_inferred_from_time(self):
++        for label in ('UNKNOWN','PROVISIONAL'):
++            self.assertIn('FINALITY', select((bar(finality=label),), context()).reasons)
++
++    def test_uncommitted_replacement_no_fallback(self):
++        b=bar(id='b',parent='a',received=70,receipt_seq=3,committed=None)
++        self.assertIn('VISIBILITY',select((bar(),b),context()).reasons)
++
++    def test_ambiguous_health_blocks(self):
++        history=(Health(80,10,'VALIDATED'),Health(80,10,'DISCONNECTED'))
++        self.assertIn('HEALTH',select((bar(),),context(health=history)).reasons)
++
++    def test_completion_separate(self):
++        self.assertIn('FINALITY',select((bar(complete=False),),context()).reasons)
++
++    def test_newer_provisional_blocks_old_final(self):
++        b=bar(id='b', parent='a', received=70, receipt_seq=3, committed=71, commit_seq=4,
++              authority_time=71, authority_seq=4, finality='PROVISIONAL')
++        self.assertIn('FINALITY', select((bar(),b),context()).reasons)
++
++    def test_cutoff_before_after_correction(self):
++        a=bar(); b=bar(id='b',parent='a',received=110,receipt_seq=21,committed=111,commit_seq=22,authority_time=111,authority_seq=22)
++        earlier=select((a,),context())
++        self.assertEqual(select((a,b),context()), earlier)
++        self.assertEqual(select((a,b),context(cutoff=120,sequence=25)).ids,('b',))
++        self.assertEqual(earlier.ids,('a',))
++
++    def test_receipt_boundary_inclusive(self):
++        self.assertEqual(select((bar(received=100,committed=100,authority_time=100),),context()).ids,('a',))
++        self.assertIn('COVERAGE',select((bar(received=101),),context()).reasons)
++
++    def test_commit_and_authority_not_yet_visible_blocks(self):
++        for kw in ({'committed':101},{'commit_seq':21},{'authority_time':101},{'authority_seq':21},{'committed':None}):
++            self.assertIn('VISIBILITY',select((bar(**kw),),context()).reasons)
++
++    def test_clock_rollback_sequence(self):
++        self.assertIn('COVERAGE',select((bar(received=50,receipt_seq=21),),context()).reasons)
++
++    def test_future_malformed_payload_excluded(self):
++        self.assertEqual(select((bar(),bar(id='bad',received=101,values=('bad',)*5)),context()),select((bar(),),context()))
++
++    def test_duplicate_identical_and_conflict(self):
++        self.assertEqual(select((bar(),bar()),context()).ids,('a',))
++        self.assertIn('IDENTITY_CONFLICT',select((bar(),bar(raw=b'different')),context()).reasons)
++
++    def test_branch_and_orphan(self):
++        for bars in ((bar(),bar(id='b',parent='a'),bar(id='c',parent='a')),(bar(parent='missing'),)):
++            self.assertIn('REVISION_GRAPH',select(bars,context()).reasons)
++
++    def test_cycle(self):
++        self.assertIn('REVISION_GRAPH',select((bar(parent='b'),bar(id='b',parent='a')),context()).reasons)
++
++    def test_parent_same_symbol_interval_required(self):
++        self.assertIn('REVISION_GRAPH',select((bar(),bar(id='b',start=60,end=120,parent='a')),context(expected=(0,60),cutoff=200)).reasons)
++
++    def test_reordered_input_deterministic(self):
++        a=bar(); b=bar(id='b',parent='a',received=70,receipt_seq=3,committed=71,commit_seq=4,authority_time=71,authority_seq=4)
++        self.assertEqual(select((a,b),context()),select((b,a),context()))
++
++    def test_gap_tail_whole_symbol(self):
++        for bars,c in (((bar(),),context(expected=(0,60),cutoff=200)), ((),context()), ((bar(symbol='US.QQQ'),),context())):
++            self.assertIn('COVERAGE',select(bars,c).reasons)
++
++    def test_numeric_quality(self):
++        for values in (('NaN','102','99','101','10'),('0','102','99','101','10'),('100','98','99','101','10'),('100','102','99','101','-1')):
++            self.assertIn('OHLCV',select((bar(values=values),),context()).reasons)
++
++    def test_disconnect_reconnect_requires_validation(self):
++        for state in ('DISCONNECTED','RECOVERING','OVERFLOW','ENTITLEMENT_LOST','SCHEMA_DRIFT'):
++            self.assertIn('HEALTH',select((bar(),),context(health=(Health(1,1,'VALIDATED'),Health(80,10,state)))).reasons)
++        history=(Health(1,1,'VALIDATED'),Health(80,10,'DISCONNECTED'),Health(90,15,'RECOVERING'),Health(95,18,'VALIDATED'))
++        self.assertEqual(select((bar(),),context(health=history)).ids,('a',))
++
++    def test_future_disconnect_does_not_rewrite(self):
++        self.assertEqual(select((bar(),),context(health=(Health(1,1,'VALIDATED'),Health(101,21,'DISCONNECTED')))),select((bar(),),context()))
++
++    def test_recovery_late_never_backdated(self):
++        late=bar(received=110,receipt_seq=21,committed=111,commit_seq=22,authority_time=111,authority_seq=22)
++        self.assertIn('COVERAGE',select((late,),context()).reasons)
++        self.assertEqual(select((late,),context(cutoff=120,sequence=25)).ids,('a',))
++
++    def test_real_mode_rejected_and_bad_context(self):
++        for c in (context(mode='LIVE'),context(expected=()),context(expected=(0,0)),context(expected=(60,0))):
++            self.assertEqual(select((bar(),),c).status,'DATA_BLOCKED')
++
++if __name__=='__main__': unittest.main()
+diff --git a/research/feed_contract/test_capture.py b/research/feed_contract/test_capture.py
+new file mode 100644
+index 0000000..39e5e0d
+--- /dev/null
++++ b/research/feed_contract/test_capture.py
+@@ -0,0 +1,150 @@
++"""Synthetic capture regression cases. Never imports an SDK or connects."""
++import base64
++import json
++from pathlib import Path
++import tempfile
++import unittest
++from unittest.mock import patch
++from capture import Journal, CaptureStopped, verify, digest, encode
++
++
++class CaptureTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory(prefix='synthetic-capture-')
++        self.addCleanup(self.temp.cleanup)
++        self.directory = Path(self.temp.name) / 'exclusive'
++        self.clock = [1_000_000_000_000, 0]
++        self.j = Journal(self.directory, {'mode': 'SYNTHETIC'},
++                         clock=lambda: tuple(self.clock))
++        self.addCleanup(self.j.close)
++
++    def add(self, **kw):
++        args = dict(symbol='US.SPY', source_stamps=('2026-10-30 10:00:00',),
++                    payload=b'\x00SYNTHETIC\xff')
++        args.update(kw)
++        return self.j.append(**args)
++
++    def test_resealed_invalid_receipt_chronology_blocks_empty_cutoff(self):
++        self.add(); self.add(); self.j.finish('TIME_LIMIT')
++        path = self.directory / 'receipts.jsonl'
++        original = [json.loads(line) for line in path.read_bytes().splitlines()]
++        seal = json.loads((self.directory / 'summary.json').read_bytes())
++        cases = [(0, 'sequence', True), (0, 'received_wall_ns', True),
++                 (0, 'received_mono_ns', -1),
++                 (1, 'received_wall_ns', self.clock[0]-1),
++                 (0, 'received_mono_ns', 1),
++                 (1, 'journal_wall_ns', self.clock[0]-1),
++                 (0, 'journal_wall_ns', self.clock[0]+250_000_001)]
++        for index, field, value in cases:
++            with self.subTest(field=field, value=value):
++                rows = [dict(r) for r in original]
++                rows[index][field] = value
++                chain = seal['manifest_sha256']
++                lines = []
++                for row in rows:
++                    row.pop('hash')
++                    row['previous'] = chain
++                    chain = digest(row)
++                    lines.append(encode(dict(row, hash=chain)) + b'\n')
++                raw = b''.join(lines)
++                path.write_bytes(raw)
++                (self.directory / 'summary.json').write_bytes(encode(
++                    dict(seal, last_hash=chain, bytes=len(raw))))
++                with self.assertRaises(ValueError):
++                    verify(self.directory, sequence=0)
++
++    def test_verifier_rejects_invalid_cutoffs_and_clock_origin(self):
++        self.j.finish('TIME_LIMIT')
++        for name in ('sequence', 'cutoff_ns'):
++            for value in (-1, True, 1.5):
++                with self.subTest(name=name, value=value):
++                    with self.assertRaises(ValueError):
++                        verify(self.directory, **{name: value})
++        manifest = self.directory / 'manifest.json'
++        data = json.loads(manifest.read_bytes())
++        data['start_mono_ns'] = True
++        manifest.write_bytes(encode(data))
++        seal = json.loads((self.directory / 'summary.json').read_bytes())
++        seal.update(manifest_sha256=digest(data), last_hash=digest(data))
++        (self.directory / 'summary.json').write_bytes(encode(seal))
++        with self.assertRaisesRegex(ValueError, 'clock origin'):
++            verify(self.directory)
++
++    def test_exclusive_no_overwrite(self):
++        with self.assertRaises(FileExistsError):
++            Journal(self.directory, {}, clock=lambda: tuple(self.clock))
++
++    def test_exact_raw_hash_chain_asof(self):
++        self.add()
++        self.clock[:] = [1_001_000_000_000, 1_000_000_000]
++        self.add(symbol='US.QQQ')
++        result = self.j.finish('TIME_LIMIT')
++        self.assertEqual(result['records'], 2)
++        records = verify(self.directory)
++        self.assertEqual(base64.b64decode(records[0]['payload_b64']), b'\x00SYNTHETIC\xff')
++        self.assertEqual(records[0]['finality'], 'UNKNOWN')
++        self.assertEqual(records[0]['strategy_status'], 'DATA_BLOCKED')
++        self.assertEqual(len(verify(self.directory, cutoff_ns=1_000_000_000_000,
++                                    sequence=1)), 1)
++
++    def test_tamper_truncate_missing_summary(self):
++        self.add(); self.j.finish('TIME_LIMIT')
++        path = self.directory / 'receipts.jsonl'
++        original = path.read_bytes()
++        for altered in (original.replace(b'US.SPY', b'US.QQQ'), b'', original[:-1]):
++            path.write_bytes(altered)
++            with self.assertRaises(ValueError): verify(self.directory)
++        path.write_bytes(original)
++        (self.directory / 'summary.json').unlink()
++        with self.assertRaises((ValueError, FileNotFoundError)): verify(self.directory)
++
++    def test_scope_and_payload_fail_closed(self):
++        with self.assertRaises(CaptureStopped): self.add(symbol='US.AAPL')
++        with self.assertRaises(CaptureStopped): self.add()
++
++    def test_deadline_cannot_be_extended_by_activity(self):
++        self.clock[:] = [1_300_000_000_000, 300_000_000_000]
++        with self.assertRaisesRegex(CaptureStopped, 'TIME_LIMIT'): self.add()
++
++    def test_backward_monotonic_and_wall_clock_divergence(self):
++        self.clock[:] = [999_000_000_000, 1_000_000_000]
++        with self.assertRaisesRegex(CaptureStopped, 'CLOCK'): self.add()
++
++    def test_silence_each_symbol(self):
++        self.add()
++        self.clock[:] = [1_031_000_000_000, 31_000_000_000]
++        with self.assertRaisesRegex(CaptureStopped, 'SILENCE'): self.j.check()
++
++    def test_bad_stamp_retained_without_interpretation(self):
++        self.add(source_stamps=('ambiguous source text',))
++        self.j.finish('TIME_LIMIT')
++        self.assertEqual(verify(self.directory)[0]['source_stamps'], ['ambiguous source text'])
++
++    def test_record_and_byte_budget(self):
++        self.j.max_records = 1
++        self.add()
++        with self.assertRaisesRegex(CaptureStopped, 'RECORD_LIMIT'): self.add()
++
++    def test_byte_budget(self):
++        self.j.max_bytes = 1
++        with self.assertRaisesRegex(CaptureStopped, 'BYTE_LIMIT'): self.add()
++
++    def test_monotonic_rollback(self):
++        self.clock[1] = -1
++        with self.assertRaisesRegex(CaptureStopped, 'CLOCK'): self.add()
++
++    def test_oversized_payload_and_disk_failure(self):
++        with self.assertRaisesRegex(CaptureStopped, 'PAYLOAD_LIMIT'):
++            self.add(payload=b'x' * 65537)
++
++    def test_fsync_failure_never_acknowledges_record(self):
++        with patch('capture.os.fsync', side_effect=OSError('synthetic disk full')):
++            with self.assertRaisesRegex(CaptureStopped, 'WRITE_FAILURE'): self.add()
++        self.assertEqual(self.j.count, 0)
++
++    def test_future_sequence_excluded(self):
++        self.add(); self.add(symbol='US.QQQ'); self.j.finish('TIME_LIMIT')
++        self.assertEqual(len(verify(self.directory, sequence=1)), 1)
++
++
++if __name__ == '__main__': unittest.main()
+diff --git a/research/feed_contract/test_field_path_audit.py b/research/feed_contract/test_field_path_audit.py
+new file mode 100644
+index 0000000..bbfdd9b
+--- /dev/null
++++ b/research/feed_contract/test_field_path_audit.py
+@@ -0,0 +1,121 @@
++"""Synthetic sealed evidence: endpoint equality must not hide field excursions."""
++import json
++import unittest
++from unittest.mock import patch
++
++import test_provisional_replay as fixtures
++from field_path_audit import audit, main
++
++
++class FieldPathTests(unittest.TestCase):
++    setUp = fixtures.ReplayTests.setUp
++    add = fixtures.ReplayTests.add
++
++    def view(self, before=1, after=99, decoder=fixtures.synthetic_decode):
++        return audit(self.directory, before={'sequence': before},
++                     after={'sequence': after}, decoder=decoder)
++
++    def field(self, result, name='openPrice', group=0):
++        return next(f for f in result['paths'][group]['fields'] if f['field'] == name)
++
++    def test_endpoint_equality_exposes_multiple_excursions_and_repeats(self):
++        for price in (696.88, 696.9, 696.9, 696.88, 696.91, 696.88):
++            self.add(price=price)
++        self.j.finish('RUN_LIMIT')
++        result = self.view()
++        field = self.field(result)
++        self.assertEqual(field['anchor'], field['last_observed'])
++        self.assertEqual(field['classification'], 'RETURNED_TO_ANCHOR')
++        self.assertEqual((field['change_count'], field['return_count']), (4, 2))
++        self.assertEqual([c['observation']['sequence'] for c in field['changes']], [2, 4, 5, 6])
++        self.assertEqual(field['changes'][1]['previous'], dict(sequence=3, row_index=0))
++        self.assertEqual(result['counts']['RETURNED_TO_ANCHOR'], 2)
++        self.assertEqual(result, self.view())
++        # Every reference resolves to the exact embedded receipt/row evidence.
++        rows = {(r['sequence'], r['row_index']): r for r in result['evidence']['after']['observations']}
++        for change in field['changes']:
++            for ref, state in (('previous', 'before'), ('observation', 'after')):
++                row = rows[tuple(change[ref][k] for k in ('sequence', 'row_index'))]
++                self.assertEqual(row['source']['openPrice'], change[state]['value'])
++                self.assertTrue(row['receipt']['payload_b64'])
++
++    def test_net_change_unchanged_and_unobserved_baseline_are_distinct(self):
++        self.add(); self.add(price=696.9); self.add(label='earlier'); self.add(symbol='US.SPY')
++        self.j.finish('RUN_LIMIT')
++        result = self.view()
++        self.assertEqual(self.field(result)['classification'], 'NET_CHANGED')
++        self.assertEqual(self.field(result, 'closePrice')['classification'], 'UNCHANGED')
++        self.assertEqual([(p['symbol'], p['source_label'], p['baseline_available']) for p in result['paths']],
++                         [('US.QQQ', '2026-11-02 10:52:00', True),
++                          ('US.QQQ', 'earlier', False), ('US.SPY', '2026-11-02 10:52:00', False)])
++        self.assertEqual(self.field(result, group=1)['change_count'], 0)
++        self.assertFalse(self.view(0)['paths'][0]['baseline_available'])
++        for path in self.view(2, 2)['paths']:
++            self.assertEqual(path['observations_after_baseline'], 0)
++            self.assertTrue(all(f['classification'] == 'UNCHANGED' for f in path['fields']))
++        self.assertEqual(self.view(0, 0)['paths'], [])
++
++    def test_presence_null_removal_and_same_receipt_rows(self):
++        self.add(labels=['same', 'same', 'same', 'same'])
++        self.j.finish('RUN_LIMIT')
++        def decode(payload):
++            symbol, rows = fixtures.synthetic_decode(payload)
++            rows[1]['optional'] = None
++            rows[2]['optional'] = 0
++            return symbol, rows
++        result = self.view(0, decoder=decode)
++        field = self.field(result, 'optional')
++        self.assertEqual(field['classification'], 'RETURNED_TO_ANCHOR')
++        self.assertEqual(field['change_count'], 3)
++        self.assertEqual([c['observation']['row_index'] for c in field['changes']], [1, 2, 3])
++        self.assertEqual(field['changes'][0]['before'], dict(present=False, value=None))
++        self.assertEqual(field['changes'][0]['after'], dict(present=True, value=None))
++        self.assertFalse(result['paths'][0]['baseline_available'])
++
++    def test_baseline_excludes_earlier_excursions_and_detaches_evidence(self):
++        self.add(); self.add(price=696.9); self.add(price=696.88); self.add()
++        self.j.finish('RUN_LIMIT')
++        result = self.view(3)
++        self.assertEqual(self.field(result)['change_count'], 0)
++        self.assertEqual(result['paths'][0]['anchor'], dict(sequence=3, row_index=0))
++        self.field(result)['anchor']['value'] = 0
++        self.assertEqual(result['evidence']['before']['groups'][0]['last_observed']['source']['openPrice'], 696.88)
++
++    def test_cutoffs_safety_provenance_and_full_capture_failure(self):
++        self.add(); self.add(price=696.9); self.j.finish('RUN_LIMIT')
++        result = self.view()
++        timed = audit(self.directory, before={'cutoff_ns': 1_000_000_000_000},
++                      after={'sequence': 2}, decoder=fixtures.synthetic_decode)
++        self.assertEqual(result['paths'], timed['paths'])
++        for item in [result] + result['paths']:
++            self.assertEqual((item['status'], item['finality'], item['strategy_status']),
++                             ('PROVISIONAL', 'UNKNOWN', 'DATA_BLOCKED'))
++        self.assertEqual(result['completeness'], 'NOT_ESTABLISHED')
++        self.assertEqual(result['boundary_semantics'], 'UNKNOWN')
++        self.assertEqual(len(result['provenance']['field_path_source_sha256']), 64)
++        with self.assertRaises(ValueError): self.view(2, 1)
++        calls = []
++        def bad(payload):
++            calls.append(1)
++            if len(calls) == 2: raise ValueError('late decode failure')
++            return fixtures.synthetic_decode(payload)
++        with self.assertRaisesRegex(ValueError, 'late decode'):
++            self.view(0, 0, decoder=bad)
++        journal = self.directory / 'receipts.jsonl'
++        journal.write_bytes(journal.read_bytes().replace(b'US.QQQ', b'US.SPY'))
++        with self.assertRaises(ValueError): self.view(0, 0)
++
++    def test_cli_exclusive_and_no_output_on_failure(self):
++        self.add(); self.j.finish('RUN_LIMIT')
++        output = self.directory.parent / 'audit.json'
++        args = [str(self.directory), '--before-sequence', '0', '--after-sequence', '1', '--output', str(output)]
++        with patch('provisional_replay.protobuf_decoder', return_value=(fixtures.synthetic_decode, {})):
++            self.assertEqual(main(args), 0)
++            original = output.read_bytes()
++            self.assertEqual(json.loads(original)['mode'], 'OFFLINE_FIELD_PATH_AUDIT')
++            self.assertEqual(main(args), 1)
++            self.assertEqual(output.read_bytes(), original)
++            missing = self.directory.parent / 'missing.json'
++            with patch('field_path_audit.audit', side_effect=ValueError('blocked')):
++                self.assertEqual(main(args[:-1] + [str(missing)]), 1)
++            self.assertFalse(missing.exists())
+diff --git a/research/feed_contract/test_opend_capture.py b/research/feed_contract/test_opend_capture.py
+new file mode 100644
+index 0000000..87cb711
+--- /dev/null
++++ b/research/feed_contract/test_opend_capture.py
+@@ -0,0 +1,147 @@
++"""Fake SDK lifecycle and supervisor tests; no installed provider required."""
++from datetime import datetime, timezone
++import json
++from pathlib import Path
++import sys
++import tempfile
++import types
++import unittest
++from unittest.mock import MagicMock, patch
++import opend_capture as live
++from capture import verify
++
++
++class FakeTable:
++    empty = False
++    def __init__(self, symbol): self.symbol = symbol
++    def __getitem__(self, key):
++        if key == 'code':
++            return types.SimpleNamespace(unique=lambda: [self.symbol])
++        return {'k_type': ['K_1M'], 'time_key': ['2026-10-30 10:00:00']}[key]
++
++
++class FakePB:
++    def __init__(self, symbol): self.table = FakeTable(symbol)
++    def ByteSize(self): return 16
++    def SerializeToString(self): return b'SYNTHETIC_PROTOBUF'
++
++
++class LifecycleTests(unittest.TestCase):
++    def run_fake(self, accepted=True, overflow=False, disconnect=False, initial_failure=False):
++        calls = []
++        self.calls = calls
++        class Context:
++            def __init__(self, **kw):
++                calls.append(('connect', kw)); self.handlers = []
++                if initial_failure:
++                    self._auto_reconnect = True
++                    self._wait_reconnect(0)
++                    self._wait_reconnect(6)
++            def _wait_reconnect(self, delay=6): calls.append(('scheduled', delay))
++            def on_connect(self, *a): pass
++            def on_disconnect(self, *a): calls.append(('disconnect',))
++            def set_sync_query_connect_timeout(self, n): calls.append(('timeout', n))
++            def set_handler(self, h): self.handlers.append(h)
++            def subscribe(self, symbols, intervals, **kw):
++                calls.append(('subscribe', symbols, intervals, kw))
++                if disconnect:
++                    self.on_disconnect(1, None, 'SYNTHETIC')
++                    self._reconnect_flag = self._auto_reconnect
++                    calls.append(('reconnect', self._reconnect_flag))
++                if accepted:
++                    for i in range(129 if overflow else 2):
++                        self.handlers[0].on_recv_rsp(FakePB(('US.SPY', 'US.QQQ')[i % 2]))
++                return (0 if accepted else -1), None
++            def close(self): calls.append(('close',))
++        class Candles:
++            def on_recv_rsp(self, pb): return 0, pb.table
++        modules = {
++            'moomoo': types.ModuleType('moomoo'),
++            'moomoo.quote': types.ModuleType('moomoo.quote'),
++            'moomoo.common': types.ModuleType('moomoo.common'),
++            'moomoo.quote.open_quote_context': types.SimpleNamespace(OpenQuoteContext=Context),
++            'moomoo.quote.quote_response_handler': types.SimpleNamespace(
++                CurKlineHandlerBase=Candles, SysNotifyHandlerBase=object),
++            'moomoo.common.constant': types.SimpleNamespace(RET_OK=0, RET_ERROR=-1,
++                SubType=types.SimpleNamespace(K_1M='K_1M'), Session=types.SimpleNamespace(RTH='RTH'))}
++        with tempfile.TemporaryDirectory(prefix='synthetic-sdk-') as temp:
++            path = Path(temp) / 'capture'
++            with patch.dict(sys.modules, modules), patch.object(live, 'version', return_value='10.11.7108'), \
++                 patch.object(live, 'local_identity', return_value={'environment': 'SYNTHETIC'}), \
++                 patch.object(live, 'regular_hours', return_value=True), \
++                 patch.object(live.socket, 'create_connection', return_value=MagicMock()), \
++                 patch.object(live.time, 'monotonic', side_effect=[0, 0, 1, 121]):
++                live.worker(path)
++            return calls, json.loads((path/'summary.json').read_text()), verify(path)
++
++    def test_one_subscription_scope_no_cached_push_close_and_raw(self):
++        calls, summary, records = self.run_fake()
++        sub = [c for c in calls if c[0] == 'subscribe']
++        self.assertEqual(len(sub), 1)
++        self.assertEqual(sub[0][1:3], (['US.SPY', 'US.QQQ'], ['K_1M']))
++        self.assertEqual(sub[0][3], dict(is_first_push=False, subscribe_push=True,
++                                      extended_time=False, session='RTH'))
++        self.assertEqual(calls[-1], ('close',))
++        self.assertEqual(len(records), 2)
++        self.assertEqual(summary['strategy_status'], 'DATA_BLOCKED')
++
++    def test_subscription_rejection_seals_empty_evidence_and_closes(self):
++        calls, summary, records = self.run_fake(accepted=False)
++        self.assertEqual(summary['stop_reason'], 'SUBSCRIPTION_REJECTED')
++        self.assertEqual(records, ())
++        self.assertEqual(calls[-1], ('close',))
++
++    def test_queue_overflow_stops_instead_of_dropping_and_continuing(self):
++        _, summary, records = self.run_fake(overflow=True)
++        self.assertEqual(summary['stop_reason'], 'QUEUE_OVERFLOW')
++        self.assertEqual(records, ())
++
++    def test_disconnect_disables_reconnect_and_stops(self):
++        calls, summary, records = self.run_fake(disconnect=True)
++        self.assertIn(('reconnect', False), calls)
++        self.assertEqual(summary['stop_reason'], 'DISCONNECTED')
++        self.assertEqual(records, ())
++
++    def test_unreviewed_sdk_never_connects(self):
++        with patch.object(live, 'version', return_value='UNKNOWN'), \
++             patch.object(live.socket, 'create_connection') as connect:
++            with self.assertRaises(RuntimeError): live.worker(Path('unused'))
++        connect.assert_not_called()
++
++    def test_initial_connection_failure_never_schedules_retry(self):
++        calls, summary, records = self.run_fake(initial_failure=True)
++        self.assertEqual([c for c in calls if c[0] == 'scheduled'], [('scheduled', 0)])
++        self.assertFalse(any(c[0] == 'subscribe' for c in calls))
++        self.assertEqual(summary['stop_reason'], 'INITIAL_CONNECT_FAILED')
++        self.assertEqual(records, ())
++        self.assertEqual(calls[-1], ('close',))
++
++    def test_supervisor_kills_hung_worker(self):
++        with tempfile.TemporaryDirectory() as temp:
++            path = Path(temp) / 'synthetic'
++            fake = MagicMock()
++            fake.wait.side_effect = [live.subprocess.TimeoutExpired('synthetic', 300), -9]
++            with patch.object(live.subprocess, 'Popen', return_value=fake):
++                self.assertEqual(live.supervise(path), 1)
++            fake.kill.assert_called_once()
++            result = json.loads((Path(temp)/'synthetic.supervisor.json').read_text())
++            self.assertTrue(result['timed_out'])
++
++    def test_cleanup_runs_when_seal_write_fails(self):
++        with patch.object(live.Journal, 'finish', side_effect=OSError('synthetic disk failure')):
++            with self.assertRaises(OSError): self.run_fake()
++        self.assertEqual(self.calls[-1], ('close',))
++
++    def test_existing_capture_directory_blocks_child(self):
++        with tempfile.TemporaryDirectory() as temp:
++            with patch.object(live.subprocess, 'Popen') as child:
++                with self.assertRaises(FileExistsError): live.supervise(Path(temp))
++            child.assert_not_called()
++
++    def test_time_of_day_scope_handles_dst_and_weekend(self):
++        self.assertTrue(live.regular_hours(datetime(2026, 10, 30, 14, tzinfo=timezone.utc)))
++        self.assertFalse(live.regular_hours(datetime(2026, 10, 31, 14, tzinfo=timezone.utc)))
++        self.assertFalse(live.regular_hours(datetime(2026, 10, 30, 20, tzinfo=timezone.utc)))
++
++
++if __name__ == '__main__': unittest.main()
+diff --git a/research/feed_contract/test_provisional_replay.py b/research/feed_contract/test_provisional_replay.py
+new file mode 100644
+index 0000000..0f5b5a4
+--- /dev/null
++++ b/research/feed_contract/test_provisional_replay.py
+@@ -0,0 +1,130 @@
++"""Synthetic receipt fixtures; no SDK, provider, databases or network required."""
++import json
++from pathlib import Path
++import tempfile
++import unittest
++from unittest.mock import patch
++
++from capture import Journal
++from provisional_replay import replay, main
++
++
++def synthetic_decode(payload):
++    value = json.loads(payload)
++    return value['symbol'], value['rows']
++
++
++class ReplayTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory(prefix='synthetic-replay-')
++        self.addCleanup(self.temp.cleanup)
++        self.directory = Path(self.temp.name) / 'capture'
++        self.clock = [1_000_000_000_000, 0]
++        self.j = Journal(self.directory, {'fixture': 'SYNTHETIC'},
++                         clock=lambda: tuple(self.clock))
++        self.addCleanup(self.j.close)
++
++    def add(self, symbol='US.QQQ', label='2026-11-02 10:52:00', price=696.88,
++            labels=None):
++        rows = [dict(time=l, openPrice=price, lowPrice=price,
++                     highPrice=697.0, closePrice=697.0, volume=1, turnover=697.0)
++                for l in (labels or [label])]
++        self.j.append(symbol, tuple(r['time'] for r in rows),
++                      json.dumps(dict(symbol=symbol, rows=rows)).encode())
++        self.clock[0] += 1
++        self.clock[1] += 1
++
++    def view(self, **kwargs):
++        return replay(self.directory, decoder=synthetic_decode, **kwargs)
++
++    def test_revisions_repeats_and_last_observed(self):
++        self.add(); self.add(price=696.9054); self.add(price=696.9054)
++        self.j.finish('RUN_LIMIT')
++        result = self.view()
++        group = result['groups'][0]
++        self.assertEqual([r['source']['openPrice'] for r in group['history']],
++                         [696.88, 696.9054, 696.9054])
++        self.assertEqual(group['last_observed']['sequence'], 3)
++        self.assertEqual(len(result['receipts']), 3)
++        self.assertTrue(all(r['receipt']['payload_b64'] for r in result['revisions']))
++        group['last_observed']['source']['openPrice'] = 0
++        self.assertEqual(group['history'][-1]['source']['openPrice'], 696.9054)
++
++    def test_receipt_order_not_label_or_symbol_sort(self):
++        self.add(label='later'); self.add(symbol='US.SPY', label='earlier')
++        self.add(label='earlier'); self.add(label='later', price=695)
++        self.j.finish('RUN_LIMIT')
++        result = self.view()
++        self.assertEqual([r['sequence'] for r in result['revisions']], [1, 2, 3, 4])
++        self.assertEqual([(g['symbol'], g['source_label']) for g in result['groups']],
++                         [('US.QQQ', 'later'), ('US.SPY', 'earlier'), ('US.QQQ', 'earlier')])
++        self.assertEqual(result['groups'][0]['last_observed']['sequence'], 4)
++
++    def test_inclusive_asof_and_intersection(self):
++        self.add(); self.add(price=696.9054); self.add(label='next')
++        self.j.finish('RUN_LIMIT')
++        self.assertEqual(self.view(sequence=0)['groups'], [])
++        for kwargs, expected in [({'sequence': 1}, [1]),
++                                 ({'cutoff_ns': 1_000_000_000_001}, [1, 2]),
++                                 ({'sequence': 2, 'cutoff_ns': 1_000_000_000_000}, [1]),
++                                 ({'sequence': 999}, [1, 2, 3])]:
++            self.assertEqual([r['sequence'] for r in self.view(**kwargs)['revisions']], expected)
++        for value in (-1, True, 1.2):
++            with self.assertRaises(ValueError): self.view(sequence=value)
++
++    def test_integrity_failure_after_cutoff_returns_nothing(self):
++        self.add(); self.add(); self.j.finish('RUN_LIMIT')
++        p = self.directory / 'receipts.jsonl'
++        lines = p.read_bytes().splitlines(keepends=True)
++        lines[1] = lines[1].replace(b'US.QQQ', b'US.SPY')
++        p.write_bytes(b''.join(lines))
++        with self.assertRaises(ValueError): self.view(sequence=1)
++
++    def test_decode_failure_after_cutoff_also_blocks(self):
++        self.add(); self.add(); self.j.finish('RUN_LIMIT')
++        calls = []
++        def decode(payload):
++            calls.append(1)
++            if len(calls) == 2: raise ValueError('bad later payload')
++            return synthetic_decode(payload)
++        with self.assertRaisesRegex(ValueError, 'bad later'):
++            replay(self.directory, sequence=1, decoder=decode)
++
++    def test_boundary_ambiguity_and_never_promote(self):
++        self.add(label='2026-11-02 10:52:00')
++        self.add(label='2026-11-02 10:53:00')
++        self.j.finish('RUN_LIMIT')
++        for seq in (1, 2, 999999):
++            view = self.view(sequence=seq)
++            self.assertEqual(view['boundary_semantics'], 'UNKNOWN')
++            for item in [view] + view['groups'] + view['revisions']:
++                self.assertEqual((item['status'], item['finality'], item['strategy_status']),
++                                 ('PROVISIONAL', 'UNKNOWN', 'DATA_BLOCKED'))
++            self.assertEqual(view['groups'][0]['source_label'], '2026-11-02 10:52:00')
++            self.assertEqual(view['groups'][0]['last_observed']['source']['time'],
++                             '2026-11-02 10:52:00')
++
++    def test_multirow_ties_preserve_wire_order(self):
++        self.add(labels=['same', 'same']); self.j.finish('RUN_LIMIT')
++        self.assertEqual([r['row_index'] for r in self.view()['revisions']], [0, 1])
++        self.assertEqual(self.view()['groups'][0]['last_observed']['row_index'], 1)
++
++    def test_mismatch_blocks(self):
++        self.add(); self.j.finish('RUN_LIMIT')
++        def bad(payload):
++            _, rows = synthetic_decode(payload)
++            return 'US.SPY', rows
++        with self.assertRaises(ValueError): replay(self.directory, decoder=bad)
++
++    def test_output_exclusive_and_failure_no_export(self):
++        self.add(); self.j.finish('RUN_LIMIT')
++        out = Path(self.temp.name) / 'view.json'
++        with patch('provisional_replay.protobuf_decoder', return_value=(synthetic_decode, {})):
++            self.assertEqual(main([str(self.directory), '--output', str(out)]), 0)
++            raw = out.read_bytes()
++            self.assertEqual(main([str(self.directory), '--output', str(out)]), 1)
++            self.assertEqual(out.read_bytes(), raw)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/research/feed_contract/test_quality_report.py b/research/feed_contract/test_quality_report.py
+new file mode 100644
+index 0000000..ef6fd04
+--- /dev/null
++++ b/research/feed_contract/test_quality_report.py
+@@ -0,0 +1,86 @@
++"""Synthetic offline quality and independent replay review regressions."""
++import json
++import ast
++from pathlib import Path
++import unittest
++from unittest.mock import patch
++
++import test_provisional_replay as fixtures
++from receipt_quality import report, main
++
++
++class QualityTests(unittest.TestCase):
++    setUp = fixtures.ReplayTests.setUp
++    add = fixtures.ReplayTests.add
++    view = fixtures.ReplayTests.view
++    def quality(self, **kwargs):
++        from test_provisional_replay import synthetic_decode
++        return report(self.directory, decoder=synthetic_decode, **kwargs)
++
++    def test_changes_repeats_and_coverage(self):
++        self.add(); self.add(price=696.9054); self.add(price=696.9054)
++        self.j.finish('RUN_LIMIT')
++        q = self.quality()
++        g = q['groups'][0]
++        self.assertEqual((g['observations'], g['changed_transitions'], g['identical_transitions']), (3, 1, 1))
++        self.assertEqual(g['changed_fields'], {'lowPrice': 1, 'openPrice': 1})
++        self.assertEqual(q['symbols'][0]['max_interreceipt_mono_ns'], 1)
++        self.assertEqual(q['symbols'][0]['observation_span_mono_ns'], 2)
++        self.assertEqual(q['completeness'], 'NOT_ESTABLISHED')
++        self.assertEqual(self.quality(sequence=0)['symbols'], [])
++        self.assertEqual(self.quality(sequence=1)['groups'][0]['changed_transitions'], 0)
++
++    def test_tied_receipt_cutoff_includes_all_rows(self):
++        self.add(labels=['same', 'same'])
++        self.clock[0] -= 1; self.clock[1] -= 1
++        self.add(label='older'); self.j.finish('RUN_LIMIT')
++        self.assertEqual(len(self.view(cutoff_ns=self.clock[0]-1)['revisions']), 3)
++        self.assertEqual(len(self.view(sequence=1)['revisions']), 2)
++
++    def test_summary_safety_metadata_rejected_even_empty_cutoff(self):
++        self.add(); self.j.finish('RUN_LIMIT')
++        p = self.directory / 'summary.json'
++        original = json.loads(p.read_bytes())
++        for field, value in [('finality', 'FINAL'), ('completeness', 'COMPLETE'), ('schema', 2)]:
++            with self.subTest(field=field):
++                p.write_text(json.dumps(dict(original, **{field: value})))
++                with self.assertRaises(ValueError): self.quality(sequence=0)
++        p.write_text(json.dumps(original))
++
++    def test_manifest_safety_metadata_rejected(self):
++        from capture import digest
++        self.j.finish('RUN_LIMIT')
++        p = self.directory / 'manifest.json'
++        manifest = json.loads(p.read_bytes())
++        manifest['strategy_status'] = 'ELIGIBLE'
++        p.write_text(json.dumps(manifest))
++        s = self.directory / 'summary.json'
++        summary = json.loads(s.read_bytes())
++        summary.update(manifest_sha256=digest(manifest), last_hash=digest(manifest))
++        s.write_text(json.dumps(summary))
++        with self.assertRaises(ValueError): self.quality(sequence=0)
++
++    def test_production_import_isolation(self):
++        root = Path(__file__).resolve().parents[2]
++        for p in root.glob('*.py'):
++            if p.name.startswith('test_'): continue
++            tree = ast.parse(p.read_text(encoding='utf-8-sig'))
++            for node in ast.walk(tree):
++                names = ([node.module or ''] if isinstance(node, ast.ImportFrom)
++                         else [a.name for a in node.names] if isinstance(node, ast.Import) else [])
++                self.assertFalse(any('provisional_replay' in n or 'receipt_quality' in n for n in names), str(p))
++
++    def test_quality_cli_failure_no_export_and_exclusive(self):
++        from test_provisional_replay import synthetic_decode
++        self.add(); self.j.finish('RUN_LIMIT')
++        out = self.directory.parent / 'quality.json'
++        with patch('provisional_replay.protobuf_decoder', return_value=(synthetic_decode, {})):
++            self.assertEqual(main([str(self.directory), '--output', str(out)]), 0)
++            raw = out.read_bytes()
++            self.assertEqual(main([str(self.directory), '--output', str(out)]), 1)
++            self.assertEqual(out.read_bytes(), raw)
++            out.unlink()
++            (self.directory / 'summary.json').unlink()
++            self.assertEqual(main([str(self.directory), '--output', str(out)]), 1)
++            self.assertFalse(out.exists())
++
+diff --git a/research/feed_contract/test_revision_impact.py b/research/feed_contract/test_revision_impact.py
+new file mode 100644
+index 0000000..7f7078b
+--- /dev/null
++++ b/research/feed_contract/test_revision_impact.py
+@@ -0,0 +1,82 @@
++"""Synthetic sealed-journal revision impact regressions."""
++import test_provisional_replay as fixtures
++from revision_impact import analyze
++
++
++class ImpactTests(fixtures.ReplayTests):
++    def impact(self, before=1, after=99):
++        return analyze(self.directory, before={'sequence': before},
++                       after={'sequence': after}, decoder=fixtures.synthetic_decode)
++
++    def test_impact_transitions(self):
++        self.add(); self.add(price=696.9054); self.add(price=696.9054)
++        self.add(label='earlier'); self.add(price=696.88)
++        self.j.finish('RUN_LIMIT')
++        result = self.impact()
++        self.assertEqual(result, self.impact())
++        self.assertEqual([r['kind'] for r in result['impacts']],
++                         ['REVISION', 'EXACT_REPEAT', 'FIRST_OBSERVATION', 'REVISION'])
++        self.assertEqual([c['field'] for c in result['impacts'][0]['changes']], ['lowPrice', 'openPrice'])
++        self.assertEqual(len(result['after']['observations']), 5)
++        self.assertEqual(len(result['after']['groups'][0]['history']), 4)
++        result['after']['groups'][0]['history'][0]['source']['openPrice'] = 0
++        self.assertEqual(result['before']['observations'][0]['source']['openPrice'], 696.88)
++
++    def test_impact_cutoffs(self):
++        self.add(labels=['same', 'same']); self.add(price=696.9054)
++        self.j.finish('RUN_LIMIT')
++        result = self.impact(0, 1)
++        self.assertEqual([r['kind'] for r in result['impacts']], ['FIRST_OBSERVATION', 'EXACT_REPEAT'])
++        self.assertEqual(result['after']['groups'][0]['last_observed']['row_index'], 1)
++        self.assertEqual(self.impact(1, 1)['impacts'], [])
++        timed = analyze(self.directory, before={'sequence': 0},
++                        after={'cutoff_ns': 1_000_000_000_000, 'sequence': 2}, decoder=fixtures.synthetic_decode)
++        self.assertEqual(timed['after']['observations'], result['after']['observations'])
++        for cutoff in ({}, {'sequence': True}, {'sequence': -1}, {'bad': 1}, {'cutoff_ns': 1.2}):
++            with self.assertRaises(ValueError):
++                analyze(self.directory, before=cutoff, after={'sequence': 2}, decoder=fixtures.synthetic_decode)
++        with self.assertRaises(ValueError): self.impact(2, 1)
++
++    def test_impact_presence_and_fail_closed(self):
++        self.add(); self.add(); self.j.finish('RUN_LIMIT')
++        calls = []
++        def decode(payload):
++            symbol, rows = fixtures.synthetic_decode(payload)
++            if not calls: rows[0]['optional'] = None
++            calls.append(1)
++            return symbol, rows
++        result = analyze(self.directory, before={'sequence': 1}, after={'sequence': 2}, decoder=decode)
++        self.assertEqual(result['impacts'][0]['changes'], [dict(field='optional', before_present=True,
++                         after_present=False, before=None, after=None)])
++        def fail(payload):
++            raise ValueError('decode blocked')
++        with self.assertRaises(ValueError):
++            analyze(self.directory, before={'sequence': 0}, after={'sequence': 0}, decoder=fail)
++        journal = self.directory / 'receipts.jsonl'
++        journal.write_bytes(journal.read_bytes().replace(b'US.QQQ', b'US.SPY'))
++        with self.assertRaises(ValueError): self.impact(0, 0)
++
++    def test_impact_cli_exclusive_and_no_partial_export(self):
++        from unittest.mock import patch
++        from revision_impact import main
++        self.add(); self.j.finish('RUN_LIMIT')
++        output = self.directory.parent / 'impact.json'
++        args = [str(self.directory), '--before-sequence', '0', '--after-sequence', '1', '--output', str(output)]
++        with patch('provisional_replay.protobuf_decoder', return_value=(fixtures.synthetic_decode, {})):
++            self.assertEqual(main(args), 0)
++            original = output.read_bytes()
++            self.assertEqual(main(args), 1)
++            self.assertEqual(output.read_bytes(), original)
++            missing = self.directory.parent / 'missing.json'
++            with patch('revision_impact.analyze', side_effect=ValueError('blocked')):
++                self.assertEqual(main(args[:-1] + [str(missing)]), 1)
++                self.assertFalse(missing.exists())
++
++    def test_impact_safety_flags(self):
++        self.add(); self.add(label='later'); self.j.finish('RUN_LIMIT')
++        result = self.impact()
++        for item in [result, result['before'], result['after']] + result['impacts'] + result['after']['groups'] + result['after']['observations']:
++            self.assertEqual((item['status'], item['finality'], item['strategy_status']),
++                             ('PROVISIONAL', 'UNKNOWN', 'DATA_BLOCKED'))
++        self.assertEqual(result['boundary_semantics'], 'UNKNOWN')
++        self.assertEqual(result['completeness'], 'NOT_ESTABLISHED')

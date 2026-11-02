@@ -1,0 +1,98 @@
+test_ambiguous_health_blocks (test_adapter.ContractTests.test_ambiguous_health_blocks) ... ok
+test_branch_and_orphan (test_adapter.ContractTests.test_branch_and_orphan) ... ok
+test_clock_rollback_sequence (test_adapter.ContractTests.test_clock_rollback_sequence) ... ok
+test_commit_and_authority_not_yet_visible_blocks (test_adapter.ContractTests.test_commit_and_authority_not_yet_visible_blocks) ... ok
+test_completion_separate (test_adapter.ContractTests.test_completion_separate) ... ok
+test_cutoff_before_after_correction (test_adapter.ContractTests.test_cutoff_before_after_correction) ... ok
+test_cycle (test_adapter.ContractTests.test_cycle) ... ok
+test_disconnect_reconnect_requires_validation (test_adapter.ContractTests.test_disconnect_reconnect_requires_validation) ... ok
+test_duplicate_identical_and_conflict (test_adapter.ContractTests.test_duplicate_identical_and_conflict) ... ok
+test_future_authority (test_adapter.ContractTests.test_future_authority) ... ok
+test_future_disconnect_does_not_rewrite (test_adapter.ContractTests.test_future_disconnect_does_not_rewrite) ... ok
+test_future_malformed_payload_excluded (test_adapter.ContractTests.test_future_malformed_payload_excluded) ... ok
+test_gap_tail_whole_symbol (test_adapter.ContractTests.test_gap_tail_whole_symbol) ... ok
+test_missing_each_authority (test_adapter.ContractTests.test_missing_each_authority) ... ok
+test_newer_provisional_blocks_old_final (test_adapter.ContractTests.test_newer_provisional_blocks_old_final) ... ok
+test_numeric_quality (test_adapter.ContractTests.test_numeric_quality) ... ok
+test_parent_same_symbol_interval_required (test_adapter.ContractTests.test_parent_same_symbol_interval_required) ... ok
+test_real_mode_rejected_and_bad_context (test_adapter.ContractTests.test_real_mode_rejected_and_bad_context) ... ok
+test_receipt_boundary_inclusive (test_adapter.ContractTests.test_receipt_boundary_inclusive) ... ok
+test_recovery_late_never_backdated (test_adapter.ContractTests.test_recovery_late_never_backdated) ... ok
+test_reordered_input_deterministic (test_adapter.ContractTests.test_reordered_input_deterministic) ... ok
+test_uncommitted_replacement_no_fallback (test_adapter.ContractTests.test_uncommitted_replacement_no_fallback) ... ok
+test_unknown_finality_never_inferred_from_time (test_adapter.ContractTests.test_unknown_finality_never_inferred_from_time) ... ok
+test_valid_immutable_frame (test_adapter.ContractTests.test_valid_immutable_frame) ... ok
+test_backward_monotonic_and_wall_clock_divergence (test_capture.CaptureTests.test_backward_monotonic_and_wall_clock_divergence) ... ok
+test_bad_stamp_retained_without_interpretation (test_capture.CaptureTests.test_bad_stamp_retained_without_interpretation) ... ok
+test_byte_budget (test_capture.CaptureTests.test_byte_budget) ... ok
+test_deadline_cannot_be_extended_by_activity (test_capture.CaptureTests.test_deadline_cannot_be_extended_by_activity) ... ok
+test_exact_raw_hash_chain_asof (test_capture.CaptureTests.test_exact_raw_hash_chain_asof) ... ok
+test_exclusive_no_overwrite (test_capture.CaptureTests.test_exclusive_no_overwrite) ... ok
+test_fsync_failure_never_acknowledges_record (test_capture.CaptureTests.test_fsync_failure_never_acknowledges_record) ... ok
+test_future_sequence_excluded (test_capture.CaptureTests.test_future_sequence_excluded) ... ok
+test_monotonic_rollback (test_capture.CaptureTests.test_monotonic_rollback) ... ok
+test_oversized_payload_and_disk_failure (test_capture.CaptureTests.test_oversized_payload_and_disk_failure) ... ok
+test_record_and_byte_budget (test_capture.CaptureTests.test_record_and_byte_budget) ... ok
+test_resealed_invalid_receipt_chronology_blocks_empty_cutoff (test_capture.CaptureTests.test_resealed_invalid_receipt_chronology_blocks_empty_cutoff) ... ok
+test_scope_and_payload_fail_closed (test_capture.CaptureTests.test_scope_and_payload_fail_closed) ... ok
+test_silence_each_symbol (test_capture.CaptureTests.test_silence_each_symbol) ... ok
+test_tamper_truncate_missing_summary (test_capture.CaptureTests.test_tamper_truncate_missing_summary) ... ok
+test_verifier_rejects_invalid_cutoffs_and_clock_origin (test_capture.CaptureTests.test_verifier_rejects_invalid_cutoffs_and_clock_origin) ... ok
+test_baseline_excludes_earlier_excursions_and_detaches_evidence (test_field_path_audit.FieldPathTests.test_baseline_excludes_earlier_excursions_and_detaches_evidence) ... ok
+test_cli_exclusive_and_no_output_on_failure (test_field_path_audit.FieldPathTests.test_cli_exclusive_and_no_output_on_failure) ... DATA_BLOCKED: field path audit failed: [Errno 17] File exists: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-0i6evj1x\\audit.json'
+DATA_BLOCKED: field path audit failed: blocked
+ok
+test_cutoffs_safety_provenance_and_full_capture_failure (test_field_path_audit.FieldPathTests.test_cutoffs_safety_provenance_and_full_capture_failure) ... ok
+test_endpoint_equality_exposes_multiple_excursions_and_repeats (test_field_path_audit.FieldPathTests.test_endpoint_equality_exposes_multiple_excursions_and_repeats) ... ok
+test_net_change_unchanged_and_unobserved_baseline_are_distinct (test_field_path_audit.FieldPathTests.test_net_change_unchanged_and_unobserved_baseline_are_distinct) ... ok
+test_presence_null_removal_and_same_receipt_rows (test_field_path_audit.FieldPathTests.test_presence_null_removal_and_same_receipt_rows) ... ok
+test_cleanup_runs_when_seal_write_fails (test_opend_capture.LifecycleTests.test_cleanup_runs_when_seal_write_fails) ... ok
+test_disconnect_disables_reconnect_and_stops (test_opend_capture.LifecycleTests.test_disconnect_disables_reconnect_and_stops) ... ok
+test_existing_capture_directory_blocks_child (test_opend_capture.LifecycleTests.test_existing_capture_directory_blocks_child) ... ok
+test_initial_connection_failure_never_schedules_retry (test_opend_capture.LifecycleTests.test_initial_connection_failure_never_schedules_retry) ... ok
+test_one_subscription_scope_no_cached_push_close_and_raw (test_opend_capture.LifecycleTests.test_one_subscription_scope_no_cached_push_close_and_raw) ... ok
+test_queue_overflow_stops_instead_of_dropping_and_continuing (test_opend_capture.LifecycleTests.test_queue_overflow_stops_instead_of_dropping_and_continuing) ... ok
+test_subscription_rejection_seals_empty_evidence_and_closes (test_opend_capture.LifecycleTests.test_subscription_rejection_seals_empty_evidence_and_closes) ... ok
+test_supervisor_kills_hung_worker (test_opend_capture.LifecycleTests.test_supervisor_kills_hung_worker) ... ok
+test_time_of_day_scope_handles_dst_and_weekend (test_opend_capture.LifecycleTests.test_time_of_day_scope_handles_dst_and_weekend) ... ok
+test_unreviewed_sdk_never_connects (test_opend_capture.LifecycleTests.test_unreviewed_sdk_never_connects) ... ok
+test_boundary_ambiguity_and_never_promote (test_provisional_replay.ReplayTests.test_boundary_ambiguity_and_never_promote) ... ok
+test_decode_failure_after_cutoff_also_blocks (test_provisional_replay.ReplayTests.test_decode_failure_after_cutoff_also_blocks) ... ok
+test_inclusive_asof_and_intersection (test_provisional_replay.ReplayTests.test_inclusive_asof_and_intersection) ... ok
+test_integrity_failure_after_cutoff_returns_nothing (test_provisional_replay.ReplayTests.test_integrity_failure_after_cutoff_returns_nothing) ... ok
+test_mismatch_blocks (test_provisional_replay.ReplayTests.test_mismatch_blocks) ... ok
+test_multirow_ties_preserve_wire_order (test_provisional_replay.ReplayTests.test_multirow_ties_preserve_wire_order) ... ok
+test_output_exclusive_and_failure_no_export (test_provisional_replay.ReplayTests.test_output_exclusive_and_failure_no_export) ... DATA_BLOCKED: replay failed: [Errno 17] File exists: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-180vd7nk\\view.json'
+ok
+test_receipt_order_not_label_or_symbol_sort (test_provisional_replay.ReplayTests.test_receipt_order_not_label_or_symbol_sort) ... ok
+test_revisions_repeats_and_last_observed (test_provisional_replay.ReplayTests.test_revisions_repeats_and_last_observed) ... ok
+test_changes_repeats_and_coverage (test_quality_report.QualityTests.test_changes_repeats_and_coverage) ... ok
+test_manifest_safety_metadata_rejected (test_quality_report.QualityTests.test_manifest_safety_metadata_rejected) ... ok
+test_production_import_isolation (test_quality_report.QualityTests.test_production_import_isolation) ... ok
+test_quality_cli_failure_no_export_and_exclusive (test_quality_report.QualityTests.test_quality_cli_failure_no_export_and_exclusive) ... DATA_BLOCKED: quality report failed: [Errno 17] File exists: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-pn019nbx\\quality.json'
+DATA_BLOCKED: quality report failed: [Errno 2] No such file or directory: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-pn019nbx\\capture\\summary.json'
+ok
+test_summary_safety_metadata_rejected_even_empty_cutoff (test_quality_report.QualityTests.test_summary_safety_metadata_rejected_even_empty_cutoff) ... ok
+test_tied_receipt_cutoff_includes_all_rows (test_quality_report.QualityTests.test_tied_receipt_cutoff_includes_all_rows) ... ok
+test_boundary_ambiguity_and_never_promote (test_revision_impact.ImpactTests.test_boundary_ambiguity_and_never_promote) ... ok
+test_decode_failure_after_cutoff_also_blocks (test_revision_impact.ImpactTests.test_decode_failure_after_cutoff_also_blocks) ... ok
+test_impact_cli_exclusive_and_no_partial_export (test_revision_impact.ImpactTests.test_impact_cli_exclusive_and_no_partial_export) ... DATA_BLOCKED: analysis failed: [Errno 17] File exists: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-8pwajg55\\impact.json'
+DATA_BLOCKED: analysis failed: blocked
+ok
+test_impact_cutoffs (test_revision_impact.ImpactTests.test_impact_cutoffs) ... ok
+test_impact_presence_and_fail_closed (test_revision_impact.ImpactTests.test_impact_presence_and_fail_closed) ... ok
+test_impact_safety_flags (test_revision_impact.ImpactTests.test_impact_safety_flags) ... ok
+test_impact_transitions (test_revision_impact.ImpactTests.test_impact_transitions) ... ok
+test_inclusive_asof_and_intersection (test_revision_impact.ImpactTests.test_inclusive_asof_and_intersection) ... ok
+test_integrity_failure_after_cutoff_returns_nothing (test_revision_impact.ImpactTests.test_integrity_failure_after_cutoff_returns_nothing) ... ok
+test_mismatch_blocks (test_revision_impact.ImpactTests.test_mismatch_blocks) ... ok
+test_multirow_ties_preserve_wire_order (test_revision_impact.ImpactTests.test_multirow_ties_preserve_wire_order) ... ok
+test_output_exclusive_and_failure_no_export (test_revision_impact.ImpactTests.test_output_exclusive_and_failure_no_export) ... DATA_BLOCKED: replay failed: [Errno 17] File exists: 'C:\\Users\\louis\\AppData\\Local\\Temp\\synthetic-replay-1t6z5ewc\\view.json'
+ok
+test_receipt_order_not_label_or_symbol_sort (test_revision_impact.ImpactTests.test_receipt_order_not_label_or_symbol_sort) ... ok
+test_revisions_repeats_and_last_observed (test_revision_impact.ImpactTests.test_revisions_repeats_and_last_observed) ... ok
+
+----------------------------------------------------------------------
+Ran 85 tests in 2.009s
+
+OK

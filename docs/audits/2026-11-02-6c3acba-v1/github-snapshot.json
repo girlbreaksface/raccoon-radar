@@ -1,0 +1,786 @@
+{
+  "retrieved_date": "2026-11-02",
+  "prs": [
+    {
+      "number": 43,
+      "head": "fb38c328c57cb2d819adaaa706d6eaf8ceb082bb",
+      "base": "838851a3cfd248b19bd0a2a590a7bf55756eaed2",
+      "head_ref": "research/read-only-feed-contract",
+      "base_ref": "research/v12-protocol-reconciliation",
+      "draft": true,
+      "merged": false,
+      "state": "open",
+      "body": "The existing feed contract could only evaluate synthetic eligibility. This draft now adds an opt-in bounded quote-only raw-capture journal/validator and pinned OpenD runner, while retaining the PR39 S0 recommendation and PR40 comparator. Every raw record remains UNKNOWN finality / DATA_BLOCKED; no detector or dashboard integration.\n\nBase remains PR41 `838851a3cfd248b19bd0a2a590a7bf55756eaed2`. Head `b890c65d7713906145c7ab4210c574c67fccc3e1`. CI test merge `520a41c6da02f849757ad9d401936e7ea38bcf1d`; fetched head/test-merge tree both `32a5de818ef8b6570d50d44492bf1de7c57a51b7`. This is a CI checkout, not a merged PR.\n\nCapture plan: `research/feed_contract/CAPTURE_PLAN.md`. One localhost quote subscription for US.SPY/US.QQQ K_1M RTH, no cached first push/history/retries/reconnect/account queries/order methods.120-second observation within300-second process watchdog;5000 records/10MiB receipt journal/64KiB serialized protobuf/128 app queue slots;30-second per-symbol silence and250ms wall-versus-monotonic divergence limits. Exclusive local journal, byte preservation, payload hashes/hash chain, fsync acknowledgements, seal verification and receipt-as-of prefix. Serialization is SDK protobuf, not original packet bytes. Source mapping, calendar authority, UTC accuracy, coverage/delay, adjustment and FINAL guarantees remain unverified. Full scoped/expiring authorities, provider completeness and detector integration remain unfinished. Code is a raw-evidence prototype, not a verified live feed adapter.\n\nActual bounded attempt on2026-10-30: user explicitly confirmed API access/local retention and logged into OpenD locally. Matching SDK/OpenD10.11.7108 and localhost listener verified. One supervised attempt stopped during SDK import: Windows Application Control blocked native Crypto.Util._cpuid_c (WinError4551). Returncode1, no watchdog timeout. Local TCP probe succeeded but no quote context/subscription/journal was created; zero market records. No workaround, policy change or autonomous retry. Raw/local environment logs stay local, excluded from Git. Final runner imports dependencies before any probe and closes context even on seal failure. Next prerequisite is a policy-approved working SDK/native-dependency environment; changed builds require review and repinning. Even a successful raw capture would not establish FINAL eligibility or predictive accuracy.\n\nLocal validation:47 guarded contract/capture tests (24 inherited+23 new),54 reconciliation tests, exact88-case synthetic reproduction,158 existing guarded tests PASS; isolated syntax and whitespace checks PASS. These are separate suites, not a cumulative count on main. Fake SDK tests cover scope, journal limits/integrity/as-of, disk failure, queue overflow, rejection, disconnect/no reconnect, cleanup, version guard and watchdog kill; they do not certify actual SDK/native/provider behavior.\n\nCurrent-head Windows/Linux CI SUCCESS (job conclusions and logs inspected):\n- [Contract/capture41096964606](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41096964606): Windows job124205061114 / Linux job124205061382, each47 contract/capture tests +54 reconciliation tests + exact88-case reproduction + isolated compilation PASS.\n- [Base41096964473](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41096964473): Windows job124205060723 / Linux job124205060763, each158 existing guarded tests + compilation PASS.\n- [Presentation41096964436](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41096964436): Windows job124205060860 / Linux job124205061041, each158 guarded tests + compilation PASS; Windows Tk smoke PASS, Linux GUI intentionally skipped.\n- [Reconciliation41096964452](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41096964452): Windows/Linux SUCCESS. CI never installs or contacts the provider SDK.\n\nOriginal dashboard, user SQLite/CSV stores, thresholds and PR37/38 preserved. Existing PR base unchanged; draft retained. No order/trade/financial transaction, merge, retarget or deployment. Close this isolated draft for rollback; raw evidence remains local. No independent-review or live-data-readiness claim."
+    },
+    {
+      "number": 44,
+      "head": "99ed196ae60b5894816fefe8c414f0007bea6e43",
+      "base": "fb38c328c57cb2d819adaaa706d6eaf8ceb082bb",
+      "head_ref": "feature/offline-provisional-replay",
+      "base_ref": "research/read-only-feed-contract",
+      "draft": true,
+      "merged": false,
+      "state": "open",
+      "body": "Adds a standalone offline JSON replay for sealed SPY/QQQ captures. Groups exact symbol/source-label pairs in receipt order, retains every raw revision and payload, and selects last-observed snapshots using inclusive sequence/receipt cutoffs. Full capture integrity and decoding are checked before selection; all output remains PROVISIONAL / UNKNOWN / DATA_BLOCKED. Exports include source/verifier/schema hashes and use exclusive creation.\n\nNo timestamp shifts, finality promotion, completeness/provider/adjustment certification, dashboard or strategy integration. Reads installed protobuf descriptor literals without importing moomoo or opening provider contexts.\n\nValidation: guarded feed-contract suite 57 tests passes (9 new regressions); broader guarded project suite 158 tests passes. Real Nov 2 capture: 1,143 receipts (545 SPY/598 QQQ), six label groups, QQQ 386/388 open+low revision verified under OfflineGuard; source evidence hashes unchanged. Syntax parsed across project. Windows Python 3.12.10 with existing capture environment; Linux/Python 3.11 not locally verified. System Python lacks tzdata and fails one pre-existing timezone test; capture environment passes.\n\nChanged files: research/feed_contract/provisional_replay.py, test_provisional_replay.py, PROVISIONAL_REPLAY.md. Stacked on existing feed-contract branch fb38c32, not main. See guide for usage and limitations. No live provider request, order, merge or deployment performed."
+    },
+    {
+      "number": 45,
+      "head": "b73740402be823837b4dc8835ad25696f5bc2fe1",
+      "base": "99ed196ae60b5894816fefe8c414f0007bea6e43",
+      "head_ref": "feature/offline-candle-quality",
+      "base_ref": "feature/offline-provisional-replay",
+      "draft": true,
+      "merged": false,
+      "state": "open",
+      "body": "Adds strictly offline candle-observation JSON and strengthens sealed-journal verification before any receipt cutoff is selected. Output retains exact source labels, every revision and repeat, and PROVISIONAL / UNKNOWN / DATA_BLOCKED throughout.\n\nThe stacked review found two verifier gaps: unsupported manifest/seal safety metadata, and hash-consistent records with invalid sequence types or impossible receipt/journal chronology. Both now fail closed, including empty cutoffs. Regression tests recompute seals to distinguish semantic checks from ordinary hash-tamper detection.\n\nThe provider contract review documents authoritative OpenD facts separately from unresolved behavior: US Eastern labels, repeated same-label updates, rehabType 1 forward adjustment and the documented price-factor formula are supported. Start/end boundaries, late-correction limits, permanent finality and the capture's actual/versioned factors remain unresolved. Current v10.12 documentation is not certification of pinned 10.11.7108 behavior. See research/feed_contract/PROVIDER_CONTRACT_REVIEW.md for sources, residual limitations and support questions.\n\nValidation at b73740402be823837b4dc8835ad25696f5bc2fe1:\n- Windows/Python 3.12.10 locally: 65 guarded feed tests, 158 broader project tests and 54 reconciliation tests passed; all 88 inherited synthetic evidence variants reproduced.\n- Full local capture replay/quality report under OfflineGuard: 1,143 receipts, six exact-label groups, QQQ sequence 386/388 revision retained; all three original evidence hashes unchanged. No moomoo package import. Private evidence was not uploaded.\n- Feed source syntax and whitespace checks passed.\n- All four current-head workflows passed: [feed matrix](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41481225363) (Ubuntu/Windows, Python 3.11/3.12), [Python validation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41481225504), [presentation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41481225278), and [reconciliation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41481226438). Windows feed job logs independently confirm 65 feed and 54 reconciliation tests.\n\nStack remains draft #43 -> #44 -> #45. Base is #44 at 99ed196ae60b5894816fefe8c414f0007bea6e43, not main. No live provider calls, trading, database changes, merge, retarget or deployment."
+    },
+    {
+      "number": 47,
+      "head": "d151a0aceff4641a539db062cfa5048ee4c4ec8d",
+      "base": "b73740402be823837b4dc8835ad25696f5bc2fe1",
+      "head_ref": "feature/offline-asof-revision-impact",
+      "base_ref": "feature/offline-candle-quality",
+      "draft": true,
+      "merged": false,
+      "state": "open",
+      "body": "Adds deterministic snapshots at two explicit inclusive receipt cutoffs and reports every intervening first observation, field revision and exact repeat. Verifies/decodes the whole sealed capture once before selecting either cutoff, preserves source labels, raw receipts, all selected history and wire ordering, and retains PROVISIONAL / UNKNOWN / DATA_BLOCKED with completeness NOT_ESTABLISHED.\n\nStacked on unchanged draft #45 at b73740402be823837b4dc8835ad25696f5bc2fe1. Related provider blocker #46 remains open. No inferred candle boundaries, finality, completeness or strategy eligibility.\n\nLocal Windows/Python 3.12.10 validation: 79 guarded feed tests passed (65 inherited suite cases, nine inherited fixture cases rerun, five new impact cases); 54 reconciliation tests passed; all 88 synthetic evidence variants reproduced. 158 broader guarded project tests passed. All four current-head CI workflows and all ten jobs passed at d151a0aceff4641a539db062cfa5048ee4c4ec8d: [feed matrix](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41488593870), [Python validation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41488593676), [presentation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41488593603), [reconciliation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41488593659). Windows Tk smoke passed; Linux Tk smoke skipped.\n\nThe committed local-only reference regression passed against the private sealed capture: 1,143 receipts/rows, six groups, full observation preservation, deterministic repeat analysis, sequence/receipt-time agreement, QQQ open/low 696.88 -> 696.9054 at sequences 386/388, unchanged three evidence byte hashes, no moomoo package import. Capture and full JSON remain local and are not uploaded to CI.\n\nSee research/feed_contract/ASOF_REVISION_IMPACT.md for reproduction, provenance, cutoff semantics and limitations. The analysis holds/copies research-sized captures in memory. Observation differences do not establish provider correction guarantees, returns or predictive evidence. No provider email, live OpenD call, trading, database change, merge or deployment."
+    },
+    {
+      "number": 48,
+      "head": "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d",
+      "base": "d151a0aceff4641a539db062cfa5048ee4c4ec8d",
+      "head_ref": "feature/offline-field-path-audit",
+      "base_ref": "feature/offline-asof-revision-impact",
+      "draft": true,
+      "merged": false,
+      "state": "open",
+      "body": "Endpoint equality can hide provisional field changes that later return to the baseline. Adds a deterministic field-path audit over PR #47's fully verified as-of evidence, distinguishing unchanged paths, net changes, and returned-to-anchor excursions with per-change sequence/row references, field-presence states, counts and source-hash provenance. New groups explicitly have no baseline; first visibility is not a revision. Full inherited evidence, source labels, revisions and repeats remain attached.\n\nStacked on unchanged draft #47 at d151a0aceff4641a539db062cfa5048ee4c4ec8d (itself on #45). Issue #46 remains unresolved. Outputs retain PROVISIONAL / UNKNOWN / DATA_BLOCKED and completeness NOT_ESTABLISHED; no boundary, finality or strategy claims.\n\nValidation on Windows/Python 3.12.10 in the existing pinned environment: 85 guarded feed tests passed, including six new synthetic audit regressions without inherited-case duplication; 54 reconciliation tests passed; 88 synthetic evidence variants reproduced. 158 broader guarded project tests passed. All four exact-head CI workflows and all ten jobs passed at 6c3acba2f22d582cbe9102d9e9aea3f12b31b62d: [feed matrix](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012811), [Python validation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012876), [presentation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012896), [reconciliation](https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012809). Windows Tk smoke passed; Linux Tk smoke skipped. Existing four-platform feed matrix discovers the new tests.\n\nPrivate local-only regression passed: 1,143 observations/six groups, deterministic QQQ 386/388 open/low field changes, every full-capture change reference resolved, three original evidence hashes unchanged, SDK package not imported. Full-capture first-observation anchors yielded 42 unchanged fields, 36 net-changed and zero returned-to-anchor: hidden excursions are demonstrated synthetically, not asserted for this capture. No private receipts or report JSON uploaded.\n\nSee research/feed_contract/FIELD_PATH_AUDIT.md for semantics, reproduction and limits. Research-sized evidence remains in memory. Decoded equality is not wire identity, observed stability is not finality, and aggregate field counts are not independent statistical samples. No live OpenD, provider email, trading, database changes, merge or deployment."
+    }
+  ],
+  "ci": [
+    {
+      "run": {
+        "id": 41491012876,
+        "head_sha": "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012876",
+        "event": "pull_request"
+      },
+      "jobs": [
+        {
+          "id": 125433682076,
+          "name": "validate (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012876,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Compile Python source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run guarded offline release checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Check out source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        },
+        {
+          "id": 125433682611,
+          "name": "validate (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012876,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Compile Python source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run guarded offline release checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Check out source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": {
+        "id": 41491012896,
+        "head_sha": "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012896",
+        "event": "pull_request"
+      },
+      "jobs": [
+        {
+          "id": 125433692746,
+          "name": "offline (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012896,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Guarded offline tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Compile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Windows Tk widget smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            }
+          ]
+        },
+        {
+          "id": 125433693403,
+          "name": "offline (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012896,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Guarded offline tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Compile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Windows Tk widget smoke",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": {
+        "id": 41491012809,
+        "head_sha": "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012809",
+        "event": "pull_request"
+      },
+      "jobs": [
+        {
+          "id": 125433681928,
+          "name": "synthetic (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012809,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Guarded synthetic comparison and pinned comparator regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Compile isolated additions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Reproduce evidence exactly",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            }
+          ]
+        },
+        {
+          "id": 125433682380,
+          "name": "synthetic (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012809,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Guarded synthetic comparison and pinned comparator regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Compile isolated additions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Reproduce evidence exactly",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": {
+        "id": 41491012811,
+        "head_sha": "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/girlbreaksface/raccoon-radar/actions/runs/41491012811",
+        "event": "pull_request"
+      },
+      "jobs": [
+        {
+          "id": 125433682867,
+          "name": "validate (ubuntu-latest, 3.11)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012811,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Timezone fallback for offline DST tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Mock feed eligibility checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Unchanged reconciliation checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Exact inherited evidence reproduction",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Compile isolated model",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125433683029,
+          "name": "validate (windows-latest, 3.11)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012811,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Timezone fallback for offline DST tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Mock feed eligibility checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Unchanged reconciliation checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Exact inherited evidence reproduction",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Compile isolated model",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125433683086,
+          "name": "validate (windows-latest, 3.12)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012811,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Timezone fallback for offline DST tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Mock feed eligibility checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Unchanged reconciliation checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Exact inherited evidence reproduction",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Compile isolated model",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125433683207,
+          "name": "validate (ubuntu-latest, 3.12)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41491012811,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Timezone fallback for offline DST tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Mock feed eligibility checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Unchanged reconciliation checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Exact inherited evidence reproduction",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Compile isolated model",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

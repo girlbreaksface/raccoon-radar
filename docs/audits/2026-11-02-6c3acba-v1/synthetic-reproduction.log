@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "C:\Users\louis\Documents\Codex\2026-11-02\referenced-chatgpt-conversation-this-is-an-8\work\radar\research\reconciliation\verify_evidence.py", line 9, in <module>
+    from compare import evidence
+ModuleNotFoundError: No module named 'compare'
