@@ -140,6 +140,14 @@ def verify(directory, *, cutoff_ns=None, sequence=None):
     directory = Path(directory)
     manifest = json.loads((directory / 'manifest.json').read_bytes())
     summary = json.loads((directory / 'summary.json').read_bytes())
+    if (type(manifest.get('schema')) is not int or manifest['schema'] != 1
+            or manifest.get('mode') != 'RAW_ONLY'
+            or manifest.get('strategy_status') != 'DATA_BLOCKED'
+            or manifest.get('symbols') != list(SYMBOLS)
+            or type(summary.get('schema')) is not int or summary['schema'] != 1
+            or summary.get('finality') != 'UNKNOWN'
+            or summary.get('completeness') != 'NOT_ESTABLISHED'):
+        raise ValueError('Unsupported seal safety metadata')
     chain = digest(manifest)
     records = []
     size = 0
