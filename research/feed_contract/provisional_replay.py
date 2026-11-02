@@ -123,6 +123,11 @@ def replay(directory, *, sequence=None, cutoff_ns=None, decoder=None):
                 provider_accuracy='NOT_ESTABLISHED', adjustment_factors='UNKNOWN',
                 as_of=dict(sequence=sequence, received_wall_ns=cutoff_ns),
                 provenance=dict(decoder=identity, verified_receipts=len(records),
+                                replay_source_sha256=hashlib.sha256(
+                                    Path(__file__).read_bytes()).hexdigest(),
+                                verifier_source_sha256=hashlib.sha256(
+                                    Path(__file__).with_name('capture.py').read_bytes()).hexdigest(),
+                                verified_last_hash=records[-1]['hash'] if records else None,
                                 manifest_sha256=hashlib.sha256(
                                     (Path(directory) / 'manifest.json').read_bytes()).hexdigest()),
                 receipts=[copy.deepcopy(r) for r in records
