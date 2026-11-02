@@ -47,3 +47,7 @@ The fake-feed CI matrix runs guarded synthetic checks on Ubuntu and Windows with
 Python 3.11 and 3.12. CI needs no SDK, credentials, private capture or provider.
 Timezone data is installed for existing DST checks; test execution is guarded.
 Real SDK decoding is a separate local check, not claimed by synthetic CI.
+
+See [stacked engineering and provider contract review](PROVIDER_CONTRACT_REVIEW.md)
+for the follow-up receipt chronology fix and the documented versus unresolved
+OpenD label, revision, finality and adjustment contract.
