@@ -30,3 +30,6 @@ The local regression pins all three original evidence byte hashes, checks 1,143 
 Synthetic tests cover repeats, revisions/reversions, first observations, detached data, label order, same-receipt rows, empty/equal/intersected cutoffs, malformed or reversed selections, optional field presence, late decode/integrity failure, exclusive CLI output and safety flags. The fixture subclass also reruns nine inherited replay cases. Existing CI discovers these tests on Linux/Windows with Python 3.11/3.12; it does not run the private reference regression.
 
 Provider boundaries, finality, completeness, clock accuracy and adjustment factors remain unresolved under issue #46. No production eligibility or trading behavior changes.
+
+For field trajectories that distinguish unchanged endpoints from intervening
+excursions back to an anchor, see [FIELD_PATH_AUDIT.md](FIELD_PATH_AUDIT.md).
