@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from capture import Journal, CaptureStopped, verify
+from capture import Journal, CaptureStopped, verify, digest, encode
 
 
 class CaptureTests(unittest.TestCase):
@@ -23,6 +23,52 @@ class CaptureTests(unittest.TestCase):
                     payload=b'\x00SYNTHETIC\xff')
         args.update(kw)
         return self.j.append(**args)
+
+    def test_resealed_invalid_receipt_chronology_blocks_empty_cutoff(self):
+        self.add(); self.add(); self.j.finish('TIME_LIMIT')
+        path = self.directory / 'receipts.jsonl'
+        original = [json.loads(line) for line in path.read_bytes().splitlines()]
+        seal = json.loads((self.directory / 'summary.json').read_bytes())
+        cases = [(0, 'sequence', True), (0, 'received_wall_ns', True),
+                 (0, 'received_mono_ns', -1),
+                 (1, 'received_wall_ns', self.clock[0]-1),
+                 (0, 'received_mono_ns', 1),
+                 (1, 'journal_wall_ns', self.clock[0]-1),
+                 (0, 'journal_wall_ns', self.clock[0]+250_000_001)]
+        for index, field, value in cases:
+            with self.subTest(field=field, value=value):
+                rows = [dict(r) for r in original]
+                rows[index][field] = value
+                chain = seal['manifest_sha256']
+                lines = []
+                for row in rows:
+                    row.pop('hash')
+                    row['previous'] = chain
+                    chain = digest(row)
+                    lines.append(encode(dict(row, hash=chain)) + b'\n')
+                raw = b''.join(lines)
+                path.write_bytes(raw)
+                (self.directory / 'summary.json').write_bytes(encode(
+                    dict(seal, last_hash=chain, bytes=len(raw))))
+                with self.assertRaises(ValueError):
+                    verify(self.directory, sequence=0)
+
+    def test_verifier_rejects_invalid_cutoffs_and_clock_origin(self):
+        self.j.finish('TIME_LIMIT')
+        for name in ('sequence', 'cutoff_ns'):
+            for value in (-1, True, 1.5):
+                with self.subTest(name=name, value=value):
+                    with self.assertRaises(ValueError):
+                        verify(self.directory, **{name: value})
+        manifest = self.directory / 'manifest.json'
+        data = json.loads(manifest.read_bytes())
+        data['start_mono_ns'] = True
+        manifest.write_bytes(encode(data))
+        seal = json.loads((self.directory / 'summary.json').read_bytes())
+        seal.update(manifest_sha256=digest(data), last_hash=digest(data))
+        (self.directory / 'summary.json').write_bytes(encode(seal))
+        with self.assertRaisesRegex(ValueError, 'clock origin'):
+            verify(self.directory)
 
     def test_exclusive_no_overwrite(self):
         with self.assertRaises(FileExistsError):

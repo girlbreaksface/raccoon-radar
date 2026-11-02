@@ -140,6 +140,21 @@ def verify(directory, *, cutoff_ns=None, sequence=None):
     directory = Path(directory)
     manifest = json.loads((directory / 'manifest.json').read_bytes())
     summary = json.loads((directory / 'summary.json').read_bytes())
+    if (type(manifest.get('schema')) is not int or manifest['schema'] != 1
+            or manifest.get('mode') != 'RAW_ONLY'
+            or manifest.get('strategy_status') != 'DATA_BLOCKED'
+            or manifest.get('symbols') != list(SYMBOLS)
+            or type(summary.get('schema')) is not int or summary['schema'] != 1
+            or summary.get('finality') != 'UNKNOWN'
+            or summary.get('completeness') != 'NOT_ESTABLISHED'):
+        raise ValueError('Unsupported seal safety metadata')
+    for name, value in (('sequence', sequence), ('cutoff_ns', cutoff_ns)):
+        if value is not None and (type(value) is not int or value < 0):
+            raise ValueError(f'{name} must be a nonnegative integer')
+    start = (manifest.get('start_wall_ns'), manifest.get('start_mono_ns'))
+    if any(type(v) is not int or v < 0 for v in start):
+        raise ValueError('Invalid capture clock origin')
+    previous_receipt = previous_journal = start
     chain = digest(manifest)
     records = []
     size = 0
@@ -149,6 +164,17 @@ def verify(directory, *, cutoff_ns=None, sequence=None):
             if size > 10*1024*1024 or len(records) >= 5000 or not line.endswith(b'\n'):
                 raise ValueError('Capture bounds or framing')
             r = json.loads(line)
+            receipt = (r.get('received_wall_ns'), r.get('received_mono_ns'))
+            journal = (r.get('journal_wall_ns'), r.get('journal_mono_ns'))
+            if (type(r.get('sequence')) is not int
+                    or any(type(v) is not int or v < 0 for v in receipt + journal)
+                    or any(v < old for v, old in zip(receipt, previous_receipt))
+                    or any(v < old for v, old in zip(journal, previous_journal))
+                    or any(v > saved for v, saved in zip(receipt, journal))
+                    or any(abs((pair[0]-start[0])-(pair[1]-start[1])) > 250_000_000
+                           for pair in (receipt, journal))):
+                raise ValueError('Invalid capture receipt chronology')
+            previous_receipt, previous_journal = receipt, journal
             hashed = r.pop('hash')
             payload = base64.b64decode(r['payload_b64'], validate=True)
             if (r['previous'] != chain or digest(r) != hashed
