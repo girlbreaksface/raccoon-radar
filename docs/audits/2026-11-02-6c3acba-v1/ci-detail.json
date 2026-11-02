@@ -1,0 +1,18 @@
+{
+  "ci_checkout": {
+    "sha": "f443b9be1fbf3cf62fed98d1d10b63ef061efe30",
+    "tree": "d001d9a189a2c359663ceb614cbd71dde87be471",
+    "parents": [
+      "d151a0aceff4641a539db062cfa5048ee4c4ec8d",
+      "6c3acba2f22d582cbe9102d9e9aea3f12b31b62d"
+    ]
+  },
+  "logs_inspected": [
+    125433683086,
+    125433682611
+  ],
+  "issue46": {
+    "state": "open",
+    "url": "https://github.com/girlbreaksface/raccoon-radar/issues/46"
+  }
+}
