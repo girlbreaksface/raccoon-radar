@@ -15,9 +15,9 @@ class IsolationTests(unittest.TestCase):
                              1, b'raw-a')
         self.b = replace(self.a, sequence=2, raw=b'raw-b')
 
-    def run_gate(self, observations=None, identity=None, **kwargs):
-        return isolate((self.a, self.b) if observations is None else observations,
-                       self.identity if identity is None else identity,
+    def run_gate(self, observations=..., identity=..., **kwargs):
+        return isolate((self.a, self.b) if observations is ... else observations,
+                       self.identity if identity is ... else identity,
                        synthetic=True, **kwargs)
 
     def test_matching_stream_retains_every_observation_without_promotion(self):
