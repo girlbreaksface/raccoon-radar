@@ -11,7 +11,7 @@ only typed frozen synthetic records. Identity contains mode, provider, endpoint,
 schema_version, coverage, session, interval, adjustment, adjustment_anchor and
 adjustment_version. These fields are exact case-sensitive declared strings.
 There is no normalization, alias, endpoint equivalence or adjustment-enum shortcut.
-Missing, blank, padded, control-character or UNKNOWN/UNVERIFIED/NOT_ESTABLISHED
+Missing, blank, padded, Unicode Cc control-character or UNKNOWN/UNVERIFIED/NOT_ESTABLISHED
 identity fields fail closed. Matching unknowns cannot establish compatibility.
 All dimensions must match the requested identity for every observation.
 
@@ -74,7 +74,7 @@ No provider, market-data acquisition, private capture, production database,
 real-history study, options/execution model, trading, deployment or merge.
 All trading remains disabled. Rollback removes only the three added files.
 
-## Boundary coverage amendment — 2026-11-03
+## Boundary coverage amendment â€” 2026-11-03
 
 The twelve-method/114-total evidence above describes initial head
 8d84260baa374638933b43372611741c12cb109a. Four additional regression methods
@@ -86,3 +86,16 @@ in every dimension; and sorted,unique reason codes across all24 mixed-error
 permutations. Local118 PASS on unchanged prototype code. These remain bounded
 synthetic mechanism checks. The original completion evidence is retained; fresh
 Windows/Linux CI and the new exact head are recorded in the PR conversation.
+
+## Unicode control rejection follow-up
+
+Addresses PR #55 review discussion_r4462140491. The shared string predicate now
+rejects Unicode general category Cc (C0, DEL and C1) in identity fields and source
+labels, including embedded controls that strip() does not remove. Other Unicode
+text remains exact and unnormalized; this is not a general Unicode security policy.
+Two added regression methods cover every C1 control in expected, observed and
+matching identities and labels, plus preserved non-ASCII text and normalization
+mismatch. Before the fix, 18 isolation methods ran with 896 failing subcases;
+after-fix verification is recorded in the follow-up PR. Prior counts above remain
+historical evidence for unchanged #55. No provider or observer integration.
+DATA_BLOCKED / UNKNOWN / NOT_ESTABLISHED; merge HOLD; trading NO-GO.
