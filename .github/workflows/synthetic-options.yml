@@ -1,0 +1,22 @@
+name: Synthetic options execution
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Guarded fictional options regressions
+        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromName('test_synthetic_options_execution'); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
