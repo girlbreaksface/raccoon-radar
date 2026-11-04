@@ -74,7 +74,7 @@ No provider, market-data acquisition, private capture, production database,
 real-history study, options/execution model, trading, deployment or merge.
 All trading remains disabled. Rollback removes only the three added files.
 
-## Boundary coverage amendment â€” 2026-11-03
+## Boundary coverage amendment - 2026-11-03
 
 The twelve-method/114-total evidence above describes initial head
 8d84260baa374638933b43372611741c12cb109a. Four additional regression methods
