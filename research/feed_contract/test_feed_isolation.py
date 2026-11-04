@@ -143,6 +143,41 @@ class IsolationTests(unittest.TestCase):
                     self.assertEqual(result.observations, ())
                     self.assertIn('IDENTITY_UNESTABLISHED', result.reasons)
 
+    def test_unicode_controls_block_expected_observed_and_labels(self):
+        # Every C1 control, plus C0/DEL representatives; embedded to avoid strip().
+        for codepoint in (0, 9, 31, 127, *range(128, 160)):
+            value = 'a' + chr(codepoint) + 'b'
+            for field in self.identity.__dataclass_fields__:
+                if field == 'mode':
+                    continue  # Mode already requires the exact SYNTHETIC literal.
+                identity = replace(self.identity, **{field: value})
+                row = replace(self.b, identity=identity)
+                for rows, expected in (((row,), identity),
+                                       ((self.a,), identity),
+                                       ((self.a, row), self.identity)):
+                    with self.subTest(codepoint=codepoint, field=field, rows=rows):
+                        result = self.run_gate(rows, identity=expected)
+                        self.assertEqual(result.compatibility, 'BLOCKED')
+                        self.assertEqual(result.observations, ())
+                        self.assertEqual(result.reasons, ('IDENTITY_UNESTABLISHED',))
+                        self.assertEqual((result.status, result.finality, result.completeness),
+                                         ('DATA_BLOCKED', 'UNKNOWN', 'NOT_ESTABLISHED'))
+            with self.subTest(codepoint=codepoint, field='source_label'):
+                result = self.run_gate((self.a, replace(self.b, source_label=value)))
+                self.assertEqual(result.compatibility, 'BLOCKED')
+                self.assertEqual(result.observations, ())
+                self.assertEqual(result.reasons, ('OBSERVATION_INVALID',))
+
+    def test_non_ascii_declared_strings_are_preserved_without_normalization(self):
+        identity = replace(self.identity, provider='caf\u00e9-\u03b1', coverage='\u6771\u4eac')
+        rows = (replace(self.a, identity=identity, source_label='\u00e9-\u6771\u4eac'),)
+        result = self.run_gate(rows, identity=identity)
+        self.assertEqual(result.compatibility, 'COMPATIBLE')
+        self.assertIs(result.observations, rows)
+        decomposed = replace(identity, provider='cafe\u0301-\u03b1')
+        self.assertEqual(self.run_gate(rows, identity=decomposed).reasons,
+                         ('INCOMPATIBLE_STREAM',))
+
     def test_combined_errors_are_sorted_unique_and_order_independent(self):
         rows = (None, replace(self.a, raw=b''),
                 replace(self.b, identity=replace(self.identity, endpoint='other')),

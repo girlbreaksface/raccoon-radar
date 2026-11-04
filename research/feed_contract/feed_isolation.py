@@ -4,6 +4,7 @@ Identity strings are caller declarations, never authenticated provider evidence.
 This module is intentionally disconnected from the existing receipt observer.
 """
 from dataclasses import dataclass, fields
+from unicodedata import category
 
 
 @dataclass(frozen=True)
@@ -43,7 +44,7 @@ def _known(value):
     return (type(value) is str and 0 < len(value) <= 256
             and value == value.strip()
             and value.upper() not in {'UNKNOWN', 'UNVERIFIED', 'NOT_ESTABLISHED'}
-            and not any(ord(char) < 32 or ord(char) == 127 for char in value))
+            and not any(category(char) == 'Cc' for char in value))
 
 
 def _identity(value):
