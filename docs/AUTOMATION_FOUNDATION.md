@@ -36,7 +36,7 @@ GitHub account-level workflow notification preferences remain user-controlled.
 
 ## Use and evidence
 
-CI runs on PRs, main pushes, this development branch and manual dispatch on
+CI runs on PRs, main pushes and manual dispatch on
 Windows/Linux with Python 3.11/3.12. It uploads separate 30-day evidence artifacts
 even when a test fails. Setup/download failures remain visible in Actions logs;
 missing evidence is an error, never a passing readiness result. No PR secrets,

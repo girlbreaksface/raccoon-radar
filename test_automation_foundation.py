@@ -2,10 +2,36 @@
 import subprocess
 import sys
 import unittest
+import json
+from pathlib import Path
+import tempfile
+from unittest.mock import patch
+import automation_foundation
 from automation_foundation import COMMANDS, infrastructure_retry, readiness
 
 
 class FoundationTests(unittest.TestCase):
+    def test_timeout_preserves_diagnostics_and_runs_remaining_suites(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / 'evidence'
+            outcomes = [subprocess.TimeoutExpired('fixture', 600)] + [
+                subprocess.CompletedProcess([], 0) for _ in range(3)]
+            with patch.object(sys, 'argv', ['foundation', '--output', str(output)]), \
+                    patch.object(automation_foundation.subprocess, 'run', side_effect=outcomes) as run:
+                self.assertEqual(automation_foundation.main(), 1)
+                self.assertEqual(run.call_count, 4)
+            report = json.loads((output / 'readiness.json').read_text())
+            self.assertEqual(report['repository_verification']['root']['status'], 'ERROR')
+            self.assertEqual(report['synthetic_regression'], 'FAIL')
+            for result in report['repository_verification'].values():
+                self.assertTrue((output / result['log']).exists())
+                self.assertEqual(len(result['log_sha256']), 64)
+            with patch.object(sys, 'argv', ['foundation', '--output', str(output)]), \
+                    patch.object(automation_foundation.subprocess, 'run') as run:
+                with self.assertRaises(FileExistsError):
+                    automation_foundation.main()
+                run.assert_not_called()
+
     def test_passing_synthetic_checks_cannot_release_operations(self):
         report = readiness({name: {'status': 'PASS'} for name in COMMANDS})
         self.assertEqual(report['synthetic_regression'], 'PASS')

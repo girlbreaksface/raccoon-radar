@@ -2,7 +2,7 @@ name: Automation foundation
 on:
   pull_request:
   push:
-    branches: [main, 'ci/automation-foundation']
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
