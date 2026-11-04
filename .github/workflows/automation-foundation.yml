@@ -1,0 +1,38 @@
+name: Automation foundation
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Download timezone dependency with bounded transport retry
+        run: python -B automation_foundation.py --download-ci-dependency
+      - name: Install downloaded dependency offline
+        run: python -m pip install --no-index --find-links work/ci-dependencies tzdata==2026.5
+      - name: Guarded regressions and exact synthetic evidence reproduction
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: python -B automation_foundation.py --output work/evidence
+      - name: Preserve diagnostics even after failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundation-${{ matrix.os }}-py${{ matrix.python }}-${{ github.run_attempt }}
+          path: work/evidence/
+          if-no-files-found: error
+          retention-days: 30

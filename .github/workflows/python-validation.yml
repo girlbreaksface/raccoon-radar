@@ -24,6 +24,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Download pinned timezone fallback with bounded transport retry
+        run: python -B automation_foundation.py --download-ci-dependency
+      - name: Install timezone fallback offline
+        run: python -m pip install --no-index --find-links work/ci-dependencies tzdata==2026.5
       - name: Compile Python source
         run: python -m compileall -q .
       - name: Run guarded offline release checks
