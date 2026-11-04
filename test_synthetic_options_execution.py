@@ -36,6 +36,16 @@ class OptionsTests(unittest.TestCase):
         self.assertEqual(r.ledger[1][-2], r.ledger[0][-1])
         self.assertEqual(r.trading, 'NO-GO')
 
+    def test_five_percent_target_boundary_and_fees(self):
+        below = self.sim((self.q(), self.q(3, '.209', '.22')))
+        self.assertEqual(below.ledger[0][1], 'BUY')
+        self.assertEqual(len(below.ledger), 1)
+        at_target = self.sim((self.q(), self.q(3, '.21', '.22')),
+                             Config(fee_per_fill='.50'))
+        self.assertEqual(at_target.ledger[1][1], 'SELL_TARGET')
+        self.assertEqual(Decimal(at_target.realized_net), Decimal('0'))
+        self.assertEqual(at_target.trading, 'NO-GO')
+
     def test_stop_boundary_and_gap_fills_at_bid(self):
         for bid, pnl in (('.17', '-3'), ('.10', '-10')):
             r = self.sim((self.q(), self.q(3, bid, '.21')))
