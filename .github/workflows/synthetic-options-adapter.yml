@@ -19,4 +19,4 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Guarded synthetic adapter tests
-        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromNames(['test_synthetic_options_adapter', 'test_paper_only_validation']); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
+        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromNames(['test_synthetic_options_adapter', 'test_paper_only_validation', 'test_paper_account_preflight', 'test_paper_order_review', 'test_paper_pilot']); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
