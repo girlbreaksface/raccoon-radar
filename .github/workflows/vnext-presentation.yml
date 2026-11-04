@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Timezone fallback for offline session checks
+        run: python -m pip install tzdata
       - name: Guarded offline tests
         run: python -B offline_checks.py
       - name: Compile
