@@ -12,13 +12,25 @@ CONTRACT = 'US.SPY261105C777000'
 
 
 def execute_pilot(sdk, context, journal_path, *, verified_quote, pause,
-                  expected_fingerprint, reviewed=False):
+                  expected_fingerprint, reviewed=False, kill_switch=None):
     """Reviewed Nov 4 pilot only; .20 BUY, .01 close limit; at most two submissions.
 
     An uncertain submission consumes the exclusive journal; never rerun it.
     A remaining position/order requires manual paper-account reconciliation.
     verified_quote is a callable returning False on any stale/unknown input.
+    kill_switch must return exactly False to permit entry. Missing/failed state
+    blocks entry; an active switch does not veto the verified long-only close.
+    This entry interlock does not monitor or cancel an already pending order.
     """
+    def entry_enabled():
+        # Missing, failed or non-boolean state never authorizes new exposure.
+        try:
+            return callable(kill_switch) and kill_switch() is False
+        except Exception:
+            return False
+
+    if not entry_enabled():
+        raise ValueError('Verified inactive kill switch required')
     if reviewed is not True or verified_quote() is not True:
         raise ValueError('Reviewed pilot and current verified quote required')
     if (type(expected_fingerprint) is not str or len(expected_fingerprint) != 64
@@ -62,11 +74,17 @@ def execute_pilot(sdk, context, journal_path, *, verified_quote, pause,
         def submit(side, price):
             # Re-read account classification immediately before every submission.
             ret, rows = context.get_acc_list()
-            if ret != sdk.RET_OK or not any(
-                r.get('acc_id') == account and r.get('trd_env') == sdk.TrdEnv.SIMULATE
-                and r.get('acc_status') == sdk.TrdAccStatus.ACTIVE
-                for r in rows.to_dict('records')):
+            matched = [] if ret != sdk.RET_OK else [
+                r for r in rows.to_dict('records') if r.get('acc_id') == account]
+            if (len(matched) != 1
+                    or matched[0].get('trd_env') != sdk.TrdEnv.SIMULATE
+                    or matched[0].get('acc_status') != sdk.TrdAccStatus.ACTIVE
+                    or matched[0].get('sim_acc_type') != sdk.SimAccType.STOCK_AND_OPTION
+                    or sdk.TrdMarket.US not in matched[0].get('trdmarket_auth', [])):
                 raise RuntimeError('Paper account changed')
+            if side == sdk.TrdSide.BUY and not entry_enabled():
+                log('ENTRY_KILLED')
+                raise RuntimeError('Kill switch blocked entry')
             log('SUBMIT_INTENT', side=side, price=price, quantity=1)
             ret, data = context.place_order(price=price, qty=1, code=CONTRACT,
                 trd_side=side, order_type=sdk.OrderType.NORMAL, adjust_limit=0,
