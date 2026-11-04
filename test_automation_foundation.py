@@ -70,5 +70,5 @@ class FoundationTests(unittest.TestCase):
 
     @staticmethod
     def command():
-        return [sys.executable, '-m', 'pip', 'download', '--no-deps',
+        return [sys.executable, '-m', 'pip', 'download', '--retries', '0', '--timeout', '30', '--no-deps',
                 '--dest', 'work/ci-dependencies', 'tzdata==2026.5']

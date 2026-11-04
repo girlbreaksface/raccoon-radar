@@ -47,7 +47,7 @@ def readiness(results):
 
 def infrastructure_retry(command, run=subprocess.run, sleep=time.sleep):
     """Retry only a fixed tzdata download, once, on explicit transport failures."""
-    allowed = [sys.executable, '-m', 'pip', 'download', '--no-deps',
+    allowed = [sys.executable, '-m', 'pip', 'download', '--retries', '0', '--timeout', '30', '--no-deps',
                '--dest', 'work/ci-dependencies', 'tzdata==2026.5']
     if command != allowed:
         raise ValueError('Only the fixed dependency download may be retried')
@@ -69,7 +69,7 @@ def main():
     parser.add_argument('--download-ci-dependency', action='store_true')
     args = parser.parse_args()
     if args.download_ci_dependency:
-        return infrastructure_retry([sys.executable, '-m', 'pip', 'download', '--no-deps',
+        return infrastructure_retry([sys.executable, '-m', 'pip', 'download', '--retries', '0', '--timeout', '30', '--no-deps',
                                      '--dest', 'work/ci-dependencies', 'tzdata==2026.5'])
     if args.output is None:
         parser.error('--output is required for regression runs')
