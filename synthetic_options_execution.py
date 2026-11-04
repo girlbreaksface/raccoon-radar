@@ -4,7 +4,7 @@ from decimal import Decimal, Context, localcontext
 from canonical_candles import FrozenRecord, identity, _time
 from paper_signal_engine import run
 
-VERSION = 'synthetic-options-execution-v1'
+VERSION = 'synthetic-options-execution-v2'
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,7 +60,7 @@ def simulate(data, quotes, config=Config(), *, synthetic=False):
 
     Bullish buys a fictional call; bearish buys a fictional put. Both exit by
     selling. Targets/stops compare executable liquidation premium to entry premium
-    (20% / -15%, fees excluded from trigger, included in P/L). Three entries/day.
+    (5% / -15%, fees excluded from trigger, included in P/L). Three entries/day.
     """
     if synthetic is not True or type(quotes) is not tuple or type(config) is not Config:
         raise ValueError('Explicit synthetic mode and immutable typed inputs required')
@@ -129,7 +129,7 @@ def _execute(data, signals, quotes, config, slip, fee):
         if q.signal_id in positions:
             entry, opened = positions[q.signal_id]
             exit_price = bid * (1 - slip)
-            reason = 'TARGET' if exit_price >= entry * Decimal('1.20') else 'STOP' if exit_price <= entry * Decimal('.85') else None
+            reason = 'TARGET' if exit_price >= entry * Decimal('1.05') else 'STOP' if exit_price <= entry * Decimal('.85') else None
             if reason:
                 pnl = (exit_price - entry) * 100 - 2 * fee
                 realized += pnl
