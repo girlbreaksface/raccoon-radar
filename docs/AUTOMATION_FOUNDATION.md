@@ -11,7 +11,7 @@ adding another simulator, integrating broker code or claiming their tests.
 Decision: reuse those existing runners and the exact 88-case evidence verifier.
 The evidence verifier compares newly computed deterministic cases with the
 committed baseline; failures must be investigated, never regenerated away.
-Run all four suites even after an earlier failure, with separate logs, exit codes,
+Run all five suites even after an earlier failure, with separate logs, exit codes,
 hashes and source inventory. Each runner executes once. Empty discovery already
 fails in the guarded root runner. Guard limitations remain those documented in
 offline_checks.py; this is cooperative Python isolation, not a security boundary.
@@ -59,6 +59,11 @@ does not autonomously repair code, merge, deploy, trade or send approval request
 Only a concrete action outside existing authorization should prompt the owner.
 No branch protection setting is changed; required-check enforcement needs a
 separate repository-owner decision. Successful checks cannot authorize a release.
+
+Historical replay follow-up: the fifth suite now runs the guarded ten-scenario
+rehearsal and validates its artifact before accepting a successful exit code.
+See HISTORICAL_REPLAY_READINESS.md for the source pins, chronology fix and the
+separate paper-specific gate inventory. Missing/altered artifacts fail the check.
 
 Rollback: close this draft PR or revert its added files and the work/ ignore rule.
 No data/schema migration or calculation/risk-limit changes are involved.

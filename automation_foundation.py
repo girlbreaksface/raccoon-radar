@@ -15,6 +15,7 @@ COMMANDS = {
     'feed': ['research/feed_contract/run_checks.py'],
     'reconciliation': ['research/reconciliation/run_checks.py'],
     'deterministic-evidence': ['research/reconciliation/verify_evidence.py'],
+    'historical-replay': ['historical_replay_checks.py'],
 }
 GATES = (
     ('provider-provenance', 'Authenticated provider timestamps, finality and availability lineage absent'),
@@ -78,14 +79,24 @@ def main():
     results = {}
     for name, script in COMMANDS.items():
         log = args.output / (name + '.txt')
+        artifact = args.output / 'historical-replay.json' if name == 'historical-replay' else None
+        command = [sys.executable, '-B', *script]
+        if artifact is not None:
+            command.extend(['--output', str(artifact.resolve())])
         with log.open('x', encoding='utf-8') as stream:
             try:
-                result = subprocess.run([sys.executable, '-B', *script], cwd=ROOT,
+                result = subprocess.run(command, cwd=ROOT,
                                         stdout=stream, stderr=subprocess.STDOUT, timeout=600)
                 results[name] = {'status': 'PASS' if result.returncode == 0 else 'FAIL',
                                  'exit_code': result.returncode}
-            except (OSError, subprocess.TimeoutExpired) as exc:
-                stream.write('\nInfrastructure failure: ' + str(exc))
+                if result.returncode == 0 and artifact is not None:
+                    from historical_replay_checks import validate_evidence
+                    raw = artifact.read_bytes()
+                    validate_evidence(json.loads(raw))
+                    results[name].update(artifact=artifact.name,
+                                         artifact_sha256=hashlib.sha256(raw).hexdigest())
+            except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+                stream.write('\nCheck failure: ' + str(exc))
                 results[name] = {'status': 'ERROR', 'reason': type(exc).__name__}
         results[name]['log'] = log.name
         results[name]['log_sha256'] = hashlib.sha256(log.read_bytes()).hexdigest()
