@@ -11,17 +11,32 @@ from automation_foundation import COMMANDS, infrastructure_retry, readiness
 
 
 class FoundationTests(unittest.TestCase):
+    def test_successful_child_cannot_hide_a_forged_artifact(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / 'evidence'
+            def run(command, **kwargs):
+                if '--output' in command:
+                    Path(command[-1]).write_text('{"paper_execution":"GO"}')
+                return subprocess.CompletedProcess(command, 0)
+            with patch.object(sys, 'argv', ['foundation', '--output', str(output)]), \
+                    patch.object(automation_foundation.subprocess, 'run', side_effect=run):
+                self.assertEqual(automation_foundation.main(), 1)
+            report = json.loads((output / 'readiness.json').read_text())
+            self.assertEqual(report['repository_verification']['historical-replay']['status'], 'ERROR')
+            self.assertEqual(report['paper_execution'], 'HOLD')
+
     def test_timeout_preserves_diagnostics_and_runs_remaining_suites(self):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / 'evidence'
             outcomes = [subprocess.TimeoutExpired('fixture', 600)] + [
-                subprocess.CompletedProcess([], 0) for _ in range(3)]
+                subprocess.CompletedProcess([], 0) for _ in range(len(COMMANDS) - 1)]
             with patch.object(sys, 'argv', ['foundation', '--output', str(output)]), \
                     patch.object(automation_foundation.subprocess, 'run', side_effect=outcomes) as run:
                 self.assertEqual(automation_foundation.main(), 1)
-                self.assertEqual(run.call_count, 4)
+                self.assertEqual(run.call_count, len(COMMANDS))
             report = json.loads((output / 'readiness.json').read_text())
             self.assertEqual(report['repository_verification']['root']['status'], 'ERROR')
+            self.assertEqual(report['repository_verification']['historical-replay']['status'], 'ERROR')
             self.assertEqual(report['synthetic_regression'], 'FAIL')
             for result in report['repository_verification'].values():
                 self.assertTrue((output / result['log']).exists())
