@@ -11,7 +11,7 @@ adding another simulator, integrating broker code or claiming their tests.
 Decision: reuse those existing runners and the exact 88-case evidence verifier.
 The evidence verifier compares newly computed deterministic cases with the
 committed baseline; failures must be investigated, never regenerated away.
-Run all five suites even after an earlier failure, with separate logs, exit codes,
+Run all six suites even after an earlier failure, with separate logs, exit codes,
 hashes and source inventory. Each runner executes once. Empty discovery already
 fails in the guarded root runner. Guard limitations remain those documented in
 offline_checks.py; this is cooperative Python isolation, not a security boundary.
@@ -64,6 +64,11 @@ Historical replay follow-up: the fifth suite now runs the guarded ten-scenario
 rehearsal and validates its artifact before accepting a successful exit code.
 See HISTORICAL_REPLAY_READINESS.md for the source pins, chronology fix and the
 separate paper-specific gate inventory. Missing/altered artifacts fail the check.
+
+Read-only paper reconciliation follow-up: the sixth suite runs sixteen fake-only
+account/state scenarios and validates paper-reconciliation.json independently.
+Real account observations are never CI inputs or artifact uploads. See
+READ_ONLY_PAPER_RECONCILIATION.md for the separate local read-only command.
 
 Rollback: close this draft PR or revert its added files and the work/ ignore rule.
 No data/schema migration or calculation/risk-limit changes are involved.

@@ -16,6 +16,7 @@ COMMANDS = {
     'reconciliation': ['research/reconciliation/run_checks.py'],
     'deterministic-evidence': ['research/reconciliation/verify_evidence.py'],
     'historical-replay': ['historical_replay_checks.py'],
+    'paper-reconciliation': ['paper_reconciliation_checks.py'],
 }
 GATES = (
     ('provider-provenance', 'Authenticated provider timestamps, finality and availability lineage absent'),
@@ -79,7 +80,7 @@ def main():
     results = {}
     for name, script in COMMANDS.items():
         log = args.output / (name + '.txt')
-        artifact = args.output / 'historical-replay.json' if name == 'historical-replay' else None
+        artifact = args.output / (name + '.json') if name in ('historical-replay', 'paper-reconciliation') else None
         command = [sys.executable, '-B', *script]
         if artifact is not None:
             command.extend(['--output', str(artifact.resolve())])
@@ -90,7 +91,10 @@ def main():
                 results[name] = {'status': 'PASS' if result.returncode == 0 else 'FAIL',
                                  'exit_code': result.returncode}
                 if result.returncode == 0 and artifact is not None:
-                    from historical_replay_checks import validate_evidence
+                    if name == 'historical-replay':
+                        from historical_replay_checks import validate_evidence
+                    else:
+                        from paper_reconciliation_checks import validate_evidence
                     raw = artifact.read_bytes()
                     validate_evidence(json.loads(raw))
                     results[name].update(artifact=artifact.name,
