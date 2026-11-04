@@ -109,6 +109,51 @@ class IsolationTests(unittest.TestCase):
     def test_invalid_identity_type_blocks(self):
         self.assertEqual(isolate((self.a,), {}, synthetic=True).compatibility, 'BLOCKED')
 
+    def test_exact_batch_and_payload_limits_are_inclusive(self):
+        self.assertEqual(self.run_gate((self.a,)*5000).compatibility, 'COMPATIBLE')
+        for size, expected in ((1, 'COMPATIBLE'), (65536, 'COMPATIBLE'),
+                               (65537, 'BLOCKED'), (0, 'BLOCKED')):
+            with self.subTest(size=size):
+                result = self.run_gate((replace(self.a, raw=b'x'*size),))
+                self.assertEqual(result.compatibility, expected)
+
+    def test_exact_string_limits_and_control_characters(self):
+        for size, expected in ((256, 'COMPATIBLE'), (257, 'BLOCKED')):
+            identity = replace(self.identity, provider='x'*size)
+            self.assertEqual(self.run_gate((replace(self.a, identity=identity),),
+                                          identity=identity).compatibility, expected)
+        for size, expected in ((128, 'COMPATIBLE'), (129, 'BLOCKED')):
+            self.assertEqual(self.run_gate((replace(self.a, source_label='x'*size),)).compatibility,
+                             expected)
+        for value in ('a\x00b', 'a\nb', 'a\tb', 'a\x7fb', ' padded', 'padded '):
+            with self.subTest(value=repr(value)):
+                identity = replace(self.identity, coverage=value)
+                self.assertEqual(self.run_gate((replace(self.a, identity=identity),),
+                                              identity=identity).compatibility, 'BLOCKED')
+                self.assertEqual(self.run_gate((replace(self.a, source_label=value),)).compatibility,
+                                 'BLOCKED')
+
+    def test_unknown_observed_identity_blocks_with_valid_expected_identity(self):
+        for field in self.identity.__dataclass_fields__:
+            for value in (None, '', 'UNKNOWN', [], 1):
+                with self.subTest(field=field, value=value):
+                    row = replace(self.b, identity=replace(self.identity, **{field: value}))
+                    result = self.run_gate((self.a, row))
+                    self.assertEqual(result.compatibility, 'BLOCKED')
+                    self.assertEqual(result.observations, ())
+                    self.assertIn('IDENTITY_UNESTABLISHED', result.reasons)
+
+    def test_combined_errors_are_sorted_unique_and_order_independent(self):
+        rows = (None, replace(self.a, raw=b''),
+                replace(self.b, identity=replace(self.identity, endpoint='other')),
+                replace(self.b, identity=replace(self.identity, adjustment_version='UNKNOWN')))
+        expected = ('IDENTITY_UNESTABLISHED', 'INCOMPATIBLE_STREAM', 'OBSERVATION_INVALID')
+        for order in itertools.permutations(rows):
+            result = self.run_gate(order)
+            self.assertEqual(result.reasons, expected)
+            self.assertEqual(result.observations, ())
+            self.assertEqual(result.status, 'DATA_BLOCKED')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -73,3 +73,16 @@ and approval; passing these tests does not authorize that step.
 No provider, market-data acquisition, private capture, production database,
 real-history study, options/execution model, trading, deployment or merge.
 All trading remains disabled. Rollback removes only the three added files.
+
+## Boundary coverage amendment — 2026-11-03
+
+The twelve-method/114-total evidence above describes initial head
+8d84260baa374638933b43372611741c12cb109a. Four additional regression methods
+now make sixteen new methods /118 total feed tests. This test/documentation-only
+follow-up checks exact inclusive5000-record/65536-byte/256-character-identity/
+128-character-label limits against adjacent rejected values; embedded controls
+and padded strings; malformed observed identities with a valid expected identity
+in every dimension; and sorted,unique reason codes across all24 mixed-error
+permutations. Local118 PASS on unchanged prototype code. These remain bounded
+synthetic mechanism checks. The original completion evidence is retained; fresh
+Windows/Linux CI and the new exact head are recorded in the PR conversation.
