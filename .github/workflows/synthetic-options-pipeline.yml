@@ -19,4 +19,4 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Guarded end-to-end fictional regressions
-        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromName('test_synthetic_options_pipeline'); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
+        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromNames(['test_synthetic_options_pipeline', 'test_synthetic_target_comparison', 'test_synthetic_options_execution']); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
