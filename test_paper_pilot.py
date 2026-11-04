@@ -46,7 +46,8 @@ class PilotTests(unittest.TestCase):
     def invoke(self, sdk, broker, path, **kwargs):
         fingerprint=hashlib.sha256(b'raccoon-paper-account:123').hexdigest()
         return execute_pilot(sdk,broker,path,verified_quote=lambda:True,
-            pause=lambda seconds:None,reviewed=True,expected_fingerprint=fingerprint,**kwargs)
+            pause=lambda seconds:None,reviewed=True,expected_fingerprint=fingerprint,
+            kill_switch=kwargs.pop('kill_switch', lambda:False),**kwargs)
 
     def test_round_trip_and_exclusive_journal(self):
         sdk,b=self.broker()
@@ -85,7 +86,8 @@ class PilotTests(unittest.TestCase):
         for reviewed,fresh in ((False,True),(True,False)):
             with self.assertRaises(ValueError):
                 execute_pilot(sdk,b,'unused',reviewed=reviewed,
-                    verified_quote=lambda:fresh,pause=lambda n:None,expected_fingerprint='a'*64)
+                    verified_quote=lambda:fresh,pause=lambda n:None,expected_fingerprint='a'*64,
+                    kill_switch=lambda:False)
         self.assertEqual(b.calls,[])
 
     def test_order_polling_respects_broker_rate_limit(self):
@@ -94,5 +96,50 @@ class PilotTests(unittest.TestCase):
         fingerprint=hashlib.sha256(b'raccoon-paper-account:123').hexdigest()
         with tempfile.TemporaryDirectory() as root:
             execute_pilot(sdk,b,Path(root)/'pilot',verified_quote=lambda:True,
-                pause=pauses.append,reviewed=True,expected_fingerprint=fingerprint)
+                pause=pauses.append,reviewed=True,expected_fingerprint=fingerprint,kill_switch=lambda:False)
         self.assertEqual(pauses,[4,4])
+
+    def test_missing_unknown_active_or_failed_kill_switch_never_submits(self):
+        for switch in (None, lambda:True, lambda:None, lambda:0,
+                       lambda: (_ for _ in ()).throw(OSError('unavailable'))):
+            sdk,b=self.broker()
+            with tempfile.TemporaryDirectory() as root:
+                with self.assertRaises(ValueError):
+                    self.invoke(sdk,b,Path(root)/'pilot',kill_switch=switch)
+            self.assertEqual(b.calls,[])
+
+    def test_kill_switch_change_before_entry_is_journaled(self):
+        sdk,b=self.broker()
+        values=iter((False,True))
+        with tempfile.TemporaryDirectory() as root:
+            path=Path(root)/'pilot'
+            with self.assertRaises(RuntimeError):
+                self.invoke(sdk,b,path,kill_switch=lambda:next(values))
+            self.assertIn('ENTRY_KILLED',path.read_text())
+        self.assertEqual(b.calls,[])
+
+    def test_kill_after_fill_allows_verified_risk_reducing_exit(self):
+        sdk,b=self.broker()
+        with tempfile.TemporaryDirectory() as root:
+            self.assertEqual(self.invoke(sdk,b,Path(root)/'pilot',
+                kill_switch=lambda:bool(b.calls)), 'ROUND_TRIP_COMPLETE')
+        self.assertEqual([c['trd_side'] for c in b.calls],['BUY','SELL'])
+
+    def test_changed_account_type_market_or_duplicate_identity_blocks_entry(self):
+        for mutation in ('type','market','duplicate'):
+            sdk,b=self.broker()
+            original=b.get_acc_list
+            calls=[]
+            def changed():
+                ret,rows=original()
+                calls.append(True)
+                if len(calls)>1:
+                    if mutation=='type':rows[0]['sim_acc_type']='OTHER'
+                    if mutation=='market':rows[0]['trdmarket_auth']=[]
+                    if mutation=='duplicate':rows.append(dict(rows[0]))
+                return ret,rows
+            b.get_acc_list=changed
+            with tempfile.TemporaryDirectory() as root:
+                with self.assertRaises(RuntimeError):
+                    self.invoke(sdk,b,Path(root)/'pilot')
+            self.assertEqual(b.calls,[])
