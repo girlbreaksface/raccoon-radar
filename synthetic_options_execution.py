@@ -4,13 +4,14 @@ from decimal import Decimal, Context, localcontext
 from canonical_candles import FrozenRecord, identity, _time
 from paper_signal_engine import run
 
-VERSION = 'synthetic-options-execution-v1'
+VERSION = 'synthetic-options-execution-v2'
 
 
 @dataclass(frozen=True, slots=True)
 class Config(FrozenRecord):
     slippage_bps: str = '0'
     fee_per_fill: str = '0'
+    profit_target_fraction: str = '0.05'
     max_quote_age_seconds: int = 5
 
 
@@ -60,11 +61,14 @@ def simulate(data, quotes, config=Config(), *, synthetic=False):
 
     Bullish buys a fictional call; bearish buys a fictional put. Both exit by
     selling. Targets/stops compare executable liquidation premium to entry premium
-    (20% / -15%, fees excluded from trigger, included in P/L). Three entries/day.
+    (configurable 5% or 20% / -15%, fees excluded from trigger, included in P/L). Three entries/day.
     """
     if synthetic is not True or type(quotes) is not tuple or type(config) is not Config:
         raise ValueError('Explicit synthetic mode and immutable typed inputs required')
     bps, fee = number(config.slippage_bps), number(config.fee_per_fill)
+    target = number(config.profit_target_fraction)
+    if target not in (Decimal('0.05'), Decimal('0.20')):
+        raise ValueError('Only 5% and 20% synthetic target arms supported')
     if bps >= 10000 or type(config.max_quote_age_seconds) is not int or not 0 <= config.max_quote_age_seconds <= 60:
         raise ValueError('Invalid slippage or freshness policy')
     signals = run(data, synthetic=True)
@@ -90,10 +94,10 @@ def simulate(data, quotes, config=Config(), *, synthetic=False):
             raise ValueError('Quote outside common session')
         previous = key
     with localcontext(Context(prec=50, rounding='ROUND_HALF_EVEN')):
-        return _execute(data, signals, quotes, config, bps / 10000, fee)
+        return _execute(data, signals, quotes, config, bps / 10000, fee, target)
 
 
-def _execute(data, signals, quotes, config, slip, fee):
+def _execute(data, signals, quotes, config, slip, fee, target):
     events = {e.event_id: e for e in signals.signals}
     positions, done, blocked, latest, bindings = {}, set(), set(), {}, {}
     ledger, realized, entries = [], Decimal(0), 0
@@ -129,7 +133,7 @@ def _execute(data, signals, quotes, config, slip, fee):
         if q.signal_id in positions:
             entry, opened = positions[q.signal_id]
             exit_price = bid * (1 - slip)
-            reason = 'TARGET' if exit_price >= entry * Decimal('1.20') else 'STOP' if exit_price <= entry * Decimal('.85') else None
+            reason = 'TARGET' if exit_price >= entry * (1 + target) else 'STOP' if exit_price <= entry * Decimal('.85') else None
             if reason:
                 pnl = (exit_price - entry) * 100 - 2 * fee
                 realized += pnl

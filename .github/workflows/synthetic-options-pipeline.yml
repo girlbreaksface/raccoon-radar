@@ -1,0 +1,22 @@
+name: Synthetic options pipeline validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Guarded end-to-end fictional regressions
+        run: python -B -c "import tempfile, unittest; from offline_checks import OfflineGuard; t=tempfile.TemporaryDirectory(); guard=OfflineGuard(t.name); guard.__enter__(); suite=unittest.defaultTestLoader.loadTestsFromNames(['test_synthetic_options_pipeline', 'test_synthetic_target_comparison', 'test_synthetic_target_scorecard', 'test_synthetic_options_execution']); result=unittest.TextTestRunner(verbosity=2).run(suite); raise SystemExit(not result.wasSuccessful())"
