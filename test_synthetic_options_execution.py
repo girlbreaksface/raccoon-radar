@@ -119,6 +119,33 @@ class OptionsTests(unittest.TestCase):
         self.assertEqual(sum(row[1] == 'BUY' for row in r.ledger), 3)
         self.assertTrue(any(row[1] == 'REJECT_DAILY_LIMIT' for row in r.ledger))
 
+    def test_full_session_warmup_does_not_cancel_later_signal(self):
+        full = make_demo('conflict')
+        quotes = (self.q(), self.q(3, '.24', '.25'))
+        result = simulate(full, quotes, synthetic=True)
+        shortened = self.sim(quotes)
+        self.assertEqual(tuple(row[:5] for row in result.ledger[:2]),
+                         tuple(row[:5] for row in shortened.ledger[:2]))
+        self.assertEqual([row[1] for row in result.ledger[:2]], ['BUY', 'SELL_TARGET'])
+        self.assertEqual(result.realized_net, shortened.realized_net)
+
+    def test_block_before_signal_does_not_cancel_recovered_signal(self):
+        from paper_signal_engine import PaperStep
+        for state in ('DATA_BLOCKED', 'PROFILE_BLOCKED'):
+            block = PaperStep('2026-10-23T10:05:00+00:00', 'BLOCKED',
+                             ((self.e.symbol, state, (), 'WAIT'),))
+            fixture = replace(self.signals, steps=(block,) + self.signals.steps)
+            with self.subTest(state=state), patch('synthetic_options_execution.run', return_value=fixture):
+                self.assertEqual(self.sim((self.q(),)).ledger[0][1], 'BUY')
+
+    def test_block_at_signal_cutoff_remains_fail_closed(self):
+        from paper_signal_engine import PaperStep
+        block = PaperStep(self.e.cutoff, 'BLOCKED',
+                         ((self.e.symbol, 'DATA_BLOCKED', (), 'WAIT'),))
+        fixture = replace(self.signals, steps=self.signals.steps + (block,))
+        with patch('synthetic_options_execution.run', return_value=fixture):
+            self.assertEqual(self.sim((self.q(),)).ledger[0][1], 'REJECT_DATA_BLOCKED')
+
     def test_block_cancels_entry_but_allows_valid_exit(self):
         from paper_signal_engine import PaperStep
         block = PaperStep(self.q(3).at, 'BLOCKED', ((self.e.symbol, 'DATA_BLOCKED', (), 'WAIT'),))

@@ -1,4 +1,4 @@
-# Synthetic options paper execution v1
+# Synthetic options paper execution v1.1
 
 This isolated pure module stacks directly on PR #58 c562f805. PR #59's share
 simulator is a separate proposal and is neither changed nor used.
@@ -36,9 +36,11 @@ authentication. Nothing connects this function to the dashboard, feed or broker.
   unordered quote, wrong right/contract binding, unknown signal or real flag)
   aborts the pure run with no returned result. Contract IDs cannot change within
   a signal lifecycle. IDs identify fictional fixtures, not validated securities.
-- DATA_BLOCKED/PROFILE_BLOCKED gates latch entry blocking for the symbol for the
-  rest of the session. Valid quotes can still exit existing exposure. Gates and
-  signals precede quotes at an equal timestamp.
+- DATA_BLOCKED/PROFILE_BLOCKED gates at or after a signal cutoff latch entry
+  blocking for that signal. Earlier warmup/data blocks do not cancel a later
+  recovered signal. A new signal after a block starts a new lifecycle. Valid
+  quotes can still exit existing exposure. Gates precede quotes at equal times;
+  a gate at the signal cutoff blocks entry conservatively.
 
 ## Audit and accounting
 
@@ -81,3 +83,14 @@ with inherited tests. The dedicated CI workflow also runs focused tests under
 OfflineGuard on Windows/Linux and Python 3.11/3.12. No external service is used
 by tests. Rollback removes this document, module, test and dedicated workflow;
 there are no schema or existing research-data changes.
+
+## v1.1 warmup regression
+
+The v1 session-wide latch incorrectly rejected later qualified signals after
+normal early-session PROFILE_BLOCKED warmup. The full 40-step fictional replay
+reproduced this while the single-step tests did not. v1.1 compares the latest
+processed symbol block time to each signal cutoff, retaining same-time/later
+fail-closed blocking while allowing a later recovered signal. Result version and
+hashes change; tuple layouts and quote/config interfaces remain unchanged.
+Full-session regression compares fill facts and net P/L, not ledger hashes,
+because each replay's signal-run hash correctly differs.

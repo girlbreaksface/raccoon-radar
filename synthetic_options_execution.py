@@ -4,7 +4,7 @@ from decimal import Decimal, Context, localcontext
 from canonical_candles import FrozenRecord, identity, _time
 from paper_signal_engine import run
 
-VERSION = 'synthetic-options-execution-v1'
+VERSION = 'synthetic-options-execution-v1.1'
 
 
 @dataclass(frozen=True, slots=True)
@@ -95,7 +95,7 @@ def simulate(data, quotes, config=Config(), *, synthetic=False):
 
 def _execute(data, signals, quotes, config, slip, fee):
     events = {e.event_id: e for e in signals.signals}
-    positions, done, blocked, latest, bindings = {}, set(), set(), {}, {}
+    positions, done, blocked_at, latest, bindings = {}, set(), {}, {}, {}
     ledger, realized, entries = [], Decimal(0), 0
     gates = sorted(signals.steps, key=lambda s: _time(s.cutoff))
     gate_index = 0
@@ -111,7 +111,7 @@ def _execute(data, signals, quotes, config, slip, fee):
         while gate_index < len(gates) and _time(gates[gate_index].cutoff) <= at:
             for symbol, state, _, _ in gates[gate_index].symbols:
                 if state in ('DATA_BLOCKED', 'PROFILE_BLOCKED'):
-                    blocked.add(symbol)  # conservative latch for rest of session
+                    blocked_at[symbol] = _time(gates[gate_index].cutoff)
             gate_index += 1
         if q.signal_id in bindings and bindings[q.signal_id] != q.contract:
             raise ValueError('Contract cannot change during a signal lifecycle')
@@ -139,7 +139,8 @@ def _execute(data, signals, quotes, config, slip, fee):
                 done.add(q.signal_id)
         elif q.signal_id not in done and at > _time(e.cutoff):
             entry = ask * (1 + slip)
-            reason = ('DATA_BLOCKED' if e.symbol in blocked else
+            reason = ('DATA_BLOCKED' if (e.symbol in blocked_at and
+                      blocked_at[e.symbol] >= _time(e.cutoff)) else
                       'DAILY_LIMIT' if entries >= 3 else
                       'EXPOSURE' if any(events[k].symbol == e.symbol for k in positions) else
                       'PREMIUM_LIMIT' if entry * 100 > 30 else None)
