@@ -9,7 +9,7 @@ from offline_rehearsal import evidence, validate_evidence
 
 ROOT=Path(__file__).resolve().parent
 GATES={
-    'provider-finality':'Provider finality, interval mapping and correction revocation unverified',
+    'provider-finality':'Support confirms no authoritative finality; end-label mapping clarified for 10.11.7108, current build applicability and correction revocation unverified',
     'calendar-clock':'Unscheduled closures, beyond-2026 calendar and clock provenance unverified',
     'broker-history':'Paper historical fills unavailable; actual terminal orders lack local baseline',
     'risk-production':'Offline ledger only; overnight baseline, receipt custody, reduce-only exits and hardware durability unqualified',
