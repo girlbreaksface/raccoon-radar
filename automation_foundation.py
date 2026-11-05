@@ -10,6 +10,8 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parent
+ARTIFACT_SUITES = frozenset(('historical-replay', 'paper-reconciliation',
+    'execution-recovery', 'production-indicators', 'offline-rehearsal'))
 COMMANDS = {
     'root': ['offline_checks.py'],
     'feed': ['research/feed_contract/run_checks.py'],
@@ -84,7 +86,7 @@ def main():
     results = {}
     for name, script in COMMANDS.items():
         log = args.output / (name + '.txt')
-        artifact = args.output / (name + '.json') if name in ('historical-replay', 'paper-reconciliation', 'execution-recovery', 'production-indicators', 'offline-rehearsal') else None
+        artifact = args.output / (name + '.json') if name in ARTIFACT_SUITES else None
         command = [sys.executable, '-B', *script]
         if artifact is not None:
             command.extend(['--output', str(artifact.resolve())])
