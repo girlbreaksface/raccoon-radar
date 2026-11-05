@@ -6,6 +6,7 @@ Never repair, truncate, resume submission, or infer fills from positions.
 import hashlib
 import json
 import os
+from decimal import Context, localcontext
 from pathlib import Path
 from paper_account_reconciliation import (
     VERSION as RECONCILIATION_VERSION, PENDING, TERMINAL, normalize,
@@ -146,16 +147,18 @@ def replay(events):
             require(quantity(row['dealt_qty']) >= quantity(prior['dealt_qty']), 'FILL_REGRESSION')
             require(prior['order_status'] not in TERMINAL or all(row[k] == prior[k] for k in row),
                     'TERMINAL_STATE_CHANGED')
-            require(not (prior['order_status'] == 'FILLED_PART' and row['order_status'] in
-                         {'WAITING_SUBMIT', 'SUBMITTING', 'SUBMITTED'}), 'STATUS_REGRESSION')
+            rank = {'WAITING_SUBMIT': 0, 'SUBMITTING': 1, 'SUBMITTED': 2, 'FILLED_PART': 3}
+            require(row['order_status'] not in rank or
+                    rank[row['order_status']] >= rank.get(prior['order_status'], 0), 'STATUS_REGRESSION')
             orders[row['order_id']] = dict(row, cancel_pending=(prior['cancel_pending']
                                                               and row['order_status'] in PENDING))
         else:
             raise RecoveryBlocked('UNKNOWN_EVENT_KIND')
     net = {}
-    for row in orders.values():
-        net[row['code']] = net.get(row['code'], quantity('0')) + (
-            quantity(row['dealt_qty']) * (1 if row['trd_side'] == 'BUY' else -1))
+    with localcontext(Context(prec=50)):
+        for row in orders.values():
+            net[row['code']] = net.get(row['code'], quantity('0')) + (
+                quantity(row['dealt_qty']) * (1 if row['trd_side'] == 'BUY' else -1))
     reasons = []
     if not connected: reasons.append('DISCONNECTED_OR_UNCONFIRMED')
     if any(i['order_id'] is None for i in intents.values()): reasons.append('UNACKNOWLEDGED_INTENT')
@@ -176,10 +179,12 @@ def recover(raw, checkpoint, account, *, reconciliation=None, snapshots=None):
     """
     report = dict(schema=VERSION, scope='OFFLINE_ONLY', recovery='HOLD', reasons=[],
         recording='HOLD', paper_execution='HOLD', live_execution='NO-GO', orders='DISABLED',
-        merge='HOLD', deployment='HOLD', journal_sha256=hashlib.sha256(raw).hexdigest(),
-        checkpoint=checkpoint, local=None)
+        merge='HOLD', deployment='HOLD', journal_sha256=hashlib.sha256(raw).hexdigest() if type(raw) is bytes else None,
+        checkpoint=None, local=None)
     try:
-        state = replay(read_journal(raw, checkpoint, account))
+        items = read_journal(raw, checkpoint, account)
+        report['checkpoint'] = dict(checkpoint)
+        state = replay(items)
         report['local'] = state
         report['reasons'].extend(state['reasons'])
         require(reconciliation is not None and snapshots is not None, 'BROKER_EVIDENCE_REQUIRED')
@@ -201,6 +206,8 @@ def recover(raw, checkpoint, account, *, reconciliation=None, snapshots=None):
         actual_net = {row['code']: row['qty'] for row in normalized[1]['positions']}
         require(actual_net == state['net_quantities'], 'BROKER_LOCAL_POSITION_MISMATCH')
         # Preserve the existing reconciler's stricter pending/frozen/rejected gates.
+        require(type(r.get('reasons')) is list and all(type(x) is str for x in r['reasons']),
+                'INVALID_RECONCILIATION_REASONS')
         report['reasons'].extend(r['reasons'])
         require(r.get('reconciliation') == 'MATCHED_BASELINE', 'BROKER_RECONCILIATION_HOLD')
         if not report['reasons']:

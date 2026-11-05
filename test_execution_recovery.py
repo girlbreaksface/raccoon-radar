@@ -87,3 +87,31 @@ class RecoveryTests(unittest.TestCase):
         for event in mutations:
             raw, checkpoint = serialize(events() + [event])
             with self.assertRaises(ValueError): replay(read_journal(raw, checkpoint, ACCOUNT))
+
+    def test_invalid_inputs_produce_hashed_hold(self):
+        for raw, receipt in [(None, None), (b'', {'count': True, 'head': '0'*64}),
+                             (b'', {'unexpected': object()})]:
+            report = recover(raw, receipt, ACCOUNT)
+            self.assertEqual(report['recovery'], 'HOLD')
+            self.assertEqual(report['report_hash'], digest({k:v for k,v in report.items() if k != 'report_hash'}))
+
+    def test_pending_status_regression_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'STATUS_REGRESSION'):
+            replay(events() + [dict(id='backward', kind='observation', order=order('WAITING_SUBMIT'))])
+
+    def test_fill_accounting_uses_fixed_decimal_context(self):
+        from decimal import localcontext
+        items = events() + [dict(id='fill', kind='observation', order=order('FILLED_PART', '1.23456789'))]
+        expected = replay(items)
+        with localcontext() as context:
+            context.prec = 2
+            self.assertEqual(replay(items), expected)
+
+    def test_restart_does_not_retry_or_mutate_journal(self):
+        raw, checkpoint = serialize(events()[:3])
+        before = bytes(raw)
+        first = recover(raw, checkpoint, ACCOUNT)
+        second = recover(raw, checkpoint, ACCOUNT)
+        self.assertEqual(first, second)
+        self.assertEqual(raw, before)
+        self.assertIn('UNACKNOWLEDGED_INTENT', first['reasons'])
