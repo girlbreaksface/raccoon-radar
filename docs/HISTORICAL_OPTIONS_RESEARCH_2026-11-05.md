@@ -1,4 +1,4 @@
-# Historical SPY/QQQ option quotes â€” decision November 5, 2026
+# Historical SPY/QQQ option quotes — decision November 5, 2026
 
 Research completed from public primary vendor documentation. No subscription,
 license acceptance, paid request, account mutation or data purchase performed.
@@ -83,7 +83,7 @@ all prior research and dates; a previously inspected period cannot be relabeled
 untouched holdout. If candidate holdout is contaminated, reserve a later genuinely
 unseen period and record a new version before opening it. Keep the old protocol.
 
-Candidate development 2023â€“2024, tuning 2025, final holdout Januaryâ€“October 2026.
+Candidate development 2023–2024, tuning 2025, final holdout January–October 2026.
 Use complete exchange sessions in chronology; no random row split. Freeze code,
 features (HLC3 VWAP/SMA-seeded continuous EMA9/21, 100 prior bars, 09:45 gate),
 contract rule, fees, delays, exits, exclusions and all tried hypotheses before

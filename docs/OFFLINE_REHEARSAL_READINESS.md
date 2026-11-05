@@ -1,4 +1,4 @@
-# Decision â€” November 5, 2026
+# Decision — November 5, 2026
 
 Stacked on the durable daily risk proposal, above #73. The existing VWAP/EMA
 chat was complete at 60f3dc6 before this work. Coordination message sent;
@@ -25,12 +25,12 @@ log/artifact hash. It binds synthetic reproduction and separately provided
 redacted broker evidence; all eight operational gates remain HOLD. Hashes are
 not signatures, independent custody, or authenticated-provider certification.
 
-Read-only broker observations on November 5, 2026 at 06:32â€“06:34 UTC:
+Read-only broker observations on November 5, 2026 at 06:32–06:34 UTC:
 reviewed installed moomoo-api 10.12.7208, localhost OpenD; one uniquely eligible
 ACTIVE US SIMULATE STOCK_AND_OPTION account selected and revalidated.
 Two refreshed snapshots agreed: zero positions, two terminal order rows.
 No local expectations for those orders were supplied: UNTRACKED_ORDER HOLD.
-The explicit November 4â€“5 SIMULATE history-order query returned two rows;
+The explicit November 4–5 SIMULATE history-order query returned two rows;
 this establishes observed access, not completeness, timezone or fee provenance.
 Connections closed. No unlock, order, cancellation, modification or REAL
 history query was made. Raw account IDs/order rows/provider errors are not
