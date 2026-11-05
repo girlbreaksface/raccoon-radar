@@ -30,7 +30,7 @@ def sources():
 
 def foundation_check(directory):
     """Verify evidence bytes and exact current source inventory, never trust PASS alone."""
-    from automation_foundation import COMMANDS
+    from automation_foundation import COMMANDS, ARTIFACT_SUITES
     directory=Path(directory).resolve()
     report=json.loads((directory/'readiness.json').read_text())
     if report['source_sha256'] != sources(): raise ValueError('Source inventory mismatch')
@@ -38,8 +38,11 @@ def foundation_check(directory):
     if set(rows)!=set(COMMANDS): raise ValueError('Suite inventory mismatch')
     for key,row in rows.items():
         if row.get('status')!='PASS' or row.get('exit_code')!=0: raise ValueError('Suite failed: '+key)
-        for kind in ('log','artifact'):
-            if kind not in row: continue
+        required = {'log': key + '.txt'}
+        if key in ARTIFACT_SUITES: required['artifact'] = key + '.json'
+        for kind, expected in required.items():
+            if row.get(kind) != expected or not isinstance(row.get(kind+'_sha256'), str):
+                raise ValueError('Missing or invalid evidence reference: '+key+'/'+kind)
             path=directory/row[kind]
             if path.resolve().parent != directory: raise ValueError('Invalid evidence path')
             if file_hash(path)!=row[kind+'_sha256']: raise ValueError('Evidence hash mismatch')

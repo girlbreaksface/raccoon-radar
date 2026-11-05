@@ -45,6 +45,50 @@ class RehearsalTests(unittest.TestCase):
             (p/'readiness.json').write_text(json.dumps({'source_sha256':{}}))
             with self.assertRaises(ValueError): foundation_check(p)
 
+    def test_foundation_cannot_omit_all_hashed_evidence(self):
+        from automation_foundation import COMMANDS
+        from unified_readiness import sources
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            report = dict(source_sha256=sources(), environment={},
+                repository_verification={k:dict(status='PASS', exit_code=0) for k in COMMANDS})
+            (p/'readiness.json').write_text(json.dumps(report))
+            with self.assertRaises(ValueError): foundation_check(p)
+
+    def test_foundation_requires_each_expected_file_and_hash(self):
+        from automation_foundation import COMMANDS, ARTIFACT_SUITES
+        from unified_readiness import sources, file_hash
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            rows = {}
+            for key in COMMANDS:
+                row = dict(status='PASS', exit_code=0)
+                kinds = {'log': '.txt'}
+                if key in ARTIFACT_SUITES: kinds['artifact'] = '.json'
+                for kind, suffix in kinds.items():
+                    path = p/(key+suffix)
+                    path.write_text('synthetic integrity fixture')
+                    row[kind], row[kind+'_sha256'] = path.name, file_hash(path)
+                rows[key] = row
+            report = dict(source_sha256=sources(), environment={}, repository_verification=rows)
+            def check(value):
+                (p/'readiness.json').write_text(json.dumps(value))
+                return foundation_check(p)
+            self.assertEqual(check(report)['status'], 'PASS')
+            for key, row in rows.items():
+                for field in ('log', 'log_sha256', *(['artifact', 'artifact_sha256'] if key in ARTIFACT_SUITES else [])):
+                    bad = copy.deepcopy(report)
+                    del bad['repository_verification'][key][field]
+                    with self.subTest(key=key, field=field), self.assertRaises(ValueError): check(bad)
+            for value in ('../root.txt', 'feed.txt', '/root.txt'):
+                bad = copy.deepcopy(report)
+                bad['repository_verification']['root']['log'] = value
+                with self.assertRaises(ValueError): check(bad)
+            (p/'root.txt').write_text('changed')
+            with self.assertRaises(ValueError): check(report)
+            (p/'root.txt').unlink()
+            with self.assertRaises(FileNotFoundError): check(report)
+
     def test_broker_probe_mismatch_cannot_call_history(self):
         sdk,calls=fake_sdk()
         r=probe(sdk,'0'*64,'2026-11-04','2026-11-05')
