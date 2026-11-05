@@ -106,5 +106,20 @@ class RiskTests(unittest.TestCase):
         self.append(BUY)
         with self.assertRaises(RiskBlocked): self.append(dict(FILL,side='SELL'))
 
+    def test_overnight_exit_cannot_erase_missing_daily_baseline(self):
+        prior='2026-11-04T15:00:00+00:00'
+        rows=[dict(e,at=prior) for e in (ORIGIN,BUY,FILL)]
+        rows += [event('overnightsell','fill',intent='entry',side='SELL',qty=1,price_cents=11000,fee_cents=65),
+                 event('terminal','terminal',intent='entry')]
+        state=replay(rows,NOW,LIMITS)
+        self.assertEqual(state['positions'],{})
+        self.assertIn('OVERNIGHT_BASELINE_UNVERIFIED',state['reasons'])
+
+    def test_flat_prior_day_resets_counters(self):
+        prior='2026-11-04T15:00:00+00:00'
+        rows=[dict(ORIGIN,at=prior)]
+        self.assertEqual(replay(rows,NOW,LIMITS)['trades'],0)
+        self.assertEqual(replay(rows,NOW,LIMITS)['reasons'],[])
+
 
 if __name__ == '__main__': unittest.main()

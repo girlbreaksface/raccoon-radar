@@ -58,12 +58,16 @@ def replay(events, now, limits):
     realized = Fraction(0)
     last = None
     reasons = []
+    overnight_ambiguity = False
     for e in events:
         require(type(e) is dict and {'id', 'kind', 'at'} <= set(e), 'EVENT_SCHEMA')
         et = timestamp(e['at'])
         require((last is None or et >= last) and et <= t, 'EVENT_CHRONOLOGY')
         last = et
         today = et.astimezone(ZoneInfo('America/New_York')).date() == day
+        if today and (any(p['qty'] and p['day'] != day for p in positions.values())
+                      or any(timestamp(p['at']).astimezone(ZoneInfo('America/New_York')).date() != day for p in pending.values())):
+            overnight_ambiguity = True
         kind = e['kind']
         if kind == 'origin':
             require(e == events[0] and set(e) == {'id', 'kind', 'at', 'inventory'}
@@ -107,6 +111,7 @@ def replay(events, now, limits):
         else:
             raise RiskBlocked('UNKNOWN_EVENT')
     unrealized = Fraction(0)
+    if overnight_ambiguity: reasons.append('OVERNIGHT_BASELINE_UNVERIFIED')
     exposure = sum(p['cap_cents'] - p['used'] for p in pending.values())
     for c, p in positions.items():
         if not p['qty']: continue
