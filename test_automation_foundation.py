@@ -25,6 +25,7 @@ class FoundationTests(unittest.TestCase):
             self.assertEqual(report['repository_verification']['historical-replay']['status'], 'ERROR')
             self.assertEqual(report['repository_verification']['paper-reconciliation']['status'], 'ERROR')
             self.assertEqual(report['repository_verification']['execution-recovery']['status'], 'ERROR')
+            self.assertEqual(report['repository_verification']['production-indicators']['status'], 'ERROR')
             self.assertEqual(report['paper_execution'], 'HOLD')
 
     def test_timeout_preserves_diagnostics_and_runs_remaining_suites(self):
