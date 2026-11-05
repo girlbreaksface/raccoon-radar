@@ -24,6 +24,7 @@ class FoundationTests(unittest.TestCase):
             report = json.loads((output / 'readiness.json').read_text())
             self.assertEqual(report['repository_verification']['historical-replay']['status'], 'ERROR')
             self.assertEqual(report['repository_verification']['paper-reconciliation']['status'], 'ERROR')
+            self.assertEqual(report['repository_verification']['execution-recovery']['status'], 'ERROR')
             self.assertEqual(report['paper_execution'], 'HOLD')
 
     def test_timeout_preserves_diagnostics_and_runs_remaining_suites(self):
