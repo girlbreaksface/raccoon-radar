@@ -28,6 +28,8 @@ jobs:
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: python -B automation_foundation.py --output work/evidence
+      - name: Certify hashed offline evidence with all operational gates held
+        run: python -B unified_readiness.py --foundation work/evidence --output work/evidence/certification.json
       - name: Preserve diagnostics even after failures
         if: always()
         uses: actions/upload-artifact@v4

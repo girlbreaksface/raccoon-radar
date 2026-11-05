@@ -19,6 +19,8 @@ COMMANDS = {
     'paper-reconciliation': ['paper_reconciliation_checks.py'],
     'execution-recovery': ['execution_recovery_checks.py'],
     'production-indicators': ['production_indicator_checks.py'],
+    'offline-rehearsal': ['offline_rehearsal.py'],
+    'risk-process-crash': ['risk_crash_checks.py'],
 }
 GATES = (
     ('provider-provenance', 'Authenticated provider timestamps, finality and availability lineage absent'),
@@ -82,7 +84,7 @@ def main():
     results = {}
     for name, script in COMMANDS.items():
         log = args.output / (name + '.txt')
-        artifact = args.output / (name + '.json') if name in ('historical-replay', 'paper-reconciliation', 'execution-recovery', 'production-indicators') else None
+        artifact = args.output / (name + '.json') if name in ('historical-replay', 'paper-reconciliation', 'execution-recovery', 'production-indicators', 'offline-rehearsal') else None
         command = [sys.executable, '-B', *script]
         if artifact is not None:
             command.extend(['--output', str(artifact.resolve())])
@@ -99,6 +101,8 @@ def main():
                         from execution_recovery_checks import validate_evidence
                     elif name == 'production-indicators':
                         from production_indicator_checks import validate_evidence
+                    elif name == 'offline-rehearsal':
+                        from offline_rehearsal import validate_evidence
                     else:
                         from paper_reconciliation_checks import validate_evidence
                     raw = artifact.read_bytes()

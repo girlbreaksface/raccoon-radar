@@ -21,3 +21,14 @@ jobs:
       - run: python -m pip install tzdata==2026.5
       - run: python -B -m unittest test_durable_daily_risk -v
       - run: python -B risk_crash_checks.py
+      - run: python -B -m unittest test_offline_rehearsal -v
+      - run: python -B offline_rehearsal.py --output rehearsal.json
+      - run: python -B unified_readiness.py --output readiness-certification.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: offline-milestones-${{ matrix.os }}-${{ matrix.python }}
+          path: |
+            rehearsal.json
+            readiness-certification.json
+          if-no-files-found: error
