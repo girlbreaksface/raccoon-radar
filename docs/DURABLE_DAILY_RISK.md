@@ -1,4 +1,4 @@
-# Decision â€” November 5, 2026
+# Decision — November 5, 2026
 
 Offline accounting only, stacked on #73. No runtime order consumer is connected.
 Explicit new SQLite stores use synchronous FULL transactions and replay a chained
