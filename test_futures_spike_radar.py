@@ -4,7 +4,10 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from futures_spike_radar import Bar, Option, PaperEntry, Session, detect, rank, record_paper_entry
+from futures_spike_radar import (
+    Bar, Option, PaperEntry, Session, compare_volume_baselines, detect, rank,
+    record_paper_entry,
+)
 
 
 class RadarTests(unittest.TestCase):
@@ -51,6 +54,68 @@ class RadarTests(unittest.TestCase):
         self.assertEqual(s.direction, 0)
         self.assertIn("ETF_UNCONFIRMED", s.flags)
         self.assertIn("NO_RANGE_BREAK", s.flags)
+
+    def prior_volume(self, volumes):
+        event = self.bars("ES", 5000, 15)[-1]
+        history = []
+        for days_ago, volume in enumerate(volumes, 1):
+            # Simulate a one-hour UTC shift in the prior cash open.
+            shift = timedelta(days=days_ago, hours=1)
+            prior = Session(self.session.opening - shift, self.session.closing - shift)
+            history.append((prior, replace(
+                event, end=event.end - shift, received=event.received - shift, volume=volume,
+            )))
+        return history
+
+    def compare(self, history, event_volume=300):
+        futures = self.bars("ES", 5000, 15)
+        futures[-1] = replace(futures[-1], volume=event_volume)
+        return compare_volume_baselines(
+            "ES", futures, self.bars("SPY", 500, 1.5), self.session, self.now, history,
+        )
+
+    def test_same_minute_comparison_in_both_directions(self):
+        for history, event, expected in (
+            ([200] * 5, 300, ((3, 1), (1.5, 0))),
+            ([50] * 5, 200, ((2, 0), (4, 1))),
+            ([70, 70, 100, 200, 200, 500, 500], 300, ((3, 1), (3, 1))),
+        ):
+            with self.subTest(history=history, event=event):
+                result = self.compare(reversed(self.prior_volume(history)), event)
+                self.assertEqual(tuple((s.volume_ratio, s.direction) for s in result.values()),
+                                 expected)
+
+    def test_unavailable_history_does_not_fall_back(self):
+        history = self.prior_volume([100] * 5)
+        prior, bar = history[-1]
+        for invalid in (
+            (prior, replace(bar, instrument="ES2")),
+            (prior, replace(bar, end=bar.end - timedelta(minutes=1))),
+            (prior, replace(bar, received=self.now)),
+            (prior, replace(bar, delayed=True)),
+            (prior, replace(bar, complete=False)),
+            (self.session, self.bars("ES", 5000, 15)[-1]),
+        ):
+            with self.subTest(invalid=invalid):
+                result = self.compare([*history[:-1], invalid])
+                self.assertEqual(result["rolling_20_minute"].direction, 1)
+                normalized = result["prior_session_same_minute"]
+                self.assertEqual(normalized.flags, ("TIME_OF_DAY_HISTORY_UNAVAILABLE",))
+                self.assertIsNone(normalized.volume_ratio)
+        duplicate = self.compare([*history, history[0]])["prior_session_same_minute"]
+        self.assertEqual(duplicate.flags, ("TIME_OF_DAY_HISTORY_UNAVAILABLE",))
+
+    def test_prior_session_open_exposure_blocks_same_etf(self):
+        prior = Session(self.session.opening - timedelta(days=1),
+                        self.session.closing - timedelta(days=1))
+        entry = PaperEntry(prior, prior.opening + timedelta(minutes=30), "SPY", "OLD")
+        for close in (None, self.now + timedelta(seconds=1)):
+            r = rank(self.signal(), [self.quote()], self.now,
+                     entries=(replace(entry, closed_at=close),))
+            self.assertEqual(r.flags, ("EXPOSURE_OPEN",))
+        closed = replace(entry, closed_at=self.now - timedelta(seconds=1))
+        self.assertEqual(len(rank(self.signal(), [self.quote()], self.now,
+                                  entries=(closed,)).candidates), 1)
 
     def test_missing_duplicate_roll_and_future_arrival_block(self):
         futures = self.bars("ES", 5000, 15)
@@ -109,3 +174,4 @@ class RadarTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

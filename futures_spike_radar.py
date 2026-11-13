@@ -9,6 +9,7 @@ PAIRS = {"ES": "SPY", "NQ": "QQQ"}
 MINUTE = timedelta(minutes=1)
 MAX_PREMIUM = Decimal("30")
 MAX_TRADES = 3
+TIME_OF_DAY_SESSIONS = 5
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,7 +81,30 @@ def _bar_flags(bars, symbol, session, as_of):
     return flags
 
 
-def detect(root, futures, etf, session, as_of):
+def _time_of_day_volume(history, event, session):
+    """Median volume for the same contract and minute in prior sessions."""
+    offset = event.end - session.opening
+    volumes = {}
+    for prior, bar in history:
+        if not all(_utc(t) for t in (prior.opening, prior.closing, bar.end, bar.received)):
+            continue
+        if (not prior.opening < bar.end <= prior.closing <= session.opening
+                or bar.end - prior.opening != offset
+                or not bar.end <= bar.received <= session.opening
+                or bar.symbol != event.symbol or bar.instrument != event.instrument
+                or not bar.complete or bar.delayed
+                or type(bar.volume) is not int or bar.volume <= 0):
+            continue
+        if prior.opening in volumes:
+            return None
+        volumes[prior.opening] = bar.volume
+    if len(volumes) < TIME_OF_DAY_SESSIONS:
+        return None
+    latest = sorted(volumes, reverse=True)[:TIME_OF_DAY_SESSIONS]
+    return median(volumes[opening] for opening in latest)
+
+
+def detect(root, futures, etf, session, as_of, *, time_of_day_history=None):
     """Evaluate 20 preceding completed minutes and one common event minute."""
     symbol = PAIRS[root]
     if (not all(_utc(t) for t in (session.opening, session.closing, as_of))
@@ -98,11 +122,17 @@ def detect(root, futures, etf, session, as_of):
     move = event.close - previous
     direction = 1 if move > 0 else -1
     level = max(b.high for b in history) if direction > 0 else min(b.low for b in history)
-    volume_ratio = event.volume / median(b.volume for b in history)
+    if time_of_day_history is None:
+        baseline = median(b.volume for b in history)
+    else:
+        baseline = _time_of_day_volume(time_of_day_history, event, session)
+    volume_ratio = event.volume / baseline if baseline is not None else None
     typical_range = max(0.25, median(b.high - b.low for b in history))
     displacement = abs(move) / typical_range
     etf_return = (etf[-1].close - etf[-2].close) / etf[-2].close
-    if volume_ratio < 2.5:
+    if volume_ratio is None:
+        flags.add("TIME_OF_DAY_HISTORY_UNAVAILABLE")
+    elif volume_ratio < 2.5:
         flags.add("VOLUME_BELOW_THRESHOLD")
     if displacement < 2:
         flags.add("DISPLACEMENT_BELOW_THRESHOLD")
@@ -117,6 +147,17 @@ def detect(root, futures, etf, session, as_of):
                  tuple(sorted(flags)), volume_ratio, displacement,
                  level if "NO_RANGE_BREAK" not in flags else None,
                  etf_return, estimate, lag)
+
+
+def compare_volume_baselines(root, futures, etf, session, as_of, time_of_day_history):
+    """Evaluate identical snapshots with each volume baseline, without entries."""
+    return {
+        "rolling_20_minute": detect(root, futures, etf, session, as_of),
+        "prior_session_same_minute": detect(
+            root, futures, etf, session, as_of,
+            time_of_day_history=tuple(time_of_day_history),
+        ),
+    }
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,7 +251,8 @@ def _paper_flags(spike, as_of, entries):
         return ("INVALID_PAPER_HISTORY",)
     if len(today) >= MAX_TRADES:
         return ("DAILY_LIMIT",)
-    if any(e.symbol == spike.etf and e.closed_at is None for e in today):
+    if any(e.symbol == spike.etf and (e.closed_at is None
+           or not _utc(e.closed_at) or e.closed_at > as_of) for e in entries):
         return ("EXPOSURE_OPEN",)
     return ()
 
@@ -274,3 +316,4 @@ def record_paper_entry(spike, quotes, as_of, entries=()):
     selected = ranking.candidates[0]
     entry = PaperEntry(spike.session, as_of, spike.etf, selected.contract)
     return (*entries, entry), ranking
+
