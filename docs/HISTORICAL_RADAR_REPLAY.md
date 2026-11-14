@@ -100,7 +100,7 @@ python -B historical_radar_replay.py synthetic-replay.json
   alone can be biased by missing exits.
 
 The six-session fixture crosses a one-hour shift in the UTC cash open. It
-yields one rolling-only signal, 41 decisions with neither signal, a second
+yields one rolling-only signal, 35 decisions with neither signal, a second
 candidate blocked at the premium cap, and one hypothetical $9.445 net
 round trip. The five-session ratio is 1.5x at that signal versus 3x rolling.
 These are expected fixture results.
