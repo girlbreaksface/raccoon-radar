@@ -8,9 +8,7 @@ from functools import lru_cache
 from hashlib import sha256
 import os
 from pathlib import Path
-from queue import Empty, Queue
 import sqlite3
-from threading import Thread
 
 from futures_spike_radar import MAX_PREMIUM, MAX_TRADES
 from historical_radar_replay import SLIP
@@ -18,7 +16,9 @@ from pinned_timezone_bridge import consumer_dict
 from synthetic_replay import replay
 from synthetic_replay_demo import SCENARIOS, make_demo
 from radar_lite_journal import JournalError, PaperJournal
-from tools.opend_local_preflight import PORT, diagnose_opend, port_number
+from radar_live_panel import AlertState, LivePanel
+from radar_paper_performance import format_summary, paper_performance
+from tools.opend_local_preflight import PORT, port_number
 
 
 @dataclass(frozen=True)
@@ -217,8 +217,8 @@ class JournaledReplay:
 
 class RadarWindow:
     def __init__(self, root, *, live=False, scenario="conflict", minute=35,
-                 journal=None, new_replay=False, opend_port=PORT):
-        from tkinter import ttk
+                 journal=None, new_replay=False, opend_port=PORT, sound=False):
+        from tkinter import BooleanVar, ttk
 
         self.ttk = ttk
         self.root = root
@@ -231,6 +231,8 @@ class RadarWindow:
         self.journal_error = None
         self.new_replay = new_replay
         self.opend_port = opend_port
+        self.sound = BooleanVar(root, value=sound)
+        self.replay_alerts = AlertState()
         if not live:
             self.open_replay()
         root.title("Raccoon Radar Lite")
@@ -263,14 +265,7 @@ class RadarWindow:
         mode = "LIVE DATA STATUS" if self.live else "SYNTHETIC REPLAY"
         self.label(self.body, mode + "   /   PAPER ONLY   /   ES · NQ UNAVAILABLE")
         if self.live:
-            self.label(self.body, "SPY  WAIT   ·   QQQ  WAIT")
-            self.label(self.body, "Market candles, option chain and current bid/ask unavailable.")
-            self.live_status = self.ttk.Label(self.body, text=f"Local port {self.opend_port} unchecked.",
-                                              wraplength=690, justify="left")
-            self.live_status.pack(anchor="w", pady=8)
-            self.probe_button = self.ttk.Button(self.body, text="Run OpenD diagnostics", command=self.check_port)
-            self.probe_button.pack(anchor="w")
-            self.ttk.Button(self.body, text="Open synthetic replay", command=self.toggle).pack(anchor="w", pady=10)
+            self.live_panel = LivePanel(self)
             return
 
         if self.journal_error:
@@ -288,7 +283,8 @@ class RadarWindow:
                                       state="normal" if not self.journal_error and run.index < len(run.points) - 1 else "disabled")
         self.next_button.pack(side="left")
         self.ttk.Button(toolbar, text="Live data status", command=self.toggle).pack(side="left", padx=8)
-        self.ttk.Button(toolbar, text="Paper journal", command=self.show_journal).pack(side="left")
+        self.ttk.Button(toolbar, text="Paper performance", command=self.show_journal).pack(side="left")
+        self.ttk.Checkbutton(toolbar, text="Sound", variable=self.sound).pack(side="left", padx=8)
         description = ("Synthetic quotes · $30 premium cap incl. slippage · "
                        f"{run.entries}/{MAX_TRADES} entries · 1 contract max")
         self.label(self.body, description)
@@ -365,6 +361,12 @@ class RadarWindow:
 
     def advance(self):
         self.record("STEP")
+        cells = self.session.point.cells
+        health = tuple((cell.symbol, cell.state) for cell in cells)
+        signals = {(cell.symbol, direction(cell)) for cell in cells
+                   if direction(cell) != "WAIT" and self.session.can_enter}
+        if self.replay_alerts.update(health, signals) and self.sound.get():
+            self.root.bell()
 
     def enter(self, contract):
         self.record("ENTER", contract)
@@ -386,8 +388,14 @@ class RadarWindow:
         text = tk.Text(window, wrap="word", padx=12, pady=12, yscrollcommand=scroll.set)
         text.pack(fill="both", expand=True)
         scroll.configure(command=text.yview)
-        lines = [f"Replay {run_id} ({scenario})   {entry}" for run_id, scenario, entry in history]
-        text.insert("1.0", "\n".join(lines) or "No paper trades recorded.")
+        overall, setups = paper_performance(history)
+        lines = ["SYNTHETIC PAPER PERFORMANCE · CLOSED TRADES ONLY",
+                 format_summary(overall), "", "SETUPS"]
+        lines.extend(f"{scenario} / {symbol} {side}  ·  {format_summary(summary)}"
+                     for (scenario, symbol, side), summary in setups.items())
+        lines += ["", "TRADE HISTORY"]
+        lines.extend(f"Replay {run_id} ({scenario})   {entry}" for run_id, scenario, entry in history)
+        text.insert("1.0", "\n".join(lines))
         text.configure(state="disabled")
 
     def toggle(self):
@@ -395,33 +403,6 @@ class RadarWindow:
         if not self.live and self.session is None:
             self.open_replay()
         self.render()
-
-    def check_port(self):
-        status = self.live_status
-        button = self.probe_button
-        status.configure(text=f"Checking 127.0.0.1:{self.opend_port}…")
-        button.configure(state="disabled")
-        results = Queue()
-
-        def probe():
-            try:
-                results.put(diagnose_opend(self.opend_port).describe())
-            except Exception as exc:
-                results.put(f"Diagnostics could not finish. {exc}")
-
-        def poll():
-            if not status.winfo_exists():
-                return
-            try:
-                message = results.get_nowait()
-            except Empty:
-                self.root.after(50, poll)
-                return
-            status.configure(text=message)
-            button.configure(state="normal")
-
-        Thread(target=probe, daemon=True).start()
-        self.root.after(50, poll)
 
 
 def main():
@@ -434,11 +415,12 @@ def main():
     parser.add_argument("--journal", type=Path, default=default_journal_path())
     parser.add_argument("--new-replay", action="store_true", help="Start a new run and retain prior journal entries")
     parser.add_argument("--opend-port", type=port_number, default=PORT)
+    parser.add_argument("--sound", action="store_true", help="Enable audible signal and health alerts")
     args = parser.parse_args()
     root = tk.Tk()
     RadarWindow(root, live=args.live_status, scenario=args.scenario, minute=args.minute,
                 journal=PaperJournal(args.journal), new_replay=args.new_replay,
-                opend_port=args.opend_port)
+                opend_port=args.opend_port, sound=args.sound)
     root.mainloop()
 
 
