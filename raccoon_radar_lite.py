@@ -1,16 +1,24 @@
 """Raccoon Radar Lite: isolated, synthetic-only paper replay."""
 import argparse
+from copy import copy
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from decimal import Decimal
 from functools import lru_cache
+from hashlib import sha256
+import os
+from pathlib import Path
+from queue import Empty, Queue
+import sqlite3
+from threading import Thread
 
 from futures_spike_radar import MAX_PREMIUM, MAX_TRADES
 from historical_radar_replay import SLIP
 from pinned_timezone_bridge import consumer_dict
 from synthetic_replay import replay
 from synthetic_replay_demo import SCENARIOS, make_demo
-from tools.opend_local_preflight import check_local_opend
+from radar_lite_journal import JournalError, PaperJournal
+from tools.opend_local_preflight import PORT, diagnose_opend, port_number
 
 
 @dataclass(frozen=True)
@@ -123,7 +131,7 @@ class PaperReplay:
             return False
         self.open = quote
         self.entries += 1
-        self.events.append(f"{self.now:%H:%M:%S}  OPEN  {contract.symbol} {contract.side}  ${quote.premium:.2f}")
+        self.events.append(f"{self.now:%H:%M:%S}  OPEN  {contract.symbol} {contract.side} {contract.strike}  ${quote.premium:.2f}")
         return True
 
     def step(self):
@@ -146,13 +154,70 @@ class PaperReplay:
         else:
             return
         contract = quote.contract
-        self.events.append(f"{self.now:%H:%M:%S}  {reason}  {contract.symbol} {contract.side}"
+        self.events.append(f"{self.now:%H:%M:%S}  {reason}  {contract.symbol} {contract.side} {contract.strike}"
                            f"  P/L ${quote.proceeds - premium:+.2f}")
         self.open = None
 
 
+def default_journal_path():
+    base = os.environ.get("LOCALAPPDATA") or os.environ.get("XDG_DATA_HOME")
+    directory = Path(base) if base else Path.home() / ".local" / "share"
+    return directory / "RaccoonRadarLite" / "paper-journal.sqlite3"
+
+
+class JournaledReplay:
+    def __init__(self, journal, scenario, index, *, new=False):
+        self.journal = journal
+        points = demo(scenario)
+        # Bump the version when fixture quotes or execution semantics change.
+        fingerprint = sha256(("paper-v1:" + "".join(p.decision_hash for p in points)).encode()).hexdigest()
+        record = journal.open_replay(scenario, index, fingerprint, new=new)
+        self.replay_id = record.id
+        self.sequence = 0
+        if not 0 <= record.initial_index < len(points):
+            raise JournalError("Invalid saved replay start.")
+        self.run = PaperReplay(points, record.initial_index)
+        for sequence, command, contract_index, entry_text in record.commands:
+            event_count = len(self.run.events)
+            if sequence != self.sequence + 1 or not self.apply(self.run, command, contract_index):
+                raise JournalError("Invalid saved replay command.")
+            if self.entry_text(self.run, event_count) != entry_text:
+                raise JournalError("Saved journal event does not match its replay.")
+            self.sequence = sequence
+
+    @staticmethod
+    def apply(run, command, contract_index):
+        if command == "STEP" and contract_index is None and run.index < len(run.points) - 1:
+            run.step()
+            return True
+        if command == "ENTER" and type(contract_index) is int and 0 <= contract_index < len(CHAIN):
+            contract = CHAIN[contract_index]
+            cell = next(cell for cell in run.point.cells if cell.symbol == contract.symbol)
+            return run.enter(cell, contract)
+        return False
+
+    @staticmethod
+    def entry_text(run, previous_count):
+        if len(run.events) > previous_count:
+            return f"{run.now:%Y-%m-%d} UTC   {run.events[-1]}"
+        return None
+
+    def record(self, command, contract=None):
+        candidate = copy(self.run)
+        candidate.events = self.run.events.copy()
+        contract_index = None if contract is None else CHAIN.index(contract)
+        if not self.apply(candidate, command, contract_index):
+            return
+        sequence = self.sequence + 1
+        self.journal.append(self.replay_id, sequence, command, contract_index,
+                            self.entry_text(candidate, len(self.run.events)))
+        self.run = candidate
+        self.sequence = sequence
+
+
 class RadarWindow:
-    def __init__(self, root, *, live=False, scenario="conflict", minute=35):
+    def __init__(self, root, *, live=False, scenario="conflict", minute=35,
+                 journal=None, new_replay=False, opend_port=PORT):
         from tkinter import ttk
 
         self.ttk = ttk
@@ -160,7 +225,14 @@ class RadarWindow:
         self.scenario = scenario
         self.minute = minute
         self.live = live
-        self.session = None if live else PaperReplay(demo(scenario), minute - 1)
+        self.journal = journal if journal is not None else PaperJournal(default_journal_path())
+        self.journaled = None
+        self.session = None
+        self.journal_error = None
+        self.new_replay = new_replay
+        self.opend_port = opend_port
+        if not live:
+            self.open_replay()
         root.title("Raccoon Radar Lite")
         root.geometry("880x600")
         root.minsize(780, 560)
@@ -193,21 +265,30 @@ class RadarWindow:
         if self.live:
             self.label(self.body, "SPY  WAIT   ·   QQQ  WAIT")
             self.label(self.body, "Market candles, option chain and current bid/ask unavailable.")
-            self.live_status = self.ttk.Label(self.body, text="OpenD reachability unchecked.")
+            self.live_status = self.ttk.Label(self.body, text=f"Local port {self.opend_port} unchecked.",
+                                              wraplength=690, justify="left")
             self.live_status.pack(anchor="w", pady=8)
-            self.ttk.Button(self.body, text="Check local OpenD port", command=self.check_port).pack(anchor="w")
+            self.probe_button = self.ttk.Button(self.body, text="Run OpenD diagnostics", command=self.check_port)
+            self.probe_button.pack(anchor="w")
             self.ttk.Button(self.body, text="Open synthetic replay", command=self.toggle).pack(anchor="w", pady=10)
             return
 
+        if self.journal_error:
+            self.label(self.body, self.journal_error, wraplength=690)
+        if self.session is None:
+            self.ttk.Button(self.body, text="Paper journal", command=self.show_journal).pack(anchor="w")
+            self.ttk.Button(self.body, text="Live data status", command=self.toggle).pack(anchor="w")
+            return
         run = self.session
         toolbar = self.ttk.Frame(self.body)
         toolbar.pack(fill="x", pady=10)
         self.label(toolbar, f"Replay clock  {run.now:%Y-%m-%d %H:%M:%S} UTC"
                    f"   ·   Minute {run.index + 1}/{len(run.points)}   ·   {self.scenario.title()}")
         self.next_button = self.ttk.Button(toolbar, text="Next minute", command=self.advance,
-                                      state="normal" if run.index < len(run.points) - 1 else "disabled")
+                                      state="normal" if not self.journal_error and run.index < len(run.points) - 1 else "disabled")
         self.next_button.pack(side="left")
         self.ttk.Button(toolbar, text="Live data status", command=self.toggle).pack(side="left", padx=8)
+        self.ttk.Button(toolbar, text="Paper journal", command=self.show_journal).pack(side="left")
         description = ("Synthetic quotes · $30 premium cap incl. slippage · "
                        f"{run.entries}/{MAX_TRADES} entries · 1 contract max")
         self.label(self.body, description)
@@ -256,29 +337,91 @@ class RadarWindow:
             self.label(card, f"{index}. {q.contract.strike}  {q.contract.expiry}  ·  "
                        f"{q.bid:.2f}/{q.ask:.2f} bid/ask  ·  {age:.0f}s old", style="Card.TLabel")
             button = self.ttk.Button(card, text=f"Paper enter · ${q.premium:.2f}",
-                                state="normal" if run.can_enter else "disabled",
-                                command=lambda contract=q.contract: self.enter(cell, contract))
+                                state="normal" if run.can_enter and not self.journal_error else "disabled",
+                                command=lambda contract=q.contract: self.enter(contract))
             button.pack(anchor="w", pady=(0, 5))
             self.entry_buttons.append(button)
 
-    def advance(self):
-        self.session.step()
+    def open_replay(self):
+        try:
+            self.journaled = JournaledReplay(self.journal, self.scenario, self.minute - 1,
+                                             new=self.new_replay)
+        except (sqlite3.Error, OSError, JournalError) as exc:
+            self.journal_error = f"Paper journal unavailable. {exc}"
+            return
+        self.new_replay = False
+        self.journal_error = None
+        self.session = self.journaled.run
+
+    def record(self, command, contract=None):
+        if self.journal_error:
+            return
+        try:
+            self.journaled.record(command, contract)
+        except (sqlite3.Error, OSError, JournalError) as exc:
+            self.journal_error = f"Paper journal could not save. {exc}"
+        self.session = self.journaled.run
         self.render()
 
-    def enter(self, cell, contract):
-        self.session.enter(cell, contract)
-        self.render()
+    def advance(self):
+        self.record("STEP")
+
+    def enter(self, contract):
+        self.record("ENTER", contract)
+
+    def show_journal(self):
+        import tkinter as tk
+        from tkinter import messagebox
+
+        try:
+            history = self.journal.history()
+        except (sqlite3.Error, OSError, JournalError) as exc:
+            messagebox.showerror("Paper journal unavailable", str(exc), parent=self.root)
+            return
+        window = tk.Toplevel(self.root)
+        window.title("Synthetic paper journal")
+        window.geometry("730x380")
+        scroll = self.ttk.Scrollbar(window)
+        scroll.pack(side="right", fill="y")
+        text = tk.Text(window, wrap="word", padx=12, pady=12, yscrollcommand=scroll.set)
+        text.pack(fill="both", expand=True)
+        scroll.configure(command=text.yview)
+        lines = [f"Replay {run_id} ({scenario})   {entry}" for run_id, scenario, entry in history]
+        text.insert("1.0", "\n".join(lines) or "No paper trades recorded.")
+        text.configure(state="disabled")
 
     def toggle(self):
         self.live = not self.live
         if not self.live and self.session is None:
-            self.session = PaperReplay(demo(self.scenario), self.minute - 1)
+            self.open_replay()
         self.render()
 
     def check_port(self):
-        message = ("OpenD port reachable. Market data unverified." if check_local_opend()
-                   else "OpenD unavailable at 127.0.0.1:11111.")
-        self.live_status.configure(text=message)
+        status = self.live_status
+        button = self.probe_button
+        status.configure(text=f"Checking 127.0.0.1:{self.opend_port}…")
+        button.configure(state="disabled")
+        results = Queue()
+
+        def probe():
+            try:
+                results.put(diagnose_opend(self.opend_port).describe())
+            except Exception as exc:
+                results.put(f"Diagnostics could not finish. {exc}")
+
+        def poll():
+            if not status.winfo_exists():
+                return
+            try:
+                message = results.get_nowait()
+            except Empty:
+                self.root.after(50, poll)
+                return
+            status.configure(text=message)
+            button.configure(state="normal")
+
+        Thread(target=probe, daemon=True).start()
+        self.root.after(50, poll)
 
 
 def main():
@@ -288,9 +431,14 @@ def main():
     parser.add_argument("--live-status", action="store_true")
     parser.add_argument("--scenario", choices=[key for key, _ in SCENARIOS], default="conflict")
     parser.add_argument("--minute", type=int, choices=range(1, 41), default=35, metavar="1-40")
+    parser.add_argument("--journal", type=Path, default=default_journal_path())
+    parser.add_argument("--new-replay", action="store_true", help="Start a new run and retain prior journal entries")
+    parser.add_argument("--opend-port", type=port_number, default=PORT)
     args = parser.parse_args()
     root = tk.Tk()
-    RadarWindow(root, live=args.live_status, scenario=args.scenario, minute=args.minute)
+    RadarWindow(root, live=args.live_status, scenario=args.scenario, minute=args.minute,
+                journal=PaperJournal(args.journal), new_replay=args.new_replay,
+                opend_port=args.opend_port)
     root.mainloop()
 
 
