@@ -27,4 +27,3 @@ endpoints. The existing OpenD minute-bar mapping remains untouched because
 the provider's completion and label convention were not verified.
 
 Run the guarded Windows suite with `py -3.12 -B offline_checks.py`.
-

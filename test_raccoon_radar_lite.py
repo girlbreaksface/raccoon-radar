@@ -50,4 +50,3 @@ class LiteTests(unittest.TestCase):
         self.assertFalse(run.can_enter)
         run.step()
         self.assertIs(run.point, self.points[-1])
-
