@@ -14,11 +14,19 @@ New York time-zone data in that environment. Use `--opend-port PORT`
 for a configured local port, and `--sound` or the **Sound** checkbox
 for audible alerts. Sound starts off by default.
 
+The pre-marathon fallback is commit `d970df8` on
+`stable/monday-2026-11-16`. Use a separate checkout to run the same
+launch command against that version.
+
 ## Read-only OpenD observation
 
 Start and authenticate the local OpenD quote service. Radar's background
 worker opens only `OpenQuoteContext`. The UI can refresh the observation
 every 20 seconds while the panel is open. Worker timeout is 18 seconds.
+Failed or incomplete polls retry with a 5–60 second backoff. The first
+complete response after an interruption stays at WAIT. The next
+complete response restores observation status. Each request fetches
+the recent candle window again, and missing intervals remain missing.
 The dashboard shows quote authentication, SDK handshake status, provider
 market state, per-symbol subscription result, last successful retrieval,
 raw candle timestamps and ages, and last-trade timestamps and ages. An
@@ -33,6 +41,10 @@ the bar is used. The program rejects gaps, duplicates, future stamps,
 identity mismatches, and inconsistent OHLCV. It retains raw Eastern
 timestamps and does not rewrite any historical data. Last trades older
 than 20 seconds and raw candles older than 150 seconds block signals.
+The opening view shows provisional 5- and 15-minute high/low ranges.
+The signal explanation includes the direction of the last four full
+five-minute groups and the number of recent one-minute reversals.
+These are descriptive observations and have no measured predictive edge.
 
 EMA9 and EMA21 use simple-average seeds and update from validated closes.
 Turnover VWAP uses summed dollar turnover divided by summed volume when
@@ -57,6 +69,34 @@ timestamps, so it produced no verified candidate. The live panel has
 no entry controls. ES/NQ stays unavailable pending a licensed data source
 with verified instrument, timestamp, and volume provenance.
 
+## Observation recorder
+
+With permission to retain your feed data, start the separate recorder:
+
+```powershell
+py -3.12 -B raccoon_radar_lite.py --live-status --record-observations .\opend-observations.sqlite3
+```
+
+Use a dedicated file for real observations. The recorder retains raw SDK
+candle values and timestamps, acquisition settings, hashes, indicators,
+per-poll decisions and option rejections, plus interruption and recovery
+transitions. Identical candle batches share storage while every completed
+poll has its own record. The report counts polling decisions. UI refreshes
+between polls do not create additional decisions. Disk failures appear in
+the dashboard. Recorder files can contain licensed market observations.
+
+```powershell
+py -3.12 -B radar_observations.py report .\opend-observations.sqlite3 2026-11-16
+py -3.12 -B radar_observations.py playback .\opend-observations.sqlite3 2026-11-16
+```
+
+Dates are Eastern capture dates. The first command summarizes the session,
+WAIT reasons, connectivity transitions, candle validation and option
+rejections. The second emits deterministic JSON lines in capture order,
+with the saved decisions and content-checked candle batches. It does not
+recalculate signals using later inputs, place simulated trades, or require
+OpenD. Recorder files and the synthetic paper journal are separate stores.
+
 ## Synthetic paper journal
 
 A fresh default replay starts at minute 35 with SPY CALL and QQQ PUT.
@@ -71,7 +111,8 @@ The journal lives at `%LOCALAPPDATA%\RaccoonRadarLite\paper-journal.sqlite3`
 or an explicit `--journal PATH`. `--new-replay` starts a new run
 and retains history. **Paper performance** shows closed-trade win rate,
 P/L, expectancy and dollar max drawdown, grouped results by scenario,
-symbol and side, and the complete journal. Analytics use recorded cents,
+symbol and side, and the complete journal. It also shows average win and
+loss, profit factor and the longest loss streak. Analytics use recorded cents,
 exclude open positions, and reflect artificial fills only.
 
 Each simulation permits one open contract total, no averaging down, and
@@ -91,6 +132,9 @@ consistency checks, so HLC3 proxies remained available alongside missing
 turnover VWAP. A tested SPY option book subscription and read succeeded,
 with both side timestamps blank. Regular-session Monday freshness,
 minute label semantics, and verified current US option books remain open.
+The 1,000-tick read covered only 15:59:46.753–16:00:00.872 ET for SPY
+and 16:00:00.074–16:00:00.626 ET for QQQ on Friday. Neither brackets a
+complete comparison minute. This cannot settle the candle convention.
 
 Provider references are the moomoo [global state](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-global-state.html),
 [minute candles](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-kl.html),

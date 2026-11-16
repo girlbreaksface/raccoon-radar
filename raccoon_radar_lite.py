@@ -18,7 +18,7 @@ from synthetic_replay_demo import SCENARIOS, make_demo
 from radar_lite_journal import JournalError, PaperJournal
 from radar_live_panel import AlertState, LivePanel
 from radar_observations import ObservationStore
-from radar_paper_performance import format_summary, paper_performance
+from radar_paper_performance import format_summary, format_trade_distribution, paper_performance
 from tools.opend_local_preflight import PORT, port_number
 
 
@@ -392,7 +392,7 @@ class RadarWindow:
         scroll.configure(command=text.yview)
         overall, setups = paper_performance(history)
         lines = ["SYNTHETIC PAPER PERFORMANCE · CLOSED TRADES ONLY",
-                 format_summary(overall), "", "SETUPS"]
+                 format_summary(overall), format_trade_distribution(overall), "", "SETUPS"]
         lines.extend(f"{scenario} / {symbol} {side}  ·  {format_summary(summary)}"
                      for (scenario, symbol, side), summary in setups.items())
         lines += ["", "TRADE HISTORY"]

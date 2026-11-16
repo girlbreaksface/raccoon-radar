@@ -56,6 +56,23 @@ def current_action(row, now):
     return action, row["reason"]
 
 
+def pair_actions(rows, now):
+    actions = {code: current_action(rows.get(code, {}), now) for code in SYMBOLS}
+    if len({action for action, _ in actions.values()}) > 1:
+        for code, (action, _) in actions.items():
+            if action != "WAIT":
+                actions[code] = "WAIT", "SPY/QQQ confirmation missing, expired, or contradictory"
+    return actions
+
+
+def finalize_decisions(result, now):
+    rows = result.get("symbols", {})
+    actions = pair_actions(rows, now)
+    for code, row in rows.items():
+        action, reason = actions[code]
+        row.update(action=action, reason=reason)
+
+
 def printable(value, suffix=""):
     return f"{value:.2f}{suffix}" if value is not None else "UNAVAILABLE"
 
@@ -78,12 +95,16 @@ def dashboard_text(result, last_success, options, now, busy):
         lines.append(result["recovery"])
     if result.get("recorder"):
         lines.append(result["recorder"])
+    if result.get("session") == "OPENING WARMUP":
+        lines.append("Opening-bell observation · WAIT while regular-session candles accumulate")
     if busy:
         lines.append("Refreshing read-only observations…")
+    rows = result.get("symbols", {})
+    actions = pair_actions(rows, now)
     for code in SYMBOLS:
-        row = result.get("symbols", {}).get(code, {})
+        row = rows.get(code, {})
         prices = row.get("metrics", {})
-        action, reason = current_action(row, now)
+        action, reason = actions[code]
         lines += ["", f"{code[3:]}   {action}   |   {reason}",
                   f"Permission  {row.get('permissions', 'Candle entitlement unverified')}",
                   f"Last trade  {printable(row.get('price'))}  ·  age {age_label(row.get('quote_at'), now)}"
@@ -119,6 +140,8 @@ def dashboard_text(result, last_success, options, now, busy):
                              f"{q['bid']:.2f}/{q['ask']:.2f}  entry ${q['premium']:.2f}  "
                              f"cost ${q['round_trip_cost']:.2f}  Δ {q['delta']:.2f}  "
                              f"Vol/OI {q['volume']:g}/{q['interest']:g}")
+                lines.append(f"    Bid age {age_label(q['bid_time'], now)} · Ask age {age_label(q['ask_time'], now)}"
+                             f" · Γ {q['gamma']:.3f} · Θ {q['theta']:.3f} · Vega {q['vega']:.3f}")
             for message, count in {**scan.get("rejected", {}), **scan.get("book_errors", {})}.items():
                 lines.append(f"  {count} · {message}")
         else:
@@ -226,9 +249,11 @@ class LivePanel:
             store = self.owner.observation_store
             result = request_snapshot(port, scan, capture=store is not None)
             delay = self.recovery.apply(result)
+            evaluated_at = datetime.now(timezone.utc)
+            finalize_decisions(result, evaluated_at)
             if store is not None:
                 try:
-                    store.append(result, datetime.now(eastern()))
+                    store.append(result, evaluated_at.astimezone(eastern()))
                     result["recorder"] = "OpenD poll recorded · separate observation database"
                 except (OSError, sqlite3.Error, ValueError, KeyError) as exc:
                     result["recorder"] = f"Observation write failed · {exc}"
@@ -271,7 +296,7 @@ class LivePanel:
                 self.next_poll = self.root.after(delay, self.auto_poll)
         now = datetime.now(timezone.utc)
         rows = self.result.get("symbols", {})
-        decisions = {code: current_action(row, now) for code, row in rows.items()}
+        decisions = pair_actions(rows, now)
         health = (self.result.get("status", "").splitlines()[0:1], self.result.get("session"),
                   tuple((code, row.get("permissions"), decisions[code]) for code, row in rows.items()))
         signals = {(code, action) for code, (action, _) in decisions.items() if action != "WAIT"}

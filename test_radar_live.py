@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from radar_live import (candle_metrics, collect, directional_view, eastern, option_candidate,
                         rank_options, session_at)
-from radar_live_panel import AlertState, current_action, request_snapshot
+from radar_live_panel import AlertState, current_action, finalize_decisions, request_snapshot
 from radar_paper_performance import paper_performance
 
 
@@ -151,6 +151,10 @@ class LiveTests(unittest.TestCase):
                    metrics=dict(raw_candle=(now - timedelta(minutes=1)).isoformat()))
         self.assertEqual(current_action(row, now)[0], "CALL")
         self.assertEqual(current_action(row, now + timedelta(seconds=21))[0], "WAIT")
+        result = {"symbols": {"US.SPY": dict(row), "US.QQQ": dict(
+            row, quote_at=(now - timedelta(seconds=21)).isoformat())}}
+        finalize_decisions(result, now)
+        self.assertEqual({row["action"] for row in result["symbols"].values()}, {"WAIT"})
 
     def test_option_identity_freshness_greeks_and_cap(self):
         now = local(10, 0, 10)
@@ -208,4 +212,7 @@ class PresentationTests(unittest.TestCase):
         self.assertEqual(overall["total"], Decimal("6"))
         self.assertEqual(overall["expectancy"], Decimal("2"))
         self.assertEqual(overall["drawdown"], Decimal("5"))
+        self.assertEqual(overall["profit_factor"], Decimal("2.2"))
+        self.assertEqual(overall["average_loss"], Decimal("5"))
+        self.assertEqual(overall["max_loss_streak"], 1)
         self.assertEqual(setups[("conflict", "SPY", "CALL")]["closed"], 2)
