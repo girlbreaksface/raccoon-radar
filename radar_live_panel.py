@@ -4,19 +4,22 @@ import json
 from pathlib import Path
 from queue import Empty, Queue
 import subprocess
+import sqlite3
 import sys
 from threading import Thread
 
-from radar_live import FUTURES_STATUS, SYMBOLS, age_seconds
+from radar_live import FUTURES_STATUS, SYMBOLS, age_seconds, eastern
 
 POLL_MS = 20_000
 WORKER_TIMEOUT = 18
 
 
-def request_snapshot(port, scan):
+def request_snapshot(port, scan, capture=False):
     argv = [sys.executable, "-B", str(Path(__file__).with_name("radar_live.py")), str(port)]
     if scan:
         argv.append("--scan")
+    if capture:
+        argv.append("--capture")
     try:
         child = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8",
                                errors="replace", timeout=WORKER_TIMEOUT,
@@ -71,6 +74,10 @@ def dashboard_text(result, last_success, options, now, busy):
              f"Session {result.get('session', 'unverified')} ({result.get('provider_session') or 'provider unavailable'})",
              f"Last successful candle update {last_success or 'unavailable'}",
              FUTURES_STATUS]
+    if result.get("recovery"):
+        lines.append(result["recovery"])
+    if result.get("recorder"):
+        lines.append(result["recorder"])
     if busy:
         lines.append("Refreshing read-only observations…")
     for code in SYMBOLS:
@@ -91,6 +98,14 @@ def dashboard_text(result, last_success, options, now, busy):
                   f"Relative volume {printable(prices.get('relative_volume'), '×')}"
                   f"  ·  Support {printable(prices.get('support'))}"
                   f"  ·  Resistance {printable(prices.get('resistance'))}"]
+        if prices:
+            lines.append(f"Five-minute trend {prices.get('five_minute_trend', 'warming up')}"
+                         f"  ·  One-minute direction reversals {prices.get('reversals', 'warming up')}")
+            for length in (5, 15):
+                opening = prices.get(f"opening_{length}m")
+                if opening:
+                    lines.append(f"Opening {length}m low/high {opening[0]:.2f} / {opening[1]:.2f}"
+                                 "  ·  provisional raw-minute window")
         if (prices.get("relative_volume") or 0) >= 2:
             lines.append("  Volume spike · ≥2× the prior 20-minute median")
         scan = options.get(code)
@@ -123,6 +138,49 @@ class AlertState:
         return changed
 
 
+class FeedRecovery:
+    """A fresh request supplies a full recent window after an interruption."""
+    def __init__(self):
+        self.failures = 0
+        self.recovering = False
+        self.state = None
+
+    def apply(self, result):
+        rows = result.get("symbols", {})
+        failed = (result.get("authenticated") is not True or any(
+            not rows.get(code, {}).get("metrics") for code in SYMBOLS))
+        if result.get("session") == "REGULAR":
+            failed |= any(rows.get(code, {}).get("candle_health") == "STALE" for code in SYMBOLS)
+        previous = self.state
+        if failed:
+            self.failures += 1
+            self.recovering = True
+            self.state = "INTERRUPTED"
+            delay = min(60_000, 5_000 * 2 ** min(self.failures - 1, 4))
+            result["recovery"] = f"Feed interrupted · retries in {delay // 1000}s"
+        elif self.recovering and previous != "CONFIRMING":
+            self.failures = 0
+            self.state = "CONFIRMING"
+            delay = 5_000
+            result["recovery"] = "Feed returned · confirming a second complete response"
+        else:
+            self.failures = 0
+            self.recovering = False
+            self.state = "OBSERVING"
+            delay = POLL_MS
+            result["recovery"] = "Two-symbol observation available"
+        if previous != self.state:
+            result["transition"] = f"{previous or 'STARTUP'} → {self.state}"
+        if self.state != "OBSERVING":
+            for row in rows.values():
+                row["action"] = "WAIT"
+                row["reason"] = "; ".join(filter(None, (row.get("reason"), result["recovery"])))
+                row["volume_alert_eligible"] = False
+                if "options" in row:
+                    row["options"] = {"status": "WAIT · feed recovery"}
+        return delay
+
+
 class LivePanel:
     def __init__(self, owner):
         import tkinter as tk
@@ -135,6 +193,7 @@ class LivePanel:
         self.options = {}
         self.next_poll = None
         self.alerts = AlertState()
+        self.recovery = FeedRecovery()
         toolbar = owner.ttk.Frame(owner.body)
         toolbar.pack(fill="x", pady=7)
         self.refresh = owner.ttk.Button(toolbar, text="Refresh OpenD", command=self.start)
@@ -164,7 +223,18 @@ class LivePanel:
         port = self.owner.opend_port
 
         def run():
-            queue.put((scan, request_snapshot(port, scan)))
+            store = self.owner.observation_store
+            result = request_snapshot(port, scan, capture=store is not None)
+            delay = self.recovery.apply(result)
+            if store is not None:
+                try:
+                    store.append(result, datetime.now(eastern()))
+                    result["recorder"] = "OpenD poll recorded · separate observation database"
+                except (OSError, sqlite3.Error, ValueError, KeyError) as exc:
+                    result["recorder"] = f"Observation write failed · {exc}"
+                for row in result.get("symbols", {}).values():
+                    row.pop("raw_candles", None)
+            queue.put((scan, result, delay))
 
         Thread(target=run, daemon=True).start()
         self.refresh.configure(state="disabled")
@@ -182,7 +252,7 @@ class LivePanel:
             return
         if self.results is not None:
             try:
-                scan, self.result = self.results.get_nowait()
+                scan, self.result, delay = self.results.get_nowait()
             except Empty:
                 pass
             else:
@@ -193,11 +263,12 @@ class LivePanel:
                     self.last_success = max(stamps)
                 if scan:
                     self.options = {code: r["options"] for code, r in rows.items() if "options" in r}
-                elif not self.result.get("authenticated") or self.result.get("session") not in ("REGULAR", "OPENING WARMUP"):
+                elif (self.recovery.state != "OBSERVING"
+                      or self.result.get("session") not in ("REGULAR", "OPENING WARMUP")):
                     self.options = {}
                 self.refresh.configure(state="normal")
                 self.scan.configure(state="normal")
-                self.next_poll = self.root.after(POLL_MS, self.auto_poll)
+                self.next_poll = self.root.after(delay, self.auto_poll)
         now = datetime.now(timezone.utc)
         rows = self.result.get("symbols", {})
         decisions = {code: current_action(row, now) for code, row in rows.items()}

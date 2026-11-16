@@ -3,8 +3,11 @@ from collections import Counter
 from datetime import date, datetime, time, timedelta, timezone
 from decimal import Decimal
 import json
+from importlib.metadata import version
+from hashlib import sha256
 from math import isfinite
 from statistics import median, fmean
+from pathlib import Path
 import sys
 from zoneinfo import ZoneInfo
 
@@ -80,6 +83,7 @@ def candle_metrics(rows, code, now, day):
         raise ValueError("No candles returned")
     bars = []
     raw_seen = set()
+    previous = None
     for row in rows:
         if row["code"] != code:
             raise ValueError("Wrong symbol in candle response")
@@ -88,7 +92,10 @@ def candle_metrics(rows, code, now, day):
             raise ValueError("Invalid or future minute timestamp")
         if stamp in raw_seen:
             raise ValueError("Duplicate minute timestamp")
+        if previous is not None and stamp < previous:
+            raise ValueError("Out-of-order minute timestamp")
         raw_seen.add(stamp)
+        previous = stamp
         if stamp.date() != day or not time(9, 30) <= stamp.time() <= time(16):
             continue
         if now - stamp < MINUTE:
@@ -105,7 +112,6 @@ def candle_metrics(rows, code, now, day):
                                      volume > 0 and not low - .01 <= turnover / volume <= h + .01):
             turnover = None
         bars.append((stamp, h, low, close, volume, turnover))
-    bars.sort()
     if not bars:
         raise ValueError("No aged regular-session minute candles for selected date")
     first_time = bars[0][0].time()
@@ -117,6 +123,11 @@ def candle_metrics(rows, code, now, day):
         raise ValueError("Contradictory regular-session candle boundaries")
     last = bars[-1]
     values = {"bars": len(bars), "raw_candle": last[0].isoformat(), "close": last[3]}
+    for length in (5, 15):
+        if len(bars) >= length:
+            opening_bars = bars[:length]
+            values[f"opening_{length}m"] = [min(bar[2] for bar in opening_bars),
+                                           max(bar[1] for bar in opening_bars)]
     if len(bars) < 21:
         return values
     closes = [bar[3] for bar in bars]
@@ -125,6 +136,18 @@ def candle_metrics(rows, code, now, day):
     turnover_complete = all(bar[5] is not None for bar in bars)
     prior = bars[-21:-1]
     baseline = median(volumes[-21:-1])
+    five_minute_closes = closes[4::5]
+    # Four full five-minute groups give a coarse slower trend check.
+    recent_groups = five_minute_closes[-4:]
+    if all(left < right for left, right in zip(recent_groups, recent_groups[1:])):
+        trend = "UP"
+    elif all(left > right for left, right in zip(recent_groups, recent_groups[1:])):
+        trend = "DOWN"
+    else:
+        trend = "MIXED"
+    changes = [b - a for a, b in zip(closes[-11:-1], closes[-10:])]
+    nonzero = [change for change in changes if change]
+    reversals = sum(a * b < 0 for a, b in zip(nonzero, nonzero[1:]))
     values.update(
         ema9=ema(closes, 9), ema21=ema(closes, 21),
         vwap=sum(bar[5] for bar in bars) / total_volume if total_volume and turnover_complete else None,
@@ -132,6 +155,7 @@ def candle_metrics(rows, code, now, day):
                     / total_volume if total_volume else None),
         relative_volume=volumes[-1] / baseline if baseline else None,
         support=min(bar[2] for bar in prior), resistance=max(bar[1] for bar in prior),
+        five_minute_trend=trend, reversals=reversals, choppy=reversals >= 5 or trend == "MIXED",
     )
     return values
 
@@ -145,11 +169,15 @@ def directional_view(metrics, reasons):
     close = metrics["close"]
     if metrics["relative_volume"] < 2:
         return "WAIT", "Volume below 2× prior 20-minute median"
+    if metrics.get("choppy", True):
+        return "WAIT", "Choppy or contradictory five-minute evidence"
     if close > max(metrics["vwap"], metrics["resistance"]) and metrics["ema9"] > metrics["ema21"]:
-        return "CALL", "Close broke prior 20-minute resistance above VWAP; EMA9 > EMA21"
+        if metrics["five_minute_trend"] == "UP":
+            return "CALL", "Close broke prior 20-minute resistance above VWAP; EMA9 > EMA21; five-minute trend UP"
     if close < min(metrics["vwap"], metrics["support"]) and metrics["ema9"] < metrics["ema21"]:
-        return "PUT", "Close broke prior 20-minute support below VWAP; EMA9 < EMA21"
-    return "WAIT", "EMA, VWAP and breakout evidence do not agree"
+        if metrics["five_minute_trend"] == "DOWN":
+            return "PUT", "Close broke prior 20-minute support below VWAP; EMA9 < EMA21; five-minute trend DOWN"
+    return "WAIT", "EMA, VWAP, breakout and five-minute evidence do not agree"
 
 
 def checked_quote(row, code, now):
@@ -272,12 +300,13 @@ def scan_options(sdk, ctx, code, price, day, clock):
             "ranked": ranked, "rejected": rejected, "book_errors": dict(issues)}
 
 
-def collect(ctx, sdk, *, scan=False, clock=lambda: datetime.now(timezone.utc)):
+def collect(ctx, sdk, *, scan=False, capture=False, clock=lambda: datetime.now(timezone.utc)):
     global_state = call(ctx.get_global_state)
     result = {"status": "SDK handshake OK", "authenticated": global_state.get("qot_logined") is True,
               "version": str(global_state.get("server_ver", "?")), "symbols": {}}
     if not result["authenticated"] or global_state.get("program_status_type") != "READY":
-        result["status"] += " · quote service not ready"
+        result["status"] += (" · sign in to OpenD quotes" if not result["authenticated"]
+                             else f" · quote service {global_state.get('program_status_type', 'unknown')}")
         return result
     local_day = clock().astimezone(eastern()).date()
     calendar = None
@@ -338,6 +367,13 @@ def collect(ctx, sdk, *, scan=False, clock=lambda: datetime.now(timezone.utc)):
                 raise FeedError(subscriptions[code])
             rows = call(ctx.get_cur_kline, code, 390, sdk.KLType.K_1M, sdk.AuType.NONE).to_dict("records")
             retrieved = clock()
+            if capture:
+                # Preserve values from the SDK, including invalid nonfinite markers.
+                fields = ("code", "time_key", "open", "high", "low", "close", "volume", "turnover")
+                data["raw_candles"] = [
+                    {key: (repr(row[key]) if isinstance(row[key], float) and not isfinite(row[key])
+                           else row[key]) for key in fields if key in row} for row in rows]
+                data["capture_at"] = retrieved.isoformat()
             data["received_at"] = retrieved.isoformat()
             day = local_day
             if regime not in ("REGULAR", "OPENING WARMUP"):
@@ -352,10 +388,12 @@ def collect(ctx, sdk, *, scan=False, clock=lambda: datetime.now(timezone.utc)):
             candle_fresh = age_seconds(datetime.fromisoformat(data["metrics"]["raw_candle"]), retrieved) <= 150
             if not candle_fresh:
                 reasons.append("Minute candle stale")
+            data["candle_health"] = "CURRENT" if candle_fresh else "STALE"
             data["volume_alert_eligible"] = (candle_fresh and quote_fresh and provider_clock_ok
                                              and regime == "REGULAR"
                                              and result["provider_session"] in ("MORNING", "AFTERNOON"))
         except (FeedError, ValueError, TypeError, KeyError, OverflowError) as exc:
+            data["candle_error"] = str(exc)
             reasons.append(str(exc))
         data["action"], data["reason"] = directional_view(data["metrics"], reasons)
         if scan:
@@ -377,7 +415,7 @@ def collect(ctx, sdk, *, scan=False, clock=lambda: datetime.now(timezone.utc)):
     return result
 
 
-def fetch_opend(port, *, scan=False):
+def fetch_opend(port, *, scan=False, capture=False):
     diagnostic = diagnose_opend(port)
     if diagnostic.status != "REACHABLE":
         return {"status": diagnostic.describe(), "symbols": {}}
@@ -387,14 +425,25 @@ def fetch_opend(port, *, scan=False):
         return {"status": f"OpenD SDK unavailable · {exc}", "symbols": {}}
     ctx = sdk.OpenQuoteContext(host="127.0.0.1", port=port)
     try:
-        return collect(ctx, sdk, scan=scan)
+        result = collect(ctx, sdk, scan=scan, capture=capture)
+        if capture:
+            result["provenance"] = {
+                "source": "MOOMOO_OPEND", "sdk": version("moomoo-api"), "port": port,
+                "endpoint": "get_cur_kline", "interval": "1m", "session": "RTH",
+                "adjustment": "NONE", "timezone": "America/New_York", "requested_count": 390,
+                "coverage": "bounded latest response; no pagination",
+                "minute_label": VERIFIED_MINUTE_LABEL,
+                "worker_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
+            }
+        return result
     finally:
         ctx.close()
 
 
 if __name__ == "__main__":
     try:
-        value = fetch_opend(port_number(sys.argv[1]), scan="--scan" in sys.argv[2:])
+        value = fetch_opend(port_number(sys.argv[1]), scan="--scan" in sys.argv[2:],
+                            capture="--capture" in sys.argv[2:])
     except Exception as exc:
         value = {"status": f"OpenD handshake or request failed · {exc}", "symbols": {}}
     # SDK logs can precede this line. Emit a tagged JSON record for the UI.

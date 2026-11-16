@@ -17,6 +17,7 @@ from synthetic_replay import replay
 from synthetic_replay_demo import SCENARIOS, make_demo
 from radar_lite_journal import JournalError, PaperJournal
 from radar_live_panel import AlertState, LivePanel
+from radar_observations import ObservationStore
 from radar_paper_performance import format_summary, paper_performance
 from tools.opend_local_preflight import PORT, port_number
 
@@ -217,7 +218,7 @@ class JournaledReplay:
 
 class RadarWindow:
     def __init__(self, root, *, live=False, scenario="conflict", minute=35,
-                 journal=None, new_replay=False, opend_port=PORT, sound=False):
+                 journal=None, new_replay=False, opend_port=PORT, sound=False, observation_store=None):
         from tkinter import BooleanVar, ttk
 
         self.ttk = ttk
@@ -231,6 +232,7 @@ class RadarWindow:
         self.journal_error = None
         self.new_replay = new_replay
         self.opend_port = opend_port
+        self.observation_store = observation_store
         self.sound = BooleanVar(root, value=sound)
         self.replay_alerts = AlertState()
         if not live:
@@ -415,12 +417,15 @@ def main():
     parser.add_argument("--journal", type=Path, default=default_journal_path())
     parser.add_argument("--new-replay", action="store_true", help="Start a new run and retain prior journal entries")
     parser.add_argument("--opend-port", type=port_number, default=PORT)
+    parser.add_argument("--record-observations", type=Path, metavar="FILE",
+                        help="Store OpenD observations in a dedicated SQLite file")
     parser.add_argument("--sound", action="store_true", help="Enable audible signal and health alerts")
     args = parser.parse_args()
     root = tk.Tk()
     RadarWindow(root, live=args.live_status, scenario=args.scenario, minute=args.minute,
                 journal=PaperJournal(args.journal), new_replay=args.new_replay,
-                opend_port=args.opend_port, sound=args.sound)
+                opend_port=args.opend_port, sound=args.sound,
+                observation_store=ObservationStore(args.record_observations) if args.record_observations else None)
     root.mainloop()
 
 

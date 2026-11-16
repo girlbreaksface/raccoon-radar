@@ -106,6 +106,7 @@ class LiveTests(unittest.TestCase):
         now = local(10, 0, 10)
         rows = candles("US.SPY")
         for invalid in (rows[2:], rows[:5] + rows[6:], [*rows, rows[0]],
+                        rows[:4] + [rows[5], rows[4]] + rows[6:],
                         [*rows, dict(rows[-1], time_key="2026-11-16 10:01:00")]):
             with self.assertRaises(ValueError):
                 candle_metrics(invalid, "US.SPY", now, now.date())
@@ -114,6 +115,21 @@ class LiveTests(unittest.TestCase):
         self.assertIsNone(metrics["vwap"])
         self.assertIsNotNone(metrics["vwap_proxy"])
         self.assertEqual(directional_view(metrics, ())[0], "WAIT")
+
+    def test_provisional_opening_range_and_chop(self):
+        now = local(10, 0, 10)
+        rows = candles("US.SPY")
+        metrics = candle_metrics(rows, "US.SPY", now, now.date())
+        self.assertEqual(metrics["five_minute_trend"], "UP")
+        self.assertEqual(metrics["opening_5m"], [rows[0]["low"], rows[4]["high"]])
+        for index in range(18, 29):
+            row = rows[index]
+            close = 101 if index % 2 else 102
+            row.update(open=close, close=close, high=close + .05, low=close - .05,
+                       turnover=close * row["volume"])
+        metrics = candle_metrics(rows, "US.SPY", now, now.date())
+        self.assertTrue(metrics["choppy"])
+        self.assertIn("Choppy", directional_view(metrics, ())[1])
 
     def test_observation_fail_closed_and_partial_permission(self):
         now = local(10, 0, 10)
