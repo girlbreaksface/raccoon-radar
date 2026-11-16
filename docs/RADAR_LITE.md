@@ -27,6 +27,7 @@ Failed or incomplete polls retry with a 5–60 second backoff. The first
 complete response after an interruption stays at WAIT. The next
 complete response restores observation status. Each request fetches
 the recent candle window again, and missing intervals remain missing.
+Closing the window during a request lets its timeout owner finish cleanup.
 The dashboard shows quote authentication, SDK handshake status, provider
 market state, per-symbol subscription result, last successful retrieval,
 raw candle timestamps and ages, and last-trade timestamps and ages. An

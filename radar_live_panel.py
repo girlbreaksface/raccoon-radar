@@ -261,7 +261,8 @@ class LivePanel:
                     row.pop("raw_candles", None)
             queue.put((scan, result, delay))
 
-        Thread(target=run, daemon=True).start()
+        # Keep the timeout owner alive if the window closes mid-request.
+        Thread(target=run, daemon=False).start()
         self.refresh.configure(state="disabled")
         self.scan.configure(state="disabled")
 
