@@ -81,14 +81,27 @@ def candle_metrics(rows, code, now, day):
     """Use only coherent RTH rows whose raw timestamp is at least one minute old."""
     if not rows:
         raise ValueError("No candles returned")
+    if now.utcoffset() is None:
+        raise ValueError("Candle retrieval time needs a timezone")
+    local_now = now.astimezone(eastern())
+    next_boundary = local_now.replace(second=0, microsecond=0) + MINUTE
     bars = []
     raw_seen = set()
     previous = None
-    for row in rows:
+    for index, row in enumerate(rows):
         if row["code"] != code:
             raise ValueError("Wrong symbol in candle response")
         stamp = market_stamp(row["time_key"])
-        if stamp.second or stamp.microsecond or stamp > now:
+        if stamp > local_now:
+            # OpenD can return the forming interval under its upcoming end label.
+            in_progress = (VERIFIED_MINUTE_LABEL != "START" and index == len(rows) - 1
+                           and stamp == next_boundary and previous == stamp - MINUTE
+                           and stamp.date() == day == local_now.date()
+                           and time(9, 30) <= local_now.time() < time(16))
+            if in_progress:
+                continue
+            raise ValueError("Invalid or future minute timestamp")
+        if stamp.second or stamp.microsecond:
             raise ValueError("Invalid or future minute timestamp")
         if stamp in raw_seen:
             raise ValueError("Duplicate minute timestamp")

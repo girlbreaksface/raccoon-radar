@@ -136,6 +136,12 @@ minute label semantics, and verified current US option books remain open.
 The 1,000-tick read covered only 15:59:46.753–16:00:00.872 ET for SPY
 and 16:00:00.074–16:00:00.626 ET for QQQ on Friday. Neither brackets a
 complete comparison minute. This cannot settle the candle convention.
+On November 16 at 09:53:44 ET, both feeds included a 09:54 row that
+changed at 09:53:46. This supports an end label for the forming row.
+Radar discards that row only when it is the sole trailing future row at
+the next Eastern minute boundary, adjacent to the prior row in the
+same regular session. The normal one-minute age guard and WAIT gate
+remain in effect while the full convention is unverified.
 
 Provider references are the moomoo [global state](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-global-state.html),
 [minute candles](https://openapi.moomoo.com/moomoo-api-doc/en/quote/get-kl.html),

@@ -107,8 +107,37 @@ class LiveTests(unittest.TestCase):
         rows = candles("US.SPY")
         for invalid in (rows[2:], rows[:5] + rows[6:], [*rows, rows[0]],
                         rows[:4] + [rows[5], rows[4]] + rows[6:],
-                        [*rows, dict(rows[-1], time_key="2026-11-16 10:01:00")]):
+                        [*rows, dict(rows[-1], time_key="2026-11-16 10:02:00")]):
             with self.assertRaises(ValueError):
+                candle_metrics(invalid, "US.SPY", now, now.date())
+
+    def test_forming_end_label_excluded_in_eastern_or_utc(self):
+        from datetime import timezone
+
+        rows = candles("US.SPY", 32)
+        rows[-1]["close"] = 9999  # The incomplete row cannot enter validation or metrics.
+        for second in (0, 59):
+            now = local(10, 0, second)
+            for retrieved in (now, now.astimezone(timezone.utc)):
+                result = candle_metrics(rows, "US.SPY", retrieved, now.date())
+                self.assertEqual(result["bars"], 30)
+                self.assertEqual(result["raw_candle"], "2026-11-16T09:59:00-05:00")
+        at_boundary = local(10, 1)
+        self.assertEqual(candle_metrics(rows, "US.SPY", at_boundary, at_boundary.date())["bars"], 31)
+
+    def test_delayed_or_suspicious_future_tail(self):
+        now = local(10, 0, 10)
+        rows = candles("US.SPY", 32)
+        delayed = candle_metrics(rows[:27], "US.SPY", now, now.date())
+        self.assertEqual(delayed["raw_candle"], "2026-11-16T09:56:00-05:00")
+        later = local(10, 5, 10)
+        result = collect(MockOpenD(later), SDK, clock=lambda: later)
+        for row in result["symbols"].values():
+            self.assertEqual(row["candle_health"], "STALE")
+            self.assertEqual(row["action"], "WAIT")
+        for invalid in (rows[:-2] + rows[-1:], rows + [rows[-1]], rows[:-1] + [
+                dict(rows[-1], time_key="2026-11-17 10:01:00")]):
+            with self.assertRaisesRegex(ValueError, "future minute timestamp"):
                 candle_metrics(invalid, "US.SPY", now, now.date())
         rows[2]["turnover"] = 10
         metrics = candle_metrics(rows, "US.SPY", now, now.date())
